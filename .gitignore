@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# varsim specific
+varsim_run/*
+varsim_run
+*.output
+*.error
+*.ouput
+#*#
+*~
