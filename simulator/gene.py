@@ -39,4 +39,4 @@ class Gene:
 
     def get_enhancer():
         """ returns all enhancer/silencers """
-        return False
+        

@@ -16,7 +16,7 @@ class Variants:
         return {"chrom": 1, 
                 "pos": 1, 
                 "ID": "ABC",
-                "REF": "A"
+                "REF": "A",
                 "ALT": "C"}
 
 
