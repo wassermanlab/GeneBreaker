@@ -10,8 +10,6 @@ class Variants:
         self.var2_template = var2_template
 
 
-
-
     def template_2_variant(): 
         """ turns variant template into variant, returning a dict with the 
         following keys: chrom, pos, id, ref, alt """

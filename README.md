@@ -27,6 +27,41 @@
 
 ```
 
+## EBNF for variant template 
+
+```
+## Variant template
+VARIANT_TEMPLATE ::='{'TYPE', 'REGION', 'IMPACT'}'
+
+TYPE ::= 'SNV' | 'INDEL' | 'CNV' | 'SV' | 'STR' | 'MEI'
+REGION ::= 'CODING' | 'UTR' | 'INTRONIC' | 'PROMOTER' | 'ENHANCER'
+IMPACT ::= '{'TYPE_IMPACT', 'LOCATION'}'
+
+SNV_IMPACT ::= MISSENSE | NONSENSE | SILENT
+INDEL_IMPACT ::= NUMBER ## represents the number of bases to delete or insert where positive numbers are insertions and negative deletions
+CNV_IMPACT ::= 
+SV_IMPACT ::= 
+STR_IMPACT ::= 
+MEI_IMPACT ::= 
+
+LOCATION ::= 'ANY' | number ## where number is position on chromosome 
+
+## examples 
+{'TYPE': 'SNV',
+'REGION' 'CODING',
+'IMPACT': {'SNV_IMPACT': 'MISSENSE',
+			'LOCATION': ANY}}
+
+{'TYPE': 'INDEL',
+'REGION' 'INTRONIC',
+'IMPACT': {'INDEL_IMPACT': -50,
+			'LOCATION': 11756}}
+```
+
+
+
+
+
 ## Workflow
 
 - Database creation
