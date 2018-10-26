@@ -1,4 +1,3 @@
-from Bio.Seq import Seq
 import json
 
 class Gene:
@@ -26,26 +25,34 @@ class Gene:
             print("Unexpected error")
         
 
-    def get_exons():
-        """ returns all exons from gene """
-        return False
+    def get_exons(self):
+        """ returns all exons from gene in the form of [[seq, start, stop],*]"""
+        exons = []
+        for i in self.elements:
+            if i[0] == "EXON":
+                exons.append([self.seq[i[1]:i[2]], i[1], i[2]])
+        return exons
 
-    def get_introns():
-        """ returns all introns from gene """
-        return False
+    def get_introns(self):
+        """ returns all introns from gene [[seq, start, stop],*]"""
+        introns = []
+        for i in self.elements:
+            if i[0] == "INTRON":
+                introns.append([self.seq[i[1]:i[2]], i[1], i[2]])
+        return introns
 
-    def get_upstream_utr():
+    def get_upstream_utr(self):
         """ returns the 5' utr """
         return False
 
-    def get_downstream_utr():
+    def get_downstream_utr(self):
         """ returns the 3' utr """
         return False
 
-    def get_promoter():
+    def get_promoter(self):
         """ returns promoter """
         return False
 
-    def get_enhancer():
+    def get_enhancer(self):
         """ returns all enhancer/silencers """
         return False
