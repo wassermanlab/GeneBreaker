@@ -5,12 +5,12 @@ class Variants:
 
     def __init__(self, gene_json, variants_json):
         """ 
-        creates variants object which has gene, inheretance, var1, var2 
+        creates variants object which has gene, inheritance, var1, var2 
         """
         self.gene = Gene(gene_json) # may have to expand to phenotype 
-        self.inheretance = variants_json["inheretance"]
-        self.var1_template = Variant(variants_json["var1"])
-        self.var2_template = Variant(variants_json["var2"])
+        self.inheritance = variants_json["INHERITANCE"]
+        self.var1_template = Variant(variants_json["VAR1"])
+        self.var2_template = Variant(variants_json["VAR2"])
 
 
     def template_2_variant(): 

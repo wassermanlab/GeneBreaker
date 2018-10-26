@@ -1,0 +1,11 @@
+{
+    "DESCRIPTION": "dominant, denovo mutation in the coding region ", 
+    "ENHERITANCE": "DE-NOVO", 
+    "VAR1": {
+        "TYPE": "SNV",
+        "REGION": "CODING",
+        "IMPACT": {"TYPE_IMPACT": "SILENT",
+        "LOCATION": "ANY"}
+    },
+    "VAR2": "NONE"
+}

@@ -1,3 +1,4 @@
+# python -m unittest tests.test_gene 
 import unittest
 from simulator.gene import Gene
 

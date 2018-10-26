@@ -1,0 +1,16 @@
+{
+    "DESCRIPTION": "", 
+    "ENHERITANCE": "", 
+    "VAR1": {
+        "TYPE": "",
+        "REGION": "",
+        "IMPACT": {"TYPE_IMPACT": "",
+        "LOCATION": ""}
+    },
+    "VAR2": {
+        "TYPE": "",
+        "REGION": "",
+        "IMPACT": {"TYPE_IMPACT": "",
+        "LOCATION": ""}
+    }
+}

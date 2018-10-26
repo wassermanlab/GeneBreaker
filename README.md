@@ -17,7 +17,7 @@
 │       ├── copy_number_variant.py
 │       ├── indel.py
 │       ├── mobile_element.py
-│       ├── single_nucleotide_variant.py
+│       ├── single_nucleotide_variant.py 
 │       ├── single_tandem_repeat.py
 │       └── structural_variant.py
 ├── tests
@@ -27,15 +27,35 @@
 
 ```
 
-## EBNF for variant template 
+## EBNF 
 
 ```
+
+## gene
+GENE ::='{'SEQ', 'CHR', 'START_REG', 'STOP_REG', 'ELEMENTS'}'
+SEQ ::= string
+CHR ::= number(1:22) | X | Y
+START_REG  ::= number
+STOP_REG  ::= number
+ELEMENTS  ::= 'ELEMENTS:[' (ELEMENT ',')* ELEMENT ']'
+ELEMENT ::= [EL_TYPE, START_POS, STOP_POS]
+EL_TYPE ::= 'EXON' | 'UTR' | 'INTRON' | 'PROMOTER' | 'ENHANCER
+START_POS ::= number
+STop_POS ::= number
+
+#variants 
+VARIANTS ::= '{'DESCRIPTION', 'INHERITANCE', 'VAR1', 'VAR2'}'
+INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL
+DESCRIPTION ::= optional string discription 
+VAR1 ::= 'NONE' | VARIANT_TEMPLATE
+VAR2 ::= 'NONE' | VARIANT_TEMPLATE
+
 ## Variant template
 VARIANT_TEMPLATE ::='{'TYPE', 'REGION', 'IMPACT'}'
 
-TYPE ::= 'SNV' | 'INDEL' | 'CNV' | 'SV' | 'STR' | 'MEI'
-REGION ::= 'CODING' | 'UTR' | 'INTRONIC' | 'PROMOTER' | 'ENHANCER'
-IMPACT ::= '{'TYPE_IMPACT', 'LOCATION'}'
+TYPE ::= 'TYPE: 'SNV' | 'INDEL' | 'CNV' | 'SV' | 'STR' | 'MEI''
+REGION ::= 'REGION: CODING' | 'UTR' | 'INTRONIC' | 'PROMOTER' | 'ENHANCER''
+IMPACT ::= 'IMPACT: {'TYPE_IMPACT', 'LOCATION'}'
 
 SNV_IMPACT ::= MISSENSE | NONSENSE | SILENT
 INDEL_IMPACT ::= NUMBER ## represents the number of bases to delete or insert where positive numbers are insertions and negative deletions
@@ -72,3 +92,18 @@ LOCATION ::= 'ANY' | number ## where number is position on chromosome
   4. select var type (snv, indel, snv, str, sv, mei)
   5. select var impact (coding, utr, intronic, promoter, enhancer)
   6. present variants as vcf output 
+
+## Notes/References
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4422378/table/Tab2/?report=objectonly
+
+
+
+
+
+
+
+
+
+
+
