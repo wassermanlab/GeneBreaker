@@ -1,13 +1,16 @@
+from simulator.gene import Gene 
+from simulator.variant import Variant
+
 class Variants: 
 
-    def __init__(self, gene, inheretance, var1_template, var2_template):
+    def __init__(self, gene_json, variants_json):
         """ 
         creates variants object which has gene, inheretance, var1, var2 
         """
-        self.gene = gene # may have to expand to phenotype 
-        self.inheretance = inheretance
-        self.var1_template = var1_template
-        self.var2_template = var2_template
+        self.gene = Gene(gene_json) # may have to expand to phenotype 
+        self.inheretance = variants_json["inheretance"]
+        self.var1_template = Variant(variants_json["var1"])
+        self.var2_template = Variant(variants_json["var2"])
 
 
     def template_2_variant(): 
