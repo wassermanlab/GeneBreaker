@@ -1,0 +1,10 @@
+{
+    "DESCRIPTION": "dominant, denovo mutation in the intronic region deleting a certain amount, will fail because variant has wrong format", 
+    "ENHERITANCE": "DE-NOVO", 
+    "VAR1": {
+        "TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "CHECK": -8332
+    },
+    "VAR2": "NONE"
+}

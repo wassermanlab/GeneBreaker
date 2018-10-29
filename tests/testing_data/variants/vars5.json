@@ -2,7 +2,7 @@
     "DESCRIPTION": "dominant, denovo mutation in the intronic region deleting a certain amount", 
     "ENHERITANCE": "DE-NOVO", 
     "VAR1": {
-        "TYPE": "SNV",
+        "TYPE": "INDEL",
         "REGION": "INTRONIC",
         "IMPACT": -5
     },

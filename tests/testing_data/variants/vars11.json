@@ -1,0 +1,10 @@
+{
+    "DESCRIPTION": "dominant, denovo mutation in the intronic region deleting a certain amount, will fail type doesnt fit", 
+    "ENHERITANCE": "DE-NOVO", 
+    "VAR1": {
+        "TYPE": "SNV",
+        "REGION": "INTRONIC",
+        "IMPACT": -8332
+    },
+    "VAR2": "NONE"
+}

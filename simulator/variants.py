@@ -15,10 +15,11 @@ class Variants:
         except:
             print("Check that the variants input is correct and follows the schema")
 
-    def variant_2_VCFR(self, variant): 
+    def variants_2_VCF(self): 
         """ turns variant template into variant, returning a dict with the 
         following keys: chrom, pos, id, ref, alt """
         ## here turn each superclass variant into its respective child class
+        ##
         return {"chrom": 1, 
                 "pos": 1, 
                 "ID": "ABC",
