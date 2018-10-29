@@ -4,7 +4,7 @@
     "VAR1": {
         "TYPE": "INDEL",
         "REGION": "INTRONIC",
-        "IMPACT": 5
+        "IMPACT": {"TYPE_IMPACT": 5, "LOCATION": "ANY"}
     },
     "VAR2": "NONE"
 }

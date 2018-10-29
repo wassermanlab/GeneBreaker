@@ -37,7 +37,7 @@ class VariantMethodTests(unittest.TestCase):
         self.assertEqual(self.good_var.get_region(), "INTRONIC")
 
     def test_get_impact(self):
-        self.assertEqual(self.good_var.get_impact(), -8332)
+        self.assertEqual(self.good_var.get_impact(), dict({'LOCATION': 'ANY', 'TYPE_IMPACT': -8332}))
 
 if __name__ == '__main__':
     unittest.main()

@@ -18,19 +18,26 @@ class Gene:
             self.elements = data["ELEMENTS"]
             f.close()
         except IOError:
-            print("IOError: has occured, check tht gene file name exists")
+            print("IOError: has occured, check that gene file name exists")
         except KeyError:
             print("KeyError: check that Gene JSON is formatted correctly")
         except:
             print("Unexpected error")
-        
+
+    def get_seq(self): 
+        """ returns all sequence from gene""" 
+        return self.seq
+
+    def get_chr(self): 
+        """ returns chr from gene""" 
+        return self.chr       
 
     def get_exons(self):
         """ returns all exons from gene in the form of [[seq, start, stop],*]"""
         exons = []
         for i in self.elements:
             if i[0] == "EXON":
-                exons.append([self.seq[i[1]:i[2]], i[1], i[2]])
+                exons.append([i[1], i[2]])
         return exons
 
     def get_introns(self):
@@ -38,15 +45,11 @@ class Gene:
         introns = []
         for i in self.elements:
             if i[0] == "INTRON":
-                introns.append([self.seq[i[1]:i[2]], i[1], i[2]])
+                introns.append([i[1], i[2]])
         return introns
 
-    def get_upstream_utr(self):
-        """ returns the 5' utr """
-        return False
-
-    def get_downstream_utr(self):
-        """ returns the 3' utr """
+    def get_utr(self):
+        """ returns the utrs """
         return False
 
     def get_promoter(self):
@@ -56,3 +59,17 @@ class Gene:
     def get_enhancer(self):
         """ returns all enhancer/silencers """
         return False
+
+    def get_requested_region(self, region):
+        if region == "CODING":
+            return self.get_exons()
+        elif region == "UTR":
+            return self.get_utr()
+        elif region == "INTRONIC":
+            return self.get_introns()
+        elif region == "PROMOTER":
+            return self.get_promoter()
+        elif region == "ENHANCER":
+            return self.get_enhancer()    
+        else:
+            raise Exception("region not valid")

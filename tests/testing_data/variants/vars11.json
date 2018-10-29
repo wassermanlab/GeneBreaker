@@ -4,7 +4,7 @@
     "VAR1": {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": -8332
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}
     },
     "VAR2": "NONE"
 }

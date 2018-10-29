@@ -1,6 +1,7 @@
 # python -m unittest tests.test_gene 
 import unittest
 from simulator.indel import Indel
+from simulator.gene import Gene
 import json
 
 class IndelCreationTests(unittest.TestCase):
@@ -43,7 +44,22 @@ class InheritanceVariantMethodTests(unittest.TestCase):
         self.assertEqual(self.good_var.get_region(), "INTRONIC")
 
     def test_get_impact(self):
-        self.assertEqual(self.good_var.get_impact(), 5)
+        self.assertEqual(self.good_var.get_impact(), dict({'LOCATION': 'ANY', 'TYPE_IMPACT': 5}))
+
+class InsersionMethodTesting(unittest.TestCase):
+    indel = {'TYPE': 'INDEL',
+            'REGION': 'INTRONIC',
+            'IMPACT': {'LOCATION': 'ANY', 'TYPE_IMPACT': 5}}
+    good_var = Indel(indel)
+    simple_gene = Gene("testing_data/genes/basic_gene.json")
+
+    def test_check_insertion_generation(self):
+        self.assertEqual(len(self.good_var.get_insertion_str(50)), 50)
+    
+    def test_get_insertion(self):
+        sample_indel = Indel(self.indel)
+        sample_indel.get_insertion(self.simple_gene)
+
 
 if __name__ == '__main__':
     unittest.main()
