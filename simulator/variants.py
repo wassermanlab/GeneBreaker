@@ -10,12 +10,12 @@ class Variants:
         try: 
             self.gene = Gene(gene_json) # may have to expand to phenotype 
             self.inheritance = variants_json["INHERITANCE"]
-            self.var1_template = Variant(variants_json["VAR1"]) ## here check that it follows the general variant rules
-            self.var2_template = Variant(variants_json["VAR2"])
+            self.var1 = Variant(variants_json["VAR1"]) ## here check that it follows the general variant rules
+            self.var2 = Variant(variants_json["VAR2"])
         except:
             print("Check that the variants input is correct and follows the schema")
 
-    def template_2_variant(): 
+    def variant_2_VCFR(self, variant): 
         """ turns variant template into variant, returning a dict with the 
         following keys: chrom, pos, id, ref, alt """
         ## here turn each superclass variant into its respective child class
