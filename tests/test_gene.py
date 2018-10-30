@@ -22,9 +22,14 @@ class GeneMethodTests(GeneSetup):
         self.assertEqual(self.simple_gene.get_exons(), 
                         [[0, 96],
                         [8333, 8902]])
+        self.assertEqual(self.simple_gene.get_requested_region("CODING"), 
+                        [[0, 96],
+                        [8333, 8902]])
 
     def test_get_introns(self):
         self.assertEqual(self.simple_gene.get_introns(), [[96,8333]])
+        self.assertEqual(self.simple_gene.get_requested_region("INTRONIC"), [[96,8333]])
+
 
     # def test_get_utr(self):
     #     self.assertTrue(self.simple_gene.get_utr())

@@ -2,63 +2,127 @@
 import unittest
 from simulator.indel import Indel
 from simulator.gene import Gene
-import json
 
 class IndelCreationTests(unittest.TestCase):
-    f = open("tests/testing_data/variants/vars8.json")
-    wrong_keys = json.load(f)
-    wrong_keys = wrong_keys["VAR1"]
-    f = open("tests/testing_data/variants/vars9.json")
-    region_fail = json.load(f)
-    region_fail = region_fail["VAR1"]
-    f = open("tests/testing_data/variants/vars10.json")
-    type_fail = json.load(f)
-    type_fail = type_fail["VAR1"]
-    f = open("tests/testing_data/variants/vars11.json")
-    type_fail2 = json.load(f)
-    type_fail2 = type_fail2["VAR1"]
-
-    def test_bad_formatting(self):
-        self.assertRaises(Indel(self.wrong_keys))
-    
-    def test_region_fail(self):
-        self.assertRaises(Indel(self.region_fail))
-
-    def test_type_fail(self):
-        self.assertRaises(Indel(self.type_fail))
-
-    def test_type_fail2(self):
-        self.assertRaises(Indel(self.type_fail2))
+    # test 1
+    def test_wrong_keys(self):
+        indel = {
+        "TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "CHECK": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Indel(indel))
+    # test 2
+    def test_region_value(self):
+        indel = {"TYPE": "INDEL",
+        "REGION": "TEST",
+        "IMPACT":{"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Indel(indel))
+    # test 3
+    def test_type_value(self):
+        indel = {"TYPE": "TEST",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Indel(indel))
+    # test 4
+    def test_type_value_indel(self):
+        indel = {"TYPE": "SNV",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Indel(indel))
+    # test 5
+    def test_location_0(self):
+        indel = {"TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": 0}}
+        self.assertRaises(Indel(indel))
+    # test 6
+    def test_location_str(self):
+        indel = {"TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "four"}}
+        self.assertRaises(Indel(indel))    
 
 
 class InheritanceVariantMethodTests(unittest.TestCase):
-    f = open("tests/testing_data/variants/vars6.json")
-    good_var = json.load(f)
-    good_var = good_var["VAR1"]
-    good_var = Indel(good_var)
-
-    def test_get_type(self):
-        self.assertEqual(self.good_var.get_type(), "INDEL") 
-
-    def test_get_region(self):
-        self.assertEqual(self.good_var.get_region(), "INTRONIC")
-
-    def test_get_impact(self):
-        self.assertEqual(self.good_var.get_impact(), dict({'LOCATION': 'ANY', 'TYPE_IMPACT': 5}))
-
-class InsersionMethodTesting(unittest.TestCase):
     indel = {'TYPE': 'INDEL',
             'REGION': 'INTRONIC',
             'IMPACT': {'LOCATION': 'ANY', 'TYPE_IMPACT': 5}}
     good_var = Indel(indel)
-    simple_gene = Gene("testing_data/genes/basic_gene.json")
+    # test 7
+    def test_get_type(self):
+        self.assertEqual(self.good_var.get_type(), "INDEL") 
+    # test 8
+    def test_get_region(self):
+        self.assertEqual(self.good_var.get_region(), "INTRONIC")
+    # test 9
+    def test_get_impact(self):
+        self.assertEqual(self.good_var.get_impact(), dict({'LOCATION': 'ANY', 'TYPE_IMPACT': 5}))
 
-    def test_check_insertion_generation(self):
-        self.assertEqual(len(self.good_var.get_insertion_str(50)), 50)
+
+class InsersionMethodTesting(unittest.TestCase):
+    indel_any = {'TYPE': 'INDEL',
+            'REGION': 'INTRONIC',
+            'IMPACT': {'LOCATION': 'ANY', 'TYPE_IMPACT': 5}}
+    indel_any = Indel(indel_any)
+    simple_gene = Gene("tests/testing_data/genes/basic_gene.json")
+    indel_spec = {'TYPE': 'INDEL',
+            'REGION': 'CODING',
+            'IMPACT': {'LOCATION': 5, 'TYPE_IMPACT': 8}}
+    indel_spec = Indel(indel_spec)
     
-    def test_get_insertion(self):
-        sample_indel = Indel(self.indel)
-        sample_indel.get_insertion(self.simple_gene)
+    # test 10
+    def test_check_insertion_generation(self):
+        self.assertEqual(len(self.indel_any.get_insertion_str(50)), 50)
+    
+    # test 11
+    def test_get_insertion_any(self):
+        insertion = self.indel_any.get_insertion(self.simple_gene)
+        self.assertEqual(len(insertion["alt"]), 6)
+    
+    # test 12
+    def test_get_insertion_spec(self):
+        insertion = self.indel_spec.get_insertion(self.simple_gene)
+        self.assertEqual(insertion["pos"], 5)
+    
+    # test 13
+    def test_get_insertion_row(self):
+        insertion = self.indel_spec.get_vcf_row(self.simple_gene)
+
+class DeletionMethodTestCase(unittest.TestCase):
+    simple_gene = Gene("tests/testing_data/genes/basic_gene.json")
+    # test 14
+    def test_basic_deletion(self):
+        indel = {'TYPE': 'INDEL',
+            'REGION': 'CODING',
+            'IMPACT': {'LOCATION': 5, 'TYPE_IMPACT': -5}}
+        indel = Indel(indel)
+        deletion = indel.get_deletion(self.simple_gene)
+        self.assertEqual(deletion["ref"], "TCAGG")
+        self.assertEqual(deletion["alt"], "")
+        self.assertEqual(deletion["pos"], 5)
+    # test 15
+    def test_any_location_deletion(self):
+        indel = {'TYPE': 'INDEL',
+            'REGION': 'CODING',
+            'IMPACT': {'LOCATION': "ANY", 'TYPE_IMPACT': -5}}
+        indel = Indel(indel)
+        deletion = indel.get_deletion(self.simple_gene)
+        self.assertEqual(len(deletion["ref"]), 5)
+        self.assertEqual(deletion["alt"], "")
+    # test 16
+    def test_raises_length_any(self):
+        indel = {'TYPE': 'INDEL',
+            'REGION': 'CODING',
+            'IMPACT': {'LOCATION': "ANY", 'TYPE_IMPACT': 570}}
+        indel = Indel(indel)
+        self.assertRaises(indel.get_deletion(self.simple_gene))
+    # test 17
+    def test_raises_length_specific(self):
+        indel = {'TYPE': 'INDEL',
+            'REGION': 'CODING',
+            'IMPACT': {'LOCATION': 5, 'TYPE_IMPACT': 96}}
+        indel = Indel(indel)
+        self.assertRaises(indel.get_deletion(self.simple_gene))
 
 
 if __name__ == '__main__':
