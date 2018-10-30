@@ -1,33 +1,36 @@
 # python -m unittest tests.test_gene 
 import unittest
 from simulator.variant import Variant
-import json
 
 class VariantCreationTests(unittest.TestCase):
-    f = open("tests/testing_data/variants/vars8.json")
-    wrong_keys = json.load(f)
-    wrong_keys = wrong_keys["VAR1"]
-    f = open("tests/testing_data/variants/vars9.json")
-    region_fail = json.load(f)
-    region_fail = region_fail["VAR1"]
-    f = open("tests/testing_data/variants/vars10.json")
-    type_fail = json.load(f)
-    type_fail = type_fail["VAR1"]
 
     def test_bad_formatting(self):
-        self.assertRaises(Variant(self.wrong_keys))
+        variant = {
+        "TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "CHECK": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Variant(variant))
     
     def test_region_fail(self):
-        self.assertRaises(Variant(self.region_fail))
+        variant = {
+        "TYPE": "INDEL",
+        "REGION": "TEST",
+        "IMPACT":{"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Variant(variant))
 
     def test_type_fail(self):
-        self.assertRaises(Variant(self.type_fail))
+        variant = {
+        "TYPE": "TEST",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
+        self.assertRaises(Variant(variant))
 
 
 class VariantMethodTests(unittest.TestCase):
-    f = open("tests/testing_data/variants/vars7.json")
-    good_var = json.load(f)
-    good_var = good_var["VAR1"]
+    good_var = {
+        "TYPE": "INDEL",
+        "REGION": "INTRONIC",
+        "IMPACT": {"TYPE_IMPACT": -8332, "LOCATION": "ANY"}}
     good_var = Variant(good_var)
 
     def test_get_type(self):

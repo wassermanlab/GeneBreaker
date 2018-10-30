@@ -2,7 +2,6 @@ from simulator.variant import Variant
 from simulator.gene import Gene
 import random
 
-
 class Indel(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template):
@@ -18,6 +17,7 @@ class Indel(Variant):
                 raise Exception("Must be indel type")
         except:
             print('check that type is indel and that impact is an int')
+
 
     def get_insertion_str(self, size):
         """returns a random string of ACGT according to size"""
