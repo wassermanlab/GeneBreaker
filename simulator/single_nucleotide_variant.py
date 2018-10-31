@@ -2,44 +2,47 @@ from simulator.variant import Variant
 from simulator.gene import Gene
 import random
 
-class SingleNucleotideVariant(variant.Variant): 
+class SingleNucleotideVariant(Variant): 
     start_codon = "ATG"
     stop_codons = ["TAA", "TAG", "TGA"]
-    amino_acid_codons = [("Phe", "TTT"), ("Phe", "TTC"),
-    ("Leu", "TTA"), ("Leu","TTG"), ("Leu","CTT"), ("Leu","CTC"), ("Leu","CTA"), ("Leu","CTG"),
-    ("Val", "GTT"), ("Val", "GTC"), ("Val", "GTA"), ("Val", "GTG"),
-    ("Ser", "TCT"), ("Ser", "TCC"), ("Ser", "TCA"), ("Ser", "TCG"), ("Ser", "AGT"), ("Ser", "AGC"),
-    ("Pro", "CCT"), ("Pro", "CCC"), ("Pro", "CCA"), ("Pro", "CCG"),
-    ("Thr", "ACT"), ("Thr", "ACC"), ("Thr", "ACA"), ("Thr", "ACG"),
-    ("Ala", "GCT"), ("Ala", "GCC"), ("Ala", "GCA"), ("Ala", "GCG"),
-    ("Tyr", "TAT"), ("Tyr", "TAC"),
-    ("His", "CAT"), ("His", "CAC"),
-    ("Gln", "CAA"), ("Gln", "CAG"),
-    ("Asn", "AAT"), ("Asn", "AAC"),
-    ("Lys", "AAA"), ("Lys", "AAG"),
-    ("Asp", "GAT"), ("Asp", "GAC"),
-    ("Glu", "GAA"), ("Glu", "GAG"),
-    ("Cys", "TGT"), ("Cys", "TGC"),
-    ("Trp", "TGG"),
-    ("Arg", "CGT"), ("Arg", "CGC"), ("Arg", "CGA"), ("Arg", "CGG"), ("Arg", "AGA"), ("Arg", "AGG").
-    ("Gly", "GGT"), ("Gly", "GGC"), ("Gly", "GGA"), ("Gly", "GGG").
-    ("Ile", "ATT"), ("Ile", "ATC"), ("Ile", "ATA").]
+    amino_acid_codons = {
+        "Phe": ["TTT", "TTC"],
+        "Tyr": ["TAT", "TAC"],
+        "His": ["CAT", "CAC"],
+        "Gln": ["CAA", "CAG"],
+        "Asn": ["AAT", "AAC"],
+        "Lys": ["AAA", "AAG"],
+        "Asp": ["GAT", "GAC"],
+        "Glu": ["GAA", "GAG"],
+        "Cys": ["TGT", "TGC"],
+        "Arg": ["CGT", "CGC", "CGA", "CGG", "AGA", "AGG"],
+        "Leu": ["TTA", "TTG", "CTT", "CTC", "CTA", "CTG"],
+        "Ser": ["TCT", "TCC", "TCA", "TCG", "AGT", "AGC"],
+        "Pro": ["CCT", "CCC", "CCA", "CCG"],
+        "Gly": ["GGT", "GGC", "GGA", "GGG"],
+        "Val": ["GTT", "GTC", "GTA", "GTG"],
+        "Thr": ["ACT", "ACC", "ACA", "ACG"],
+        "Ala": ["GCT", "GCC", "GCA", "GCG"],
+        "Ile": ["ATT", "ATC", "ATA"],
+        "Trp": ["TGG"]}
+    aa_codes = {} 
+    for key, value in amino_acid_codons.iteritems():
+        for code in value: 
+            aa_codes[code] = key
 
-    # {"TYPE": "SNV",
-    #     "REGION": "CODING",
-    #     "IMPACT":{"TYPE_IMPACT": MISSENSE | NONSENSE | SILENT | ATGC, "LOCATION": "ANY" | NUMBER}}
-
+    
     def __init__(self, var_template):
         """ initialize snv variant """
         try:
             Variant.__init__(self, var_template)
-            if self.type_impact not in ["MISSENSE", "NONSENSE", "SILENT", "A", "T", "G", "C"]:
+            if self.type_impact not in ["MISSENSE", "NONSENSE", "SILENT", "A", "T", "G", "C", "ANY"]:
                 raise Exception("""TYPE must be missense, nonsense, silent of a base""")
             if self.type != "SNV":
                 raise Exception("Must be indel type")
         except:
             print('check that type is indel and that impact is an int')
     
+
     def get_non_coding_SNV(self, gene):
         """ make random or directed SNV """
         # get requested region
@@ -49,8 +52,7 @@ class SingleNucleotideVariant(variant.Variant):
         # get ranges
         region_range = []
         for region in regions: # range must be cut so that there is no overlap
-        region_range = region_range + \
-        range(region[0], region[1])
+            region_range = region_range + range(region[0], region[1])
         if self.location == "ANY":
             pos = random.choice(region_range) 
         else: 
@@ -58,30 +60,90 @@ class SingleNucleotideVariant(variant.Variant):
                 raise Exception("location requested is not in region requested")
             pos = self.location
         ref = gene.get_seq()[pos]
-        choices = ['A', 'T', 'G', 'C'].remove(ref.upper())
-        alt = random.choice(choices)
+        if self.type_impact == "ANY": # user has requested random base change
+            choices = ['A', 'T', 'G', 'C'].remove(ref.upper())
+            alt = random.choice(choices)
+        else: # user has requested specific base change
+            alt = self.type_impact
         return {"pos": pos, "ref": ref, "alt": alt}
 
-    def missense_mutation(self): 
-        """ make a missense mutation in random or directed place """
+
+    def get_alternate_codons(self, codon, pos):
+        choices = ['A', 'T', 'G', 'C']
+        choices.remove(codon[pos].upper())
+        alternate_codons = []
+        list_codon = list(codon.upper())
+        for base in choices: 
+            list_codon[pos] = base
+            alternate_codons.append("".join(list_codon))
+        return alternate_codons
+
+
+    def missense_mutation(self, codon, pos): 
+        """ make missense mutation in codon, returns False if 
+        silent mutation cannot be made there the alternate variant """
+        alternate_codons = self.get_alternate_codons(codon, pos)
+        missense_aa = self.amino_acid_codons
+        missense_aa.pop(self.aa_codes[codon])
+        missense_aa = [inner for outer in missense_aa.values() for inner in outer]
+        random.shuffle(alternate_codons)
+        for i in alternate_codons:
+            if i in missense_aa:
+                return i[pos]
+        return False
+
+
+    def nonsense_mutation(self, codon, pos):
+        """ make nonsense mutation in codon, returns False if 
+        silent mutation cannot be made there the alternate variante """
+        alternate_codons = self.get_alternate_codons(codon, pos)
+        for i in alternate_codons:
+            if i in self.stop_codons:
+                return i[pos]
+        return False
+
+
+    def silent_mutation(self, codon, pos): 
+        """ make silent mutation in codon, returns False if 
+        silent mutation cannot be made there the alternate variant"""
+        # Todo: code entire logic and test
+        alternate_codons = self.get_alternate_codons(codon, pos)
+        silent_aa = self.amino_acid_codons[self.aa_codes[codon]]
+        random.shuffle(alternate_codons)
+        for i in alternate_codons:
+            if i in silent_aa:
+                return i[pos]
+        return False
     
-    def nonsense_mutation(self):
-        """ make nonsense in random or directed place """
+
+    def any_mutation(self, codon, pos):
+        """ make random mutation in codon, returns False if 
+        silent mutation cannot be made there the alternate variant"""
+        choices = ['A', 'T', 'G', 'C'].remove(codon[pos].upper())
+        alt = random.choice(choices)
+        return alt
+
+
+    def get_random_coding_SNV(self, gene):
+        """ get coding SNV, returns  dict{pos, ref, alt}"""
+        # Todo: code entire logic and test
+        None
+
+
+    def get_directed_coding_SNV(self, gene):
+        """ get coding SNV, returns  dict{pos, ref, alt}""" 
+        # Todo: code entire logic and test
+        None   
     
-    def silent_mutation(self): 
-        """ make silent mutation in random or directed place """
-    
-    def get_coding_SNV(self, gene):
-        """ get coding SNV """
-        if self.location == "ANY":
-            
-        else: 
-    
+
     def get_vcf_row(self, gene):
         """ get variant row tab delimitted  """
         chrom = str(gene.get_chr())
-        if self.REGION == "CODING": 
-            var_dict = self.get_coding_SNV(gene)
+        if self.region == "CODING": 
+            if self.location == "ANY":
+                var_dict = self.get_random_coding_SNV(gene)
+            else: 
+                var_dict = self.get_directed_coding_SNV(gene)
         else: 
             var_dict = self.get_non_coding_SNV(gene)
         pos = str(var_dict["pos"])
