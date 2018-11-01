@@ -29,6 +29,11 @@ class GeneMethodTests(GeneSetup):
     def test_get_introns(self):
         self.assertEqual(self.simple_gene.get_introns(), [[96,8333]])
         self.assertEqual(self.simple_gene.get_requested_region("INTRONIC"), [[96,8333]])
+    
+    def test_retrieving_codon(self):
+        self.assertEqual(self.simple_gene.get_codon_from_pos(8333), ('GTA',0))
+        self.assertEqual(self.simple_gene.get_codon_from_pos(0), ('ATT',0))
+        self.assertEqual(self.simple_gene.get_codon_from_pos(4), ('CCT',1))
 
 
     # def test_get_utr(self):

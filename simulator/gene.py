@@ -73,3 +73,32 @@ class Gene:
             return self.get_enhancer()    
         else:
             raise Exception("region not valid")
+
+    def get_codon_from_pos(self, pos):
+        """ from position get codon matching to position
+        return codon and position of nucleotide in codon (codon, pos) """
+        # Todo: code entire logic and test
+        coding_regions = self.get_exons()
+        coding_regions = sorted(coding_regions, key=lambda x: x[0])
+        gene = ""
+        shift_pos = 0
+        last_exon = None
+        coding_pos = None       # will be used to get the position requested without introns
+        for exon in coding_regions:
+            gene = gene + self.seq[exon[0]:exon[1]]
+            if last_exon is None:
+                last_exon = exon[1]
+            else:
+                shift_pos = shift_pos + exon[0] - last_exon
+                last_exon = exon[1]
+            if exon[0] <= pos < exon[1]:
+                coding_pos = pos - shift_pos
+        if coding_pos is None:
+            raise Exception("position specified is not in coding region.")
+        position_in_codon = coding_pos % 3
+        if coding_pos < 3:
+            return(self.seq[0:3], position_in_codon)
+        else:
+            start = coding_pos - position_in_codon
+            stop = start + 3
+            return(self.seq[start:stop], position_in_codon)
