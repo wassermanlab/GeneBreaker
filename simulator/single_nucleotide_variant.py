@@ -123,6 +123,35 @@ class SingleNucleotideVariant(Variant):
         alt = random.choice(choices)
         return alt
 
+    
+    def get_codon_from_pos(self, gene, pos):
+        """ from position get codon matching to position
+        return codon and position of nucleotide in codon (codon, pos) """
+        # Todo: code entire logic and test 
+        seq = gene.get_seq()
+        coding_regions = gene.get_requested_region("CODING")
+        coding_regions = sorted(coding_regions, key=lambda x: x[0])
+        gene = ""
+        shift_pos = 0
+        last_exon = None        
+        coding_pos = None       # will be used to get the position requested without introns 
+        for exon in coding_regions:
+            gene = gene + seq[exon[0]:exon[1]]
+            if last_exon is None: 
+                last_exon = exon[1]
+            else: 
+                shift_pos = shift_pos + exon[0] - last_exon
+                last_exon = exon[1]
+            if exon[0] <= pos < exon[1]:
+                coding_pos = pos - shift_pos
+        position_in_codon = coding_pos%3
+        if coding_pos < 3:
+            return(seq[0:3], position_in_codon)
+        else:  
+            start = coding_pos - position_in_codon
+            stop = start + 3
+            return(seq[start:stop], position_in_codon)
+
 
     def get_random_coding_SNV(self, gene):
         """ get coding SNV, returns  dict{pos, ref, alt}"""

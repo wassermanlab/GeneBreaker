@@ -77,8 +77,9 @@ class MutationMethods(unittest.TestCase):
         self.assertEquals(snv.silent_mutation("CAA", 2), "G")
 
 class NonCodingSNV(unittest.TestCase):
+
     simple_gene = Gene("tests/testing_data/genes/basic_gene.json")
-    # test 6
+    # test 10
     def test_basic_non_coding(self):
         snv = {
         "TYPE": "SNV",
@@ -87,7 +88,7 @@ class NonCodingSNV(unittest.TestCase):
         row = SNV(snv).get_vcf_row(self.simple_gene)
         row = row.split("\t")
         self.assertEqual(row[4].rstrip(), "A")
-    # test 7 
+    # test 11
     def test_basic_non_coding_exact(self):
         snv = {
         "TYPE": "SNV",
@@ -97,3 +98,14 @@ class NonCodingSNV(unittest.TestCase):
         self.assertEqual(row["pos"], 870)
         self.assertEqual(row["ref"], "C")
         self.assertEqual(row["alt"], "A")
+
+class SNVCodingRegionTests(unittest.TestCase):
+    simple_gene = Gene("tests/testing_data/genes/basic_gene.json")
+    
+    def test_retrieving_codon(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "INTRONIC",
+            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+        snv = SNV(snv)
+        print snv.get_codon_from_pos(self.simple_gene, 8333)
