@@ -144,6 +144,8 @@ class SingleNucleotideVariant(Variant):
                 last_exon = exon[1]
             if exon[0] <= pos < exon[1]:
                 coding_pos = pos - shift_pos
+        if coding_pos is None:
+            raise Exception("position specified is not in coding region.")
         position_in_codon = coding_pos%3
         if coding_pos < 3:
             return(seq[0:3], position_in_codon)
@@ -152,17 +154,49 @@ class SingleNucleotideVariant(Variant):
             stop = start + 3
             return(seq[start:stop], position_in_codon)
 
+    # Todo: test
+    def get_directed_coding_SNV(self, gene, loc):
+        """ get coding SNV, returns  dict{pos, ref, alt} or False""" 
+        codon_tuple = self.get_codon_from_pos(gene, loc)
+        codon = codon_tuple[0]
+        codon_pos = codon_tuple[1]
+        if self.type_impact is "MISSENSE":
+            alt = self.missense_mutation(codon, codon_pos)
+        elif self.type_impact is "NONSENSE":
+            alt = self.nonsense_mutation(codon, codon_pos)
+        elif self.type_impact is "SILENT":
+            alt = self.silent_mutation(codon, codon_pos)
+        elif self.type_impact is "ANY":
+            alt = self.any_mutation(codon, codon_pos)
+        else:
+            alt = self.type_impact     
+        if alt is False:
+            return False
+        else: 
+            return {"pos": loc,
+                "ref": codon[codon_pos], 
+                "alt": alt} 
 
+
+    # Todo: test
     def get_random_coding_SNV(self, gene):
         """ get coding SNV, returns  dict{pos, ref, alt}"""
-        # Todo: code entire logic and test
-        None
-
-
-    def get_directed_coding_SNV(self, gene):
-        """ get coding SNV, returns  dict{pos, ref, alt}""" 
-        # Todo: code entire logic and test
-        None   
+        # get available positions # get requested region
+        regions = gene.get_requested_region("CODING")
+        if len(regions) == 0:
+            raise Exception("region requested does not exists")
+        region_range = []
+        for region in regions: # range must be cut so that there is no overlap
+            region_range = region_range + range(region[0], region[1])
+        # while loop randomly choosing positions in the available
+        alt = False
+        while len(region_range) > 0 and alt is False:
+            loc = random.choice(regions)
+            regions.remove(loc)
+            snv = self.get_directed_coding_SNV(gene, loc)
+            if snv is not False: 
+                alt = True
+                return snv
     
 
     def get_vcf_row(self, gene):
@@ -172,9 +206,11 @@ class SingleNucleotideVariant(Variant):
             if self.location == "ANY":
                 var_dict = self.get_random_coding_SNV(gene)
             else: 
-                var_dict = self.get_directed_coding_SNV(gene)
+                var_dict = self.get_directed_coding_SNV(gene, self.location)
         else: 
             var_dict = self.get_non_coding_SNV(gene)
+        if var_dict is False: 
+            raise Exception("Specified SNV cannot be made")
         pos = str(var_dict["pos"])
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
