@@ -5,6 +5,11 @@
         "IMPACT": {"TYPE_IMPACT": "NONSENSE",
         "LOCATION": 8340}
     },
-    "VAR2": "NONE",
+    "VAR2": {
+        "TYPE": "SNV",
+        "REGION": "CODING",
+        "IMPACT": {"TYPE_IMPACT": "NONSENSE",
+        "LOCATION": "ANY"}
+    },
     "TRIO": "True"
 }

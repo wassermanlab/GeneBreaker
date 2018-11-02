@@ -45,7 +45,7 @@ STop_POS ::= number
 
 #variants 
 VARIANTS ::= '{'DESCRIPTION', 'INHERITANCE', 'VAR1', 'VAR2'}'
-INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL
+INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL'
 DESCRIPTION ::= optional string discription 
 VAR1 ::= 'NONE' | VARIANT_TEMPLATE
 VAR2 ::= 'NONE' | VARIANT_TEMPLATE
@@ -56,8 +56,9 @@ VARIANT_TEMPLATE ::='{'TYPE', 'REGION', 'IMPACT'}'
 TYPE ::= 'TYPE: 'SNV' | 'INDEL' | 'CNV' | 'SV' | 'STR' | 'MEI''
 REGION ::= 'REGION: CODING' | 'UTR' | 'INTRONIC' | 'PROMOTER' | 'ENHANCER''
 IMPACT ::= 'IMPACT: {'TYPE_IMPACT', 'LOCATION'}'
+TRIO ::= 'True' | 'False'
 
-SNV_IMPACT ::= MISSENSE | NONSENSE | SILENT
+SNV_IMPACT ::= 'MISSENSE' | 'NONSENSE' | 'SILENT'
 INDEL_IMPACT ::= NUMBER ## represents the number of bases to delete or insert where positive numbers are insertions and negative deletions
 CNV_IMPACT ::= 
 SV_IMPACT ::= 

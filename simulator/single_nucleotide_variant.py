@@ -121,13 +121,13 @@ class SingleNucleotideVariant(Variant):
         codon_tuple = gene.get_codon_from_pos(loc)
         codon = codon_tuple[0]
         codon_pos = codon_tuple[1]
-        if self.type_impact is "MISSENSE":
+        if self.type_impact == "MISSENSE":
             alt = self.missense_mutation(codon, codon_pos)
-        elif self.type_impact is "NONSENSE":
+        elif self.type_impact == "NONSENSE":
             alt = self.nonsense_mutation(codon, codon_pos)
-        elif self.type_impact is "SILENT":
+        elif self.type_impact == "SILENT":
             alt = self.silent_mutation(codon, codon_pos)
-        elif self.type_impact is "ANY":
+        elif self.type_impact == "ANY":
             alt = self.any_mutation(codon, codon_pos)
         else:
             alt = self.type_impact
@@ -139,7 +139,6 @@ class SingleNucleotideVariant(Variant):
                     "alt": alt}
 
     # Todo: test
-
     def get_random_coding_SNV(self, gene):
         """ get coding SNV, returns  dict{pos, ref, alt}"""
         # get available positions # get requested region

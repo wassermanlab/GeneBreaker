@@ -101,4 +101,4 @@ class Gene:
         else:
             start = coding_pos - position_in_codon
             stop = start + 3
-            return(self.seq[start:stop], position_in_codon)
+            return(gene[start:stop], position_in_codon)
