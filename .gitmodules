@@ -1,0 +1,3 @@
+[submodule "simulator/GUD"]
+	path = simulator/GUD
+	url = git@github.com:oriolfornes/GUD.git
