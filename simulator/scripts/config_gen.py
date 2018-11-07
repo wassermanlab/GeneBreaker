@@ -2,6 +2,20 @@
 # fix TRIO responses
 import argparse
 import json
+from GUD.ORM import Gene
+import os, sys 
+from sqlalchemy import create_engine, Index
+from sqlalchemy.orm import Session
+import warnings
+
+# Establish a SQLalchemy session w/ GUD
+db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",
+    "ontarget.cmmt.ubc.ca", "5506", "hg19")
+try:
+    engine = create_engine(db_name, echo=False)
+    session = Session(engine)
+except:
+    raise ValueError("Cannot connect to GUD: %s" % "hg19")
 
 def get_variant_dict():
     var_dict = dict()
@@ -40,13 +54,27 @@ def get_variant_dict():
 
 def get_main_dict():
     config_dict = dict()
-    gene = str(raw_input("which gene would you like to use: "))
+    ## highly coupled with GUD, need to figure out a better way to do this 
+    gene_sym = str(raw_input("Enter the gene symbol of the gene you would like to use: "))
+    gene = Gene()
+    genes = gene.select_by_name(session, gene_sym) ## GALK2
+    if len(genes) == 0:
+        raise Exception("No genes by that gene symbol")
+    counter = 0
+    for g in genes: 
+        print str(counter) + "\t" + g.name + "\t" + str(g.txStart) + "\t" + str(g.txEnd)
+        counter = counter + 1
+    gene_index = int(raw_input("what is the index of the transcript would you like to use: "))
+    gene = genes[gene_index] ## get gene that we need 
+    config_dict["GENE_NAME"] = gene.name2
+    config_dict["CHR"] = gene.chrom
+    config_dict["STRAND"] = gene.strand
+    config_dict["TXSTART"] = gene.txStart
+    config_dict["TXEND"] = gene.txEnd
     inheritance = str(raw_input("""What inheritance model would you like to use?            
     valid types are 'DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL': """))
     trio = str(raw_input("""Would you like to output a trio or just the child, 
     valid types are 'TRIO' or 'SINGLE': """))
-    ## todo check that gene is in available genes
-    config_dict["GENE"] = gene
     if inheritance in ['DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL']:
         config_dict["INHERITANCE"] = inheritance
     else:

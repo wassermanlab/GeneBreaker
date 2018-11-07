@@ -44,10 +44,10 @@ START_POS ::= number
 STop_POS ::= number
 
 #variants 
-VARIANTS ::= '{'DESCRIPTION', 'INHERITANCE', 'VAR1', 'VAR2'}'
+VARIANTS ::= '{'DESCRIPTION', 'INHERITANCE', 'VAR1', 'VAR2', 'GENE', 'GENE_SYMBOL',  'VTRIO'}'
 INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL'
 DESCRIPTION ::= optional string discription 
-VAR1 ::= 'NONE' | VARIANT_TEMPLATE
+VAR1 ::= VARIANT_TEMPLATE
 VAR2 ::= 'NONE' | VARIANT_TEMPLATE
 
 ## Variant template
