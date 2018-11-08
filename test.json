@@ -1,0 +1,15 @@
+{
+    "GENE_INDEX": 0, 
+    "GENE_NAME": "SOX9", 
+    "INHERITANCE": "DE-NOVO", 
+    "TRIO": "TRIO", 
+    "VAR1": {
+        "IMPACT": {
+            "LOCATION": "ANY", 
+            "TYPE_IMPACT": 50
+        }, 
+        "REGION": "UTR", 
+        "TYPE": "INDEL"
+    }, 
+    "VAR2": "NONE"
+}

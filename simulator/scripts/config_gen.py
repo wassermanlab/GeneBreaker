@@ -67,10 +67,7 @@ def get_main_dict():
     gene_index = int(raw_input("what is the index of the transcript would you like to use: "))
     gene = genes[gene_index] ## get gene that we need 
     config_dict["GENE_NAME"] = gene.name2
-    config_dict["CHR"] = gene.chrom
-    config_dict["STRAND"] = gene.strand
-    config_dict["TXSTART"] = gene.txStart
-    config_dict["TXEND"] = gene.txEnd
+    config_dict["GENE_INDEX"] = gene_index
     inheritance = str(raw_input("""What inheritance model would you like to use?            
     valid types are 'DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL': """))
     trio = str(raw_input("""Would you like to output a trio or just the child, 
