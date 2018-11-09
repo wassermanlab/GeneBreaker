@@ -34,7 +34,7 @@ class Transcript:
         except:
             print("Unexpected error, check validity of config and gene inputs")
 
-    def get_seq(self): 
+    def get_seq(self, stranded=False): 
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 0""" 
         # Initialize
@@ -45,7 +45,15 @@ class Transcript:
         xml = etree.parse(url, parser=etree.XMLParser())
         # Get sequence
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
-        return sequence.upper()
+        if stranded is False: 
+            return sequence.upper()
+        elif self.strand == "+":
+            return sequence.upper()
+        elif self.strand == "-":
+            sequence = Seq(sequence).reverse_complement()
+            sequence = str(sequence)
+            return sequence.upper()
+
 
     def get_seq_from_pos(self, positions):
         """returns positive strand positions"""
@@ -156,33 +164,28 @@ class Transcript:
 
     ##might have to alter this 
     def get_codon_from_pos(self, pos):
-        """ from position get codon matching to position
-        return codon and position of nucleotide in codon (codon, pos) """
-        # Todo: code entire logic and test
-        coding_regions = self.get_coding()
-        coding_regions = sorted(coding_regions, key=lambda x: x[0])
-        gene = ""
-        shift_pos = 0
-        last_exon = None
-        coding_pos = None       # will be used to get the position requested without introns
-        for exon in coding_regions:
-            gene = gene + self.seq[exon[0]:exon[1]]
-            if last_exon is None:
-                last_exon = exon[1]
-            else:
-                shift_pos = shift_pos + exon[0] - last_exon
-                last_exon = exon[1]
-            if exon[0] <= pos < exon[1]:
-                coding_pos = pos - shift_pos
-        if coding_pos is None:
-            raise Exception("position specified is not in coding region.")
-        position_in_codon = coding_pos % 3
-        if coding_pos < 3:
-            return(self.seq[0:3], position_in_codon)
-        else:
-            start = coding_pos - position_in_codon
-            stop = start + 3
-            return(gene[start:stop], position_in_codon)
+        """ from a position get codon matching to that position:
+        return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
+        coding = self.get_coding()
+        coding_seq = self.get_seq_from_pos(coding)
+        new_pos = 0
+        if self.strand == "+":
+            coding = self.positive_sorted(coding)
+            for exon in coding:
+                if pos > exon[1]: #position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
+                elif exon[0] <= pos < exon[1]: #position is in this codon
+                    new_pos = new_pos + pos - exon[0]
+        else: 
+            coding = self.negative_sorted(coding)
+            for exon in coding:
+                if pos < exon[0]: #position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
+                elif exon[0] <= pos < exon[1]: #position is in this codon
+                    new_pos = new_pos + exon[1] - pos
+        codon_pos = new_pos%3
+        codon_start = new_pos - codon_pos 
+        return (coding_seq[codon_start:codon_start+3] ,codon_pos, self.strand)
 
     def __str__(self):
         return "{}\t{}\t{}\t{}\t0\t{}".format(self.chrom, self.txStart, self.txEnd, self.name, self.strand)
