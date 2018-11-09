@@ -1,38 +1,39 @@
 import unittest
 from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from simulator.gene import Gene
+from simulator.transcript import Transcript
 
+# @unittest.skip("SNVCreationTests")
 class SNVCreationTests(unittest.TestCase):
     # test 1
     def test_wrong_type(self):
         snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+        "IMPACT": "A", "LOCATION": "ANY"}
         self.assertRaises(SNV(snv))
     # test 2
     def test_wrong_type_impact(self):
         snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": {"TYPE_IMPACT": "WRONG", "LOCATION": "ANY"}}
+        "IMPACT": "WRONG", "LOCATION": "ANY"}
         self.assertRaises(SNV(snv))
 
+# @unittest.skip("MutationMethods")
 class MutationMethods(unittest.TestCase):
     # test 3
     def test_getting_alternate_codons(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
-        print snv.get_alternate_codons("ATG", 1)
     # test 4
     def test_nonsense_exists(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         self.assertEquals(snv.nonsense_mutation("TAT", 2), "A")
     # test 5
@@ -40,7 +41,7 @@ class MutationMethods(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         self.assertFalse(snv.nonsense_mutation("TAT", 1))
     # test 6
@@ -48,7 +49,7 @@ class MutationMethods(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         self.assertFalse(snv.missense_mutation("TAT", 2))
     # test 7
@@ -56,7 +57,7 @@ class MutationMethods(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         print snv.missense_mutation("CAC", 2)
     # test 8
@@ -64,7 +65,7 @@ class MutationMethods(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         self.assertFalse(snv.silent_mutation("TGG", 2))
     # test 9
@@ -72,112 +73,143 @@ class MutationMethods(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
+            "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
         self.assertEquals(snv.silent_mutation("CAA", 2), "G")
+    # test 10
+    def test_any_mutation(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "INTRONIC",
+            "IMPACT": "A", "LOCATION": "ANY"}
+        snv = SNV(snv)
+        self.assertIn(snv.any_mutation("CAA", 2), ["G", "C", "T"])
 
+# @unittest.skip("NonCodingSNV")
 class NonCodingSNV(unittest.TestCase):
 
-    simple_gene = Gene("simulator/tests/testing_data/genes/basic_gene.json")
-    # test 10
+    positive_transcript = Transcript("SOX9", 0)
+    # test 11
     def test_basic_non_coding(self):
         snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": "ANY"}}
-        row = SNV(snv).get_vcf_row(self.simple_gene)
+        "IMPACT": "A", "LOCATION": "ANY"}
+        snv = SNV(snv)
+        row = snv.get_vcf_row(self.positive_transcript)
         row = row.split("\t")
         self.assertEqual(row[4].rstrip(), "A")
-    # test 11
+    # test 12
     def test_basic_non_coding_exact(self):
         snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": {"TYPE_IMPACT": "A", "LOCATION": 870}}
-        row = SNV(snv).get_non_coding_SNV(self.simple_gene)
-        self.assertEqual(row["pos"], 870)
-        self.assertEqual(row["ref"], "C")
+        "IMPACT": "A", "LOCATION": 70117963}
+        row = SNV(snv).get_non_coding_SNV(self.positive_transcript)
+        self.assertEqual(row["pos"], 70117963)
+        self.assertEqual(row["ref"], "G")
         self.assertEqual(row["alt"], "A")
+    # test 13
+    def test_non_coding_incorrect_impact(self):
+        snv = {
+        "TYPE": "SNV",
+        "REGION": "INTRONIC",
+        "IMPACT": "MISSENSE", "LOCATION": 70117963}
+        snv = SNV(snv)
+        print snv.get_non_coding_SNV(self.positive_transcript)
+        self.assertRaises(snv.get_non_coding_SNV(self.positive_transcript))
 
-class DirectedSNVCodingRegionTests(unittest.TestCase):
-    simple_gene = Gene("simulator/tests/testing_data/genes/basic_gene.json")
-    # test 12
+# @unittest.skip("DirectedSNVCodingRegionTestsPositive")
+class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
+    positive_transcript = Transcript("SOX9", 0)
+    # test 14
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "G", "LOCATION": 0}}
+            "IMPACT": "G", "LOCATION": 70117532}
         snv = SNV(snv)
-        self.assertEquals(snv.get_directed_coding_SNV(self.simple_gene, 0)['ref'], "A")
-        self.assertEquals(snv.get_directed_coding_SNV(self.simple_gene, 0)['alt'], "G")
-    # test 13
+        directed = snv.get_directed_coding_SNV(self.positive_transcript, 70117532)
+        self.assertEquals(directed['ref'], "A")
+        self.assertEquals(directed['alt'], "G")
+    # test 15
     def test_directed_SNV_exists_nonsense(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "NONSENSE", "LOCATION": 6}}
+            "IMPACT": "NONSENSE", "LOCATION": 70117556}
         snv = SNV(snv)
-        self.assertEquals(snv.get_directed_coding_SNV(self.simple_gene, 6)['ref'], "C")
-        self.assertEquals(snv.get_directed_coding_SNV(self.simple_gene, 6)['alt'], "T")
-    # test 14
+        mutation_nonsense = snv.get_directed_coding_SNV(self.positive_transcript, 70117556)
+        self.assertEquals(mutation_nonsense['ref'], "A")
+        self.assertEquals(mutation_nonsense['alt'], "T")
+    # test 16
     def test_directed_SNV_exists_missense(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "MISSENSE", "LOCATION": 0}}
+            "IMPACT": "MISSENSE", "LOCATION": 70117535}
         snv = SNV(snv)
-        self.assertNotEqual(snv.get_directed_coding_SNV(self.simple_gene, 0), False)
-        print snv.get_directed_coding_SNV(self.simple_gene, 0)
-    # test 15
+        directed_missense = snv.get_directed_coding_SNV(self.positive_transcript, 70117535)
+        self.assertNotEqual(directed_missense, False)
+        print directed_missense
+    # test 17
     def test_directed_SNV_exists_silent(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "SILENT", "LOCATION": 5}}
+            "IMPACT": "SILENT", "LOCATION": 70117537}
         snv = SNV(snv)
-        self.assertEquals(snv.get_directed_coding_SNV(self.simple_gene, 5)['ref'], "T")
-        self.assertIn(snv.get_directed_coding_SNV(self.simple_gene, 5)['alt'], ["C", "A", "G"])
-    # test 16
+        mutation = snv.get_directed_coding_SNV(self.positive_transcript, 70117537)
+        self.assertEquals(mutation['ref'], "T")
+        self.assertEquals(mutation['alt'], "C")
+    # test 18
     def test_directed_SNV_false(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "NONSENSE", "LOCATION": 0}}
+            "IMPACT": "NONSENSE", "LOCATION": 0}
         snv = SNV(snv)
-        self.assertFalse(snv.get_directed_coding_SNV(self.simple_gene, 0))
+        self.assertFalse(snv.get_directed_coding_SNV(self.positive_transcript, 0))
 
-class UndirectedSNVCodingRegionTests(unittest.TestCase):
-    simple_gene = Gene("simulator/tests/testing_data/genes/basic_gene.json")
-    start_codon = "ATG"
-    stop_codons = ["TAA", "TAG", "TGA"]
-    amino_acid_codons = {"Phe": ["TTT", "TTC"], "Tyr": ["TAT", "TAC"], 
-    "His": ["CAT", "CAC"], "Gln": ["CAA", "CAG"], "Asn": ["AAT", "AAC"], 
-    "Lys": ["AAA", "AAG"], "Asp": ["GAT", "GAC"], "Glu": ["GAA", "GAG"], 
-    "Cys": ["TGT", "TGC"], "Arg": ["CGT", "CGC", "CGA", "CGG", "AGA", "AGG"], 
-    "Leu": ["TTA", "TTG", "CTT", "CTC", "CTA", "CTG"], 
-    "Ser": ["TCT", "TCC", "TCA", "TCG", "AGT", "AGC"], 
-    "Pro": ["CCT", "CCC", "CCA", "CCG"], 
-    "Gly": ["GGT", "GGC", "GGA", "GGG"], 
-    "Val": ["GTT", "GTC", "GTA", "GTG"], 
-    "Thr": ["ACT", "ACC", "ACA", "ACG"], 
-    "Ala": ["GCT", "GCC", "GCA", "GCG"], 
-    "Ile": ["ATT", "ATC", "ATA"], "Trp": ["TGG"]}
-    aa_codes = {}
-    for key, value in amino_acid_codons.iteritems():
-        for code in value:
-            aa_codes[code] = key
-    # test 17
-    def test_undirected_silent_SNV(self):
+class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
+    negative_transcript = Transcript("SOX18", 0)
+    # test 19
+    def test_directed_SNV_exists_single_replacement(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"TYPE_IMPACT": "SILENT", "LOCATION": "ANY"}}
+            "IMPACT": "G", "LOCATION": 62680869}
         snv = SNV(snv)
-        res = snv.get_random_coding_SNV(self.simple_gene)
-        self.assertNotIn(res["pos"], range(96,8333))
-        codon = self.simple_gene.get_codon_from_pos(res["pos"])
-        alt_codon = list(codon[0])
-        alt_codon[codon[1]] = res["alt"]
-        alt_codon = "".join(alt_codon)
-        codon_name = self.aa_codes[codon[0]]
-        self.assertIn(alt_codon, self.amino_acid_codons[codon_name])
+        directed = snv.get_directed_coding_SNV(self.negative_transcript, 62680869)
+        self.assertEquals(directed['ref'], "T")
+        self.assertEquals(directed['alt'], "G")
+    # test 20
+    def test_directed_SNV_exists_nonsense(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": "NONSENSE", "LOCATION": 62680866}
+        snv = SNV(snv)
+        mutation_nonsense = snv.get_directed_coding_SNV(self.negative_transcript, 62680866)
+        self.assertEquals(mutation_nonsense['ref'], "G")
+        self.assertEquals(mutation_nonsense['alt'], "A")
+    # test 21
+    def test_directed_SNV_exists_missense(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": "MISSENSE", "LOCATION": 62680860}
+        snv = SNV(snv)
+        directed_missense = snv.get_directed_coding_SNV(self.negative_transcript, 62680860)
+        self.assertNotEqual(directed_missense, False)
+        print directed_missense
+    # test 22
+    def test_directed_SNV_exists_silent(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": "SILENT", "LOCATION": 62680846}
+        snv = SNV(snv)
+        mutation = snv.get_directed_coding_SNV(self.negative_transcript, 62680846)
+        self.assertEquals(mutation['ref'], "G")
+        self.assertEquals(mutation['alt'], "A")

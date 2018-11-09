@@ -5,10 +5,9 @@ class Variant:
             self.type = var_template["TYPE"]
             self.region = var_template["REGION"]
             self.impact = var_template["IMPACT"]
-            self.type_impact = self.impact["TYPE_IMPACT"]
-            self.location = self.impact["LOCATION"]
+            self.location = var_template["LOCATION"]
             if self.location != "ANY":
-                self.location = long(self.impact["LOCATION"])
+                self.location = long(var_template["LOCATION"])
             if self.type not in ['SNV', 'INDEL', 'CNV', 'SV', 'MEI']:
                 raise Exception('type not one of the recognized types: SNV, INDEL, CNV, SV, MEI')
             if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER']:
@@ -25,7 +24,3 @@ class Variant:
 
     def get_region(self):
         return self.region
-
-
-    def get_impact(self):
-        return self.impact

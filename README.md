@@ -29,70 +29,32 @@
 
 ## EBNF 
 
+NEW EBNF
+
 ```
+# CONFIG
+CONFIG ::= '{'GENE_INDEX','GENE_NAME', 'INHERITANCE', 'TRIO', 'VAR1', 'VAR2',}'
 
-## gene
-GENE ::='{'SEQ', 'CHR', 'START_REG', 'STOP_REG', 'ELEMENTS'}'
-SEQ ::= string
-CHR ::= number(1:22) | X | Y
-START_REG  ::= number
-STOP_REG  ::= number
-ELEMENTS  ::= 'ELEMENTS:[' (ELEMENT ',')* ELEMENT ']'
-ELEMENT ::= [EL_TYPE, START_POS, STOP_POS]
-EL_TYPE ::= 'EXON' | 'UTR' | 'INTRON' | 'PROMOTER' | 'ENHANCER
-START_POS ::= number
-STop_POS ::= number
-
-#variants 
-VARIANTS ::= '{'DESCRIPTION', 'INHERITANCE', 'VAR1', 'VAR2', 'GENE_INDEX', 'GENE_NAME', 'TRIO'}'
+GENE_INDEX ::= INT
+GENE_NAME ::= STRING
 INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL'
-DESCRIPTION ::= optional string discription 
+TRIO ::= 'TRIO' | 'SINGLE'
 VAR1 ::= VARIANT_TEMPLATE
 VAR2 ::= 'NONE' | VARIANT_TEMPLATE
 
-## Variant template
-VARIANT_TEMPLATE ::='{'TYPE', 'REGION', 'IMPACT'}'
+# VARIANT_TEMPLATE
+VARIANT_TEMPLATE ::= '{'TYPE', 'REGION', 'LOCATION', 'IMPACT'}'
 
-TYPE ::= 'TYPE: 'SNV' | 'INDEL' | 'CNV' | 'SV' | 'STR' | 'MEI''
-REGION ::= 'REGION: CODING' | 'UTR' | 'INTRONIC' | 'PROMOTER' | 'ENHANCER''
-IMPACT ::= 'IMPACT: {'TYPE_IMPACT', 'LOCATION'}'
-TRIO ::= 'True' | 'False'
-
-SNV_IMPACT ::= 'MISSENSE' | 'NONSENSE' | 'SILENT'
-INDEL_IMPACT ::= NUMBER ## represents the number of bases to delete or insert where positive numbers are insertions and negative deletions
-CNV_IMPACT ::= 
-SV_IMPACT ::= 
-STR_IMPACT ::= 
-MEI_IMPACT ::= 
-
-LOCATION ::= 'ANY' | number ## where number is position on chromosome 
-
-## examples 
-{'TYPE': 'SNV',
-'REGION' 'CODING',
-'IMPACT': {'SNV_IMPACT': 'MISSENSE',
-			'LOCATION': ANY}}
-
-{'TYPE': 'INDEL',
-'REGION' 'INTRONIC',
-'IMPACT': {'INDEL_IMPACT': -50,
-			'LOCATION': 11756}}
+TYPE ::= 'SNV' | 'INDEL' 
+REGION ::= 'CODING' | 'UTR' | 'INTRONIC'
+LOCATION ::= INT | 'ANY'
+IMPACT ::= multiple 
+	- SNV_IMPACT_CODING := 'A' | 'T' | 'G' | 'C' | 'ANY' | ''MISSENSE | 'NONSENSE' | 'SILENT'
+	- SNV_IMPACT_NONCODING := 'A' | 'T' | 'G' | 'C' | 'ANY'
+	- INDEL_IMPACT ::= INT
 ```
 
 
-
-
-
-## Workflow
-
-- Database creation
-- Logic creation 
-  1. select gene/phenotype + inheretance 
-  2. select 1 or 2 variants
-  3. use know n or design own variant 
-  4. select var type (snv, indel, snv, str, sv, mei)
-  5. select var impact (coding, utr, intronic, promoter, enhancer)
-  6. present variants as vcf output 
 
 ## Notes/References
 

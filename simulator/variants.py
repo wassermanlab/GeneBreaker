@@ -1,4 +1,4 @@
-from simulator.gene import Gene 
+from simulator.transcript import Transcript 
 from simulator.variant import Variant
 from simulator.indel import Indel
 from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
@@ -6,14 +6,14 @@ import json
 
 class Variants: 
 
-    def __init__(self, gene_file, variants_file):
+    def __init__(self, variants_file):
         """ 
         creates variants object which has gene, inheritance, var1, var2 
         """
         try: 
             f = open(variants_file)
             variants_json = json.load(f)
-            self.gene = Gene(gene_file)
+            self.transcript = Transcript(variants_json["GENE_NAME"], variants_json["GENE_INDEX"])
             self.inheritance = variants_json["INHERITANCE"]
             self.var1 = variants_json["VAR1"]
             self.var2 = variants_json["VAR2"]
@@ -37,12 +37,6 @@ class Variants:
             if var_type == "INDEL":
                 indel = Indel(var)
                 row = indel.get_vcf_row(self.gene)
-            if var_type == "STR": 
-                print ("Not implemented yet")
-            if var_type == "SV":
-                print ("Not implemented yet")
-            if var_type == "MEI":
-                print ("Not implemented yet")
             vcf = vcf + row + "\n"
         return vcf
 
