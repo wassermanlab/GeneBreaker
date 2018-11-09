@@ -23,14 +23,14 @@ class Transcript:
             gene = Gene()
             transcripts = Gene.select_by_name(session, self.name)
             gene = transcripts[index]
-            self.cdsStart = gene.cdsStart
-            self.cdsEnd = gene.cdsEnd
+            self.cdsStart   = long(gene.cdsStart)
+            self.cdsEnd     = long(gene.cdsEnd)
             self.exonStarts = gene.exonStarts
-            self.exonEnds = gene.exonEnds
-            self.chrom = gene.chrom
-            self.txStart = gene.txStart
-            self.txEnd = gene.txEnd
-            self.strand = gene.strand
+            self.exonEnds   = gene.exonEnds
+            self.chrom      = gene.chrom
+            self.txStart    = long(gene.txStart)
+            self.txEnd      = long(gene.txEnd)
+            self.strand     = gene.strand
         except:
             print("Unexpected error, check validity of config and gene inputs")
 
@@ -67,6 +67,8 @@ class Transcript:
         elif self.strand == "-":
             return Seq(cut).reverse_complement()
 
+    def get_start(self):
+        return self.txStart
 
     def get_chr(self): 
         """ returns chr from gene""" 
@@ -83,10 +85,10 @@ class Transcript:
     def get_exons(self):
         """ returns the codons from a gene [(start, stop)*] sorted from lowest to highest start position"""
         starts = self.exonStarts.split(",")[:-1]
-        starts = [int(x) for x in starts]
+        starts = [long(x) for x in starts]
         starts.sort()
         ends = self.exonEnds.split(",")[:-1]
-        ends = [int(x) for x in ends]
+        ends = [long(x) for x in ends]
         ends.sort()
 
         return zip(starts, ends) 
