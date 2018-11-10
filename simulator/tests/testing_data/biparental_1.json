@@ -9,10 +9,5 @@
         "REGION": "CODING", 
         "TYPE": "SNV"
     }, 
-    "VAR2": {
-        "IMPACT": 6, 
-        "LOCATION": "ANY", 
-        "REGION": "UTR", 
-        "TYPE": "INDEL"
-    }
+    "VAR2": "NONE"
 }

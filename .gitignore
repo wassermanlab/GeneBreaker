@@ -111,5 +111,6 @@ varsim_run
 *.output
 *.error
 *.ouput
+simulator/tests/testing_data/*output.vcf*
 #*#
 *~
