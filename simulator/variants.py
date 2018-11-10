@@ -33,10 +33,10 @@ class Variants:
             row = ""
             if var_type == "SNV":
                 snv = SNV(var)
-                row = snv.get_vcf_row(self.gene)
+                row = snv.get_vcf_row(self.transcript)
             if var_type == "INDEL":
                 indel = Indel(var)
-                row = indel.get_vcf_row(self.gene)
+                row = indel.get_vcf_row(self.transcript)
             vcf = vcf + row + "\n"
         return vcf
 

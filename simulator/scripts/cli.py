@@ -22,11 +22,8 @@ def main():
     output = args.output
     # parse config so that it has the right output
     try: 
-        # get gene json
-        # get config json 
-        gene_json = "tests/testing_data/genes/basic_gene.json"
         variants_json = config
-        variants = Variants(gene_json, variants_json)
+        variants = Variants(variants_json)
         variants.save_vcf_output(output)
     except: 
         print ("Check that your config is formatted the correct way")

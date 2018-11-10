@@ -4,11 +4,9 @@
     "INHERITANCE": "DE-NOVO", 
     "TRIO": "TRIO", 
     "VAR1": {
-        "IMPACT": {
-            "LOCATION": "ANY", 
-            "TYPE_IMPACT": 50
-        }, 
-        "REGION": "UTR", 
+        "IMPACT": 50, 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
         "TYPE": "INDEL"
     }, 
     "VAR2": "NONE"
