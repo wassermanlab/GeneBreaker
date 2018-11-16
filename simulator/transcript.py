@@ -54,7 +54,6 @@ class Transcript:
             sequence = str(sequence)
             return sequence.upper()
 
-
     def get_seq_from_pos(self, positions):
         """returns positive strand positions"""
         seq = self.get_seq()
@@ -73,7 +72,7 @@ class Transcript:
         if self.strand == "+":
             return cut
         elif self.strand == "-":
-            return Seq(cut).reverse_complement()
+            return str(Seq(cut).reverse_complement())
 
     def get_start(self):
         return self.txStart
@@ -107,17 +106,27 @@ class Transcript:
         coding_exons = []
         if self.cdsStart == self.cdsEnd == self.txEnd:
             return coding_exons
+        # for exon in exons: 
+        #     if exon[0]>=self.cdsStart and exon[1]<self.cdsEnd:# exon is fully withing cdsStart and cdsEnd
+        #         coding_exons.append(exon)
+        #     elif exon[0]<self.cdsStart and exon[1]<self.cdsEnd:# exon start is outside of range but end is within range
+        #         coding_exons.append((self.cdsStart, exon[1]))
+        #     elif exon[0]>=self.cdsStart and exon[1]>=self.cdsEnd:# exon end is outside of range but start is within range
+        #         coding_exons.append((exon[0], self.cdsEnd+1))
+        #     elif exon[0]<self.cdsStart and exon[1]>=self.cdsEnd:# exon start and range are outside range but middle is withing range
+        #         coding_exons.append((self.cdsStart, self.cdsEnd+1))
         for exon in exons: 
             if exon[0] >= self.cdsStart and exon[1] <= self.cdsEnd: # exon is fully within coding region
                 coding_exons.append(exon)
-            elif exon[0] < self.cdsStart and exon[1] <= self.cdsEnd: #exon start is out of range but exon end is withing range
+            elif exon[0] < self.cdsStart and self.cdsStart < exon[1] and exon[1] <= self.cdsEnd: #exon start is out of range but exon end is withing range
                 coding_exons.append((self.cdsStart, exon[1]))
-            elif exon[0] >= self.cdsStart and exon[1] > self.cdsEnd: #exon end is out of range but start is within range
+            elif exon[0] >= self.cdsStart and exon[0] < self.cdsEnd and  exon[1] > self.cdsEnd: #exon end is out of range but start is within range
                 coding_exons.append((exon[0], self.cdsEnd))
             elif exon[0] < self.cdsStart and exon[1] > self.cdsEnd: #exon end and start are out of range 
                 coding_exons.append((self.cdsStart, self.cdsEnd))
             else: #exon is completely out of range
                 None 
+        coding_exons.sort(key=lambda tup: tup[0], reverse=False)
         return coding_exons
     
     def get_introns(self):

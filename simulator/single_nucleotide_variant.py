@@ -2,7 +2,6 @@ from simulator.variant import Variant
 from simulator.transcript import Transcript
 import random
 
-
 class SingleNucleotideVariant(Variant):
     start_codon = "ATG"
     stop_codons = ["TAA", "TAG", "TGA"]
@@ -168,13 +167,14 @@ class SingleNucleotideVariant(Variant):
             region_range = region_range + range(region[0], region[1])
         # while loop randomly choosing positions in the available
         alt = False
-        while len(region_range) > 0 and alt is False:
+        while len(region_range) > 0:
             loc = random.choice(region_range)
             region_range.remove(loc)
             snv = self.get_directed_coding_SNV(transcript, loc)
             if snv is not False:
                 alt = True
                 return snv
+                break
 
     def get_vcf_row(self, transcript):
         """ get variant row tab delimitted  """

@@ -76,26 +76,24 @@ python -m simulator.scripts.cli -c <congig file name> -o <output file name>
 ## EBNF 
 
 ```
-# CONFIG
-CONFIG ::= '{'GENE_INDEX','GENE_NAME', 'INHERITANCE', 'TRIO', 'VAR1', 'VAR2',}'
+CONFIG ::= '{'GENE_INDEX','GENE_NAME', 'INHERITANCE', 'TRIO', 'VAR1', 'VAR2'}'
 
-GENE_INDEX ::= INT
-GENE_NAME ::= STRING
+GENE_INDEX ::= number
+GENE_NAME ::= inputstring
 INHERITANCE ::= 'DE-NOVO' | 'BI-PARENTAL' | 'MATERNAL' | 'PATERNAL'
 TRIO ::= 'TRIO' | 'SINGLE'
 VAR1 ::= VARIANT_TEMPLATE
 VAR2 ::= 'NONE' | VARIANT_TEMPLATE
 
-# VARIANT_TEMPLATE
 VARIANT_TEMPLATE ::= '{'TYPE', 'REGION', 'LOCATION', 'IMPACT'}'
 
 TYPE ::= 'SNV' | 'INDEL' 
 REGION ::= 'CODING' | 'UTR' | 'INTRONIC'
-LOCATION ::= INT | 'ANY'
-IMPACT ::= multiple 
-	- SNV_IMPACT_CODING := 'A' | 'T' | 'G' | 'C' | 'ANY' | ''MISSENSE | 'NONSENSE' | 'SILENT'
-	- SNV_IMPACT_NONCODING := 'A' | 'T' | 'G' | 'C' | 'ANY'
-	- INDEL_IMPACT ::= INT
+LOCATION ::= number | 'ANY'
+IMPACT ::=  
+SNV_IMPACT_CODING := 'A' | 'T' | 'G' | 'C' | 'ANY' | ''MISSENSE | 'NONSENSE' | 'SILENT'
+SNV_IMPACT_NONCODING := 'A' | 'T' | 'G' | 'C' | 'ANY'
+INDEL_IMPACT ::= number
 ```
 
 

@@ -87,7 +87,6 @@ class MutationMethods(unittest.TestCase):
 
 # @unittest.skip("NonCodingSNV")
 class NonCodingSNV(unittest.TestCase):
-
     positive_transcript = Transcript("SOX9", 0)
     # test 11
     def test_basic_non_coding(self):
@@ -203,7 +202,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         directed_missense = snv.get_directed_coding_SNV(self.negative_transcript, 62680860)
         self.assertNotEqual(directed_missense, False)
         print directed_missense
-    # test 22
+    #test 22
     def test_directed_SNV_exists_silent(self):
         snv = {
             "TYPE": "SNV",
@@ -213,3 +212,13 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         mutation = snv.get_directed_coding_SNV(self.negative_transcript, 62680846)
         self.assertEquals(mutation['ref'], "G")
         self.assertEquals(mutation['alt'], "A")
+    #test 22
+    def test_weird(self):
+            gene = Transcript("TP53", 1)
+            snv = {
+                "TYPE": "SNV",
+                "REGION": "CODING",
+                "IMPACT": "ANY", "LOCATION": "ANY"}
+            snv = SNV(snv)
+            mutation = snv.get_random_coding_SNV(gene)
+            print mutation
