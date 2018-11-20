@@ -87,13 +87,15 @@ VAR2 ::= 'NONE' | VARIANT_TEMPLATE
 
 VARIANT_TEMPLATE ::= '{'TYPE', 'REGION', 'LOCATION', 'IMPACT'}'
 
-TYPE ::= 'SNV' | 'INDEL' 
+TYPE ::= 'SNV' | 'INDEL' | 'STR'
 REGION ::= 'CODING' | 'UTR' | 'INTRONIC'
-LOCATION ::= number | 'ANY'
+LOCATION ::= number | 'ANY' 
+STR ::= {chrom, start, end} 
 IMPACT ::=  
 SNV_IMPACT_CODING := 'A' | 'T' | 'G' | 'C' | 'ANY' | ''MISSENSE | 'NONSENSE' | 'SILENT'
 SNV_IMPACT_NONCODING := 'A' | 'T' | 'G' | 'C' | 'ANY'
 INDEL_IMPACT ::= number
+STR_IMPACT ::= number ## negative number is deletion of that size*motif size same logic for insertion 
 ```
 
 
