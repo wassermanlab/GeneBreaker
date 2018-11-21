@@ -51,7 +51,7 @@ class Indel(Variant):
         else:
             # check that deletion doesn't go over the amount
             if self.location not in region_range:
-                raise Exception("""location selected is to0 small to accomidate
+                raise Exception("""location selected is too small to accomidate
                 a deletion of this size, try reducing the size of the 
                 deletion""")
             pos = self.location

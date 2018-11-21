@@ -21,7 +21,8 @@ class ShortTandemRepeat(Variant):
         except:
             print('check that type is STR and that impact is correctly formatted')
     
-    def get_str(self):
+    def get_str_motif(self):
+        """return the motif of the specific str"""
         db_name_tamar = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo remove this 
                                         "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
         engine_tamar = create_engine(db_name_tamar, echo=False) #todo remove this 
@@ -37,7 +38,7 @@ class ShortTandemRepeat(Variant):
         size = len(STR)
         total_repeat_length = self.end - self.start 
         #check that requested size is not over
-        if total_repeat_length < size*self.length:
+        if total_repeat_length < -1 *size*self.length:
             raise Exception("retraction length is larger than the total str")
         ref = STR*self.length
         alt = ""
@@ -58,7 +59,15 @@ class ShortTandemRepeat(Variant):
                 "ref": ref,
                 "alt": alt}
 
-    def get_vcf_row(self):
+    def get_vcf_row(self, transcript):
+        # get regions 
+        regions = transcript.get_requested_region(self.region)
+        check = False
+        for region in regions:
+            if region[0] <= self.start < region[1]:
+                check = True
+        if check is False: 
+            raise Exception("STR is not in requested region")
         if self.length > 0:  # insersion
             var_dict = self.get_expantion()
         if self.length < 0: # deletion
