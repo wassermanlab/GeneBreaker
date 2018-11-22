@@ -34,13 +34,14 @@ class ShortTandemRepeat(Variant):
     def get_retraction(self):
         """returns (pos ,ref, alt) tuple of retraction"""
         #get str
-        STR = self.get_str()
+        STR = self.get_str_motif()
         size = len(STR)
         total_repeat_length = self.end - self.start 
         #check that requested size is not over
         if total_repeat_length < -1 *size*self.length:
             raise Exception("retraction length is larger than the total str")
-        ref = STR*self.length
+        positive_len = (self.length*-1)
+        ref = STR*positive_len
         alt = ""
         return {"pos": self.start,
                 "ref": ref,
@@ -49,7 +50,7 @@ class ShortTandemRepeat(Variant):
     def get_expantion(self):
         """returns (pos ,ref, alt) tuple of retraction"""
         #get str
-        STR = self.get_str()
+        STR = self.get_str_motif()
         size = len(STR)
         if size*self.length> 20000:
             raise Exception("expansion length is too large")
