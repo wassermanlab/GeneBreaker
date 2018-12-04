@@ -1,3 +1,7 @@
+# extra
+*.tsv
+*Rhistory
+
 #vscode
 .vscode
 # Byte-compiled / optimized / DLL files

@@ -54,6 +54,7 @@ ANN <- separate(data = ANN, col = ANN, into=c("Allele", "Annotation", "Annotatio
 gene <- count(ANN, c('Gene_Name', 'CLNSIG'))
 gene <- gene[gene$CLNSIG == "pathogenic",]
 gene <- gene[order(-gene$freq),]
+write.table(gene, "top.genes.tsv", sep="\t")
 gene_top20 <- gene[order(-gene$freq),][0:20,]
 
 ANN_hist <- ggplot(gene, aes(x=freq))+
