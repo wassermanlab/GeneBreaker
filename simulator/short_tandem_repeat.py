@@ -49,7 +49,6 @@ class ShortTandemRepeat(Variant):
 
     def get_expantion(self):
         """returns (pos ,ref, alt) tuple of retraction"""
-        #get str
         STR = self.get_str_motif()
         size = len(STR)
         if size*self.length> 20000:
@@ -73,8 +72,9 @@ class ShortTandemRepeat(Variant):
             var_dict = self.get_expantion()
         if self.length < 0: # deletion
             var_dict = self.get_retraction()
+        chrom = transcript.chrom
         pos = str(var_dict["pos"] + 1) # add 1 to make 1 based
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
-        ID = "_".join(["str", pos, str(self.impact)])
+        ID = "_".join(["str", pos, str(self.length)])
         return "\t".join([chrom, pos, ID, ref, alt])
