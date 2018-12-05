@@ -31,7 +31,7 @@ class Transcript:
             self.txStart    = long(gene.txStart)
             self.txEnd      = long(gene.txEnd)
             self.strand     = gene.strand
-            self.bin        = gene.bin
+            self.bin        = gene.bin ##remove
         except:
             print("Unexpected error, check validity of config and gene inputs")
 
