@@ -20,24 +20,21 @@ try:
 except:
     raise ValueError("Cannot connect to GUD: %s" % "hg19")
 
-
 def get_str_impact(transcript, var_region):
     regions = transcript.get_requested_region(var_region)
-    STRS = []
     STR = ShortTandemRepeat()
     chrom = transcript.chrom
     count = 0 
+    print "UID\tMOTIF\tPATHOGENICITY"
     for region in regions:
-        str_list = STR.select_by_bin_range(session_tamar, chrom, 
-        region[0], region[1], [])
-        STRS = STRS + str_list
+        str_list = STR.select_by_location(session, chrom, region[0], region[1])
         for s in str_list:
-            print str(count) + "\t" + str(s)
-            count = count + 1
-    index = int(raw_input("""Input the index of your STR: """))
-    STR = STRS[index]
+            print str(s[0].uid) + "\t" + str(s[0].motif) + "\t" + str(s[0].pathogenicity) 
+
+    uid = int(raw_input("""Input the uid of your STR: """))
+    STR = STR.select_by_uid(session, uid)
     str_length = int(raw_input("""input the size of your short tandem repeat, negative numbers are deletions positive numbers are insersions: """))
-    var_impact = {"CHROM": STR.chrom, "START": STR.start, "END": STR.end, "STR": str_length}
+    var_impact = {"CHROM": STR[1].chrom, "START": STR[1].start, "END": STR[1].end, "STR": str_length}
     return var_impact
 
 def get_snv_impact(var_region):
@@ -55,8 +52,8 @@ def get_indel_impact():
     var_impact = int(raw_input("""input the size of your indel, negative numbers are deletions positive numbers are insersions: """))
     return var_impact
 
-def get_variant_dict(name, index):
-    transcript = Transcript(name, index)
+def get_variant_dict(gene_uid):
+    transcript = Transcript(gene_uid)   
     var_dict = dict()
     var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR': """))  # add other variant types
     var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
@@ -121,17 +118,17 @@ def main():
     config_name = str(raw_input("enter the name of your config file: "))
     config_dict = get_main_dict()
     name = config_dict["GENE_NAME"]
-    index = config_dict["GENE_UID"]
+    gene_uid = config_dict["GENE_UID"]
     print("""===========Variant I===========""")
     # get variant I
-    config_dict["VAR1"] = get_variant_dict(name, index)
+    config_dict["VAR1"] = get_variant_dict(gene_uid)
     print("""===========Variant II===========""")
     # get variant II
     var2_ans = str(raw_input("Would you like a second variant [y/n]: "))
     if var2_ans not in ["y", "n"]:
         raise Exception("Not valid response.")
     elif var2_ans == "y":
-        config_dict["VAR2"] = get_variant_dict(name, index)
+        config_dict["VAR2"] = get_variant_dict(gene_uid)
     else:
         config_dict["VAR2"] = "NONE"
     # write the file
