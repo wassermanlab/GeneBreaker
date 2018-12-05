@@ -2,8 +2,8 @@
 # fix TRIO responses
 import argparse
 import json
-from GUD.ORM import Gene
-from GUD.ORM import ShortTandemRepeat
+from GUD2.ORM import Gene
+from GUD2.ORM import ShortTandemRepeat
 import os
 import sys
 from sqlalchemy import create_engine, Index
@@ -12,15 +12,11 @@ import warnings
 from simulator.transcript import Transcript
 
 # Establish a SQLalchemy session w/ GUD
-db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",
-                                        "ontarget.cmmt.ubc.ca", "5506", "hg19")
-db_name_tamar = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo remove this 
-                                        "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
+db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r", ## change to hg19
+                                        "ontarget.cmmt.ubc.ca", "5506", "tamar_test") 
 try:
     engine = create_engine(db_name, echo=False)
-    session = Session(engine)
-    engine_tamar = create_engine(db_name_tamar, echo=False) #todo remove this 
-    session_tamar = Session(engine_tamar) #todo remove this 
+    session = Session(engine) 
 except:
     raise ValueError("Cannot connect to GUD: %s" % "hg19")
 
@@ -99,16 +95,15 @@ def get_main_dict():
     genes = gene.select_by_name(session, gene_sym)  # GALK2
     if len(genes) == 0:
         raise Exception("No genes by that gene symbol")
-    counter = 0
+    print "Gene_UID\ttranscript_start\ttranscript_end"
     for g in genes:
-        print str(counter) + "\t" + g.name + "\t" + \
-            str(g.txStart) + "\t" + str(g.txEnd)
-        counter = counter + 1
-    gene_index = int(
-        raw_input("what is the index of the transcript would you like to use: "))
-    gene = genes[gene_index]  # get gene that we need
-    config_dict["GENE_NAME"] = gene.name2
-    config_dict["GENE_INDEX"] = gene_index
+        full_entry = gene.select_by_uid_joined(session, g.uid)
+        print str(full_entry[0].uid) + "\t" + str(full_entry[1].start) + "\t" + str(full_entry[1].end)
+    gene_uid = int(
+        raw_input("what is the UID of the transcript would you like to use: "))
+    gene = gene.select_by_uid_joined(session, gene_uid)  # get gene that we need
+    config_dict["GENE_NAME"] = gene[0].name2
+    config_dict["GENE_UID"] = gene_uid
     inheritance = str(raw_input("""What inheritance model would you like to use? Valid types are 'DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL': """))
     trio = str(raw_input("""Would you like to output a trio or just the child, valid types are 'TRIO' or 'SINGLE': """))
     if inheritance in ['DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL']:
@@ -126,7 +121,7 @@ def main():
     config_name = str(raw_input("enter the name of your config file: "))
     config_dict = get_main_dict()
     name = config_dict["GENE_NAME"]
-    index = config_dict["GENE_INDEX"]
+    index = config_dict["GENE_UID"]
     print("""===========Variant I===========""")
     # get variant I
     config_dict["VAR1"] = get_variant_dict(name, index)

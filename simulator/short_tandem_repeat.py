@@ -1,7 +1,7 @@
 from simulator.variant import Variant
 from simulator.transcript import Transcript 
 import random
-from GUD.ORM import ShortTandemRepeat as GUDSTR
+from GUD2.ORM import ShortTandemRepeat as GUDSTR ##
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 
@@ -23,13 +23,13 @@ class ShortTandemRepeat(Variant):
     
     def get_str_motif(self):
         """return the motif of the specific str"""
-        db_name_tamar = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo remove this 
+        db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo change this to hg19
                                         "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
-        engine_tamar = create_engine(db_name_tamar, echo=False) #todo remove this 
-        session_tamar = Session(engine_tamar) #todo remove this 
+        engine = create_engine(db_name, echo=False)
+        session = Session(engine) 
         STR = GUDSTR()
-        STR = STR.select_by_bin_range(session_tamar, self.chrom, self.start, self.end, [])[0] 
-        return STR.motif
+        STR = STR.select_by_exact_location(session, self.chrom, self.start, self.end)
+        return STR[0].motif
 
     def get_retraction(self):
         """returns (pos ,ref, alt) tuple of retraction"""

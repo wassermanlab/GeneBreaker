@@ -1,7 +1,7 @@
 import json
 import argparse
 import json
-from GUD.ORM import Gene
+from GUD2.ORM import Gene
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree
@@ -9,29 +9,29 @@ from Bio.Seq import Seq
 
 class Transcript:
 
-    def __init__(self, name, index):
+    def __init__(self, uid):
         """ create transcript object 
         """
         # Establish a SQLalchemy session w/ GUD
         db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",
-            "ontarget.cmmt.ubc.ca", "5506", "hg19")
+            "ontarget.cmmt.ubc.ca", "5506", "tamar_test") #todo change back to hg19 once inserted
 
         try:
-            self.name = name
             engine = create_engine(db_name, echo=False)
             session = Session(engine)
             gene = Gene()
-            transcripts = Gene.select_by_name(session, self.name)
-            gene = transcripts[index]
-            self.cdsStart   = long(gene.cdsStart)
-            self.cdsEnd     = long(gene.cdsEnd)
-            self.exonStarts = gene.exonStarts
-            self.exonEnds   = gene.exonEnds
-            self.chrom      = gene.chrom
-            self.txStart    = long(gene.txStart)
-            self.txEnd      = long(gene.txEnd)
-            self.strand     = gene.strand
-            self.bin        = gene.bin ##remove
+            transcript_region = Gene.select_by_uid_joined(session, uid)
+            transcript = transcript_region[0]
+            region = transcript_region[1]
+            self.name = transcript.uid
+            self.cdsStart   = long(transcript.cdsStart)
+            self.cdsEnd     = long(transcript.cdsEnd)
+            self.exonStarts = transcript.exonStarts
+            self.exonEnds   = transcript.exonEnds
+            self.chrom      = region.chrom
+            self.txStart    = long(region.start)
+            self.txEnd      = long(region.end)
+            self.strand     = transcript.strand
         except:
             print("Unexpected error, check validity of config and gene inputs")
 

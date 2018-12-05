@@ -18,7 +18,7 @@ class STRBasicTests(unittest.TestCase):
         "TYPE": "STR"}
         STR = ShortTandemRepeat(STR)
         self.assertEquals(STR.get_str_motif(), "GCA")
-    
+
     def test_retraction_too_large(self):
         STR = {
         "IMPACT": {

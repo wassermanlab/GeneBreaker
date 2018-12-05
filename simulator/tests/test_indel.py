@@ -81,8 +81,8 @@ class InsersionMethodTesting(unittest.TestCase):
             'REGION': 'CODING',
             'LOCATION': 132576250, 'IMPACT': 8}
     indel_spec = Indel(indel_spec)
-    positive_transcript = Transcript("SOX9", 0)
-    negative_transcript = Transcript("TOR1A", 0)
+    positive_transcript = Transcript(64805) #SOX9
+    negative_transcript = Transcript(68960) #TOR1A
 
     # test 9
     def test_check_insertion_generation(self):
@@ -110,7 +110,7 @@ class InsersionMethodTesting(unittest.TestCase):
         print insertion
 
 class DeletionMethodTestCase(unittest.TestCase):
-    positive_transcript = Transcript("SOX9", 0)
+    positive_transcript = Transcript(64805) #SOX9
     # test 13
     def test_basic_deletion(self):
         indel = {'TYPE': 'INDEL',
@@ -142,7 +142,7 @@ class DeletionMethodTestCase(unittest.TestCase):
         self.assertRaises(indel.get_deletion(self.positive_transcript))
     # test 16
     def test_raises_length_greater_than_region(self):
-        sox18 = Transcript("SOX18", 0)
+        sox18 = Transcript(241) #SOX18
         indel = {'TYPE': 'INDEL',
             'REGION': 'INTRONIC',
             'LOCATION': "ANY", 
@@ -151,7 +151,7 @@ class DeletionMethodTestCase(unittest.TestCase):
         self.assertRaises(indel.get_deletion(sox18))
     # test 17
     def test_raises_length_greater_than_location(self):
-        sox18 = Transcript("SOX18", 0)
+        sox18 = Transcript(241) #SOX18
         indel = {'TYPE': 'INDEL',
             'REGION': 'INTRONIC',
             'LOCATION': 62680315, 

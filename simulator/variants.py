@@ -14,7 +14,7 @@ class Variants:
             f = open(variants_file)
             variants_json = json.load(f)
             variants_json
-            self.transcript = Transcript(variants_json["GENE_NAME"], variants_json["GENE_INDEX"])
+            self.transcript = Transcript(variants_json["GENE_UID"])
             self.inheritance = variants_json["INHERITANCE"]
             self.var1 = variants_json["VAR1"]
             self.var2 = variants_json["VAR2"]

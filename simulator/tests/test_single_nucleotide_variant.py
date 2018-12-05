@@ -87,7 +87,7 @@ class MutationMethods(unittest.TestCase):
 
 # @unittest.skip("NonCodingSNV")
 class NonCodingSNV(unittest.TestCase):
-    positive_transcript = Transcript("SOX9", 0)
+    positive_transcript = Transcript(64805) #SOX9
     # test 11
     def test_basic_non_coding(self):
         snv = {
@@ -120,7 +120,7 @@ class NonCodingSNV(unittest.TestCase):
 
 # @unittest.skip("DirectedSNVCodingRegionTestsPositive")
 class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
-    positive_transcript = Transcript("SOX9", 0)
+    positive_transcript = Transcript(64805) #SOX9
     # test 14
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
@@ -171,7 +171,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         self.assertFalse(snv.get_directed_coding_SNV(self.positive_transcript, 0))
 
 class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
-    negative_transcript = Transcript("SOX18", 0)
+    negative_transcript = Transcript(241) # SOX18
     # test 19
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
@@ -214,7 +214,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         self.assertEquals(mutation['alt'], "A")
     #test 22
     def test_weird(self):
-            gene = Transcript("TP53", 1)
+            gene = Transcript(32593) #TP53
             snv = {
                 "TYPE": "SNV",
                 "REGION": "CODING",
