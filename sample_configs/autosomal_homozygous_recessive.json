@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "RB1", 
+    "GENE_UID": 64785, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": -1, 
+        "LOCATION": "ANY", 
+        "REGION": "UTR", 
+        "TYPE": "INDEL", 
+        "ZYGOSITY": "HOMOZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

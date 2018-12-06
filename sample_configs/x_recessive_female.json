@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "TRO", 
+    "GENE_UID": 5000, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": "NONSENSE", 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "SNV", 
+        "ZYGOSITY": "HOMOZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "SRY", 
+    "GENE_UID": 45112, 
+    "SEX": "XY-MALE", 
+    "VAR1": {
+        "IMPACT": "ANY", 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "SNV", 
+        "ZYGOSITY": "HEMIZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

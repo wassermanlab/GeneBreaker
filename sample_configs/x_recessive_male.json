@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "TRO", 
+    "GENE_UID": 5000, 
+    "SEX": "XY-MALE", 
+    "VAR1": {
+        "IMPACT": -1, 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "INDEL", 
+        "ZYGOSITY": "HEMIZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "RB1", 
+    "GENE_UID": 64785, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": "NONSENSE", 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "SNV", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}
