@@ -193,4 +193,10 @@ class SingleNucleotideVariant(Variant):
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
         ID = "_".join(["snv", pos, str(self.impact)])
-        return "\t".join([chrom, pos, ID, ref, alt])
+        if self.zygosity == "HOMOZYGOUS":
+            zygosity = "1/1"  
+        if self.zygosity == "HEMIZYGOUS":
+            zygosity = "1"
+        if self.zygosity == "HETEROZYGOUS":
+            zygosity = "0/1"  
+        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])

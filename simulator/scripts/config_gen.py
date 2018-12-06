@@ -52,11 +52,18 @@ def get_indel_impact():
     var_impact = int(raw_input("""input the size of your indel, negative numbers are deletions positive numbers are insersions: """))
     return var_impact
 
-def get_variant_dict(gene_uid):
-    transcript = Transcript(gene_uid)   
+def get_variant_dict(transcript, sex, variant = "var1"):  
+    if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE":
+        zygosity_options = ["HEMIZYGOUS"]
+    elif variant == "var2":
+        zygosity_options = ["HETEROZYGOUS"]  
+    else:
+        zygosity_options = ["HOMOZYGOUS", "HETEROZYGOUS"]  
+    
     var_dict = dict()
     var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR': """))  # add other variant types
     var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
+    var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
     var_location = None
     if var_type == "INDEL":
         var_impact = get_indel_impact()
@@ -65,7 +72,6 @@ def get_variant_dict(gene_uid):
     elif var_type == "STR":
         var_impact = get_str_impact(transcript, var_region)       
         var_location = "NONE"
-        ##GLS, 0 index, utr, 191745599
     else:
         raise Exception("variant type specified is not valid")
     if var_location is None: 
@@ -77,15 +83,21 @@ def get_variant_dict(gene_uid):
             var_location = long(var_location) - 1
         else:
             raise Exception("Not valid variant location")
+    if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE" and var_zygosity != "HEMIZYGOUS":
+        raise Exception("not valid zygosity.")
+    elif var_zygosity not in ["HOMOZYGOUS", "HETEROZYGOUS", "HEMIZYGOUS"]:
+        raise Exception("not valid zygosity.")
     var_dict["TYPE"] = var_type
     var_dict["REGION"] = var_region
     var_dict["IMPACT"] = var_impact
     var_dict["LOCATION"] = var_location
+    var_dict["ZYGOSITY"] = var_zygosity
     return var_dict
 
 def get_main_dict():
     config_dict = dict()
     # highly coupled with GUD, need to figure out a better way to do this
+    
     gene_sym = str(
         raw_input("Enter the gene symbol of the gene you would like to use: "))
     gene = Gene()
@@ -101,36 +113,39 @@ def get_main_dict():
     gene = gene.select_by_uid_joined(session, gene_uid)  # get gene that we need
     config_dict["GENE_NAME"] = gene[0].name2
     config_dict["GENE_UID"] = gene_uid
-    inheritance = str(raw_input("""What inheritance model would you like to use? Valid types are 'DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL': """))
-    trio = str(raw_input("""Would you like to output a trio or just the child, valid types are 'TRIO' or 'SINGLE': """))
-    if inheritance in ['DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL']:
-        config_dict["INHERITANCE"] = inheritance
-    else:
-        raise Exception(
-            "Inheritance is not in ['DE-NOVO', 'BI-PARENTAL', 'MATERNAL', 'PATERNAL']")
-    if trio in ['TRIO', 'SINGLE']:
-        config_dict["TRIO"] = trio
-    else:
-        raise Exception("Trio entered is not in ['TRIO', 'SINGLE']")
+    
+    sex = str(raw_input("What sex would you like the proband, options are 'XX-FEMALE' or 'XY-MALE': "))
+    config_dict["SEX"] = sex
+    if sex not in ['XX-FEMALE', 'XY-MALE']:
+        raise Exception("Not valid sex")
+
     return config_dict
 
 def main():
     config_name = str(raw_input("enter the name of your config file: "))
     config_dict = get_main_dict()
-    name = config_dict["GENE_NAME"]
     gene_uid = config_dict["GENE_UID"]
-    print("""===========Variant I===========""")
+    sex = config_dict["SEX"]
+    transcript = Transcript(gene_uid)
+    if sex == "XX-FEMALE" and transcript.chrom == "chrY":
+        raise Exception("Cannot have a variant on the y chromosome in a female.")
     # get variant I
-    config_dict["VAR1"] = get_variant_dict(gene_uid)
-    print("""===========Variant II===========""")
+    print("""===========Variant I===========""")
+    config_dict["VAR1"] = get_variant_dict(transcript, sex)
+    
     # get variant II
-    var2_ans = str(raw_input("Would you like a second variant [y/n]: "))
-    if var2_ans not in ["y", "n"]:
-        raise Exception("Not valid response.")
-    elif var2_ans == "y":
-        config_dict["VAR2"] = get_variant_dict(gene_uid)
-    else:
+    if config_dict["VAR1"]["ZYGOSITY"] == "HETEROZYGOUS":
+        print("""===========Variant II===========""")
+        var2_ans = str(raw_input("Would you like a second variant [y/n]: "))
+        if var2_ans not in ["y", "n"]:
+            raise Exception("Not valid response.")
+        elif var2_ans == "y":
+            config_dict["VAR2"] = get_variant_dict(transcript, sex, "var2")
+        else:
+            config_dict["VAR2"] = "NONE"
+    else: 
         config_dict["VAR2"] = "NONE"
+    
     # write the file
     if config_name.endswith(".json"):
         with open(config_name, 'w+') as fp:

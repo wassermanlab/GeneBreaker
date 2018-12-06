@@ -6,6 +6,7 @@ class Variant:
             self.region = var_template["REGION"]
             self.impact = var_template["IMPACT"]
             self.location = var_template["LOCATION"]
+            self.zygosity = var_template["ZYGOSITY"]
             if self.location not in ["ANY", "NONE"]:
                 self.location = long(var_template["LOCATION"])
             if self.type not in ['SNV', 'INDEL', 'CNV', 'SV', 'MEI', 'STR']:

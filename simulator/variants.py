@@ -16,17 +16,15 @@ class Variants:
             variants_json = json.load(f)
             variants_json
             self.transcript = Transcript(variants_json["GENE_UID"])
-            self.inheritance = variants_json["INHERITANCE"]
             self.var1 = variants_json["VAR1"]
             self.var2 = variants_json["VAR2"]
-            self.trio = variants_json["TRIO"]
+            self.sex =  variants_json["SEX"]
             f.close()
         except:
             print("Check that the variants input is correct and follows the schema")
 
     def variants_2_VCF(self): 
         """ turns variant template into variant, string representing vcf """
-        h = "#CHROM\tPOS\tID\tREF\tALT\n"
         r1 = ""
         r2 = ""
         variants = [self.var1]
@@ -48,7 +46,7 @@ class Variants:
                 r1 = row + "\n"
             if index == 1:
                 r2 = row + "\n"
-        return (h, r1, r2)
+        return (r1, r2)
 
 
     def save_vcf_output(self, file_name):
@@ -57,59 +55,12 @@ class Variants:
         if  trio == false then it just saves the child
         if trio == true it saves a child and 2 parents"""
         vcf = self.variants_2_VCF()
-        if self.trio == 'SINGLE':
-            f = open(file_name,"w+")
-            f.write(vcf[0]+vcf[1]+vcf[2])
-            f.close()
-        elif self.trio == 'TRIO':
-            if self.inheritance == "DE-NOVO":
-                f = open(file_name+".child","w+")
-                f.write(vcf[0]+vcf[1]+vcf[2])
-                f.close()
-                f = open(file_name+".mother","w+")
-                f.write(vcf[0])
-                f.close()
-                f = open(file_name+".father","w+")
-                f.write(vcf[0])
-                f.close()
-            elif self.inheritance == "BI-PARENTAL":
-                if vcf[2] == "":
-                    f = open(file_name+".child","w+")
-                    f.write(vcf[0]+vcf[1])
-                    f.close()
-                    f = open(file_name+".mother","w+")
-                    f.write(vcf[0]+vcf[1])
-                    f.close()
-                    f = open(file_name+".father","w+")
-                    f.write(vcf[0]+vcf[1])
-                    f.close()
-                else:
-                    f = open(file_name+".child","w+")
-                    f.write(vcf[0]+vcf[1]+vcf[2])
-                    f.close()
-                    f = open(file_name+".mother","w+")
-                    f.write(vcf[0]+vcf[1])
-                    f.close()
-                    f = open(file_name+".father","w+")
-                    f.write(vcf[0]+vcf[2])
-                    f.close()
-            elif self.inheritance == "MATERNAL":
-                f = open(file_name+".child","w+")
-                f.write(vcf[0]+vcf[1]+vcf[2])
-                f.close()
-                f = open(file_name+".mother","w+")
-                f.write(vcf[0]+vcf[1])
-                f.close()
-                f = open(file_name+".father","w+")
-                f.write(vcf[0])
-                f.close()
-            elif self.inheritance == "PATERNAL":
-                f = open(file_name+".child","w+")
-                f.write(vcf[0]+vcf[1]+vcf[2])
-                f.close()
-                f = open(file_name+".mother","w+")
-                f.write(vcf[0])
-                f.close()
-                f = open(file_name+".father","w+")
-                f.write(vcf[0]+vcf[1])
-                f.close()
+        header = "##fileformat=VCFv4.2\n"
+        header = header + "##fileDate=20090805\n"
+        header = header + "##source=variant_simulator\n"
+        header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
+        header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n" 
+        # TODO: implement this 
+        f = open(file_name,"w+")
+        f.write(header+vcf[0]+vcf[1])
+        f.close()
