@@ -10,7 +10,7 @@ class STRBasicTests(unittest.TestCase):
         "IMPACT": {
             "CHROM": "chr2", 
             "END": 191745646, 
-            "START": 191745599, 
+            "START": 191745598, 
             "STR": 5
         }, 
         "LOCATION": "NONE", 
@@ -24,7 +24,7 @@ class STRBasicTests(unittest.TestCase):
         "IMPACT": {
             "CHROM": "chr2", 
             "END": 191745646, 
-            "START": 191745599, 
+            "START": 191745598, 
             "STR": -50
         }, 
         "LOCATION": "NONE", 
@@ -32,7 +32,7 @@ class STRBasicTests(unittest.TestCase):
         "TYPE": "STR"}
         STR = ShortTandemRepeat(STR)
         with self.assertRaises(Exception) as cm:
-            STR.get_retraction()
+            STR.get_retraction("chr2")
         err = cm.exception
         self.assertEqual(str(err), 'retraction length is larger than the total str')
     
@@ -41,24 +41,24 @@ class STRBasicTests(unittest.TestCase):
         "IMPACT": {
             "CHROM": "chr2", 
             "END": 191745646, 
-            "START": 191745599, 
+            "START": 191745598, 
             "STR": -5
         }, 
         "LOCATION": "NONE", 
         "REGION": "UTR", 
         "TYPE": "STR"}
         STR = ShortTandemRepeat(STR)
-        retraction = STR.get_retraction() 
-        self.assertEquals(retraction['pos'], 191745599)
-        self.assertEquals(retraction['ref'], "GCAGCAGCAGCAGCA")
-        self.assertEquals(retraction['alt'], "")
+        retraction = STR.get_retraction("chr2") 
+        self.assertEquals(retraction['pos'], 191745597)
+        self.assertEquals(retraction['ref'], "CGCAGCAGCAGCAGCA")
+        self.assertEquals(retraction['alt'], "C")
 
     def test_insertion_too_large(self):
         STR = {
         "IMPACT": {
             "CHROM": "chr2", 
             "END": 191745646, 
-            "START": 191745599, 
+            "START": 191745598, 
             "STR": 10000
         }, 
         "LOCATION": "NONE", 
@@ -75,7 +75,7 @@ class STRBasicTests(unittest.TestCase):
         "IMPACT": {
             "CHROM": "chr2", 
             "END": 191745646, 
-            "START": 191745599, 
+            "START": 191745598, 
             "STR": 5
         }, 
         "LOCATION": "NONE", 
@@ -83,7 +83,7 @@ class STRBasicTests(unittest.TestCase):
         "TYPE": "STR"}
         STR = ShortTandemRepeat(STR)
         expansion =  STR.get_expantion()
-        self.assertEquals(expansion['pos'], 191745599)
+        self.assertEquals(expansion['pos'], 191745598)
         self.assertEquals(expansion['ref'], "G")
         self.assertEquals(expansion['alt'], "GCAGCAGCAGCAGCAG")
 

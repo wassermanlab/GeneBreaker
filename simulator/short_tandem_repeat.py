@@ -4,6 +4,7 @@ import random
 from GUD2.ORM import ShortTandemRepeat as GUDSTR ##
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
+from lxml import etree
 
 class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already
@@ -31,7 +32,21 @@ class ShortTandemRepeat(Variant):
         STR = STR.select_by_exact_location(session, self.chrom, self.start, self.end)
         return STR[0].motif
 
-    def get_retraction(self):
+
+    def get_anchor_position(self, chrom):
+        """Retrieve a DNA sequence from UCSC.
+        Note: UCSC assumes 1 based indexing so we add a 1""" 
+        # Initialize
+        sequence = ""
+        url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (
+            "hg19", chrom, self.start, self.start) ## by using the start without adjusting we are getting the position prior to the start
+        # Get XML
+        xml = etree.parse(url, parser=etree.XMLParser())
+        # Get sequence
+        sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
+        return sequence.upper()
+
+    def get_retraction(self, chrom):
         """returns (pos ,ref, alt) tuple of retraction"""
         #get str
         STR = self.get_str_motif()
@@ -41,9 +56,9 @@ class ShortTandemRepeat(Variant):
         if total_repeat_length < -1 *size*self.length:
             raise Exception("retraction length is larger than the total str")
         positive_len = (self.length*-1)
-        ref = STR*positive_len
-        alt = ""
-        return {"pos": self.start,
+        alt = self.get_anchor_position(chrom) 
+        ref = alt + STR*positive_len
+        return {"pos": self.start-1,
                 "ref": ref,
                 "alt": alt}
 
@@ -71,7 +86,7 @@ class ShortTandemRepeat(Variant):
         if self.length > 0:  # insersion
             var_dict = self.get_expantion()
         if self.length < 0: # deletion
-            var_dict = self.get_retraction()
+            var_dict = self.get_retraction(transcript.chrom)
         chrom = transcript.chrom
         pos = str(var_dict["pos"] + 1) # add 1 to make 1 based
         ref = str(var_dict["ref"])

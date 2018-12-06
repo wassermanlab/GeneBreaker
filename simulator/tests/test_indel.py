@@ -119,8 +119,8 @@ class DeletionMethodTestCase(unittest.TestCase):
             'IMPACT': -5}
         indel = Indel(indel)
         deletion = indel.get_deletion(self.positive_transcript)
-        self.assertEqual(deletion["ref"], "ATGAA")
-        self.assertEqual(deletion["alt"], "")
+        self.assertEqual(deletion["ref"], "ATGAAT")
+        self.assertEqual(deletion["alt"], "A")
         self.assertEqual(deletion["pos"], 70117532)
     # test 14
     def test_any_location_deletion(self):
@@ -130,8 +130,8 @@ class DeletionMethodTestCase(unittest.TestCase):
             'IMPACT': -5}
         indel = Indel(indel)
         deletion = indel.get_deletion(self.positive_transcript)
-        self.assertEqual(len(deletion["ref"]), 5)
-        self.assertEqual(deletion["alt"], "")
+        self.assertEqual(len(deletion["ref"]), 6)
+        self.assertEqual(len(deletion["alt"]), 1)
     # test 15
     def test_raises_length_over_200(self):
         indel = {'TYPE': 'INDEL',

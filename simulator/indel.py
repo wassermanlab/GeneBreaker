@@ -28,7 +28,8 @@ class Indel(Variant):
             # randomly choses ACGT for each position in insertion
             insertion = insertion + random.choice("ACGT")
         return insertion
-    
+
+
     def get_deletion(self, transcript):
         """returns (pos ,ref, alt) tuple of deletion"""
         # get requested region
@@ -46,8 +47,8 @@ class Indel(Variant):
             pos = random.choice(region_range)  # determin what this is 
             shifted_pos = pos - transcript.get_start()
             return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact],
-                    "alt": ""}
+                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact+1],
+                    "alt": transcript.get_seq()[shifted_pos:shifted_pos+1]}
         else:
             # check that deletion doesn't go over the amount
             if self.location not in region_range:
@@ -57,8 +58,8 @@ class Indel(Variant):
             pos = self.location
             shifted_pos = pos - transcript.get_start()
             return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact],
-                    "alt": ""}
+                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact+1],
+                    "alt": transcript.get_seq()[shifted_pos:shifted_pos+1]}
 
     def get_insertion(self, transcript):
         """returns (ref, alt) tuple of insersion"""
@@ -89,7 +90,7 @@ class Indel(Variant):
             var_dict = self.get_insertion(transcript)
         if self.impact < 0: # deletion
             var_dict = self.get_deletion(transcript)
-        pos = str(var_dict["pos"] + 1) # add 1 to make itone based
+        pos = str(var_dict["pos"] + 1) # add 1 to make iton based
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
         ID = "_".join(["indel", pos, str(self.impact)])
