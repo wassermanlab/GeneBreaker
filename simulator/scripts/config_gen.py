@@ -66,24 +66,21 @@ def get_clinvar_impact(transcript, var_region):
     chrom = transcript.chrom
     count = 0 
     clinvar_list = []
-    print regions
     for region in regions:
         clinvar_list = clinvar_list + clinvar.select_by_location(session, chrom, region[0], region[1])
     
-    print clinvar_list
     if len(clinvar_list) == 0:
         print "There are no ClinVar variants in that region please select another variant"
         return False
     print "clinvarID\tpos(1-based)\tref\talt\tCLNSIG\tCLNDN"
-    for s in str_list:
+    for s in clinvar_list:
         clinvar = s[0]
         region = s[1]
         print '\t'.join([str(clinvar.clinvarID), str(region.start+1), str(clinvar.ref), 
         str(clinvar.alt), str(clinvar.CLNSIG), str(clinvar.CLNDN)])
 
-    uid = int(raw_input("""Input the uid of your STR: """))
-    clinvar = clinvar.select_by_uid(session, uid)
-    var_impact = clinvar.clinvarID
+    clinvarID = int(raw_input("""Input the clinvarID of your ClinVar variant: """))
+    var_impact = clinvarID
     return var_impact
 
 

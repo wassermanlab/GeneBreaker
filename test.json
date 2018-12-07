@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "TNK2", 
+    "GENE_UID": 28637, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": 88849, 
+        "LOCATION": "NONE", 
+        "REGION": "CODING", 
+        "TYPE": "ClinVar", 
+        "ZYGOSITY": "HOMOZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}
