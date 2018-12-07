@@ -13,6 +13,8 @@ class Variant:
                 raise Exception('type not one of the recognized types: SNV, INDEL, CNV, SV, MEI, STR')
             if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER']:
                 raise Exception('region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER') 
+            if self.zygosity not in ['HOMOZYGOUS', 'HETEROZYGOUS', 'HEMIZYGOUS']:
+                raise Exception('must have a zygosity within this list HOMOZYGOUS, HETEROZYGOUS, HEMIZYGOUS')
             if type(self.location) is not long and self.location!="ANY" and self.location !="NONE":
                 raise Exception("location is not valid")
         except:

@@ -1,18 +1,19 @@
 {
     "GENE_UID": 64805, 
-    "GENE_NAME": "SOX9", 
-    "INHERITANCE": "BI-PARENTAL", 
-    "TRIO": "TRIO", 
+    "GENE_NAME": "SOX9",
+    "SEX": "XX-FEMALE",
     "VAR1": {
         "IMPACT": "NONSENSE", 
         "LOCATION": 70117556, 
         "REGION": "CODING", 
-        "TYPE": "SNV"
+        "TYPE": "SNV",
+        "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": {
         "IMPACT": 6, 
         "LOCATION": "ANY", 
         "REGION": "UTR", 
-        "TYPE": "INDEL"
+        "TYPE": "INDEL",
+        "ZYGOSITY": "HETEROZYGOUS"
     }
 }

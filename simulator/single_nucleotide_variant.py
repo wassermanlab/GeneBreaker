@@ -38,8 +38,7 @@ class SingleNucleotideVariant(Variant):
             if self.region != "CODING" and self.impact in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
                 raise Exception("type impact not valid for non coding region")
         except:
-            print('''check that type is SNV and that impact is a one of: 
-            "MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"''')
+            print('check that type is SNV and that impact is a one of: "MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"')
 
     def get_alternate_codons(self, codon, pos):
         choices = ['A', 'T', 'G', 'C']
