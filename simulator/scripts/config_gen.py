@@ -25,11 +25,17 @@ def get_str_impact(transcript, var_region):
     STR = ShortTandemRepeat()
     chrom = transcript.chrom
     count = 0 
-    print "UID\tMOTIF\tPATHOGENICITY"
+    str_list = []
+
     for region in regions:
-        str_list = STR.select_by_location(session, chrom, region[0], region[1])
-        for s in str_list:
-            print str(s[0].uid) + "\t" + str(s[0].motif) + "\t" + str(s[0].pathogenicity) 
+        str_list = str_list + STR.select_by_location(session, chrom, region[0], region[1])
+    
+    if len(str_list) == 0:
+        print "There is no STR in that region please select another variant"
+        return False
+    print "UID\tMOTIF\tPATHOGENICITY"
+    for s in str_list:
+        print str(s[0].uid) + "\t" + str(s[0].motif) + "\t" + str(s[0].pathogenicity) 
 
     uid = int(raw_input("""Input the uid of your STR: """))
     STR = STR.select_by_uid(session, uid)
@@ -60,29 +66,29 @@ def get_variant_dict(transcript, sex, variant = "var1"):
     else:
         zygosity_options = ["HOMOZYGOUS", "HETEROZYGOUS"]  
     
-    var_dict = dict()
-    var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR': """))  # add other variant types
-    var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
-    var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
-    var_location = None
-    if var_type == "INDEL":
-        var_impact = get_indel_impact()
-    elif var_type == "SNV":
-        var_impact = get_snv_impact(var_region)
-    elif var_type == "STR":
-        var_impact = get_str_impact(transcript, var_region)       
-        var_location = "NONE"
-    else:
-        raise Exception("variant type specified is not valid")
-    if var_location is None: 
+    var_impact = False
+    while var_impact == False:
+        var_dict = dict()
+        var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR': """))  # add other variant types
+        var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
+        var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
+        var_location = None
+        if var_type == "INDEL":
+            var_impact = get_indel_impact()
+        elif var_type == "SNV":
+            var_impact = get_snv_impact(var_region)
+        elif var_type == "STR":
+            var_impact = get_str_impact(transcript, var_region)       
+            var_location = "NONE"
+        else:
+            raise Exception("variant type specified is not valid")
+    
+    if var_location != "NONE": 
         var_location = str(
             raw_input("Specify a 1 based location or input 'ANY': "))
-        if var_location == 'ANY':
-            None
-        elif var_location.isdigit():
+        if var_location.isdigit():
             var_location = long(var_location) - 1
-        else:
-            raise Exception("Not valid variant location")
+
     if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE" and var_zygosity != "HEMIZYGOUS":
         raise Exception("not valid zygosity.")
     elif var_zygosity not in ["HOMOZYGOUS", "HETEROZYGOUS", "HEMIZYGOUS"]:
