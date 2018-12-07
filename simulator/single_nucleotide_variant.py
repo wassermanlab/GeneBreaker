@@ -30,16 +30,16 @@ class SingleNucleotideVariant(Variant):
         """ initialize snv variant """
         try:
             Variant.__init__(self, var_template)
-            if self.impact not in ["MISSENSE", "NONSENSE", "SILENT", "A", "T", "G", "C", "ANY"]:
+            if self.impact not in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"]:
                 raise Exception(
-                    """TYPE must be missense, nonsense, silent of a base""")
+                    """TYPE must be missense, nonsense, synonymous of a base""")
             if self.type != "SNV":
                 raise Exception("Must be SNV type")
-            if self.region != "CODING" and self.impact in ["MISSENSE", "NONSENSE", "SILENT"]:
+            if self.region != "CODING" and self.impact in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
                 raise Exception("type impact not valid for non coding region")
         except:
             print('''check that type is SNV and that impact is a one of: 
-            "MISSENSE", "NONSENSE", "SILENT", "A", "T", "G", "C", "ANY"''')
+            "MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"''')
 
     def get_alternate_codons(self, codon, pos):
         choices = ['A', 'T', 'G', 'C']
@@ -53,7 +53,7 @@ class SingleNucleotideVariant(Variant):
 
     def missense_mutation(self, codon, pos):
         """ make missense mutation in codon, returns False if 
-        silent mutation cannot be made there the alternate variant """
+        missense mutation cannot be made there the alternate variant """
         if codon not in ["ATG", "TAA", "TAG", "TGA"]:
             alternate_codons = self.get_alternate_codons(codon, pos)
             missense_aa = self.amino_acid_codons.copy()
@@ -69,30 +69,30 @@ class SingleNucleotideVariant(Variant):
 
     def nonsense_mutation(self, codon, pos):
         """ make nonsense mutation in codon, returns False if 
-        silent mutation cannot be made there the alternate variante """
+        nonsense mutation cannot be made there the alternate variante """
         alternate_codons = self.get_alternate_codons(codon, pos)
         for i in alternate_codons:
             if i in self.stop_codons:
                 return i[pos]
         return False
 
-    def silent_mutation(self, codon, pos):
-        """ make silent mutation in codon, returns False if 
-        silent mutation cannot be made there the alternate variant"""
+    def synonymous_mutation(self, codon, pos):
+        """ make synonymous mutation in codon, returns False if 
+        synonymous mutation cannot be made there the alternate variant"""
         # Todo: code entire logic and test
         if codon not in ["ATG", "TAA", "TAG", "TGA"]:
             alternate_codons = self.get_alternate_codons(codon, pos)
-            silent_aa = self.amino_acid_codons[self.aa_codes[codon]]
+            synonymous_aa = self.amino_acid_codons[self.aa_codes[codon]]
             random.shuffle(alternate_codons)
             for i in alternate_codons:
-                if i in silent_aa:
+                if i in synonymous_aa:
                     return i[pos]
             return False
         return False
 
     def any_mutation(self, codon, pos):
         """ make random mutation in codon, returns False if 
-        silent mutation cannot be made there the alternate variant"""
+        mutation cannot be made there the alternate variant"""
         choices = ['A', 'T', 'G', 'C']
         choices.remove(codon[pos].upper())
         alt = random.choice(choices)
@@ -134,8 +134,8 @@ class SingleNucleotideVariant(Variant):
             alt = self.missense_mutation(codon, codon_pos)
         elif self.impact == "NONSENSE":
             alt = self.nonsense_mutation(codon, codon_pos)
-        elif self.impact == "SILENT":
-            alt = self.silent_mutation(codon, codon_pos)
+        elif self.impact == "SYNONYMOUS":
+            alt = self.synonymous_mutation(codon, codon_pos)
         elif self.impact == "ANY":
             alt = self.any_mutation(codon, codon_pos)
         else:

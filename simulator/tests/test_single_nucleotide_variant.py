@@ -61,21 +61,21 @@ class MutationMethods(unittest.TestCase):
         snv = SNV(snv)
         print snv.missense_mutation("CAC", 2)
     # test 8
-    def test_silent_exists(self):
+    def test_synonymous_exists(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
             "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
-        self.assertFalse(snv.silent_mutation("TGG", 2))
+        self.assertFalse(snv.synonymous_mutation("TGG", 2))
     # test 9
-    def test_silent_false(self):
+    def test_synonymous_false(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
             "IMPACT": "A", "LOCATION": "ANY"}
         snv = SNV(snv)
-        self.assertEquals(snv.silent_mutation("CAA", 2), "G")
+        self.assertEquals(snv.synonymous_mutation("CAA", 2), "G")
     # test 10
     def test_any_mutation(self):
         snv = {
@@ -152,11 +152,11 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         self.assertNotEqual(directed_missense, False)
         print directed_missense
     # test 17
-    def test_directed_SNV_exists_silent(self):
+    def test_directed_SNV_exists_SYNONYMOUS(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": "SILENT", "LOCATION": 70117537}
+            "IMPACT": "SYNONYMOUS", "LOCATION": 70117537}
         snv = SNV(snv)
         mutation = snv.get_directed_coding_SNV(self.positive_transcript, 70117537)
         self.assertEquals(mutation['ref'], "T")
@@ -203,11 +203,11 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         self.assertNotEqual(directed_missense, False)
         print directed_missense
     #test 22
-    def test_directed_SNV_exists_silent(self):
+    def test_directed_SNV_exists_SYNONYMOUS(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": "SILENT", "LOCATION": 62680846}
+            "IMPACT": "SYNONYMOUS", "LOCATION": 62680846}
         snv = SNV(snv)
         mutation = snv.get_directed_coding_SNV(self.negative_transcript, 62680846)
         self.assertEquals(mutation['ref'], "G")
