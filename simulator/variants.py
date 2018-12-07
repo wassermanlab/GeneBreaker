@@ -3,6 +3,7 @@ from simulator.variant import Variant
 from simulator.indel import Indel
 from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
 from simulator.short_tandem_repeat import ShortTandemRepeat
+from simulator.clinvar import ClinVar
 import json
 
 class Variants: 
@@ -42,6 +43,9 @@ class Variants:
             if var_type == "STR":
                 STR = ShortTandemRepeat(var)
                 row = STR.get_vcf_row(self.transcript)
+            if var_type == "ClinVar":
+                cln = ClinVar(var)
+                row = cln.get_vcf_row(self.transcript)
             if index == 0:
                 r1 = row + "\n"
             if index == 1:

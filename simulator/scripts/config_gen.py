@@ -4,6 +4,7 @@ import argparse
 import json
 from GUD2.ORM import Gene
 from GUD2.ORM import ShortTandemRepeat
+from GUD2.ORM import ClinVar
 import os
 import sys
 from sqlalchemy import create_engine, Index
@@ -58,6 +59,34 @@ def get_indel_impact():
     var_impact = int(raw_input("""input the size of your indel, negative numbers are deletions positive numbers are insersions: """))
     return var_impact
 
+def get_clinvar_impact(transcript, var_region):
+    print "HERE"
+    regions = transcript.get_requested_region(var_region)
+    clinvar = ClinVar()
+    chrom = transcript.chrom
+    count = 0 
+    clinvar_list = []
+    print regions
+    for region in regions:
+        clinvar_list = clinvar_list + clinvar.select_by_location(session, chrom, region[0], region[1])
+    
+    print clinvar_list
+    if len(clinvar_list) == 0:
+        print "There are no ClinVar variants in that region please select another variant"
+        return False
+    print "clinvarID\tpos(1-based)\tref\talt\tCLNSIG\tCLNDN"
+    for s in str_list:
+        clinvar = s[0]
+        region = s[1]
+        print '\t'.join([str(clinvar.clinvarID), str(region.start+1), str(clinvar.ref), 
+        str(clinvar.alt), str(clinvar.CLNSIG), str(clinvar.CLNDN)])
+
+    uid = int(raw_input("""Input the uid of your STR: """))
+    clinvar = clinvar.select_by_uid(session, uid)
+    var_impact = clinvar.clinvarID
+    return var_impact
+
+
 def get_variant_dict(transcript, sex, variant = "var1"):  
     if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE":
         zygosity_options = ["HEMIZYGOUS"]
@@ -69,7 +98,7 @@ def get_variant_dict(transcript, sex, variant = "var1"):
     var_impact = False
     while var_impact == False:
         var_dict = dict()
-        var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR': """))  # add other variant types
+        var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'ClinVar': """))  # add other variant types
         var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
         var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
         var_location = None
@@ -79,6 +108,9 @@ def get_variant_dict(transcript, sex, variant = "var1"):
             var_impact = get_snv_impact(var_region)
         elif var_type == "STR":
             var_impact = get_str_impact(transcript, var_region)       
+            var_location = "NONE"
+        elif var_type == "ClinVar":
+            var_impact = get_clinvar_impact(transcript, var_region)
             var_location = "NONE"
         else:
             raise Exception("variant type specified is not valid")

@@ -9,8 +9,8 @@ class Variant:
             self.zygosity = var_template["ZYGOSITY"]
             if self.location not in ["ANY", "NONE"]:
                 self.location = long(var_template["LOCATION"])
-            if self.type not in ['SNV', 'INDEL', 'CNV', 'SV', 'MEI', 'STR']:
-                raise Exception('type not one of the recognized types: SNV, INDEL, CNV, SV, MEI, STR')
+            if self.type not in ['SNV', 'INDEL', 'CNV', 'SV', 'MEI', 'STR', 'ClinVar']:
+                raise Exception('type not one of the recognized types: SNV, INDEL, CNV, SV, MEI, STR, ClinVar')
             if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER']:
                 raise Exception('region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER') 
             if self.zygosity not in ['HOMOZYGOUS', 'HETEROZYGOUS', 'HEMIZYGOUS']:
