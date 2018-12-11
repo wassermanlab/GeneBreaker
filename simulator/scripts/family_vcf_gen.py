@@ -20,8 +20,8 @@ def parse_arguments():
 def output_vcfs(family, vcf):
     "for each family member make a vcf"
     header = ""
-    with open(proband) as f:
-        for line in proband_vcf:
+    with open(vcf) as f:
+        for line in f:
             if line.startswith("##"):
                 header = header + line
 
@@ -31,19 +31,25 @@ def output_vcfs(family, vcf):
         member_val = family[member]
         f = open(member + ".vcf", "w!")
         f.write(header)
-        f.write("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t" + member)
+        f.write("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t" + member + "\n")
         if family[member]["var1"] == 0 and family[member]["var2"] == 0:
             None
         elif family[member]["var1"] == family[member]["var2"]:  # homozygous variant
             var = family[member]["var1"]
             var[9] = "1/1"
             f.write("\t".join(var))
-        elif family[member]["var1"] != 0:  # het variant
+            f.write("\n")
+        elif family[member]["var1"] != 0 and family[member]["var2"] == 0:  # het variant
             var = family[member]["var1"]
             f.write("\t".join(var))
-        elif family[member]["var2"] != 0:  # het variant
+            f.write("\n")
+        elif family[member]["var1"] != 0 and family[member]["var2"] != 0:  # het variant
+            var = family[member]["var1"]
+            f.write("\t".join(var))
+            f.write("\n")
             var = family[member]["var2"]
             f.write("\t".join(var))
+            f.write("\n")
         f.close()
 
 
@@ -154,7 +160,6 @@ def main():
     for line in family_ped:
         if not line.startswith("#"):
             ln = line.split("\t")
-            print ln
             family[ln[1]] = {"paternal_id": ln[2],
                              "maternal_id": ln[3],
                              "sex": int(ln[4]),
@@ -166,7 +171,7 @@ def main():
         family["Proband"]["var2"] = var2
         family = make_parents(family)
         family = make_siblings(family)
-        output_vcfs(family, proband_vcf)
+        output_vcfs(family, args.proband)
     else:
         raise Exception("no 'Proband' sample_id in PED file")
 

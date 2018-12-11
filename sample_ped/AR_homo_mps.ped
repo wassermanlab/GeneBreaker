@@ -1,4 +1,0 @@
-#FamilyID	SampleID	Father	Mother	Sex	Phenotype
-AR_Homo	Mom4	0	0	2	3
-AR_Homo	Proband4	0	Mom4	1	2
-AR_Homo	Sibling_UnAff4	0	Mom4	2	3

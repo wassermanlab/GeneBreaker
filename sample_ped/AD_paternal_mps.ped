@@ -1,4 +1,4 @@
 #FamilyID	SampleID	Father	Mother	Sex	Phenotype
 AD_Paternal	Mom2	0	0	2	1
-AD_Paternal	Proband2	0	Mom2	1	2
+AD_Paternal	Proband	0	Mom2	1	2
 AD_Paternal	Sibling_UnAff2	0	Mom2	2	1

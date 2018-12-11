@@ -1,4 +1,4 @@
 #FamilyID	SampleID	Father	Mother	Sex	Phenotype
 AR_CompoundDeNovo	Mom5	0	0	2	1
-AR_CompoundDeNovo	Proband4	0	Mom5	1	2
+AR_CompoundDeNovo	Proband	0	Mom5	1	2
 AR_CompoundDeNovo	Sibling_UnAff5	0	Mom5	2	1
