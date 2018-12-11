@@ -1,16 +1,16 @@
 {
-    "GENE_NAME": "RB1", 
-    "GENE_UID": 64785, 
+    "GENE_NAME": "CFTR", 
+    "GENE_UID": 45616, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": "NONSENSE", 
-        "LOCATION": "ANY", 
+        "IMPACT": 45616, 
+        "LOCATION": "NONE", 
         "REGION": "CODING", 
-        "TYPE": "SNV", 
+        "TYPE": "ClinVar", 
         "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": {
-        "IMPACT": -5, 
+        "IMPACT": 2, 
         "LOCATION": "ANY", 
         "REGION": "CODING", 
         "TYPE": "INDEL", 

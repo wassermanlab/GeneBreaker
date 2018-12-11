@@ -5,6 +5,7 @@ from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
 from simulator.short_tandem_repeat import ShortTandemRepeat
 from simulator.clinvar import ClinVar
 import json
+from datetime import date
 
 class Variants: 
 
@@ -60,7 +61,7 @@ class Variants:
         if trio == true it saves a child and 2 parents"""
         vcf = self.variants_2_VCF()
         header = "##fileformat=VCFv4.2\n"
-        header = header + "##fileDate=20090805\n"
+        header = header + "##fileDate=" + str(date.today()) + "\n"
         header = header + "##source=variant_simulator\n"
         header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
         header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n" 

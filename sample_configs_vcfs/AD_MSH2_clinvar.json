@@ -1,12 +1,12 @@
 {
-    "GENE_NAME": "RB1", 
-    "GENE_UID": 64785, 
+    "GENE_NAME": "MSH2", 
+    "GENE_UID": 11029, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": "NONSENSE", 
-        "LOCATION": "ANY", 
+        "IMPACT": 91028, 
+        "LOCATION": "NONE", 
         "REGION": "CODING", 
-        "TYPE": "SNV", 
+        "TYPE": "ClinVar", 
         "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": "NONE"

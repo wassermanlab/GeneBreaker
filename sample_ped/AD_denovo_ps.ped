@@ -1,0 +1,3 @@
+#FamilyID	SampleID	Father	Mother	Sex	Phenotype
+AD_DeNovo	Proband	0	0	1	2
+AD_DeNovo	Sibling_UnAff	0	0	2	1

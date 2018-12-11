@@ -1,13 +1,13 @@
 {
-    "GENE_NAME": "TRO", 
-    "GENE_UID": 5000, 
+    "GENE_NAME": "MSH2", 
+    "GENE_UID": 11029, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": "NONSENSE", 
+        "IMPACT": "MISSENSE", 
         "LOCATION": "ANY", 
         "REGION": "CODING", 
         "TYPE": "SNV", 
-        "ZYGOSITY": "HOMOZYGOUS"
+        "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": "NONE"
 }

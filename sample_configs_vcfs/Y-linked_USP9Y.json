@@ -1,12 +1,12 @@
 {
-    "GENE_NAME": "TRO", 
-    "GENE_UID": 5000, 
+    "GENE_NAME": "USP9Y", 
+    "GENE_UID": 33906, 
     "SEX": "XY-MALE", 
     "VAR1": {
-        "IMPACT": -1, 
+        "IMPACT": "NONSENSE", 
         "LOCATION": "ANY", 
         "REGION": "CODING", 
-        "TYPE": "INDEL", 
+        "TYPE": "SNV", 
         "ZYGOSITY": "HEMIZYGOUS"
     }, 
     "VAR2": "NONE"

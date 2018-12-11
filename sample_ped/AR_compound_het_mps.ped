@@ -1,0 +1,4 @@
+#FamilyID	SampleID	Father	Mother	Sex	Phenotype
+AR_CompoundHet	Mom3	0	0	2	3
+AR_CompoundHet	Proband3	0	Mom3	1	2
+AR_CompoundHet	Sibling_UnAff3	0	Mom3	2	3

@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "F8", 
+    "GENE_UID": 2325, 
+    "SEX": "XY-MALE", 
+    "VAR1": {
+        "IMPACT": 10126, 
+        "LOCATION": "NONE", 
+        "REGION": "CODING", 
+        "TYPE": "ClinVar", 
+        "ZYGOSITY": "HEMIZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

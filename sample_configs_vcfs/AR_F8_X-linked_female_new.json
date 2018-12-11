@@ -1,7 +1,7 @@
 {
-    "GENE_NAME": "SOX9", 
-    "GENE_UID": 64805, 
-    "SEX": "XY-MALE", 
+    "GENE_NAME": "F8", 
+    "GENE_UID": 2325, 
+    "SEX": "XX-FEMALE", 
     "VAR1": {
         "IMPACT": "NONSENSE", 
         "LOCATION": "ANY", 
@@ -10,7 +10,7 @@
         "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": {
-        "IMPACT": -2, 
+        "IMPACT": -50, 
         "LOCATION": "ANY", 
         "REGION": "UTR", 
         "TYPE": "INDEL", 
