@@ -1,13 +1,13 @@
 {
-    "GENE_NAME": "IL6", 
-    "GENE_UID": 8614, 
+    "GENE_NAME": "MSH2", 
+    "GENE_UID": 11029, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": "ANY", 
-        "LOCATION": "ANY", 
+        "IMPACT": 91028, 
+        "LOCATION": "NONE", 
         "REGION": "CODING", 
-        "TYPE": "SNV", 
-        "ZYGOSITY": "HOMOZYGOUS"
+        "TYPE": "ClinVar", 
+        "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": "NONE"
 }

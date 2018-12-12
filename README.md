@@ -7,36 +7,55 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elit urna, inte
 ## Directory Structure 
 
 ```
-./variant_simulation_framework
-├── config.json
+.
 ├── environment.yml
 ├── LICENCE
-├── output.vcf
+├── misc
 ├── README.md
-├── requirements.txt
-├── simulator
-│   ├── GUD ...
-│   ├── tests ...
-│   ├── scripts
-│   │   ├── __init__.py
-│   │   ├── config_gen.py
-│   │   └── cli.py
-│   ├── __init__.py
-│   ├── indel.py
-│   ├── single_nucleotide_variant.py
-│   ├── transcript.py
-│   ├── variant.py
-│   └── variants.py
-└── varsim
-    ├── run_varsim.sh
-    └── setup.sh
-
-
+├── sample_configs_vcfs
+├── sample_ped
+└── simulator
+    ├── __init__.py
+    ├── GUD
+    ├── tests
+    ├── scripts
+    │   ├── cli.py
+    │   ├── config_gen.py
+    │   ├── family_vcf_gen.py
+    │   └── __init__.py
+    ├── clinvar.py
+    ├── indel.py
+    ├── short_tandem_repeat.py
+    ├── single_nucleotide_variant.py
+    ├── transcript.py
+    ├── variant.py
+    └── variants.py
 ```
 
 ## Dependancies 
 
 - conda 
+- linux/mac
+
+## Modules 
+
+1. Config Generator 
+
+Under `simulator/scripts/config_gen.py` this module is used to to generate config files. This module can be called using the following command `python -m simulator.scripts.config_gen`. 
+
+2. VCF Generator
+
+Under `simulator/scripts/cli.py` this module is used to to generate vcf files from config files. This module can be called by the following command:
+
+```
+python -m simulator.scripts/cli -c <congif.json> -o <output>
+## <config.json> is the config file, by default it will look for config.json .
+## <output> is the name of the output, by default it will name the output: output.vcf .
+```
+
+
+
+3. Family Generator 
 
 ## Quickstart 
 
@@ -50,10 +69,10 @@ source activate var_sim
 cd simulator/GUD
 python setup.py install
 cd ../../
-python -m simulator.scripts.cli
+python -m simulator.scripts.cli 
 ```
 
-The output should be 3 files: ouput.vcf.child, ouput.vcf.mother, and ouput.vcf.father
+The output should be 3 files: output.vcf
 
 ## Running 
 
