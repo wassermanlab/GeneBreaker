@@ -8,7 +8,7 @@ Human mendelian disease are characterized as genetic disorders caused by changes
 
 The MenDelSIM package allows for the simulation of new or known variants in a single gene representing a possible mendelian disease case aswell as simulation of full family profiles following a specified inheritance pattern as specified below. 
 
-<img src="misc/inheritance_1.png" width="400"><img src="/home/tavshalom/Desktop/variant_simulation_framework/misc/inheritance_2.png" width="400">
+<img src="misc/inheritance_1.png" width="400"><img src="misc/inheritance_2.png" width="400">
 
 ## Directory Structure 
 
