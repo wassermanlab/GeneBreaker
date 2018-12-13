@@ -1,0 +1,24 @@
+{
+    "GENE_NAME": "GLS", 
+    "GENE_UID": 2287, 
+    "SEX": "XY-MALE", 
+    "VAR1": {
+        "IMPACT": {
+            "CHROM": "chr2", 
+            "END": 191745646, 
+            "START": 191745598, 
+            "STR": 1000
+        }, 
+        "LOCATION": "NONE", 
+        "REGION": "UTR", 
+        "TYPE": "STR", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }, 
+    "VAR2": {
+        "IMPACT": "T", 
+        "LOCATION": 191769850, 
+        "REGION": "CODING", 
+        "TYPE": "SNV", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }
+}

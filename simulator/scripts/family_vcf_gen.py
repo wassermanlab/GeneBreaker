@@ -29,13 +29,13 @@ def output_vcfs(family, vcf):
         # add header
         # add variants
         member_val = family[member]
-        f = open(member + ".vcf", "w!")
+        f = open(member + ".vcf", "w+")
         f.write(header)
         f.write("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t" + member + "\n")
         if family[member]["var1"] == 0 and family[member]["var2"] == 0:
             None
         elif family[member]["var1"] == family[member]["var2"]:  # homozygous variant
-            var = family[member]["var1"]
+            var = family[member]["var1"][:]
             var[9] = "1/1"
             f.write("\t".join(var))
             f.write("\n")
@@ -95,9 +95,9 @@ def make_siblings(family):
                 if mother["var1"] != 0 and father["var1"] != 0:  # both parents are carriers
                     family[child]["var1"] = random.choice(
                         (mother["var1"], father["var1"]))
-                if mother["var1"] != 0:  # mom is carrier
+                elif mother["var1"] != 0:  # mom is carrier
                     family[child]["var1"] = mother["var1"]
-                if father["var1"] != 0:  # dad is carrier
+                elif father["var1"] != 0:  # dad is carrier
                     family[child]["var1"] = father["var1"]
 
     elif proband['maternal_id'] in family:  # mother is in PED
@@ -147,10 +147,12 @@ def main():
             if var1 == 0:
                 if ln[9] == "0/1":
                     var1 = ln
-                if ln[9] == "1/1":
-                    ln[9] == "0/1"
+                elif ln[9] == "1/1":
+                    ln[9] = "0/1"
                     var1 = ln
                     var2 = ln
+                elif ln[9] == "1":
+                    var1 = ln
             elif var2 == 0:
                 var2 = ln
             else:
@@ -175,7 +177,5 @@ def main():
     else:
         raise Exception("no 'Proband' sample_id in PED file")
 
-# AD_denovo_quad.ped
-# AR_F8_X-linked_female_new.vcf
 if __name__ == "__main__":
     main()

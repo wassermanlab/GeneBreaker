@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "USP9Y", 
+    "GENE_UID": 33906, 
+    "SEX": "XY-MALE", 
+    "VAR1": {
+        "IMPACT": 50, 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "INDEL", 
+        "ZYGOSITY": "HEMIZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}

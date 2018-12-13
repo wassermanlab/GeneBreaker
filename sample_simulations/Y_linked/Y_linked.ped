@@ -1,0 +1,7 @@
+#FamilyID	SampleID	Father	Mother	Sex	Phenotype
+Y_linked	Dad	0	0	1	2
+Y_linked	Mom	0	0	2	1
+Y_linked	Proband	Dad	Mom	1	2
+Y_linked	Brother	Dad	Mom	1	2
+Y_linked	Sister1	Dad	Mom	2	1
+Y_linked	Sister2	Dad	Mom	2	1

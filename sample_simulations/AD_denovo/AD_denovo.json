@@ -1,0 +1,13 @@
+{
+    "GENE_NAME": "PTPN11", 
+    "GENE_UID": 23000, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": 31554, 
+        "LOCATION": "NONE", 
+        "REGION": "INTRONIC", 
+        "TYPE": "ClinVar", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }, 
+    "VAR2": "NONE"
+}
