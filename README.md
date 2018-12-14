@@ -88,7 +88,7 @@ Assumptions and Requirements:
 Follow these instructions to set up the package: 
 
 ```
-git clone https://github.com/tamario/variant_simulation_framework.git
+git clone --recurse-submodules git@github.com:tamario/variant_simulation_framework.git
 cd variant_simulation_framework
 conda env create -f environment.yml
 source activate var_sim
