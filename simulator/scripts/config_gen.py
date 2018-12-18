@@ -2,14 +2,15 @@
 # fix TRIO responses
 import argparse
 import json
+import re
+import os
+import sys
 from GUD2.ORM import Gene
 from GUD2.ORM import ShortTandemRepeat
 from GUD2.ORM import ClinVar
-import os
-import sys
+from GUD2.ORM import Chrom
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
-import warnings
 from simulator.transcript import Transcript
 
 # Establish a SQLalchemy session w/ GUD
@@ -21,10 +22,31 @@ try:
 except:
     raise ValueError("Cannot connect to GUD: %s" % "hg19")
 
+def parse_region(transcript, var_region):
+    """returns a tuple (chrom, (start, stop))"""
+    if re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", var_region) == "None":
+        raise Exception("custom region is not in correct format")
+    chrom = var_region.split(":")[0]
+    start = int(var_region.split(":")[1].split("-")[0]) - 1 ## making 0 based
+    end = int(var_region.split(":")[1].split("-")[1])
+    if start >= end:
+        raise Exception("start is greater than end in custom position")
+    if start < 1:
+        raise Exception("invalid start position")
+    if end > Chrom().chrom_size(session, chrom):
+        raise Exception("invalid end position, greater than chromosome length")  
+    if chrom != transcript.chrom:
+        raise Exception("custom location is not on the same chromosome as the transcript")
+    return (chrom, (start, end))
+         
 def get_str_impact(transcript, var_region):
-    regions = transcript.get_requested_region(var_region)
+    if var_region in ["CODING", "UTR", "INTRONIC", "GENIC"]:
+        regions = transcript.get_requested_region(var_region)
+        chrom = transcript.chrom
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+        chrom = parse_region(transcript, var_region)[0]
     STR = ShortTandemRepeat()
-    chrom = transcript.chrom
     count = 0 
     str_list = []
 
@@ -44,26 +66,70 @@ def get_str_impact(transcript, var_region):
     var_impact = {"CHROM": STR[1].chrom, "START": STR[1].start, "END": STR[1].end, "STR": str_length}
     return var_impact
 
-def get_snv_impact(var_region):
+def get_snv_impact(transcript, var_region):
     if var_region == "CODING":
-        var_impact = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE' or 'SYNONYMOUS': """))
-        if var_impact not in ['A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE', 'SYNONYMOUS']:
+        snv_type = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE' or 'SYNONYMOUS': """))
+        if snv_type not in ['A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE', 'SYNONYMOUS']:
             raise Exception("Not valid impact type for CODING SNV")
     else:
-        var_impact = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', or 'ANY': """))
-        if var_impact not in ['A', 'T', 'G', 'C', 'ANY']:
+        snv_type = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', or 'ANY': """))
+        if snv_type not in ['A', 'T', 'G', 'C', 'ANY']:
             raise Exception("Not valid impact type for SNV")
-    return var_impact
+    if var_region in ['CODING', 'UTR', 'INTRONIC', 'GENIC']:
+        regions = transcript.get_requested_region(var_region)
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+    
+    location = str(raw_input("""Input the location you want your variant to be.
+    The location can be 'ANY' or a location within these ranges 
+    inclusive of the start position not inclusive of the end """+ str(regions)+ ": "))   
+    if location != "ANY":
+        try: 
+            location = int(location)
+            location_correct = False
+            for region in regions: 
+                if region[0] <= location < region[1]:
+                    location_correct = True
+            if location_correct == False:
+                raise Exception("location is not within region")
+        except: 
+            raise Exception("location is not a number or 'ANY'")
 
-def get_indel_impact():
-    var_impact = int(raw_input("""input the size of your indel, negative numbers are deletions positive numbers are insersions: """))
-    return var_impact
+    return {"SNV_TYPE": snv_type, "LOCATION": location}
+
+def get_indel_impact(transcript, var_region):
+    indel_amount = int(raw_input("""input the size of your indel, negative numbers are deletions positive numbers are insersions: """))
+    
+    if var_region in ['CODING', 'UTR', 'INTRONIC', 'GENIC']:
+        regions = transcript.get_requested_region(var_region)
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+    
+    location = str(raw_input("""Input the location you want your variant to be.
+    The location can be 'ANY' or a location within these ranges 
+    inclusive of the start position not inclusive of the end """+ str(regions)+ ": "))   
+    if location != "ANY":
+        try: 
+            location = int(location)
+            location_correct = False
+            for region in regions: 
+                if region[0] <= location < region[1]:
+                    location_correct = True
+            if location_correct == False:
+                raise Exception("location is not within region")
+        except: 
+            raise Exception("location is not a number or 'ANY'")
+
+    return {"INDEL_AMOUNT": indel_amount, "LOCATION": location}
 
 def get_clinvar_impact(transcript, var_region):
-    print "HERE"
-    regions = transcript.get_requested_region(var_region)
+    if var_region in ["CODING", "UTR", "INTRONIC", "GENIC"]:
+        regions = transcript.get_requested_region(var_region)
+        chrom = transcript.chrom
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+        chrom = parse_region(transcript, var_region)[0]
     clinvar = ClinVar()
-    chrom = transcript.chrom
     count = 0 
     clinvar_list = []
     for region in regions:
@@ -81,8 +147,7 @@ def get_clinvar_impact(transcript, var_region):
 
     clinvarID = int(raw_input("""Input the clinvarID of your ClinVar variant: """))
     var_impact = clinvarID
-    return var_impact
-
+    return {"CLINVAR_ID": var_impact}
 
 def get_variant_dict(transcript, sex, variant = "var1"):  
     if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE":
@@ -96,27 +161,18 @@ def get_variant_dict(transcript, sex, variant = "var1"):
     while var_impact == False:
         var_dict = dict()
         var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'ClinVar': """))  # add other variant types
-        var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC': """))  # todo add promoter and enhancer
+        var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC', 'GENIC', or a custom position in the format of chrZ:int-int: """))  # todo add promoter and enhancer
         var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
-        var_location = None
         if var_type == "INDEL":
-            var_impact = get_indel_impact()
+            var_impact = get_indel_impact(transcript, var_region)
         elif var_type == "SNV":
-            var_impact = get_snv_impact(var_region)
+            var_impact = get_snv_impact(transcript, var_region)
         elif var_type == "STR":
-            var_impact = get_str_impact(transcript, var_region)       
-            var_location = "NONE"
+            var_impact = get_str_impact(transcript, var_region)     
         elif var_type == "ClinVar":
             var_impact = get_clinvar_impact(transcript, var_region)
-            var_location = "NONE"
         else:
             raise Exception("variant type specified is not valid")
-    
-    if var_location != "NONE": 
-        var_location = str(
-            raw_input("Specify a 1 based location or input 'ANY': "))
-        if var_location.isdigit():
-            var_location = long(var_location) - 1
 
     if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE" and var_zygosity != "HEMIZYGOUS":
         raise Exception("not valid zygosity.")
@@ -125,7 +181,6 @@ def get_variant_dict(transcript, sex, variant = "var1"):
     var_dict["TYPE"] = var_type
     var_dict["REGION"] = var_region
     var_dict["IMPACT"] = var_impact
-    var_dict["LOCATION"] = var_location
     var_dict["ZYGOSITY"] = var_zygosity
     return var_dict
 

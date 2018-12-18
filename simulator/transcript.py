@@ -102,20 +102,11 @@ class Transcript:
         return zip(starts, ends) 
         
     def get_coding(self):
-        """ returns all coding regions from gene in the form of [[start, stop],*]"""
+        """ returns all coding regions from gene in the form of [(start, stop),*]"""
         exons = self.get_exons()
         coding_exons = []
         if self.cdsStart == self.cdsEnd == self.txEnd:
             return coding_exons
-        # for exon in exons: 
-        #     if exon[0]>=self.cdsStart and exon[1]<self.cdsEnd:# exon is fully withing cdsStart and cdsEnd
-        #         coding_exons.append(exon)
-        #     elif exon[0]<self.cdsStart and exon[1]<self.cdsEnd:# exon start is outside of range but end is within range
-        #         coding_exons.append((self.cdsStart, exon[1]))
-        #     elif exon[0]>=self.cdsStart and exon[1]>=self.cdsEnd:# exon end is outside of range but start is within range
-        #         coding_exons.append((exon[0], self.cdsEnd+1))
-        #     elif exon[0]<self.cdsStart and exon[1]>=self.cdsEnd:# exon start and range are outside range but middle is withing range
-        #         coding_exons.append((self.cdsStart, self.cdsEnd+1))
         for exon in exons: 
             if exon[0] >= self.cdsStart and exon[1] <= self.cdsEnd: # exon is fully within coding region
                 coding_exons.append(exon)
@@ -163,7 +154,9 @@ class Transcript:
             raise Exception("which is not valid")
 
     def get_requested_region(self, region):
-        if region == "CODING":
+        if region == "GENIC":
+            return [(self.txStart, self.txEnd)]
+        elif region == "CODING":
             return self.get_coding()
         elif region == "UTR":
             return self.get_utr()
