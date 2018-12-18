@@ -5,20 +5,21 @@ import random
 class Indel(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template):
-        try:
-            Variant.__init__(self, var_template)
-            if type(self.impact) is not int:
-                raise Exception("""For indel type the program expects an int
-                representing the amount to delete or insert, 
-                did not get that input.""")
-            if self.impact > 200 or self.impact < -200:
-                raise Exception("Indels must be less than 200")
-            if self.impact == 0:
-                raise Exception("Indel length must be not equal to 0")
-            if self.type != "INDEL":
-                raise Exception("Must be indel type")
-        except:
-            print('check that type is indel and that impact is an int')
+        Variant.__init__(self, var_template)
+        self.indel_amount = self.impact["INDEL_AMOUNT"]
+        self.location = self.impact["LOCATION"]
+        if self.location != "ANY" and type(self.location) is not int: 
+            raise ValueError("location must be ANY or int")
+        if type(self.indel_amount) is not int:
+            raise ValueError("""For indel type the program expects an int
+            representing the amount to delete or insert, 
+            did not get that input.""")
+        if self.indel_amount > 200 or self.indel_amount < -200:
+            raise ValueError("Indels must be less than 200")
+        if self.indel_amount == 0:
+            raise indel_amount("Indel length must be not equal to 0")
+        if self.type != "INDEL":
+            raise indel_amount("Must be indel type")
 
 
     def get_insertion_str(self, size):
@@ -33,67 +34,66 @@ class Indel(Variant):
     def get_deletion(self, transcript):
         """returns (pos ,ref, alt) tuple of deletion"""
         # get requested region
-        regions = transcript.get_requested_region(self.region)
-        if len(regions) == 0:
-            raise Exception("region requested does not exists")
+        if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
+            regions = transcript.get_requested_region(self.region)
+            if len(regions) == 0:
+                raise ValueError("region requested does not exists")
+        else: 
+            regions = [self.parse_region(transcript, self.region)[1]]
         # get ranges
         region_range = []
         for region in regions: # range must be cut so that there is no overlap
-            region_range = region_range + range(region[0], region[1]+self.impact)
+            region_range = region_range + range(region[0], region[1]+self.indel_amount)
         if len(region_range) == 0:
-            raise Exception("""regions selected are too small to accomidate a 
+            raise ValueError("""regions selected are too small to accomidate a 
             deletion of this size, try reducing the size of the deletion""")
+        
         if self.location == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)  # determin what this is 
-            shifted_pos = pos - transcript.get_start()
-            return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact+1],
-                    "alt": transcript.get_seq()[shifted_pos:shifted_pos+1]}
         else:
             # check that deletion doesn't go over the amount
             if self.location not in region_range:
-                raise Exception("""location selected is too small to accomidate
+                raise ValueError("""location selected is too small to accomidate
                 a deletion of this size, try reducing the size of the 
                 deletion""")
             pos = self.location
-            shifted_pos = pos - transcript.get_start()
-            return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos:shifted_pos-self.impact+1],
-                    "alt": transcript.get_seq()[shifted_pos:shifted_pos+1]}
+        return {"pos": pos,
+                "ref": self.get_seq(transcript.chrom, pos, pos+1-self.indel_amount),
+                "alt": self.get_seq(transcript.chrom, pos, pos+1)}
 
     def get_insertion(self, transcript):
         """returns (ref, alt) tuple of insersion"""
         # get requested region
-        regions = transcript.get_requested_region(self.region)
-        if len(regions) == 0:
-            raise Exception("region requested does not exists")
+        if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
+            regions = transcript.get_requested_region(self.region)
+            if len(regions) == 0:
+                raise ValueError("region requested does not exists")
+        else: 
+            regions = [self.parse_region(transcript, self.region)[1]]
+        # get ranges
+        region_range = []
+        for region in regions:
+            region_range = region_range + range(region[0], region[1])
         if self.location == "ANY": # pick any position within the ranges
-            # get ranges
-            region_range = []
-            for region in regions:
-                region_range = region_range + range(region[0], region[1])
             pos = random.choice(region_range)
-            shifted_pos = pos - transcript.get_start()
-            return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos],
-                    "alt": transcript.get_seq()[shifted_pos] + self.get_insertion_str(self.impact)}
         else:
+            if self.location not in region_range:
+                raise ValueError("position must be within range")
             pos = self.location
-            shifted_pos = pos - transcript.get_start()
-            return {"pos": pos,
-                    "ref": transcript.get_seq()[shifted_pos],
-                    "alt": transcript.get_seq()[shifted_pos] + self.get_insertion_str(self.impact)}
+        return {"pos": pos,
+                "ref": self.get_seq(transcript.chrom, pos, pos+1),
+                "alt": self.get_seq(transcript.chrom, pos, pos+1) + self.get_insertion_str(self.indel_amount)}
 
     def get_vcf_row(self, transcript):
         chrom = str(transcript.get_chr())
-        if self.impact > 0:  # insersion
+        if self.indel_amount > 0:  # insersion
             var_dict = self.get_insertion(transcript)
-        if self.impact < 0: # deletion
+        if self.indel_amount < 0: # deletion
             var_dict = self.get_deletion(transcript)
         pos = str(var_dict["pos"] + 1) # add 1 to make iton based
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
-        ID = "_".join(["indel", pos, str(self.impact)])
+        ID = "_".join(["indel", pos, str(self.indel_amount)])
         if self.zygosity == "HOMOZYGOUS":
             zygosity = "1/1"  
         if self.zygosity == "HEMIZYGOUS":

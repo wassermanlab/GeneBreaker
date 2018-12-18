@@ -24,7 +24,7 @@ except:
 
 def parse_region(transcript, var_region):
     """returns a tuple (chrom, (start, stop))"""
-    if re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", var_region) == "None":
+    if re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", var_region) is None:
         raise Exception("custom region is not in correct format")
     chrom = var_region.split(":")[0]
     start = int(var_region.split(":")[1].split("-")[0]) - 1 ## making 0 based
