@@ -9,18 +9,15 @@ from lxml import etree
 class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template):
-        try:
-            Variant.__init__(self, var_template)
-            self.chrom = self.impact["CHROM"] 
-            self.start = self.impact["START"]
-            self.end = self.impact["END"]
-            self.length = self.impact["STR"]
-            if self.length == 0:
-                raise Exception("STR length must be not equal to 0")
-            if self.type != "STR":
-                raise Exception("Must be STR type")
-        except:
-            print('check that type is STR and that impact is correctly formatted')
+        Variant.__init__(self, var_template)
+        self.chrom = self.impact["CHROM"] 
+        self.start = self.impact["START"]
+        self.end = self.impact["END"]
+        self.length = self.impact["STR"]
+        if self.length == 0:
+            raise Exception("STR length must be not equal to 0")
+        if self.type != "STR":
+            raise Exception("Must be STR type")
     
     def get_str_motif(self):
         """return the motif of the specific str"""

@@ -14,7 +14,6 @@ class STRBasicTests(unittest.TestCase):
                 "START": 191745598,
                 "STR": 5
             },
-            "LOCATION": "NONE",
             "REGION": "UTR",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
@@ -29,8 +28,7 @@ class STRBasicTests(unittest.TestCase):
                 "START": 191745598,
                 "STR": -50
             },
-            "LOCATION": "NONE",
-            "REGION": "UTR",
+            "REGION": "GENIC",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
         STR = ShortTandemRepeat(STR)
@@ -48,7 +46,6 @@ class STRBasicTests(unittest.TestCase):
                 "START": 191745598,
                 "STR": -5
             },
-            "LOCATION": "NONE",
             "REGION": "UTR",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
@@ -66,7 +63,6 @@ class STRBasicTests(unittest.TestCase):
                 "START": 191745598,
                 "STR": 10000
             },
-            "LOCATION": "NONE",
             "REGION": "UTR",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
@@ -84,7 +80,6 @@ class STRBasicTests(unittest.TestCase):
                 "START": 191745598,
                 "STR": 5
             },
-            "LOCATION": "NONE",
             "REGION": "UTR",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
