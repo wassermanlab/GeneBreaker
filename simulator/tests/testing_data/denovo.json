@@ -3,8 +3,7 @@
     "GENE_NAME": "SOX9",
     "SEX": "XX-FEMALE",
     "VAR1": {
-        "IMPACT": 50, 
-        "LOCATION": "ANY", 
+        "IMPACT": {"INDEL_AMOUNT": 50, "LOCATION": "ANY"},
         "REGION": "CODING", 
         "TYPE": "INDEL",
         "ZYGOSITY": "HETEROZYGOUS"

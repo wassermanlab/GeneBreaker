@@ -12,18 +12,15 @@ class Variants:
     def __init__(self, variants_file):
         """ 
         creates variants object which has gene, inheritance, var1, var2 
-        """
-        try: 
-            f = open(variants_file)
-            variants_json = json.load(f)
-            variants_json
-            self.transcript = Transcript(variants_json["GENE_UID"])
-            self.var1 = variants_json["VAR1"]
-            self.var2 = variants_json["VAR2"]
-            self.sex =  variants_json["SEX"]
-            f.close()
-        except:
-            print("Check that the variants input is correct and follows the schema")
+        """ 
+        f = open(variants_file)
+        variants_json = json.load(f)
+        variants_json
+        self.transcript = Transcript(variants_json["GENE_UID"])
+        self.var1 = variants_json["VAR1"]
+        self.var2 = variants_json["VAR2"]
+        self.sex =  variants_json["SEX"]
+        f.close()
 
     def variants_2_VCF(self): 
         """ turns variant template into variant, string representing vcf """

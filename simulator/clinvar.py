@@ -9,10 +9,9 @@ from sqlalchemy.orm import Session
 class ClinVar(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template):
-        try:
-            Variant.__init__(self, var_template)
-        except:
-            print('check that is clinvar')
+        Variant.__init__(self, var_template)
+        self.impact = self.impact["CLINVAR_UID"]
+        print('check that is clinvar')
 
     def get_clinvar_information(self):
         """return the motif of the specific str"""
