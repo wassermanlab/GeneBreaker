@@ -102,18 +102,18 @@ def get_str_impact(transcript, var_region, status="new"):
     for region in regions:
         str_list = str_list + STR.select_by_location(session, chrom, region[0], region[1])
 
-    
+    new_str_list = []
     if status == "existing":
         for s in str_list: 
-            if s[0].pathogenicity == 0: 
-                str_list.remove(s)
+            if s[0].pathogenicity != 0: 
+                new_str_list.append(s)
 
-    if len(str_list) == 0:
+    if len(new_str_list) == 0:
         print "There is no STR in that region please select another variant"
         return False
 
     print "UID\tMOTIF\tPATHOGENICITY"
-    for s in str_list:
+    for s in new_str_list:
         print str(s[0].uid) + "\t" + str(s[0].motif) + "\t" + str(s[0].pathogenicity) 
 
     uid = int(raw_input("""Input the uid of your STR: """))
