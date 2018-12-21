@@ -4,25 +4,21 @@ channels:
   - anaconda
   - defaults
 dependencies:
-  - mysql-python
-  - mysql-connector-c
-  - mysqlclient
-  - biopython=1.72
-  - numpy=1.15.3
-  - numpy-base=1.15.3
-  - pip=10.0.1
-  - python=2.7.15
-  - setuptools=40.4.3
-  - sqlalchemy=1.2.13
-  - sqlite=3.25.2
-  - zlib=1.2.11
+  - mysql-connector-python 
+  - biopython
+  - numpy
+  - pip
+  - python=2.7
+  - setuptools
+  - sqlalchemy
+  - zlib
   - pip:
-    - autopep8==1.4.2
-    - configparser==3.5.0
-    - cython==0.29
-    - datetime==4.3
-    - interval-binning==1.0.0
-    - lxml==4.2.5
-    - pylint==1.9.3
-    - sqlalchemy-utils==0.33.8
+    - autopep8
+    - configparser
+    - cython
+    - datetime
+    - interval-binning
+    - lxml
+    - pylint
+    - sqlalchemy-utils
 
