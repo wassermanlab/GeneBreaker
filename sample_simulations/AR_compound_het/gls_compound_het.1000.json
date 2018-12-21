@@ -5,18 +5,15 @@
     "VAR1": {
         "IMPACT": {
             "CHROM": "chr2", 
-            "END": 191745646, 
             "START": 191745598, 
-            "STR": 1000
-        }, 
-        "LOCATION": "NONE", 
+            "END": 191745646, 
+            "STR": 1000}, 
         "REGION": "UTR", 
         "TYPE": "STR", 
         "ZYGOSITY": "HETEROZYGOUS"
     }, 
     "VAR2": {
-        "IMPACT": "T", 
-        "LOCATION": 191769850, 
+        "IMPACT": {"SNV_TYPE": "T", "LOCATION": 191769850},
         "REGION": "CODING", 
         "TYPE": "SNV", 
         "ZYGOSITY": "HETEROZYGOUS"

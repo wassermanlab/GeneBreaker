@@ -3,7 +3,7 @@
     "GENE_UID": 45616, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": 7106, 
+        "IMPACT": {"CLINVAR_UID": 7106},
         "LOCATION": "NONE", 
         "REGION": "CODING", 
         "TYPE": "ClinVar", 

@@ -3,8 +3,7 @@
     "GENE_UID": 23000, 
     "SEX": "XX-FEMALE", 
     "VAR1": {
-        "IMPACT": 31554, 
-        "LOCATION": "NONE", 
+        "IMPACT": {"CLINVAR_UID": 31554},
         "REGION": "INTRONIC", 
         "TYPE": "ClinVar", 
         "ZYGOSITY": "HETEROZYGOUS"
