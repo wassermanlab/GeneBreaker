@@ -4,6 +4,7 @@ from simulator.indel import Indel
 from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
 from simulator.short_tandem_repeat import ShortTandemRepeat
 from simulator.clinvar import ClinVar
+from simulator.copy_number_variant import CopyNumberVariant
 import json
 from datetime import date
 
@@ -44,6 +45,9 @@ class Variants:
             if var_type == "ClinVar":
                 cln = ClinVar(var)
                 row = cln.get_vcf_row(self.transcript)
+            if var_type == "CNV":
+                cnv = CopyNumberVariant(var)
+                row = cnv.get_vcf_row(self.transcript)
             if index == 0:
                 r1 = row + "\n"
             if index == 1:
@@ -61,6 +65,11 @@ class Variants:
         header = header + "##fileDate=" + str(date.today()) + "\n"
         header = header + "##source=variant_simulator\n"
         header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
+        header = header + "##INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the variant described in this record\"\n"
+        header = header + "##INFO=<ID=SVLEN,Number=.,Type=Integer,Description=\"Difference in length between REF and ALT alleles\"\n"
+        header = header + "##INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of structural variant\"\n"
+        header = header + "##ALT=<ID=DUP,Description=\"Duplication\"\n"
+        header = header + "##ALT=<ID=DEL,Description=\"Deletion\"\n"
         header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n" 
         # TODO: implement this 
         f = open(file_name,"w+")

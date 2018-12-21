@@ -9,6 +9,7 @@ from GUD2.ORM import Gene
 from GUD2.ORM import ShortTandemRepeat
 from GUD2.ORM import ClinVar
 from GUD2.ORM import Chrom
+from GUD2.ORM import CNV
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from simulator.transcript import Transcript
@@ -39,7 +40,56 @@ def parse_region(transcript, var_region):
         raise Exception("custom location is not on the same chromosome as the transcript")
     return (chrom, (start, end))
          
-def get_str_impact(transcript, var_region):
+def get_cnv_impact(transcript, var_region, status="new"):
+    if var_region in ["CODING", "UTR", "INTRONIC", "GENIC"]:
+        regions = transcript.get_requested_region(var_region)
+        chrom = transcript.chrom
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+        chrom = parse_region(transcript, var_region)[0]
+    
+    if status == "existing":
+        cnv = CNV()
+        cnv_list = []
+        for region in regions:
+            cnv_list = cnv_list + CNV.select_by_location(session, chrom, region[0], region[1])
+
+        if len(cnv_list) == 0:
+            print "There is no CNVs in that region please select another variant"
+            return False
+
+        print "UID\tSTART\tEND\tVARIANT_TYPE\tCOPY_NUMBER"
+        for s in cnv_list:
+            print str(s[0].uid) + "\t" + str(s[1].start+1) + "\t" + str(s[1].end) + "\t" + str(s[0].variant_type) + "\t" + str(s[0].copy_number) 
+
+        uid = raw_input("""Input the uid of your CNV: """)
+        cnv = CNV.select_by_uid(session, uid)
+        if cnv[0].variant_type == "copy_number_loss":
+            var_impact = {"CHROM": cnv[1].chrom, "START": cnv[1].start, "END": cnv[1].end, "CNV": -1}
+        else:
+            var_impact = {"CHROM": cnv[1].chrom, "START": cnv[1].start, "END": cnv[1].end, "CNV": cnv[0].copy_number}
+    else:
+        print "Available Regions:"
+        print "START\tEND"
+        for region in regions:
+            print str(region[0]+1) + "\t" + str(region[1]) 
+        start = int(raw_input("""Input the base 1 start position of your CNV: """))
+        end = int(raw_input("""Input the base 1 end position of your CNV: """))
+        copy_number = int(raw_input("""Input number of copies you want in your variant where positive numbers are duplications and -1 is a deletion: """))
+        if start>=end:
+            print "The start position cannot be greater than the end position please start again."
+            return False 
+        validity = False
+        for region in regions: 
+            if region[0] <= start and end <= region[1]:
+                validity = True
+        if validity == False:
+            print "The start and end positions must be within a region, please start again."
+            return False
+        var_impact = {"CHROM": transcript.chrom, "START": start-1, "END": end, "CNV": copy_number}
+    return var_impact
+
+def get_str_impact(transcript, var_region, status="new"):
     if var_region in ["CODING", "UTR", "INTRONIC", "GENIC"]:
         regions = transcript.get_requested_region(var_region)
         chrom = transcript.chrom
@@ -47,22 +97,31 @@ def get_str_impact(transcript, var_region):
         regions = [parse_region(transcript, var_region)[1]]
         chrom = parse_region(transcript, var_region)[0]
     STR = ShortTandemRepeat()
-    count = 0 
     str_list = []
 
     for region in regions:
         str_list = str_list + STR.select_by_location(session, chrom, region[0], region[1])
+
     
+    if status == "existing":
+        for s in str_list: 
+            if s[0].pathogenicity == 0: 
+                str_list.remove(s)
+
     if len(str_list) == 0:
         print "There is no STR in that region please select another variant"
         return False
+
     print "UID\tMOTIF\tPATHOGENICITY"
     for s in str_list:
         print str(s[0].uid) + "\t" + str(s[0].motif) + "\t" + str(s[0].pathogenicity) 
 
     uid = int(raw_input("""Input the uid of your STR: """))
     STR = STR.select_by_uid(session, uid)
-    str_length = int(raw_input("""input the size of your short tandem repeat, negative numbers are deletions positive numbers are insersions: """))
+    if status != "existing":
+        str_length = int(raw_input("""input the size of your short tandem repeat, negative numbers are deletions positive numbers are insersions: """))
+    else:
+        str_length = STR[0].pathogenicity
     var_impact = {"CHROM": STR[1].chrom, "START": STR[1].start, "END": STR[1].end, "STR": str_length}
     return var_impact
 
@@ -70,11 +129,11 @@ def get_snv_impact(transcript, var_region):
     if var_region == "CODING":
         snv_type = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE' or 'SYNONYMOUS': """))
         if snv_type not in ['A', 'T', 'G', 'C', 'ANY', 'MISSENSE', 'NONSENSE', 'SYNONYMOUS']:
-            raise Exception("Not valid impact type for CODING SNV")
+            raise ValueError("Not valid impact type for CODING SNV")
     else:
         snv_type = str(raw_input("""Input the impact of your SNV, valid inputs are 'A', 'T', 'G', 'C', or 'ANY': """))
         if snv_type not in ['A', 'T', 'G', 'C', 'ANY']:
-            raise Exception("Not valid impact type for SNV")
+            raise ValueError("Not valid impact type for SNV")
     if var_region in ['CODING', 'UTR', 'INTRONIC', 'GENIC']:
         regions = transcript.get_requested_region(var_region)
     else: 
@@ -91,9 +150,9 @@ def get_snv_impact(transcript, var_region):
                 if region[0] <= location < region[1]:
                     location_correct = True
             if location_correct == False:
-                raise Exception("location is not within region")
+                raise ValueError("location is not within region")
         except: 
-            raise Exception("location is not a number or 'ANY'")
+            raise ValueError("location is not a number or 'ANY'")
 
     return {"SNV_TYPE": snv_type, "LOCATION": location}
 
@@ -160,19 +219,35 @@ def get_variant_dict(transcript, sex, variant = "var1"):
     var_impact = False
     while var_impact == False:
         var_dict = dict()
-        var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'ClinVar': """))  # add other variant types
-        var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC', 'GENIC', or a custom position in the format of chrZ:int-int: """))  # todo add promoter and enhancer
-        var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
-        if var_type == "INDEL":
-            var_impact = get_indel_impact(transcript, var_region)
-        elif var_type == "SNV":
-            var_impact = get_snv_impact(transcript, var_region)
-        elif var_type == "STR":
-            var_impact = get_str_impact(transcript, var_region)     
-        elif var_type == "ClinVar":
-            var_impact = get_clinvar_impact(transcript, var_region)
-        else:
-            raise Exception("variant type specified is not valid")
+        var_creation = str(raw_input("Would you like to create a new variant or use an existing variant, input 'new' or 'existing': "))
+        if var_creation == "existing":
+            var_type = str(raw_input("""What type of variant would you like, options are 'STR', 'ClinVar', 'CNV': """))  # add other variant types
+            var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC', 'GENIC', or a custom position in the format of chrZ:int-int: """))  # todo add promoter and enhancer
+            var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
+            if var_type == "STR":
+                var_impact = get_str_impact(transcript, var_region, "existing")     
+            elif var_type == "ClinVar":
+                var_impact = get_clinvar_impact(transcript, var_region)
+            elif var_type == "CNV": 
+                var_impact = get_cnv_impact(transcript, var_region, "existing") 
+            else:
+                raise ValueError("variant type specified is not valid")
+        elif var_creation == "new":
+            var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'CNV': """))  # add other variant types
+            var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC', 'GENIC', or a custom position in the format of chrZ:int-int: """))  # todo add promoter and enhancer
+            var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
+            if var_type == "INDEL":
+                var_impact = get_indel_impact(transcript, var_region)
+            elif var_type == "SNV":
+                var_impact = get_snv_impact(transcript, var_region)
+            elif var_type == "STR":
+                var_impact = get_str_impact(transcript, var_region) 
+            elif var_type == "CNV": 
+                var_impact = get_cnv_impact(transcript, var_region)  
+            else:
+                raise ValueError("variant type specified is not valid")
+        else: 
+            raise ValueError("must select new or existing")
 
     if transcript.chrom in ["chrX", "chrY"] and sex == "XY-MALE" and var_zygosity != "HEMIZYGOUS":
         raise Exception("not valid zygosity.")
