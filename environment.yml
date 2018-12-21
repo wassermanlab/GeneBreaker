@@ -4,6 +4,7 @@ channels:
   - anaconda
   - defaults
 dependencies:
+  - mysqlclient
   - mysql-connector-python 
   - biopython
   - numpy
