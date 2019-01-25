@@ -269,7 +269,7 @@ def get_main_dict():
     if len(genes) == 0:
         raise Exception("No genes by that gene symbol")
     print "Gene_UID\ttranscript_start\ttranscript_end"
-    for g in genes:
+    for g in genes: 
         full_entry = gene.select_by_uid_joined(session, g.uid)
         print str(full_entry[0].uid) + "\t" + str(full_entry[1].start) + "\t" + str(full_entry[1].end)
     gene_uid = int(
