@@ -58,9 +58,9 @@ def get_cnv_impact(transcript, var_region, status="new"):
             print "There is no CNVs in that region please select another variant"
             return False
 
-        print "UID\tSTART\tEND\tVARIANT_TYPE\tCOPY_NUMBER"
+        print "UID\tSTART\tEND\tVARIANT_TYPE\tCOPY_NUMBER\nclinical_interpretation"
         for s in cnv_list:
-            print str(s[0].uid) + "\t" + str(s[1].start+1) + "\t" + str(s[1].end) + "\t" + str(s[0].variant_type) + "\t" + str(s[0].copy_number) 
+            print str(s[0].uid) + "\t" + str(s[1].start+1) + "\t" + str(s[1].end) + "\t" + str(s[0].variant_type) + "\t" + str(s[0].copy_number) + "\t" + str(s[0].clinical_interpretation) 
 
         uid = raw_input("""Input the uid of your CNV: """)
         cnv = CNV.select_by_uid(session, uid)
@@ -180,6 +180,31 @@ def get_indel_impact(transcript, var_region):
 
     return {"INDEL_AMOUNT": indel_amount, "LOCATION": location}
 
+def get_mei_impact(transcript, var_region):
+    mei_element = str(raw_input("""input the element you want inserted options are ALU_MELT, SVA_MELT, LINE1_MELT: """))
+    
+    if var_region in ['CODING', 'UTR', 'INTRONIC', 'GENIC']:
+        regions = transcript.get_requested_region(var_region)
+    else: 
+        regions = [parse_region(transcript, var_region)[1]]
+    
+    location = str(raw_input("""Input the location you want your variant to be.
+    The location can be 'ANY' or a location within these ranges 
+    inclusive of the start position not inclusive of the end """+ str(regions)+ ": "))   
+    if location != "ANY":
+        try: 
+            location = int(location)
+            location_correct = False
+            for region in regions: 
+                if region[0] <= location < region[1]:
+                    location_correct = True
+            if location_correct == False:
+                raise Exception("location is not within region")
+        except: 
+            raise Exception("location is not a number or 'ANY'")
+
+    return {"ELEMENT": mei_element, "LOCATION": location}
+
 def get_clinvar_impact(transcript, var_region):
     if var_region in ["CODING", "UTR", "INTRONIC", "GENIC"]:
         regions = transcript.get_requested_region(var_region)
@@ -232,7 +257,7 @@ def get_variant_dict(transcript, sex, variant = "var1"):
             else:
                 raise ValueError("variant type specified is not valid")
         elif var_creation == "new":
-            var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'CNV': """))  # add other variant types
+            var_type = str(raw_input("""What type of variant would you like, options are 'SNV', 'INDEL', 'STR', 'CNV', 'MEI': """))  # add other variant types
             var_region = str(raw_input("""In what region would you like your variant to be, options are CODING', 'UTR', 'INTRONIC', 'GENIC', or a custom position in the format of chrZ:int-int: """))  # todo add promoter and enhancer
             var_zygosity = str(raw_input("What zygosity would you like your variant to have, options are " + str(zygosity_options) + ": "))
             if var_type == "INDEL":
@@ -242,7 +267,9 @@ def get_variant_dict(transcript, sex, variant = "var1"):
             elif var_type == "STR":
                 var_impact = get_str_impact(transcript, var_region) 
             elif var_type == "CNV": 
-                var_impact = get_cnv_impact(transcript, var_region)  
+                var_impact = get_cnv_impact(transcript, var_region) 
+            elif var_type == "MEI": 
+                var_impact = get_mei_impact(transcript, var_region)  
             else:
                 raise ValueError("variant type specified is not valid")
         else: 
