@@ -4,6 +4,7 @@ from simulator.indel import Indel
 from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
 from simulator.short_tandem_repeat import ShortTandemRepeat
 from simulator.clinvar import ClinVar
+from simulator.mei import MEI
 from simulator.copy_number_variant import CopyNumberVariant
 import json
 from datetime import date
@@ -42,6 +43,9 @@ class Variants:
             if var_type == "STR":
                 STR = ShortTandemRepeat(var)
                 row = STR.get_vcf_row(self.transcript)
+            if var_type == "MEI":
+                mei = MEI(var)
+                row = mei.get_vcf_row(self.transcript)
             if var_type == "ClinVar":
                 cln = ClinVar(var)
                 row = cln.get_vcf_row(self.transcript)

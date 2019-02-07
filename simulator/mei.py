@@ -18,27 +18,27 @@ class MEI(Variant):
             raise ValueError("""Only elements in the set of, "ALU_MELT", "LINE1_MELT", "SVA_MELT"
             are currently supported.""")
         if self.type != "MEI":
-            raise indel_amount("Must be MEI type")
+            raise ValueError("Must be MEI type")
 
 
     def get_insertion_str(self):
         """reads the fasta and gets string of fasta file"""
         ## get file name
         THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-        zip_file = os.path.join(THIS_FOLDER, 'mei/'+ self.element)
-        fasta_file = os.path.join(THIS_FOLDER, 'mei'+ self.element[self.element])
+        zip_file = os.path.join(THIS_FOLDER, 'mei/'+ self.element+".zip")
+        fasta_file_full = os.path.join(THIS_FOLDER, 'mei/'+ self.element_dict[self.element]+".fa")
+        fasta_file = self.element_dict[self.element]+".fa"
         ## unzip file 
         zip_file = zipfile.ZipFile(zip_file)
-        zip_file.extract('ALU.fa', os.path.join(THIS_FOLDER, 'mei'))
+        zip_file.extract(fasta_file, os.path.join(THIS_FOLDER, 'mei'))
         zip_file.close()
         
         insertion = ""
-        for seq_record in SeqIO.parse(fasta_file, "fasta"):
+        for seq_record in SeqIO.parse(fasta_file_full, "fasta"):
             insertion = str(seq_record.seq)
 
-        os.remove(fasta_file)
-        print insertion 
-        return insertion 
+        os.remove(fasta_file_full)
+        return insertion.upper() 
 
     def get_insertion(self, transcript):
         """returns (ref, alt) tuple of insersion"""
