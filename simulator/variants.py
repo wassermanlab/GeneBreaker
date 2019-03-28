@@ -85,7 +85,6 @@ class Variants:
             f.write(header+vcf[0]+vcf[1])
             f.close()
     
-        
         vcf = self.variants_2_VCF(format="simple")
         header = "##fileDate=" + str(date.today()) + "\n"
         header = header + "##source=variant_simulator\n"

@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree
 from Bio.Seq import Seq
+import re
 
 class Transcript:
 
@@ -153,7 +154,7 @@ class Transcript:
         else: 
             raise Exception("which is not valid")
 
-    def get_requested_region(self, region):
+    def get_requested_region(self, region): 
         if region == "GENIC":
             return [(self.txStart, self.txEnd)]
         elif region == "CODING":
@@ -162,6 +163,8 @@ class Transcript:
             return self.get_utr()
         elif region == "INTRONIC":
             return self.get_introns()    
+        elif re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", region) is not None:
+            return [(int(region.split(":")[1].split("-")[0]), int(region.split(":")[1].split("-")[1]))]
         else:
             raise Exception("region not valid")
 

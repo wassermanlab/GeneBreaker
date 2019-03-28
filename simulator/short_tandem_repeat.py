@@ -73,7 +73,7 @@ class ShortTandemRepeat(Variant):
 
     def get_vcf_row(self, transcript):
         # get regions 
-        regions = transcript.get_requested_region(self.region)
+        regions = transcript.get_requested_region(self.region) 
         check = False
         for region in regions:
             if region[0] <= self.start < region[1]:
