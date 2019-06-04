@@ -76,7 +76,7 @@ class ShortTandemRepeat(Variant):
         regions = transcript.get_requested_region(self.region) 
         check = False
         for region in regions:
-            if region[0] <= self.start < region[1]:
+            if region[0] <= self.start <= region[1]:
                 check = True
         if check is False: 
             raise Exception("STR is not in requested region")

@@ -1,7 +1,7 @@
 # extra
 *.tsv
 *Rhistory
-str_simulations/*
+*str_simulations*
 
 #vscode
 .vscode
