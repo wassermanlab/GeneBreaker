@@ -1,5 +1,5 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript 
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript 
 import random
 from Bio import SeqIO
 import os

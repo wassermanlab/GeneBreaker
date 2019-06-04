@@ -1,7 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.short_tandem_repeat import ShortTandemRepeat
-from simulator.transcript import Transcript
+from simulator.src.short_tandem_repeat import ShortTandemRepeat
+from simulator.src.transcript import Transcript
 
 
 class STRBasicTests(unittest.TestCase):

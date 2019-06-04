@@ -1,5 +1,5 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript
 import random
 
 class SingleNucleotideVariant(Variant):
@@ -18,7 +18,7 @@ class SingleNucleotideVariant(Variant):
                          "Ala": ["GCT", "GCC", "GCA", "GCG"],
                          "Ile": ["ATT", "ATC", "ATA"], "Trp": ["TGG"]}
     aa_codes = {}
-    for key, value in amino_acid_codons.iteritems():
+    for key, value in amino_acid_codons.items():
         for code in value:
             aa_codes[code] = key
     translator = {"A": "T",

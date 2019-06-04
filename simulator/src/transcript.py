@@ -1,11 +1,12 @@
 import json
 import argparse
 import json
-from GUD2.ORM import Gene
+from GUD.ORM import Gene
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree
 from Bio.Seq import Seq
+from Bio.genomic_feature import GenomicFeature
 import re
 
 class Transcript:
@@ -21,9 +22,7 @@ class Transcript:
             engine = create_engine(db_name, echo=False)
             session = Session(engine)
             gene = Gene()
-            transcript_region = Gene.select_by_uid_joined(session, uid)
-            transcript = transcript_region[0]
-            region = transcript_region[1]
+            transcript = gene.select_by_uid(session, uid)
             self.name = transcript.uid
             self.cdsStart   = long(transcript.cdsStart)
             self.cdsEnd     = long(transcript.cdsEnd)

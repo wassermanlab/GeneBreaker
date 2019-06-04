@@ -1,7 +1,7 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript 
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript 
 import random
-from GUD2.ORM import ShortTandemRepeat as GUDSTR ##
+from GUD.ORM import ShortTandemRepeat as GUDSTR ##
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree

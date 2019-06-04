@@ -1,7 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.mei import MEI
-from simulator.transcript import Transcript
+from simulator.src.mei import MEI
+from simulator.src.transcript import Transcript
 
 
 class MEICreationTests(unittest.TestCase):

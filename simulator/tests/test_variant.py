@@ -1,6 +1,6 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.variant import Variant
+from simulator.src.variant import Variant
 
 
 class VariantCreationTests(unittest.TestCase):

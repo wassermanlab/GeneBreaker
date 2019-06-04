@@ -1,6 +1,6 @@
 import unittest
-from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from simulator.transcript import Transcript
+from simulator.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from simulator.src.transcript import Transcript
 
 class SNVCreationTests(unittest.TestCase):
     # test 1

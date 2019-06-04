@@ -1,7 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.indel import Indel
-from simulator.transcript import Transcript
+from simulator.src.indel import Indel
+from simulator.src.transcript import Transcript
 
 
 class IndelCreationTests(unittest.TestCase):
