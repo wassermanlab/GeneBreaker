@@ -2,9 +2,8 @@ from simulator.src.variant import Variant
 from simulator.src.transcript import Transcript
 import random
 from GUD.ORM import ClinVar as CLN
-from sqlalchemy import create_engine, Index
-from sqlalchemy.orm import Session
 from . import establish_GUD_session
+session = establish_GUD_session()
 
 class ClinVar(Variant):
     # assume var_template is of type dict already
