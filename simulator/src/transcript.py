@@ -4,19 +4,14 @@ from GUD.ORM.genomic_feature import GenomicFeature
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from Bio.Seq import Seq
+from . import establish_GUD_session
 
 class Transcript:
 
     def __init__(self, uid):
-        """ create transcript object 
-        """
-        # Establish a SQLalchemy session w/ GUD
-        db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",
-            "ontarget.cmmt.ubc.ca", "5506", "tamar_test") #todo change back to hg19 once inserted
-
+        """ create transcript object """
         try:
-            engine = create_engine(db_name, echo=False)
-            session = Session(engine)
+            session = establish_GUD_session()
             gene = Gene()
             transcript = gene.select_by_uid(session, uid, True)
             self.name       = transcript.qualifiers["name2"]

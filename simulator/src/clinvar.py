@@ -4,21 +4,18 @@ import random
 from GUD.ORM import ClinVar as CLN
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
-
+from . import establish_GUD_session
 
 class ClinVar(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template):
+    def __init__(self, var_template: dict):
         Variant.__init__(self, var_template)
         self.impact = self.impact["CLINVAR_UID"]
         print('check that is clinvar')
 
     def get_clinvar_information(self):
         """return the motif of the specific str"""
-        db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",  # todo change this to hg19
-                                                "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
-        engine = create_engine(db_name, echo=False)
-        session = Session(engine)
+        session = establish_GUD_session()
         clinvar = CLN()
         clinvar = clinvar.select_by_name(session, self.impact, True)
         if clinvar is None:

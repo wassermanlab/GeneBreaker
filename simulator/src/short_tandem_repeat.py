@@ -5,6 +5,7 @@ from GUD.ORM import ShortTandemRepeat as GUDSTR ##
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree
+from . import establish_GUD_session
 
 class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already
@@ -21,10 +22,7 @@ class ShortTandemRepeat(Variant):
     
     def get_str_motif(self) -> str:
         """return the motif of the specific str"""
-        db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo change this to hg19
-                                        "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
-        engine = create_engine(db_name, echo=False)
-        session = Session(engine) 
+        session = establish_GUD_session()
         STR = GUDSTR()
         STR = STR.select_by_exact_location(session, self.chrom, self.start, self.end, True)
         return STR.qualifiers["motif"]

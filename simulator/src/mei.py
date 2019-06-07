@@ -7,7 +7,7 @@ import zipfile
 
 class MEI(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template):
+    def __init__(self, var_template: dict):
         Variant.__init__(self, var_template)
         self.element = self.impact["ELEMENT"]
         self.location = self.impact["LOCATION"]
@@ -21,12 +21,13 @@ class MEI(Variant):
             raise ValueError("Must be MEI type")
 
 
-    def get_insertion_str(self):
+    def get_insertion_str(self) -> str:
         """reads the fasta and gets string of fasta file"""
         ## get file name
         THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-        zip_file = os.path.join(THIS_FOLDER, 'mei/'+ self.element+".zip")
-        fasta_file_full = os.path.join(THIS_FOLDER, 'mei/'+ self.element_dict[self.element]+".fa")
+        THIS_FOLDER = os.path.split(THIS_FOLDER)[0]
+        zip_file = THIS_FOLDER + '/mei/'+ self.element + ".zip"
+        fasta_file_full = THIS_FOLDER + '/mei/' + self.element_dict[self.element] + ".fa"
         fasta_file = self.element_dict[self.element]+".fa"
         ## unzip file 
         zip_file = zipfile.ZipFile(zip_file)
@@ -40,7 +41,7 @@ class MEI(Variant):
         os.remove(fasta_file_full)
         return insertion.upper() 
 
-    def get_insertion(self, transcript):
+    def get_insertion(self, transcript: Transcript) -> dict:
         """returns (ref, alt) tuple of insersion"""
         # get requested region
         if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
@@ -52,7 +53,7 @@ class MEI(Variant):
         # get ranges
         region_range = []
         for region in regions:
-            region_range = region_range + range(region[0], region[1])
+            region_range = region_range + list(range(region[0], region[1]))
         if self.location == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)
         else:
@@ -63,7 +64,7 @@ class MEI(Variant):
                 "ref": self.get_seq(transcript.chrom, pos, pos+1),
                 "alt": self.get_seq(transcript.chrom, pos, pos+1) + self.get_insertion_str()}
 
-    def get_vcf_row(self, transcript):
+    def get_vcf_row(self, transcript: Transcript) -> str:
         chrom = str(transcript.get_chr())
         var_dict = self.get_insertion(transcript)
         pos = str(var_dict["pos"] + 1) # add 1 to make one based

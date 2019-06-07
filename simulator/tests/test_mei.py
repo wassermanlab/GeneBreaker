@@ -2,7 +2,8 @@
 import unittest
 from simulator.src.mei import MEI
 from simulator.src.transcript import Transcript
-
+from . import establish_GUD_session
+from GUD.ORM import Gene
 
 class MEICreationTests(unittest.TestCase):
     # test 1
@@ -15,13 +16,15 @@ class MEICreationTests(unittest.TestCase):
             MEI(mei)
     # test 2
     def test_location_0(self):
-        sox18 = Transcript(241)  # SOX18
+        session = establish_GUD_session()
+        SOX18_uid = Gene().select_by_name(session, "SOX18", True)[0].qualifiers["uid"]
+        SOX18 = Transcript(SOX18_uid)  # SOX18
         mei = {"TYPE": "MEI",
                  "REGION": "INTRONIC",
                  "IMPACT": {"ELEMENT": "ALU_MELT", "LOCATION": 0},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
-            MEI(mei).get_vcf_row(sox18)
+            MEI(mei).get_vcf_row(SOX18)
 
 class InsersionMethodTesting(unittest.TestCase):
     mei_any = {'TYPE': 'MEI',
@@ -34,8 +37,11 @@ class InsersionMethodTesting(unittest.TestCase):
                   'IMPACT': {"ELEMENT": "ALU_MELT", "LOCATION": 132576250},
                   "ZYGOSITY": "HETEROZYGOUS"}
     mei_spec = MEI(mei_spec)
-    positive_transcript = Transcript(64805)  # SOX9
-    negative_transcript = Transcript(68960)  # TOR1A
+    session = establish_GUD_session()
+    TOR1A_uid = Gene().select_by_name(session, "TOR1A", True)[0].qualifiers["uid"]
+    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]    
+    positive_transcript = Transcript(SOX9_uid)  # SOX9
+    negative_transcript = Transcript(TOR1A_uid)  # TOR1A
 
     # test 3
     def test_check_insertion_generation(self):
@@ -57,10 +63,10 @@ class InsersionMethodTesting(unittest.TestCase):
         insertion = self.mei_spec.get_vcf_row(self.negative_transcript)
         insertion = insertion.split("\t")
         insertion[4] = insertion[4].rstrip()
-        self.assertEquals(insertion[0], "chr9")
-        self.assertEquals(insertion[1], '132576251')
-        self.assertEquals(len(insertion[4]), 282)
-        print insertion
+        self.assertEqual(insertion[0], "chr9")
+        self.assertEqual(insertion[1], '132576251')
+        self.assertEqual(len(insertion[4]), 282)
+        print(insertion)
 
 if __name__ == '__main__':
     unittest.main()
