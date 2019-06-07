@@ -20,17 +20,17 @@ class ClinVar(Variant):
         engine = create_engine(db_name, echo=False)
         session = Session(engine)
         clinvar = CLN()
-        clinvar = clinvar.select_by_name(session, self.impact)
+        clinvar = clinvar.select_by_name(session, self.impact, True)
         if clinvar is None:
             raise Exception("no variant with that clinvar ID")
-        return {"pos": clinvar[1].start,
-                "ref": clinvar[0].ref,
-                "alt": clinvar[0].alt,
+        return {"pos": clinvar.start,
+                "ref": clinvar.qualifiers["ref"],
+                "alt": clinvar.qualifiers["alt"],
                 "id": self.impact}
 
-    def get_vcf_row(self, transcript):
+    def get_vcf_row(self, transcript: Transcript) -> str:
         # get regions
-        ## TODO: put check here that its in correct region??
+        # TODO: put check here that its in correct region??
         var_dict = self.get_clinvar_information()
 
         chrom = transcript.chrom

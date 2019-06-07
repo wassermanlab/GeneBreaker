@@ -25,7 +25,7 @@ class Indel(Variant):
     def get_insertion_str(self, size):
         """returns a random string of ACGT according to size"""
         insertion = ""
-        for i in range(size):
+        for i in list(range(size)):
             # randomly choses ACGT for each position in insertion
             insertion = insertion + random.choice("ACGT")
         return insertion
@@ -43,7 +43,7 @@ class Indel(Variant):
         # get ranges
         region_range = []
         for region in regions: # range must be cut so that there is no overlap
-            region_range = region_range + range(region[0], region[1]+self.indel_amount)
+            region_range = region_range + list(range(region[0], region[1]+self.indel_amount))
         if len(region_range) == 0:
             raise ValueError("""regions selected are too small to accomidate a 
             deletion of this size, try reducing the size of the deletion""")
@@ -73,7 +73,7 @@ class Indel(Variant):
         # get ranges
         region_range = []
         for region in regions:
-            region_range = region_range + range(region[0], region[1])
+            region_range = region_range + list(range(region[0], region[1]))
         if self.location == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)
         else:

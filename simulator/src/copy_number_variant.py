@@ -1,7 +1,6 @@
 from simulator.src.variant import Variant
 from simulator.src.transcript import Transcript 
-import random
-from GUD.ORM import CNV                         # TODO: why is this import statement here ?
+import random                       # TODO: why is this import statement here ?
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree

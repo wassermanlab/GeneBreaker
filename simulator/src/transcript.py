@@ -1,13 +1,9 @@
-import json
-import argparse
-import json
+from lxml import etree
 from GUD.ORM import Gene
+from GUD.ORM.genomic_feature import GenomicFeature
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
-from lxml import etree
 from Bio.Seq import Seq
-from Bio.genomic_feature import GenomicFeature
-import re
 
 class Transcript:
 
@@ -22,20 +18,20 @@ class Transcript:
             engine = create_engine(db_name, echo=False)
             session = Session(engine)
             gene = Gene()
-            transcript = gene.select_by_uid(session, uid)
-            self.name = transcript.uid
-            self.cdsStart   = long(transcript.cdsStart)
-            self.cdsEnd     = long(transcript.cdsEnd)
-            self.exonStarts = transcript.exonStarts
-            self.exonEnds   = transcript.exonEnds
-            self.chrom      = region.chrom
-            self.txStart    = long(region.start)
-            self.txEnd      = long(region.end)
+            transcript = gene.select_by_uid(session, uid, True)
+            self.name       = transcript.qualifiers["name2"]
+            self.cdsStart   = int(transcript.qualifiers["cdsStart"])
+            self.cdsEnd     = int(transcript.qualifiers["cdsEnd"])
+            self.exonStarts = transcript.qualifiers["exonStarts"].decode()
+            self.exonEnds   = transcript.qualifiers["exonEnds"].decode()
+            self.chrom      = transcript.chrom
+            self.txStart    = int(transcript.start)
+            self.txEnd      = int(transcript.end)
             self.strand     = transcript.strand
         except:
-            print("Unexpected error, check validity of config and gene inputs")
+            raise Exception("cannot make transcript")
 
-    def get_seq(self, stranded=False): 
+    def get_seq(self, stranded:bool = False) -> str: 
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 0""" 
         # Initialize
@@ -48,14 +44,14 @@ class Transcript:
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
         if stranded is False: 
             return sequence.upper()
-        elif self.strand == "+":
+        elif self.strand == 1:
             return sequence.upper()
-        elif self.strand == "-":
+        elif self.strand == -1:
             sequence = Seq(sequence).reverse_complement()
             sequence = str(sequence)
             return sequence.upper()
 
-    def get_seq_from_pos(self, positions):
+    def get_seq_from_pos(self, positions) -> str:
         """returns positive strand positions"""
         seq = self.get_seq()
         cut = ""
@@ -70,38 +66,37 @@ class Transcript:
                 cut = cut + seq[start:end]
         else:
             raise Exception("wrong type to get_seq_from_pos(), should only except tuple or list or tuples")
-        if self.strand == "+":
+        if self.strand == 1:
             return cut
-        elif self.strand == "-":
+        elif self.strand == -1:
             return str(Seq(cut).reverse_complement())
 
-    def get_start(self):
+    def get_start(self) -> int:
         return self.txStart
 
-    def get_chr(self): 
+    def get_chr(self) -> str: 
         """ returns chr from gene""" 
         return self.chrom       
 
-    def positive_sorted(self, positions):
+    def positive_sorted(self, positions: list) -> list:
         positions.sort(key=lambda tup: tup[0], reverse=False)
         return positions 
 
-    def negative_sorted(self, positions):
+    def negative_sorted(self, positions: list) -> list:
         positions.sort(key=lambda tup: tup[0], reverse=True)
         return positions 
    
-    def get_exons(self):
+    def get_exons(self) -> list:
         """ returns the codons from a gene [(start, stop)*] sorted from lowest to highest start position"""
         starts = self.exonStarts.split(",")[:-1]
-        starts = [long(x) for x in starts]
+        starts = [int(x) for x in starts]
         starts.sort()
         ends = self.exonEnds.split(",")[:-1]
-        ends = [long(x) for x in ends]
+        ends = [int(x) for x in ends]
         ends.sort()
-
-        return zip(starts, ends) 
+        return list(zip(starts, ends)) 
         
-    def get_coding(self):
+    def get_coding(self) -> str:
         """ returns all coding regions from gene in the form of [(start, stop),*]"""
         exons = self.get_exons()
         coding_exons = []
@@ -121,7 +116,7 @@ class Transcript:
         coding_exons.sort(key=lambda tup: tup[0], reverse=False)
         return coding_exons
     
-    def get_introns(self):
+    def get_introns(self) -> str:
         """ returns all introns from gene [[start, stop],*]"""
         exons = self.get_exons()
         introns = []
@@ -134,15 +129,15 @@ class Transcript:
                 last_pos = exon[1]
         return introns
 
-    def get_utr(self, which="both"): ## options are "both", "5_prime", "3_prime"
+    def get_utr(self, which: str="both") -> list: ## options are "both", "5_prime", "3_prime"
         """ returns the utrs """
         exons = self.get_exons()
         utrs = []
         utrs.append((self.txStart, self.cdsStart))
         utrs.append((self.cdsEnd, self.txEnd))
-        if self.strand == "+":
+        if self.strand == 1:
             utrs = self.positive_sorted(utrs)
-        elif self.strand == "-":
+        elif self.strand == -1:
             utrs = self.negative_sorted(utrs)
         if which == "both":
             return self.positive_sorted(utrs)
@@ -153,7 +148,7 @@ class Transcript:
         else: 
             raise Exception("which is not valid")
 
-    def get_requested_region(self, region): 
+    def get_requested_region(self, region: str) -> tuple: 
         if region == "GENIC":
             return [(self.txStart, self.txEnd)]
         elif region == "CODING":
@@ -168,13 +163,13 @@ class Transcript:
             raise Exception("region not valid")
 
     ##might have to alter this 
-    def get_codon_from_pos(self, pos):
+    def get_codon_from_pos(self, pos: int) -> tuple:
         """ from a position get codon matching to that position:
         return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
         coding = self.get_coding()
         coding_seq = self.get_seq_from_pos(coding)
         new_pos = 0
-        if self.strand == "+":
+        if self.strand == 1:
             coding = self.positive_sorted(coding)
             for exon in coding:
                 if pos > exon[1]: #position is in later exon

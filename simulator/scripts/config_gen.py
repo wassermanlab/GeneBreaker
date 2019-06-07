@@ -52,7 +52,7 @@ def get_cnv_impact(transcript, var_region, status="new"):
         cnv = CNV()
         cnv_list = []
         for region in regions:
-            cnv_list = cnv_list + CNV.select_by_location(session, chrom, region[0], region[1])
+            cnv_list = cnv_list + cnv.select_by_location(session, chrom, region[0], region[1])
 
         if len(cnv_list) == 0:
             print "There is no CNVs in that region please select another variant"
@@ -63,7 +63,7 @@ def get_cnv_impact(transcript, var_region, status="new"):
             print str(s[0].uid) + "\t" + str(s[1].start+1) + "\t" + str(s[1].end) + "\t" + str(s[0].variant_type) + "\t" + str(s[0].copy_number) + "\t" + str(s[0].clinical_interpretation) 
 
         uid = raw_input("""Input the uid of your CNV: """)
-        cnv = CNV.select_by_uid(session, uid)
+        cnv = cnv.select_by_uid(session, uid)
         if cnv[0].variant_type == "copy_number_loss":
             var_impact = {"CHROM": cnv[1].chrom, "START": cnv[1].start, "END": cnv[1].end, "CNV": -1}
         else:

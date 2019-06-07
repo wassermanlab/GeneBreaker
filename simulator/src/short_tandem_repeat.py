@@ -19,18 +19,18 @@ class ShortTandemRepeat(Variant):
         if self.type != "STR":
             raise Exception("Must be STR type")
     
-    def get_str_motif(self):
+    def get_str_motif(self) -> str:
         """return the motif of the specific str"""
         db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r", #todo change this to hg19
                                         "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
         engine = create_engine(db_name, echo=False)
         session = Session(engine) 
         STR = GUDSTR()
-        STR = STR.select_by_exact_location(session, self.chrom, self.start, self.end)
-        return STR[0].motif
+        STR = STR.select_by_exact_location(session, self.chrom, self.start, self.end, True)
+        return STR.qualifiers["motif"]
 
 
-    def get_anchor_position(self, chrom):
+    def get_anchor_position(self, chrom: str) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 1""" 
         # Initialize
@@ -43,7 +43,7 @@ class ShortTandemRepeat(Variant):
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
         return sequence.upper()
 
-    def get_retraction(self, chrom):
+    def get_retraction(self, chrom) -> dict:
         """returns (pos ,ref, alt) tuple of retraction"""
         #get str
         STR = self.get_str_motif()
@@ -59,7 +59,7 @@ class ShortTandemRepeat(Variant):
                 "ref": ref,
                 "alt": alt}
 
-    def get_expantion(self):
+    def get_expantion(self) -> dict:
         """returns (pos ,ref, alt) tuple of retraction"""
         STR = self.get_str_motif()
         size = len(STR)
@@ -71,7 +71,7 @@ class ShortTandemRepeat(Variant):
                 "ref": ref,
                 "alt": alt}
 
-    def get_vcf_row(self, transcript):
+    def get_vcf_row(self, transcript: Transcript) -> str:
         # get regions 
         regions = transcript.get_requested_region(self.region) 
         check = False
