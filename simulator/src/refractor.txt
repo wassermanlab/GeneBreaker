@@ -1,0 +1,21 @@
+ORM compatibility testing !!
+
+==Gene==
+(CONFIG-295) select_by_name()
+(CONFIG-300) select_by_uid_joined()
+(CONFIG-304) select_by_uid_joined()
+(TRANSCRIPT- 24) gene.select_by_uid() ===
+
+==STR==
+(CONFIG-103) select_by_location()
+(CONFIG-119) select_by_uid()
+(STR-29) select_by_exact_location() ==
+
+==CNV==
+(CONFIG-55) select_by_location()
+(CONFIG-66) select_by_uid()
+
+==Clinvar==
+(CONFIG-219) clinvar.select_by_location()
+(CLINVAR-23) select_by_name() == 
+

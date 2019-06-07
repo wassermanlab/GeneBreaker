@@ -1,6 +1,6 @@
 # python -m unittest tests.test_gene 
 import unittest
-from simulator.variants import Variants
+from simulator.src.variants import Variants
 
 class VariantCreationTests(unittest.TestCase):
     def test_writing_file_denovo(self):

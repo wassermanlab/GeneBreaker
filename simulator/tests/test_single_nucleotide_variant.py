@@ -1,6 +1,8 @@
 import unittest
-from simulator.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from simulator.transcript import Transcript
+from simulator.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from simulator.src.transcript import Transcript
+from . import establish_GUD_session
+from GUD.ORM import Gene
 
 class SNVCreationTests(unittest.TestCase):
     # test 1
@@ -41,7 +43,7 @@ class MutationMethods(unittest.TestCase):
             "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv)
-        self.assertEquals(snv.nonsense_mutation("TAT", 2), "A")
+        self.assertEqual(snv.nonsense_mutation("TAT", 2), "A")
     
     # test 5
     def test_nonsense_not_exists(self):
@@ -71,7 +73,7 @@ class MutationMethods(unittest.TestCase):
             "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv)
-        print snv.missense_mutation("CAC", 2)
+        print(snv.missense_mutation("CAC", 2))
     
     # test 8
     def test_synonymous_exists(self):
@@ -91,7 +93,7 @@ class MutationMethods(unittest.TestCase):
             "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv)
-        self.assertEquals(snv.synonymous_mutation("CAA", 2), "G")
+        self.assertEqual(snv.synonymous_mutation("CAA", 2), "G")
    
     # test 10
     def test_any_mutation(self):
@@ -105,7 +107,9 @@ class MutationMethods(unittest.TestCase):
 
 
 class NonCodingSNV(unittest.TestCase):
-    positive_transcript = Transcript(64805)  # SOX9
+    session = establish_GUD_session()
+    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]
+    positive_transcript = Transcript(SOX9_uid) 
     # test 11
     def test_basic_non_coding(self):
         snv = {
@@ -143,7 +147,9 @@ class NonCodingSNV(unittest.TestCase):
 
 
 class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
-    positive_transcript = Transcript(64805)  # SOX9 
+    session = establish_GUD_session()
+    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]
+    positive_transcript = Transcript(SOX9_uid) 
     # test 14
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
@@ -154,8 +160,8 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = SNV(snv)
         directed = snv.get_directed_coding_SNV(
             self.positive_transcript, 70117532)
-        self.assertEquals(directed['ref'], "A")
-        self.assertEquals(directed['alt'], "G")
+        self.assertEqual(directed['ref'], "A")
+        self.assertEqual(directed['alt'], "G")
     
     # test 15
     def test_directed_SNV_exists_nonsense(self):
@@ -167,8 +173,8 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = SNV(snv)
         mutation_nonsense = snv.get_directed_coding_SNV(
             self.positive_transcript, 70117556)
-        self.assertEquals(mutation_nonsense['ref'], "A")
-        self.assertEquals(mutation_nonsense['alt'], "T")
+        self.assertEqual(mutation_nonsense['ref'], "A")
+        self.assertEqual(mutation_nonsense['alt'], "T")
     
     # test 16
     def test_directed_SNV_exists_missense(self):
@@ -181,7 +187,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         directed_missense = snv.get_directed_coding_SNV(
             self.positive_transcript, 70117535)
         self.assertNotEqual(directed_missense, False)
-        print directed_missense
+        print(directed_missense)
     
     # test 17
     def test_directed_SNV_exists_SYNONYMOUS(self):
@@ -193,8 +199,10 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = SNV(snv)
         mutation = snv.get_directed_coding_SNV(
             self.positive_transcript, 70117537)
-        self.assertEquals(mutation['ref'], "T")
-        self.assertEquals(mutation['alt'], "C")
+        print("ref: "+ mutation['ref'])
+        print("alt: "+ mutation['alt'])
+        self.assertEqual(mutation['ref'], "T")
+        self.assertEqual(mutation['alt'], "C")
     
     # test 18
     def test_directed_SNV_false(self):
@@ -209,7 +217,9 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
 
 
 class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
-    negative_transcript = Transcript(241)  # SOX18
+    session = establish_GUD_session()
+    SOX18_uid = Gene().select_by_name(session, "SOX18", True)[0].qualifiers["uid"]
+    negative_transcript = Transcript(SOX18_uid) 
     # test 19
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
@@ -220,10 +230,10 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = SNV(snv)
         directed = snv.get_directed_coding_SNV(
             self.negative_transcript, 62680869)
-        self.assertEquals(directed['ref'], "T")
-        self.assertEquals(directed['alt'], "G")
+        self.assertEqual(directed['ref'], "T")
+        self.assertEqual(directed['alt'], "G")
     
-    # test 20
+    # test 20 
     def test_directed_SNV_exists_nonsense(self):
         snv = {
             "TYPE": "SNV",
@@ -233,8 +243,8 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = SNV(snv)
         mutation_nonsense = snv.get_directed_coding_SNV(
             self.negative_transcript, 62680866)
-        self.assertEquals(mutation_nonsense['ref'], "G")
-        self.assertEquals(mutation_nonsense['alt'], "A")
+        self.assertEqual(mutation_nonsense['ref'], "G")
+        self.assertEqual(mutation_nonsense['alt'], "A")
     
     # test 21
     def test_directed_SNV_exists_missense(self):
@@ -247,7 +257,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         directed_missense = snv.get_directed_coding_SNV(
             self.negative_transcript, 62680860)
         self.assertNotEqual(directed_missense, False)
-        print directed_missense
+        print(directed_missense)
     
     # test 22
     def test_directed_SNV_exists_SYNONYMOUS(self):
@@ -259,12 +269,14 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = SNV(snv)
         mutation = snv.get_directed_coding_SNV(
             self.negative_transcript, 62680846)
-        self.assertEquals(mutation['ref'], "G")
-        self.assertEquals(mutation['alt'], "A")
+        self.assertEqual(mutation['ref'], "G")
+        self.assertEqual(mutation['alt'], "A")
     
     # test 23
     def test_weird(self):
-        gene = Transcript(32593)  # TP53
+        session = establish_GUD_session()
+        TP53_uid = Gene().select_by_name(session, "TP53", True)[0].qualifiers["uid"]
+        gene = Transcript(TP53_uid) 
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
@@ -272,4 +284,4 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv)
         mutation = snv.get_random_coding_SNV(gene)
-        print mutation
+        print(mutation)

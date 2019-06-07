@@ -1,14 +1,10 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript 
-import random
-from GUD2.ORM import CNV
-from sqlalchemy import create_engine, Index
-from sqlalchemy.orm import Session
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript 
 from lxml import etree
 
 class CopyNumberVariant(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template):
+    def __init__(self, var_template: dict):
         Variant.__init__(self, var_template)
         self.chrom = self.impact["CHROM"] 
         self.start = self.impact["START"]
@@ -19,7 +15,7 @@ class CopyNumberVariant(Variant):
         if self.type != "CNV":
             raise Exception("Must be CNV type")
     
-    def get_anchor_position(self):
+    def get_anchor_position(self) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 1""" 
         # Initialize
@@ -32,7 +28,7 @@ class CopyNumberVariant(Variant):
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
         return sequence.upper()
 
-    def get_region_seq(self):
+    def get_region_seq(self) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 1""" 
         # Initialize
@@ -45,7 +41,7 @@ class CopyNumberVariant(Variant):
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
         return sequence.upper()
 
-    def get_vcf_row(self, transcript, format = "simple"):
+    def get_vcf_row(self, transcript: Transcript, format: str = "simple") -> str:
         # get regions 
         chrom = self.chrom
         pos = str(self.start + 1) # add 1 to make 1 based

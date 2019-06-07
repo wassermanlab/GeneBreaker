@@ -1,10 +1,10 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript 
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript 
 import random
 
 class Indel(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template):
+    def __init__(self, var_template: dict):
         Variant.__init__(self, var_template)
         self.indel_amount = self.impact["INDEL_AMOUNT"]
         self.location = self.impact["LOCATION"]
@@ -17,21 +17,21 @@ class Indel(Variant):
         if self.indel_amount > 200 or self.indel_amount < -200:
             raise ValueError("Indels must be less than 200")
         if self.indel_amount == 0:
-            raise indel_amount("Indel length must be not equal to 0")
+            raise ValueError("Indel length must be not equal to 0")
         if self.type != "INDEL":
-            raise indel_amount("Must be indel type")
+            raise ValueError("Must be indel type")
 
 
-    def get_insertion_str(self, size):
+    def get_insertion_str(self, size: int) -> str:
         """returns a random string of ACGT according to size"""
         insertion = ""
-        for i in range(size):
+        for i in list(range(size)):
             # randomly choses ACGT for each position in insertion
             insertion = insertion + random.choice("ACGT")
         return insertion
 
 
-    def get_deletion(self, transcript):
+    def get_deletion(self, transcript: Transcript) -> dict:
         """returns (pos ,ref, alt) tuple of deletion"""
         # get requested region
         if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
@@ -43,7 +43,7 @@ class Indel(Variant):
         # get ranges
         region_range = []
         for region in regions: # range must be cut so that there is no overlap
-            region_range = region_range + range(region[0], region[1]+self.indel_amount)
+            region_range = region_range + list(range(region[0], region[1]+self.indel_amount))
         if len(region_range) == 0:
             raise ValueError("""regions selected are too small to accomidate a 
             deletion of this size, try reducing the size of the deletion""")
@@ -61,7 +61,7 @@ class Indel(Variant):
                 "ref": self.get_seq(transcript.chrom, pos, pos+1-self.indel_amount),
                 "alt": self.get_seq(transcript.chrom, pos, pos+1)}
 
-    def get_insertion(self, transcript):
+    def get_insertion(self, transcript: Transcript) -> dict:
         """returns (ref, alt) tuple of insersion"""
         # get requested region
         if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
@@ -73,7 +73,7 @@ class Indel(Variant):
         # get ranges
         region_range = []
         for region in regions:
-            region_range = region_range + range(region[0], region[1])
+            region_range = region_range + list(range(region[0], region[1]))
         if self.location == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)
         else:
@@ -84,7 +84,7 @@ class Indel(Variant):
                 "ref": self.get_seq(transcript.chrom, pos, pos+1),
                 "alt": self.get_seq(transcript.chrom, pos, pos+1) + self.get_insertion_str(self.indel_amount)}
 
-    def get_vcf_row(self, transcript):
+    def get_vcf_row(self, transcript: Transcript) -> str:
         chrom = str(transcript.get_chr())
         if self.indel_amount > 0:  # insersion
             var_dict = self.get_insertion(transcript)

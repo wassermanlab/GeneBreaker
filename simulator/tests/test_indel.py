@@ -1,8 +1,10 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.indel import Indel
-from simulator.transcript import Transcript
-
+from simulator.src.indel import Indel
+from simulator.src.transcript import Transcript
+from . import establish_GUD_session
+from GUD.ORM import Gene
+from GUD.ORM.genomic_feature import GenomicFeature
 
 class IndelCreationTests(unittest.TestCase):
     # test 1
@@ -69,8 +71,11 @@ class InsersionMethodTesting(unittest.TestCase):
                   'IMPACT': {"INDEL_AMOUNT": 8, "LOCATION": 132576250},
                   "ZYGOSITY": "HETEROZYGOUS"}
     indel_spec = Indel(indel_spec)
-    positive_transcript = Transcript(64805)  # SOX9
-    negative_transcript = Transcript(68960)  # TOR1A
+    session = establish_GUD_session()
+    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]
+    TOR1A_uid = Gene().select_by_name(session, "TOR1A", True)[0].qualifiers["uid"]
+    positive_transcript = Transcript(SOX9_uid)  # SOX9
+    negative_transcript = Transcript(TOR1A_uid)  # TOR1A
 
     # test 7
     def test_check_insertion_generation(self):
@@ -82,24 +87,27 @@ class InsersionMethodTesting(unittest.TestCase):
         self.assertEqual(len(insertion["alt"]), 6)
 
     # test 9
-    def test_get_insertion_spec(self):
+    def test_get_insertion_spec(self): #################################################
         insertion = self.indel_spec.get_insertion(self.negative_transcript)
         self.assertEqual(insertion["pos"], 132576250)
         self.assertEqual(len(insertion["alt"]), 9)
 
     # test 10
-    def test_get_insertion_row(self):
+    def test_get_insertion_row(self): ####################################################
         insertion = self.indel_spec.get_vcf_row(self.negative_transcript)
         insertion = insertion.split("\t")
         insertion[4] = insertion[4].rstrip()
-        self.assertEquals(insertion[0], "chr9")
-        self.assertEquals(insertion[1], '132576251')
-        self.assertEquals(len(insertion[4]), 9)
-        print insertion
+        self.assertEqual(insertion[0], "chr9")
+        self.assertEqual(insertion[1], '132576251')
+        self.assertEqual(len(insertion[4]), 9)
+        print(insertion)
 
 
-class DeletionMethodTestCase(unittest.TestCase):
-    positive_transcript = Transcript(64805)  # SOX9
+class DeletionMethodTestCase(unittest.TestCase): ########################################
+    # positive_transcript = Transcript(64805)  # SOX9
+    session = establish_GUD_session()
+    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]
+    positive_transcript = Transcript(SOX9_uid)     
     
     # test 11
     def test_basic_deletion(self):
@@ -134,8 +142,10 @@ class DeletionMethodTestCase(unittest.TestCase):
             Indel(indel).get_deletion(self.positive_transcript)
 
     # test 14
-    def test_raises_length_greater_than_region(self):
-        sox18 = Transcript(241)  # SOX18
+    def test_raises_length_greater_than_region(self): ##########################################
+        session = establish_GUD_session()
+        sox18_uid = Gene().select_by_name(session, "SOX18", True)[0].qualifiers["uid"]
+        sox18 = Transcript(sox18_uid) 
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -199, "LOCATION": "ANY"},
@@ -146,7 +156,9 @@ class DeletionMethodTestCase(unittest.TestCase):
 
     # test 15
     def test_raises_length_greater_than_location(self):
-        sox18 = Transcript(241)  # SOX18
+        session = establish_GUD_session()
+        sox18_uid = Gene().select_by_name(session, "SOX18", True)[0].qualifiers["uid"]
+        sox18 = Transcript(sox18_uid) 
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -150, "LOCATION": 62680411},

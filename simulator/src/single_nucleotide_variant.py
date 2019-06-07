@@ -1,5 +1,5 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript
 import random
 
 class SingleNucleotideVariant(Variant):
@@ -18,7 +18,7 @@ class SingleNucleotideVariant(Variant):
                          "Ala": ["GCT", "GCC", "GCA", "GCG"],
                          "Ile": ["ATT", "ATC", "ATA"], "Trp": ["TGG"]}
     aa_codes = {}
-    for key, value in amino_acid_codons.iteritems():
+    for key, value in list(amino_acid_codons.items()):
         for code in value:
             aa_codes[code] = key
     translator = {"A": "T",
@@ -56,7 +56,7 @@ class SingleNucleotideVariant(Variant):
             alternate_codons = self.get_alternate_codons(codon, pos)
             missense_aa = self.amino_acid_codons.copy()
             missense_aa.pop(self.aa_codes[codon])
-            missense_aa = [inner for outer in missense_aa.values()
+            missense_aa = [inner for outer in list(missense_aa.values())
                            for inner in outer]
             random.shuffle(alternate_codons)
             for i in alternate_codons:
@@ -108,7 +108,7 @@ class SingleNucleotideVariant(Variant):
         # get ranges
         region_range = []
         for region in regions:  # range must be cut so that there is no overlap
-            region_range = region_range + range(region[0], region[1])
+            region_range = region_range + list(range(region[0], region[1]))
         if self.location == "ANY":
             pos = random.choice(region_range)
         else:
@@ -131,6 +131,7 @@ class SingleNucleotideVariant(Variant):
         codon = codon_tuple[0]
         codon_pos = codon_tuple[1]
         strand = codon_tuple[2]
+
         if self.snv_type == "MISSENSE":
             alt = self.missense_mutation(codon, codon_pos)
         elif self.snv_type == "NONSENSE":
@@ -144,7 +145,7 @@ class SingleNucleotideVariant(Variant):
         if alt is False:
             return False
         # strand is + or user specified mutation
-        elif strand == "+":
+        elif strand == 1:
             return {"pos": loc,
                     "ref": codon[codon_pos],
                     "alt": alt}
@@ -165,7 +166,7 @@ class SingleNucleotideVariant(Variant):
             raise Exception("region requested does not exists")
         region_range = []
         for region in regions:  # range must be cut so that there is no overlap
-            region_range = region_range + range(region[0], region[1])
+            region_range = region_range + list(range(region[0], region[1]))
         # while loop randomly choosing positions in the available
         alt = False
         while len(region_range) > 0:

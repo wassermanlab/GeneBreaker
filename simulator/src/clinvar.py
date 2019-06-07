@@ -1,36 +1,32 @@
-from simulator.variant import Variant
-from simulator.transcript import Transcript
+from simulator.src.variant import Variant
+from simulator.src.transcript import Transcript
 import random
-from GUD2.ORM import ClinVar as CLN
-from sqlalchemy import create_engine, Index
-from sqlalchemy.orm import Session
-
+from GUD.ORM import ClinVar as CLN
+from . import establish_GUD_session
+session = establish_GUD_session()
 
 class ClinVar(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template):
+    def __init__(self, var_template: dict):
         Variant.__init__(self, var_template)
         self.impact = self.impact["CLINVAR_UID"]
         print('check that is clinvar')
 
     def get_clinvar_information(self):
         """return the motif of the specific str"""
-        db_name = "mysql://{}:@{}:{}/{}".format("ontarget_r",  # todo change this to hg19
-                                                "ontarget.cmmt.ubc.ca", "5506", "tamar_test")
-        engine = create_engine(db_name, echo=False)
-        session = Session(engine)
+        session = establish_GUD_session()
         clinvar = CLN()
-        clinvar = clinvar.select_by_name(session, self.impact)
+        clinvar = clinvar.select_by_name(session, self.impact, True)
         if clinvar is None:
             raise Exception("no variant with that clinvar ID")
-        return {"pos": clinvar[1].start,
-                "ref": clinvar[0].ref,
-                "alt": clinvar[0].alt,
+        return {"pos": clinvar.start,
+                "ref": clinvar.qualifiers["ref"],
+                "alt": clinvar.qualifiers["alt"],
                 "id": self.impact}
 
-    def get_vcf_row(self, transcript):
+    def get_vcf_row(self, transcript: Transcript) -> str:
         # get regions
-        ## TODO: put check here that its in correct region??
+        # TODO: put check here that its in correct region??
         var_dict = self.get_clinvar_information()
 
         chrom = transcript.chrom
