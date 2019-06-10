@@ -8,6 +8,8 @@ class Indel(Variant):
         Variant.__init__(self, var_template)
         self.indel_amount = self.impact["INDEL_AMOUNT"]
         self.location = self.impact["LOCATION"]
+        
+        ## checks 
         if self.location != "ANY" and type(self.location) is not int: 
             raise ValueError("location must be ANY or int")
         if type(self.indel_amount) is not int:
