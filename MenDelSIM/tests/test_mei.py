@@ -1,7 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.src.mei import MEI
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.mei import MEI
+from MenDelSIM.src.transcript import Transcript
 from . import establish_GUD_session
 from GUD.ORM import Gene
 

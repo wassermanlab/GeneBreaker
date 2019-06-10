@@ -1,10 +1,6 @@
 # todo
 # fix TRIO responses
-import argparse
-import json
-import re
-import os
-import sys
+import argparse, json, re, os, sys
 from GUD.ORM import Gene
 from GUD.ORM import ShortTandemRepeat
 from GUD.ORM import ClinVar
@@ -12,7 +8,7 @@ from GUD.ORM import Chrom
 from GUD.ORM import CNV
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.transcript import Transcript
 from . import establish_GUD_session
 
 try:

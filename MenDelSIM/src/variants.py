@@ -1,11 +1,11 @@
-from simulator.src.transcript import Transcript 
-from simulator.src.variant import Variant
-from simulator.src.indel import Indel
-from simulator.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from simulator.src.short_tandem_repeat import ShortTandemRepeat
-from simulator.src.clinvar import ClinVar
-from simulator.src.mei import MEI
-from simulator.src.copy_number_variant import CopyNumberVariant
+from MenDelSIM.src.transcript import Transcript 
+from MenDelSIM.src.variant import Variant
+from MenDelSIM.src.indel import Indel
+from MenDelSIM.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from MenDelSIM.src.short_tandem_repeat import ShortTandemRepeat
+from MenDelSIM.src.clinvar import ClinVar
+from MenDelSIM.src.mei import MEI
+from MenDelSIM.src.copy_number_variant import CopyNumberVariant
 import json
 from datetime import date
 

@@ -1,7 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
-from simulator.src.indel import Indel
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.indel import Indel
+from MenDelSIM.src.transcript import Transcript
 from . import establish_GUD_session
 from GUD.ORM import Gene
 from GUD.ORM.genomic_feature import GenomicFeature

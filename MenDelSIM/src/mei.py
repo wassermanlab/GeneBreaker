@@ -1,5 +1,5 @@
-from simulator.src.variant import Variant
-from simulator.src.transcript import Transcript 
+from MenDelSIM.src.variant import Variant
+from MenDelSIM.src.transcript import Transcript 
 import random
 from Bio import SeqIO
 import os
@@ -26,12 +26,12 @@ class MEI(Variant):
         ## get file name
         THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
         THIS_FOLDER = os.path.split(THIS_FOLDER)[0]
-        zip_file = THIS_FOLDER + '/mei/'+ self.element + ".zip"
-        fasta_file_full = THIS_FOLDER + '/mei/' + self.element_dict[self.element] + ".fa"
+        zip_file = THIS_FOLDER + '/static/'+ self.element + ".zip"
+        fasta_file_full = THIS_FOLDER + '/static/' + self.element_dict[self.element] + ".fa"
         fasta_file = self.element_dict[self.element]+".fa"
         ## unzip file 
         zip_file = zipfile.ZipFile(zip_file)
-        zip_file.extract(fasta_file, os.path.join(THIS_FOLDER, 'mei'))
+        zip_file.extract(fasta_file, os.path.join(THIS_FOLDER, 'static'))
         zip_file.close()
         
         insertion = ""

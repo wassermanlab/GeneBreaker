@@ -1,5 +1,5 @@
-from simulator.src.variant import Variant
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.variant import Variant
+from MenDelSIM.src.transcript import Transcript
 import random
 
 class SingleNucleotideVariant(Variant):

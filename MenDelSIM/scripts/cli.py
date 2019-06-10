@@ -3,7 +3,7 @@
 import argparse
 import datetime
 import json
-from simulator.variants import Variants
+from MenDelSIM.src.variants import Variants
 
 def parse_arguments():
     """Parses inputted arguments as described"""

@@ -1,6 +1,6 @@
 # python -m unittest simulator.tests.test_transcript
 import unittest
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.transcript import Transcript
 from Bio.Seq import Seq
 from GUD.ORM import Gene
 from GUD.ORM.genomic_feature import GenomicFeature

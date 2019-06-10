@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
-import argparse
-import random
+import argparse, random
 
 
 def parse_arguments():

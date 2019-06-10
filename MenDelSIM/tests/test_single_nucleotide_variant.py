@@ -1,6 +1,6 @@
 import unittest
-from simulator.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from MenDelSIM.src.transcript import Transcript
 from . import establish_GUD_session
 from GUD.ORM import Gene
 

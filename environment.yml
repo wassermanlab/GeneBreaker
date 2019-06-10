@@ -1,4 +1,4 @@
-name: var_sim
+name: MenDelSIM
 channels:
   - bioconda
   - anaconda

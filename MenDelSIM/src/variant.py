@@ -1,5 +1,5 @@
 import re
-from simulator.src.transcript import Transcript
+from MenDelSIM.src.transcript import Transcript
 from lxml import etree
 
 
