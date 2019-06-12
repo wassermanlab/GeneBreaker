@@ -3,69 +3,195 @@
 {% block head %}
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" src="{{ url_for('static', filename='css/variant_gen.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='js/variant_gen.js') }}"></script>
-<script type=text/javascript> $SCRIPT_ROOT={{ request.script_root|tojson|safe }}; </script> {% endblock %}
-    {% block content %} <div class="row">
+<script
+    src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static',
+    filename='css/variant_gen.css') }}">
+<script type="text/javascript" src="{{ url_for('static',
+    filename='js/variant_gen.js') }}"></script>
+<script type=text/javascript> $SCRIPT_ROOT={{ request.script_root|tojson|safe }}; </script>
+{% endblock %}
+{% block content %} <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <form id="msform">
             <!-- TODO: progressbar -->
+
             <!-- Global Info fieldset -->
             <fieldset>
                 <h2 class="fs-title">Global Information</h2>
-                <input type="text" name="gene_name" placeholder="Gene Name" />
+                <label for="gene_name">Gene Name</label>
+                <input type="text" name="gene_name" />
                 <button type="button" class="btn" id="gene">Select Transcript</button>
                 <div class="form-group">
-                        <label for="gene_uid">Gene UID</label>
-                        <select class="form-control" id="gene_uid" size="5">
-                        </select>
+                    <label for="gene_transcript">Transcript Accession Number</label>
+                    <select class="form-control" id="gene_transcript" size="5">
+                    </select>
+                    <div class="invalid-feedback gene-transcript-error" hidden>Transcript
+                        must be selected.</div>
                 </div>
                 <div class="form-group">
-                    <label for="sex">Sex</label>
+                    <label for="sex">Proband Sex</label>
                     <select class="form-control" id="sex">
-                        <option selected></option>
+                        <option selected>Select</option>
                         <option>XX-Female</option>
                         <option>XY-Male</option>
                     </select>
-            </div>
-            <input type="button" name="next" class="next action-button" value="Next" />
+                    <div class="invalid-feedback sex-error" hidden>Proband sex
+                        must be selected.</div>
+                    <div class="invalid-feedback sex-y-gene-error" hidden>Y
+                        chromosome gene selected for XX-Female.</div>
+                </div>
+                <a class="btn" id="next-global">Next</a>
+                <div class="invalid-feedback missing-error" hidden>All fields
+                    must be filled correctly before continuing. </div>
+                <a class="btn" href="{{ url_for('variant_gen') }}">Reset</a>
             </fieldset>
-            <!-- <fieldset>
-                <h2 class="fs-title">Variant 1</h2>
-                <h3 class="fs-subtitle">Your presence on the social network</h3>
-                <div class="form-group">
-                    <label for="var1_type">Variant Type</label>
-                    <select class="form-control" id="var1_type">
-                        <option>Clinvar Variant</option>
-                        <option>Copy Number Variant</option>
-                        <option>Mobile Element Insertion</option>
-                        <option>Indel</option>
-                        <option>Single Nucleotide Variant</option>
-                        <option>Short Tandem Repeat</option>
-                    </select>
+
+            <!-- Variant 1 fieldset -->
+            <fieldset hidden>
+                <div class='var1_general'>
+                    <h2 class="fs-title">Variant 1</h2>
+                    <h3 class="fs-subtitle">Basic Info</h3>
+                    <!-- existing new radios -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                            name="ne_radios" id="e_radio" value="e_radio"
+                            checked>
+                        <label class="form-check-label" for="e_radio">
+                            Existing Variant
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                            name="ne_radios" id="n_radio"
+                            value="n_radio">
+                        <label class="form-check-label" for="n_radio">
+                            New Variant
+                        </label>
+                    </div>
+                    <!-- type of variant -->
+                    <div class="form-group">
+                        <label for="var1_type">Variant Type</label>
+                        <select class="form-control" id="var1_type">
+                            <option class='ne_select'>Select</option>
+                            <option class='existing'>Clinvar Variant</option>
+                            <option class='existing new'>Copy Number Variant</option>
+                            <option class='new' style="display: none;">Mobile
+                                Element Insertion</option>
+                            <option class='new' style="display: none;">Indel</option>
+                            <option class='new' style="display: none;">Single
+                                Nucleotide Variant</option>
+                            <option class='existing new'>Short Tandem Repeat</option>
+                        </select>
+                    </div>
+                    <!-- region -->
+                    <div class="form-group">
+                        <label for="var1_region">Region</label>
+                        <select class="form-control" id="var1_region">
+                            <option selected>Select</option>
+                            <option>Coding</option>
+                            <option>UTR</option>
+                            <option>Intronic</option>
+                            <option>Genic</option>
+                            <option>chrZ:int-int</option>
+                        </select>
+                    </div>
+                    <input type="text" name="var1_region_custom"
+                        id="var1_region_custom" style="display:
+                        none;" placeholder="chrZ:int-int" />
+                    <!-- zygosity -->
+                    <div class="form-group">
+                        <label for="var1_zygosity">Zygosity</label>
+                        <select class="form-control" id="var1_zygosity">
+                            <option selected>Select</option>
+                            <option id='hemi'>Hemizygous</option>
+                            <option id='homo'>Homozygous</option>
+                            <option id='het'>Heterozygous</option>
+                        </select>
+                    </div>
+                    <!-- details -->
+                    <a class="btn" id="var1-details">Variant Details</a>
+                    <a class="btn" id="var1-details">Choose Different Variant</a>
                 </div>
-                <div class="form-group">
-                    <label for="var1_region">Region</label>
-                    <select class="form-control" id="var1_region">
-                        <option>Coding</option>
-                        <option>UTR</option>
-                        <option>Intronic</option>
-                        <option>Genic</option>
-                    </select>
+                <div class='var1_specifics'>
+                    <!-- cnv -->
+                    <div class='cnv' hidden>
+                        <label for="cnv_chrom">Chromosome</label>
+                        <input type="text" name="cnv_chrom" />
+                        <label for="cnv_start">Start</label>
+                        <input type="text" name="cnv_start" />
+                        <label for="cnv_end">End</label>
+                        <input type="text" name="cnv_end" />
+                        <label for="cnv_cnv">Copy Number (positive numbers for
+                            insertions and -1 for deletion)</label>
+                        <input type="text" name="cnv_cnv" />
+                        <!-- TODO: add previously selected ones -->
+                        <!-- TODO: add ranges -->
+                    </div>
+                    <div class='str' hidden>
+                        <div class="form-group">
+                            <label for="str_selection">Select short tandem
+                                repeats</label>
+                            <select class="form-control" id="str_selection"
+                                size="5">
+                            </select>
+                            <div class="invalid-feedback gene-transcript-error"
+                                hidden>Transcript
+                                must be selected.</div>
+                        </div>
+                        <label for="str_str">Repeat length</label>
+                        <input type="text" name="str_str" />
+                    </div>
+                    <div class='snv' hidden>
+                        <div class="form-group">
+                            <label for="var1_SNV">Single Nucleotide Variant</label>
+                            <select class="form-control" id="var1_SNV">
+                                <option selected>Select</option>
+                                <option>Missense</option>
+                                <option>Nonsense</option>
+                                <option>Synonymous</option>
+                                <option>A</option>
+                                <option>T</option>
+                                <option>G</option>
+                                <option>C</option>
+                                <option>Any</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='indel' hidden>
+                        <label for="var1_indel_location">Position</label>
+                        <input type="text" name="var1_indel_location" />
+                        <!-- add range -->
+                        <label for="var1_indel_size">Number of bp (positive
+                            numbers are insertions, negative deletions)</label>
+                        <input type="text" name="var1_indel_size" />
+                    </div>
+                    <div class='mei' hidden>
+                        <div class="form-group">
+                            <label for="var1_mei">Single Nucleotide Variant</label>
+                            <select class="form-control" id="var1_mei">
+                                <option selected>Select</option>
+                                <option>ALU_MELT</option>
+                                <option>SVA_MELT</option>
+                                <option>LINE1_MELT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='clinvar' hidden>
+                        <div class="form-group">
+                            <label for="var1_cnv">Single Nucleotide Variant</label>
+                            <select class="form-control" id="var1_cnv">
+                            </select>
+                        </div>
+                    </div>
+                    <!-- next/reset buttons -->
+                    <a class="btn" id="next-var1">Next</a>
+                    <div class="invalid-feedback missing-error" hidden>All
+                        fields
+                        must be filled correctly before continuing. </div>
+                    <a class="btn" href="{{ url_for('variant_gen') }}">Reset</a>
                 </div>
-                <input type="text" name="var1_region_custom" placeholder="chrZ:int-int" />
-                <div class="form-group">
-                    <label for="var1_zygosity">Zygosity</label>
-                    <select class="form-control" id="var1_zygosity">
-                        <option>Hemizygous</option>
-                        <option>Homozygous</option>
-                        <option>Heterozygous</option>
-                    </select>
-                </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                <input type="button" name="next" class="next action-button" value="Next" />
-            </fieldset> -->
+            </fieldset>
         </form>
     </div>
 </div>

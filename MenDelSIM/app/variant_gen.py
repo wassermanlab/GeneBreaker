@@ -10,7 +10,6 @@ def get_genes(name: str) -> list:
     if len(genes) > 0:
         for g in genes:
             response.append({'uid': int(g.qualifiers["uid"]),
-                            'accession' str(g.qualifiers["name"]):,
-                            'start': int(g.start),
-                            'end': int(g.end)})
+                            'accession': str(g.qualifiers["name"]),
+                            'name': str(g.qualifiers["name2"]),)
     return response

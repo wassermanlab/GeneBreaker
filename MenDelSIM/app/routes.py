@@ -24,8 +24,7 @@ def get_transcript():
         for g in genes:
             response.append({'uid': int(g.qualifiers["uid"]),
                             'accession': str(g.qualifiers["name"]),
-                            'start': int(g.start),
-                            'end': int(g.end)})
-    print(gene_name)
+                            'name': str(g.qualifiers["name2"]),
+                            'chrom': str(g.chrom)})
     return jsonify(response)
 
