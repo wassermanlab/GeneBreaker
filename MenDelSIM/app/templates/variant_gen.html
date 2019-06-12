@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" src="{{ url_for('static', filename='css/variant_gen.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/variant_gen.js') }}"></script>
+<script type=text/javascript> $SCRIPT_ROOT={{ request.script_root|tojson|safe }}; </script> {% endblock %}
+    {% block content %} <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form id="msform">
+            <!-- TODO: progressbar -->
+            <!-- Global Info fieldset -->
+            <fieldset>
+                <h2 class="fs-title">Global Information</h2>
+                <input type="text" name="gene_name" placeholder="Gene Name" />
+                <button type="button" class="btn" id="gene">Select Transcript</button>
+                <div class="form-group">
+                        <label for="gene_uid">Gene UID</label>
+                        <select class="form-control" id="gene_uid" size="5">
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="sex">Sex</label>
+                    <select class="form-control" id="sex">
+                        <option selected></option>
+                        <option>XX-Female</option>
+                        <option>XY-Male</option>
+                    </select>
+            </div>
+            <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            <!-- <fieldset>
+                <h2 class="fs-title">Variant 1</h2>
+                <h3 class="fs-subtitle">Your presence on the social network</h3>
+                <div class="form-group">
+                    <label for="var1_type">Variant Type</label>
+                    <select class="form-control" id="var1_type">
+                        <option>Clinvar Variant</option>
+                        <option>Copy Number Variant</option>
+                        <option>Mobile Element Insertion</option>
+                        <option>Indel</option>
+                        <option>Single Nucleotide Variant</option>
+                        <option>Short Tandem Repeat</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="var1_region">Region</label>
+                    <select class="form-control" id="var1_region">
+                        <option>Coding</option>
+                        <option>UTR</option>
+                        <option>Intronic</option>
+                        <option>Genic</option>
+                    </select>
+                </div>
+                <input type="text" name="var1_region_custom" placeholder="chrZ:int-int" />
+                <div class="form-group">
+                    <label for="var1_zygosity">Zygosity</label>
+                    <select class="form-control" id="var1_zygosity">
+                        <option>Hemizygous</option>
+                        <option>Homozygous</option>
+                        <option>Heterozygous</option>
+                    </select>
+                </div>
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset> -->
+        </form>
+    </div>
+</div>
+{% endblock %}
