@@ -6,7 +6,7 @@
 <script
     src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static',
-    filename='css/variant_gen.css') }}">
+    filename='css/form.css') }}">
 <script type="text/javascript" src="{{ url_for('static',
     filename='js/variant_gen.js') }}"></script>
 <script type=text/javascript> $SCRIPT_ROOT={{ request.script_root|tojson|safe }}; </script>
@@ -84,6 +84,7 @@
                             <option class='existing new'>Short Tandem Repeat</option>
                         </select>
                     </div>
+                    <div class="invalid-feedback missing-var-type" hidden>Select variant type.</div>
                     <!-- region -->
                     <div class="form-group">
                         <label for="var1_region">Region</label>
@@ -99,6 +100,8 @@
                     <input type="text" name="var1_region_custom"
                         id="var1_region_custom" style="display:
                         none;" placeholder="chrZ:int-int" />
+                    <div class="invalid-feedback missing-var-region" hidden>Select region.</div>
+                    <div class="invalid-feedback missing-var-cregion" hidden>Fill out custom region in the form of chrZ:int-int.</div>
                     <!-- zygosity -->
                     <div class="form-group">
                         <label for="var1_zygosity">Zygosity</label>
@@ -109,8 +112,10 @@
                             <option id='het'>Heterozygous</option>
                         </select>
                     </div>
+                    <div class="invalid-feedback missing-var-zygosity" hidden>Select zygosity.</div>
                     <!-- details -->
                     <a class="btn" id="var1-details">Variant Details</a>
+                    <div class="invalid-feedback missing-var-missing" hidden>Some information is missing, please fill everything out correctly.</div>
                     <a class="btn" id="var1-details">Choose Different Variant</a>
                 </div>
                 <div class='var1_specifics'>

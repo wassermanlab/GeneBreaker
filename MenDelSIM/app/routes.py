@@ -2,7 +2,6 @@ from flask import render_template, flash, redirect, url_for, jsonify, request
 from . import app
 from GUD.ORM import Gene
 from . import establish_GUD_session
-session = establish_GUD_session()
 # from variant_gen import get_genes
 
 @app.route('/')
@@ -10,15 +9,29 @@ session = establish_GUD_session()
 def home():
     return render_template('home.html', title='Home')
 
+@app.route('/variant_gen2', methods=['GET'])
+def variant_gen2():
+    return render_template('variant_gen.html', title='Variant Generator')
+
 @app.route('/variant_gen', methods=['GET'])
 def variant_gen():
-    return render_template('variant_gen.html', title='Variant Generator')
+    return render_template('variants.html', title='Variant Generator')
+
+@app.route('/variant_gen/var1', methods=['GET'])
+def var1():
+    gene_uid = request.args.get('gene_uid', type=str)
+    chrom = request.args.get('chrom', type=str)
+    sex = request.args.get('sex', type=str)
+    return render_template('variant_specifics.html',  
+    title='Variant Generator', gene_uid=gene_uid, chrom=chrom, sex=sex)
 
 @app.route('/_get_transcript', methods=['GET'])
 def get_transcript():
+    session = establish_GUD_session()
     gene_name = request.args.get('gene_name', "", type=str)
     gene = Gene()
     genes = gene.select_by_name(session, gene_name, True)
+    session.close()
     response = []
     if len(genes) > 0:
         for g in genes:

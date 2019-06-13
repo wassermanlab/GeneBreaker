@@ -91,17 +91,52 @@ $(function () {
 //--onClick of "fill in details "--//
 $(function () {
     $('a#var1-details').click(function () {
-        $(".invalid-feedback").hide();
         // check if region, zygosity, variant type is filled out
         // lock region, zygosity, variant type, existing
         // unhide variant type + ne  
-                
-        
-        
-        
-        error = var_error_checks()
+        $(".invalid-feedback").hide();
+        var error = var_basic_error_checks()  
         if (error) {
             return true;
         }
+        var exist   = $('input[type=radio][name=ne_radios]').val()
+        var type    = $('#var1_type').children("option:selected").val();
+        // lock top
+        $("#var1_type").prop('disabled', true);
+        $("#var1_region_custom").prop('disabled', true);
+        $("#var1_region").prop('disabled', true);
+        $("#var1_zygosity").prop('disabled', true);
+        // unhide type + exist
     });
 });
+//--server side global errors--//
+function var_basic_error_checks() {
+    var error = false;
+    var type = $('#var1_type').children("option:selected").val();
+    var region = $('#var1_region').children("option:selected").val();
+    var cregion = $('#var1_region_custom').val();
+    var zygosity = $('#var1_zygosity').children("option:selected").val();
+
+    if (type === "Select"){
+        $(".missing-var-type").show();
+        error = true
+    }
+    if (region === "Select"){
+        $(".missing-var-region").show();
+        error = true
+    }
+    if (zygosity === "Select"){
+        $(".missing-var-zygosity").show();
+        error = true
+    }
+    var reg = /^chr([1-9]|[XY]|1[0-9]|2[0-2])\d+-\d+$/;
+    if (region === "chrZ:int-int" && !reg.test(cregion)){
+        $(".missing-var-cregion").show();
+        error = true
+    }
+    if (error === true) {
+        $(".missing-var-missing").show();
+        return true;
+    }
+    return false;
+}
