@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <!-- title -->
+    <div class="row">
+        <div class="col-sm">
+            <h1>Family VCF Generator</h1>
+        </div>
+    </div>
+    <!-- attach file - add family member  -->
+    <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+            <button class="btn btn-primary">add family member</button>
+        </div>
+    </div>
+    <!-- pedigree -->
+    <div class="row">
+        <div class="col-sm">
+            <div class="tree">
+                <div class="parents">
+                </div>
+                <div class="children">
+                    <div class="proband {{ sex }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- download -->
+    <div class="row">
+        <div class="col-sm">
+            <button class="btn btn-primary">download family VCF and PED files</button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content%}

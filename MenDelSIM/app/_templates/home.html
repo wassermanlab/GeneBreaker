@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid" style="text-align:center">
+    <h1>MenDelSIM</h1>
+    <h2>Mendelian Disease Simulator</h2>
+    <button type="button">Learn More</button>
+    <button type="button" href="{{ url_for('variant_gen') }}">Simulate Variants</button>
+</div>
+{% endblock %}

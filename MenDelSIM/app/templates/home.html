@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block head %}
+{{ super() }}
+{% endblock head %}
 
-<div class="container-fluid" style="text-align:center">
-    <h1>MenDelSIM</h1>
-    <h2>Mendelian Disease Simulator</h2>
-    <button type="button">Learn More</button>
-    <button type="button" href="{{ url_for('variant_gen') }}">Simulate Variants</button>
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container vertical-align">
+            <h1 class="display-4">MenDelSIM</h1>
+            <p>Mendelian Disease Simulator </p>
+            <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Simulate Variants</a>
+            <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Simulate Families</a>        
+    </div>
 </div>
-{% endblock %}
+
+
+{% endblock content%}
