@@ -11,11 +11,11 @@ class Variant:
         self.impact = var_template["IMPACT"]
         self.zygosity = var_template["ZYGOSITY"]
         
-        if self.type not in ['SNV', 'INDEL', 'CNV', 'SV', 'MEI', 'STR', 'ClinVar']:
-            raise ValueError('type not one of the recognized types: SNV, INDEL, CNV, SV, MEI, STR, ClinVar')
+        if self.type not in ['SNV', 'INDEL', 'CNV', 'MEI', 'STR', 'ClinVar']:
+            raise ValueError('type not one of the recognized types: SNV, INDEL, CNV, MEI, STR, ClinVar')
         
         if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER', 'GENIC']:
-            if re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) is None:
+            if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) is None:
                 raise ValueError('region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
         
         if self.zygosity not in ['HOMOZYGOUS', 'HETEROZYGOUS', 'HEMIZYGOUS']:
@@ -24,7 +24,7 @@ class Variant:
 
     def parse_region(transcript: Transcript, var_region: str) -> tuple:
         """returns a tuple (chrom, (start, stop))"""
-        if re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", var_region) is None:
+        if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", var_region) is None:
             raise Exception("custom region is not in correct format")
         chrom = var_region.split(":")[0]
         start = int(var_region.split(":")[1].split(
@@ -42,6 +42,7 @@ class Variant:
                 "custom location is not on the same chromosome as the transcript")
         return (chrom, (start, end))
 
+    # TODO: fix occurences of this
     def get_seq(self, chrom: int, start: int, end: int, genome: str) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 0"""
