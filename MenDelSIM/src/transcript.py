@@ -1,38 +1,34 @@
 from lxml import etree
-from GUD.ORM import Gene
-from GUD.ORM.genomic_feature import GenomicFeature
-from sqlalchemy import create_engine, Index
-from sqlalchemy.orm import Session
 from Bio.Seq import Seq
-from . import establish_GUD_session
+from MenDelSIM.src.api_helper import *
 
 class Transcript:
 
-    def __init__(self, uid):
+    def __init__(self, uid, genome):
         """ create transcript object """
         try:
-            session = establish_GUD_session()
-            gene = Gene()
-            transcript = gene.select_by_uid(session, uid, True)
-            self.name       = transcript.qualifiers["name2"]
-            self.cdsStart   = int(transcript.qualifiers["cdsStart"])
-            self.cdsEnd     = int(transcript.qualifiers["cdsEnd"])
-            self.exonStarts = transcript.qualifiers["exonStarts"].decode()
-            self.exonEnds   = transcript.qualifiers["exonEnds"].decode()
-            self.chrom      = transcript.chrom
-            self.txStart    = int(transcript.start)
-            self.txEnd      = int(transcript.end)
-            self.strand     = transcript.strand
+            transcript = get_transcript(uid, genome)
+            self.genome     = genome
+            self.name       = transcript["qualifiers"]["name2"]
+            self.cdsStart   = int(transcript["qualifiers"]["cdsStart"])
+            self.cdsEnd     = int(transcript["qualifiers"]["cdsEnd"])
+            self.exonStarts = transcript["qualifiers"]["exonStarts"]
+            self.exonEnds   = transcript["qualifiers"]["exonEnds"]
+            self.chrom      = transcript["chrom"]
+            self.txStart    = int(transcript["start"])
+            self.txEnd      = int(transcript["end"])
+            self.strand     = transcript["strand"]
         except:
             raise Exception("cannot make transcript")
 
-    def get_seq(self, stranded:bool = False) -> str: 
+    def get_seq(self, stranded = False): 
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 0""" 
         # Initialize
         sequence = ""
-        url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (
-            "hg19", self.chrom, self.txStart+1, self.txEnd)
+        url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (\
+            self.genome, self.chrom, self.txStart+1, self.txEnd)
+
         # Get XML
         xml = etree.parse(url, parser=etree.XMLParser())
         # Get sequence
@@ -157,9 +153,9 @@ class Transcript:
         else:
             raise Exception("region not valid")
 
-    ##might have to alter this 
+    ##might have to alter this, right now its taking 1 based!
     def get_codon_from_pos(self, pos: int) -> tuple:
-        """ from a position get codon matching to that position:
+        """ from a position get codon matching to that position(1 based????):
         return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
         coding = self.get_coding()
         coding_seq = self.get_seq_from_pos(coding)
@@ -182,5 +178,6 @@ class Transcript:
         codon_start = new_pos - codon_pos 
         return (coding_seq[codon_start:codon_start+3] ,codon_pos, self.strand)
 
+## display as 1 based
     def __str__(self):
-        return "{}\t{}\t{}\t{}\t0\t{}".format(self.chrom, self.txStart, self.txEnd, self.name, self.strand)
+        return "{}\t{}\t{}\t{}\t0\t{}".format(self.chrom, self.txStart+1, self.txEnd, self.name, self.strand)
