@@ -20,7 +20,6 @@ class MEI(Variant):
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
 
-
     def get_insertion_str(self) -> str:
         """reads the fasta and gets string of fasta file"""
         ## get file name

@@ -19,7 +19,7 @@ class Transcript:
             self.txEnd      = int(transcript["end"])
             self.strand     = transcript["strand"]
         except:
-            raise Exception("cannot make transcript")
+            raise Exception("Cannot make transcript. UID: %s cannot be found in genome: %s" % (uid, genome))
 
     def get_seq(self, stranded = False): 
         """Retrieve a DNA sequence from UCSC.

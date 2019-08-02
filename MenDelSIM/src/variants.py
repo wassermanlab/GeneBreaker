@@ -18,11 +18,20 @@ class Variants:
         f = open(variants_file)
         variants_json = json.load(f)
         variants_json
-        self.transcript = Transcript(variants_json["GENE_UID"])
-        self.var1 = variants_json["VAR1"]
-        self.var2 = variants_json["VAR2"]
-        self.sex =  variants_json["SEX"]
+        try:
+            self.transcript = Transcript(variants_json["GENE_UID"], variants_json["GENOME"])
+            self.var1 = variants_json["VAR1"]
+            self.var2 = variants_json["VAR2"]
+            self.sex =  variants_json["SEX"]
+            _check_validity(self.transcript, self.var1, self.var2, self.sex)
+        except Exception as e: 
+            print(e)
+            
         f.close()
+
+    def _check_validity(transcript:Transcript, sex:str, var1:dict, var2:dict):
+        # check that sex is XX or XY
+        # check that genome 
 
     def variants_2_VCF(self, format="simple"): 
         """ turns variant template into variant, string representing vcf """
