@@ -10,7 +10,7 @@ class Variant:
     def __init__(self, var_template: dict, transcript: Transcript):
         if (var_template is None):
             return None
-        self.transcript = Transcript
+        self.transcript = transcript
         self.type = var_template["TYPE"]
         self.region = var_template["REGION"]
         self.impact = var_template["IMPACT"]
@@ -60,6 +60,7 @@ class Variant:
         return self.region
 
     def check_region(self) -> bool: 
+        """checks region and gets custom region"""
         if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER', 'GENIC']:
             if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) is None:
                 raise ValueError('region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
@@ -67,16 +68,19 @@ class Variant:
                 self.get_region()
 
     def check_type(self) -> bool: 
+        """checks type"""
         if self.type not in ['SNV', 'INDEL', 'CNV', 'MEI', 'STR', 'ClinVar']:
             raise ValueError('TYPE not one of the recognized types: SNV, INDEL, CNV, MEI, STR, ClinVar')
         return True
 
     def check_zygosity(self): 
+        """checks that zygosity is valid"""
         if self.zygosity not in ['HOMOZYGOUS', 'HETEROZYGOUS', 'HEMIZYGOUS']:
             raise ValueError('ZYGOSITY must be one of the following: HOMOZYGOUS, HETEROZYGOUS, HEMIZYGOUS')
         return True 
 
     def check_variant(self): 
+        """checks variant for validity"""
         try: 
             self.check_region()
             self.check_type()
@@ -84,3 +88,11 @@ class Variant:
             return True 
         except Exception as e:
             raise(e)
+
+    def get_region_range(self):
+        """get ther region requested for that variant using the attached transcript""" 
+        regions = self.transcript.get_requested_region(self.region)
+        region_range = []
+        for region in regions:
+            region_range = region_range + list(range(region[0], region[1]))
+        return region_range
