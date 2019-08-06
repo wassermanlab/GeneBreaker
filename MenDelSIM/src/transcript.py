@@ -7,7 +7,7 @@ class Transcript:
     def __init__(self, uid, genome):
         """ create transcript object """
         try:
-            transcript = get_transcript(uid, genome)
+            transcript      = get_transcript(uid, genome)
             self.genome     = genome
             self.name       = transcript["qualifiers"]["name2"]
             self.cdsStart   = int(transcript["qualifiers"]["cdsStart"])
@@ -153,9 +153,8 @@ class Transcript:
         else:
             raise Exception("region not valid")
 
-    ##might have to alter this, right now its taking 1 based!
     def get_codon_from_pos(self, pos: int) -> tuple:
-        """ from a position get codon matching to that position(1 based????):
+        """ from a position get codon matching to that position(0 based):
         return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
         coding = self.get_coding()
         coding_seq = self.get_seq_from_pos(coding)

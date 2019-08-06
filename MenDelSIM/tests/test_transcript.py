@@ -12,8 +12,8 @@ class TranscriptCreationTests(unittest.TestCase):
     def test_assert_raises(self):
         with self.assertRaises(Exception) as cm:
             Transcript(9000000, 'hg38')
-        err = cm.exception
-        self.assertEqual(str(err), 'cannot make transcript')
+            err = cm.exception
+            self.assertEqual(str(err), 'cannot make transcript')
 
 class TranscriptMethodTests(unittest.TestCase):
     # @unittest.skip
