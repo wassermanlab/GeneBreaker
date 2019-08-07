@@ -44,7 +44,7 @@ def get_chromosome(chr, genome):
             return i
     return False
 
-print(get_chromosome("chr3", "hg19"))
+# print(get_chromosome("chr3", "hg19"))
 # t = get_transcript("69540","hg38")
 # print(t)        
 # print(len(get_all_genenames("hg38")))

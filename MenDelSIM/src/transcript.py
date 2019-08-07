@@ -162,16 +162,17 @@ class Transcript:
         if self.strand == 1:
             coding = self.positive_sorted(coding)
             for exon in coding:
-                if pos > exon[1]: #position is in later exon
-                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
-                elif exon[0] <= pos < exon[1]: #position is in this codon
+                if pos > exon[1]:                           # position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0]   # adding length of exon
+                elif exon[0] <= pos < exon[1]:              # position is in this codon
                     new_pos = new_pos + pos - exon[0]
         else: 
+            pos = pos + 1
             coding = self.negative_sorted(coding)
             for exon in coding:
-                if pos < exon[0]: #position is in later exon
-                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
-                elif exon[0] <= pos < exon[1]: #position is in this codon
+                if pos < exon[0]:                           #position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0]   # adding length of exon
+                elif exon[0] <= pos < exon[1]:              # position is in this codon
                     new_pos = new_pos + exon[1] - pos
         codon_pos = new_pos%3
         codon_start = new_pos - codon_pos 

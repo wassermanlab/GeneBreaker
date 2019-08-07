@@ -92,7 +92,7 @@ class TranscriptMethodTests(unittest.TestCase):
         SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
         SOX18 = Transcript(SOX18_uid, "hg38")
 
-        codon = SOX18.get_codon_from_pos(64049514)
+        codon = SOX18.get_codon_from_pos(64049513)
         self.assertEqual(codon[0], "ATG")
         self.assertEqual(codon[1], 2)
         self.assertEqual(codon[2], -1)
@@ -103,7 +103,7 @@ class TranscriptMethodTests(unittest.TestCase):
         SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
         SOX18 = Transcript(SOX18_uid, "hg38")
 
-        codon = SOX18.get_codon_from_pos(64048169)
+        codon = SOX18.get_codon_from_pos(64048168)
         self.assertEqual(codon[0], "GGC")
         self.assertEqual(codon[1], 2)
         self.assertEqual(codon[2], -1)

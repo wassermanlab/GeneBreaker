@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
 from lxml import etree
 from . import establish_GUD_session
+## TODO: replace session with just pulling from etree 
 
 class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already

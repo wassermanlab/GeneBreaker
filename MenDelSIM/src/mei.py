@@ -15,17 +15,6 @@ class MEI(Variant):
             self.check_mei()
         except Exception as e:
             raise(e)
-    
-    def check_location(self):
-        """checks location for validity"""
-        if self.location is "ANY":              # if location is ANY then pass
-            return 
-        if type(self.location) is not int:      # if location is not an int then throw an error 
-            raise ValueError("location must be ANY or int")
-        self.location = self.location - 1       # minus 1 from location making it 0 based   
-        region_range = self.get_region_range()  # check that location is within selected region
-        if self.location not in region_range:
-                raise ValueError("position must be within range")
 
     def check_element(self):
         """checks element validity"""
@@ -37,7 +26,7 @@ class MEI(Variant):
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
         self.check_element()
-        self.check_location()
+        self.check_location(self.location)
 
     def get_insertion_str(self) -> str:
         """reads the fasta and gets string of fasta file"""

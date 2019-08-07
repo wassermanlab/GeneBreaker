@@ -20,6 +20,17 @@ class Variant:
         except Exception as e:
             raise(e)
 
+    def check_location(self, location):
+        """checks location for validity"""
+        if location is "ANY":              # if location is ANY then pass
+            return 
+        if type(location) is not int:      # if location is not an int then throw an error 
+            raise ValueError("location must be ANY or int")
+        self.location = self.location - 1       # minus 1 from location making it 0 based   
+        region_range = self.get_region_range()  # check that location is within selected region
+        if self.location not in region_range:
+                raise ValueError("position must be within range")
+
     def parse_region(self) -> dict:
         """sets self.region to {chrom: ___, start: ___, stop: ___}"""
         chrom = var_region.split(":")[0]
@@ -95,4 +106,7 @@ class Variant:
         region_range = []
         for region in regions:
             region_range = region_range + list(range(region[0], region[1]))
+        if len(region_range) == 0:
+            raise ValueError("""regions selected are too small to accommodate a 
+            deletion of this size, try reducing the size of the deletion""")
         return region_range
