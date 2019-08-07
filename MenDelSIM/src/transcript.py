@@ -67,7 +67,11 @@ class Transcript:
 
     def get_chr(self) -> str: 
         """ returns chr from gene""" 
-        return self.chrom       
+        return self.chrom 
+
+    def get_genome(self) -> str: 
+        """ returns chr from gene""" 
+        return self.genome       
 
     def positive_sorted(self, positions: list) -> list:
         positions.sort(key=lambda tup: tup[0], reverse=False)
