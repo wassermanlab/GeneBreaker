@@ -29,6 +29,11 @@ def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
     return get_all_results(url)
 
+def get_str(start, end, chrom, genome):
+    #takes in 1 based
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
+    return get_all_results(url)[0]
+
 def get_transcript(uid, genome):
     url = host + '/api/v1/' + genome + '/genes?uids='+ str(uid)
     res = get_all_results(url)

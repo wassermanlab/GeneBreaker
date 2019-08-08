@@ -26,9 +26,9 @@ class Variant:
             return 
         if type(location) is not int:      # if location is not an int then throw an error 
             raise ValueError("location must be ANY or int")
-        self.location = self.location - 1       # minus 1 from location making it 0 based   
+        location = location - 1       # minus 1 from location making it 0 based   
         region_range = self.get_region_range()  # check that location is within selected region
-        if self.location not in region_range:
+        if location not in region_range:
                 raise ValueError("position must be within range")
 
     def parse_region(self) -> dict:
@@ -52,7 +52,7 @@ class Variant:
     # TODO: fix occurrences of this
     def get_seq(self, chrom: int, start: int, end: int, genome: str) -> str:
         """Retrieve a DNA sequence from UCSC.
-        Note: UCSC assumes 1 based indexing so we add a 0"""
+        Note: UCSC assumes 1 based indexing so we add a 1"""
         # Initialize
         sequence = ""
         url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (
@@ -107,6 +107,5 @@ class Variant:
         for region in regions:
             region_range = region_range + list(range(region[0], region[1]))
         if len(region_range) == 0:
-            raise ValueError("""regions selected are too small to accommodate a 
-            deletion of this size, try reducing the size of the deletion""")
+            raise ValueError("""invalid region selected""")
         return region_range
