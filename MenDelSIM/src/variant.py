@@ -20,14 +20,39 @@ class Variant:
         except Exception as e:
             raise(e)
 
-    def check_location(self, location):
+    def check_location(self, start, stop=None):
+        ## assume 0 based at this point 
         """checks location for validity"""
-        if location is "ANY":              # if location is ANY then pass
-            return 
-        if type(location) is not int:      # if location is not an int then throw an error 
-            raise ValueError("location must be ANY or int")
-        location = location - 1       # minus 1 from location making it 0 based   
-        region_range = self.get_region_range()  # check that location is within selected region
+        if type(start) is not int and stop is None:      # if location is not an int then throw an error 
+            raise ValueError("start must be int")
+        elif type(start) is not int and type(start) is not end:      # if location is not an int then throw an error 
+            raise ValueError("start and end must be int") 
+        
+        region_map = self.transcript.get_regionmap()
+        passing = False
+        if stop is None:
+            if self.region is "GENIC" 
+                for i in region_map["GENIC"]: 
+                     if start <= i[1] and start >= i[0]: ####TODO: do this !!
+                         passing = True: 
+            elif self.region is "CODING": 
+                for i in region_map["CODING"]: 
+                     if start <= i[1] and end >= i[0]:
+                         passing = True: 
+            elif self.region is "UTR": 
+            elif self.region is "INTRONIC":
+        else: 
+            if self.region is "GENIC" 
+            elif self.region is "CODING": 
+            elif self.region is "UTR": 
+            elif self.region is "INTRONIC":
+
+
+
+        
+        
+        
+        
         if location not in region_range:
                 raise ValueError("position must be within range")
 

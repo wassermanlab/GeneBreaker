@@ -157,6 +157,13 @@ class Transcript:
         else:
             raise Exception("region not valid")
 
+    def get_regionmap(self): 
+        genic = self.get_requested_region("GENIC")
+        utr = self.get_requested_region("UTR")
+        intron = self.get_requested_region("INTRONIC")
+        coding = self.get_requested_region("CODING")
+        return {"CODING": coding, "INTRONIC": intron, "UTR": utr, "GENIC": genic}
+
     def get_codon_from_pos(self, pos: int) -> tuple:
         """ from a position get codon matching to that position(0 based):
         return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
