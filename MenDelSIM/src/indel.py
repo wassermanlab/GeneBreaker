@@ -45,25 +45,21 @@ class Indel(Variant):
             deletion of this size, try reducing the size of the deletion""")
         return region_range
 
-    #TODO: check location with UTR and INDELS 
-    def check_location(self, location):
-        """checks location for validity and minuses 1"""
-        if location is "ANY":              # if location is ANY then pass
-            return
-        if type(location) is not int:      # if location is not an int then throw an error
-            raise ValueError("location must be ANY or int")
-        self.location = self.location - 1       # minus 1 from location making it 0 based
-        # check that location is within selected region
-        region_range = self.get_region_range()
-        if self.location not in region_range:
-            raise ValueError("position must be within range")
-
     def check_indel(self):
         """checks all indel features"""
         if self.type != "INDEL":
             raise ValueError("Must be INDEL type")
         self.check_amount()
-        self.check_location(self.location)
+        if type(self.location) is int:
+            self.location = self.location - 1
+            if (self.indel_amount>0):
+                self.check_location(self.location)
+            else: 
+                end = self.location + 1 - self.indel_amount
+                self.check_location(self.location, end)
+            return
+        if self.location is not "ANY":
+            raise ValueError("Location must be ANY or int. ")   
 
     def get_insertion_str(self, size: int) -> str:
         """returns a random string of ACGT according to size"""

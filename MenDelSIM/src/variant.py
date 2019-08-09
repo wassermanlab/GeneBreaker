@@ -4,7 +4,6 @@ from lxml import etree
 from MenDelSIM.src.api_helper import *
 
 
-
 class Variant:
     # template is type dict
     def __init__(self, var_template: dict, transcript: Transcript):
@@ -15,46 +14,39 @@ class Variant:
         self.region = var_template["REGION"]
         self.impact = var_template["IMPACT"]
         self.zygosity = var_template["ZYGOSITY"]
-        try: 
+        try:
             self.check_variant()
         except Exception as e:
             raise(e)
 
-    def check_location(self, start, stop=None):
-        ## assume 0 based at this point 
+    def check_location(self, start, end=None):
+        # assume 0 based at this point
         """checks location for validity"""
-        if type(start) is not int and stop is None:      # if location is not an int then throw an error 
-            raise ValueError("start must be int")
-        elif type(start) is not int and type(start) is not end:      # if location is not an int then throw an error 
-            raise ValueError("start and end must be int") 
-        
         region_map = self.transcript.get_regionmap()
         passing = False
-        if stop is None:
-            if self.region is "GENIC" 
-                for i in region_map["GENIC"]: 
-                     if start <= i[1] and start >= i[0]: ####TODO: do this !!
-                         passing = True: 
-            elif self.region is "CODING": 
-                for i in region_map["CODING"]: 
-                     if start <= i[1] and end >= i[0]:
-                         passing = True: 
-            elif self.region is "UTR": 
+        if end is None:
+            print(region_map[self.region])
+            for i in region_map[self.region]:
+                if start <= i[1] and start >= i[0]:
+                    passing = True
+        else:
+            if self.region is "GENIC" or self.region is "CODING":
+                for i in region_map[self.region]:
+                    if start < i[1] and end > i[0]:
+                        passing = True
+            elif self.region is "UTR":
+                for i in region_map["UTR"]:
+                    if start < i[1] and end > i[0]:
+                        passing = True
+                for i in region_map["CODING"]:
+                    if start < i[1] and end > i[0]:
+                        passing = False
             elif self.region is "INTRONIC":
-        else: 
-            if self.region is "GENIC" 
-            elif self.region is "CODING": 
-            elif self.region is "UTR": 
-            elif self.region is "INTRONIC":
-
-
-
-        
-        
-        
-        
-        if location not in region_range:
-                raise ValueError("position must be within range")
+                for i in region_map["INTRONIC"]:
+                    if start >= i[0] and end <= i[1]:
+                        passing = True
+        if not passing:
+            raise ValueError("invalid position.")
 
     def parse_region(self) -> dict:
         """sets self.region to {chrom: ___, start: ___, stop: ___}"""
@@ -95,38 +87,41 @@ class Variant:
     def get_region(self) -> str:
         return self.region
 
-    def check_region(self) -> bool: 
+    def check_region(self) -> bool:
         """checks region and gets custom region"""
         if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER', 'GENIC']:
             if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) is None:
-                raise ValueError('region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
+                raise ValueError(
+                    'region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
             else:
                 self.get_region()
 
-    def check_type(self) -> bool: 
+    def check_type(self) -> bool:
         """checks type"""
         if self.type not in ['SNV', 'INDEL', 'CNV', 'MEI', 'STR', 'ClinVar']:
-            raise ValueError('TYPE not one of the recognized types: SNV, INDEL, CNV, MEI, STR, ClinVar')
+            raise ValueError(
+                'TYPE not one of the recognized types: SNV, INDEL, CNV, MEI, STR, ClinVar')
         return True
 
-    def check_zygosity(self): 
+    def check_zygosity(self):
         """checks that zygosity is valid"""
         if self.zygosity not in ['HOMOZYGOUS', 'HETEROZYGOUS', 'HEMIZYGOUS']:
-            raise ValueError('ZYGOSITY must be one of the following: HOMOZYGOUS, HETEROZYGOUS, HEMIZYGOUS')
-        return True 
+            raise ValueError(
+                'ZYGOSITY must be one of the following: HOMOZYGOUS, HETEROZYGOUS, HEMIZYGOUS')
+        return True
 
-    def check_variant(self): 
+    def check_variant(self):
         """checks variant for validity"""
-        try: 
+        try:
             self.check_region()
             self.check_type()
             self.check_zygosity()
-            return True 
+            return True
         except Exception as e:
             raise(e)
 
     def get_region_range(self):
-        """get ther region requested for that variant using the attached transcript""" 
+        """get ther region requested for that variant using the attached transcript"""
         regions = self.transcript.get_requested_region(self.region)
         region_range = []
         for region in regions:

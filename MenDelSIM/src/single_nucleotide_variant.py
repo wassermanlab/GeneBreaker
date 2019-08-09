@@ -2,6 +2,7 @@ from MenDelSIM.src.variant import Variant
 from MenDelSIM.src.transcript import Transcript
 import random
 
+
 class SingleNucleotideVariant(Variant):
     start_codon = "ATG"
     stop_codons = ["TAA", "TAG", "TGA"]
@@ -38,12 +39,14 @@ class SingleNucleotideVariant(Variant):
             raise ValueError("Must be SNV type")
         if self.snv_type not in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"]:
             raise ValueError(
-                """TYPE must be missense, nonsense, synonymous or a base""")
+                "TYPE must be missense, nonsense, synonymous or a base")
         if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
             raise ValueError("type impact not valid for non coding region")
-        self.check_location(self.location)
         if type(self.location) is int:
             self.location = self.location - 1
+            self.check_location(self.location)
+        elif self.location is not "ANY":
+            raise ValueError("locations must be ANY or and int")
 
     def get_alternate_codons(self, codon, pos):
         choices = ['A', 'T', 'G', 'C']
@@ -173,7 +176,7 @@ class SingleNucleotideVariant(Variant):
             else:
                 var_dict = self.get_directed_coding_SNV(self.location)
         else:
-            var_dict = self.get_non_coding_SNV() ## just make change to this
+            var_dict = self.get_non_coding_SNV()  # just make change to this
         if var_dict is False:
             raise Exception("Specified SNV cannot be made")
         pos = str(var_dict["pos"] + 1)  # changing to 1 based
@@ -181,9 +184,9 @@ class SingleNucleotideVariant(Variant):
         alt = str(var_dict["alt"])
         ID = "_".join(["snv", pos, str(self.snv_type)])
         if self.zygosity == "HOMOZYGOUS":
-            zygosity = "1/1"  
+            zygosity = "1/1"
         if self.zygosity == "HEMIZYGOUS":
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
-            zygosity = "0/1"  
+            zygosity = "0/1"
         return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])

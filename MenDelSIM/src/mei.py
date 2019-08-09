@@ -26,7 +26,11 @@ class MEI(Variant):
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
         self.check_element()
-        self.check_location(self.location)
+        if type(self.location) is int:
+            self.location = self.location - 1
+            self.check_location(self.location)
+        elif self.location is not "ANY":
+            raise ValueError("locations must be ANY or and int")
 
     def get_insertion_str(self) -> str:
         """reads the fasta and gets string of fasta file"""

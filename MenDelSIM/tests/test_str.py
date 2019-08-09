@@ -14,13 +14,13 @@ class STRBasicTests(unittest.TestCase):
                 "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
-                "STR": 2
+                "STR": 2, 
+                "MOTIF": "GCT"
             },
             "REGION": "UTR",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
         STR = ShortTandemRepeat(STR, self.transcript)
-        self.assertEqual(STR.get_str_motif(), "GCT")
 
     def test_retraction_too_large(self):
         STR = {
@@ -28,7 +28,8 @@ class STRBasicTests(unittest.TestCase):
                 "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
-                "STR": -50
+                "STR": -50, 
+                "MOTIF": "GCT"
             },
             "REGION": "GENIC",
             "TYPE": "STR",
@@ -46,7 +47,8 @@ class STRBasicTests(unittest.TestCase):
                 "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
-                "STR": -2
+                "STR": -2, 
+                "MOTIF": "GCT"
             },
             "REGION": "UTR",
             "TYPE": "STR",
@@ -63,7 +65,8 @@ class STRBasicTests(unittest.TestCase):
                 "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
-                "STR": 10000
+                "STR": 10000, 
+                "MOTIF": "GCT"
             },
             "REGION": "UTR",
             "TYPE": "STR",
@@ -80,7 +83,8 @@ class STRBasicTests(unittest.TestCase):
                 "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
-                "STR": 5
+                "STR": 5, 
+                "MOTIF": "GCT"
             },
             "REGION": "UTR",
             "TYPE": "STR",

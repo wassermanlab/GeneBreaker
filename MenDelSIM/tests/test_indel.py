@@ -26,6 +26,7 @@ class IndelCreationTests(unittest.TestCase):
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.transcript)
+
     # test 3
     def test_type_value(self):
         indel = {"TYPE": "TEST",
@@ -43,6 +44,7 @@ class IndelCreationTests(unittest.TestCase):
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.transcript)
+
     # test 5
     def test_location_0(self):
         indel = {"TYPE": "INDEL",
@@ -51,6 +53,7 @@ class IndelCreationTests(unittest.TestCase):
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.SOX18).get_vcf_row()
+
     # test 6
     def test_location_str(self):
         indel = {"TYPE": "INDEL",
