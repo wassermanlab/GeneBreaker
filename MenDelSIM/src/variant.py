@@ -25,7 +25,6 @@ class Variant:
         region_map = self.transcript.get_regionmap()
         passing = False
         if end is None:
-            print(region_map[self.region])
             for i in region_map[self.region]:
                 if start <= i[1] and start >= i[0]:
                     passing = True

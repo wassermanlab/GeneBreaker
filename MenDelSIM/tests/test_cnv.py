@@ -4,7 +4,7 @@ from MenDelSIM.src.transcript import Transcript
 from MenDelSIM.src.api_helper import *
 
 
-class IndelCreationTests(unittest.TestCase):
+class CNVCreationTests(unittest.TestCase):
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
 
@@ -43,7 +43,7 @@ class IndelCreationTests(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         CopyNumberVariant(cnv, self.transcript)
 
-        # test 4
+    # test 4
     def test_UTR_overlap(self):
         cnv = {
             "TYPE": "CNV",
@@ -60,7 +60,7 @@ class IndelCreationTests(unittest.TestCase):
         cnv["IMPACT"]["END"] = 27959682
         CopyNumberVariant(cnv, self.transcript)
 
-        # test 5
+    # test 5
     def test_intron_overlap(self):
         cnv = {
             "TYPE": "CNV",
@@ -77,7 +77,7 @@ class IndelCreationTests(unittest.TestCase):
         cnv["IMPACT"]["START"] = 27961000
         CopyNumberVariant(cnv, self.transcript)
 
-        # test 6
+    # test 6
     def test_deletion(self):
         cnv = {
             "TYPE": "CNV",
@@ -91,14 +91,13 @@ class IndelCreationTests(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript)
         row = cnv.get_vcf_row().split("\t")
-        self.assertEqual(row[0],"chr1")
-        self.assertEqual(row[1],"27960999")
-        self.assertEqual(row[3],"GCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
-        self.assertEqual(row[4],"G")
-        
-        
+        self.assertEqual(row[0], "chr1")
+        self.assertEqual(row[1], "27960999")
+        self.assertEqual(
+            row[3], "GCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+        self.assertEqual(row[4], "G")
 
-        # test 7
+    # test 7
     def test_insertion(self):
         cnv = {
             "TYPE": "CNV",
@@ -112,7 +111,9 @@ class IndelCreationTests(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript)
         row = cnv.get_vcf_row().split("\t")
-        self.assertEqual(row[0],"chr1")
-        self.assertEqual(row[1],"27961000")
-        self.assertEqual(row[3],"CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
-        self.assertEqual(row[4],"CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCCCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+        self.assertEqual(row[0], "chr1")
+        self.assertEqual(row[1], "27961000")
+        self.assertEqual(
+            row[3], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+        self.assertEqual(
+            row[4], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCCCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
