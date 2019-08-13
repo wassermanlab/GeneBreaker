@@ -1,9 +1,8 @@
 :root{
-    --dark-blue: #05386B;
-    --dark-green: #379683;
-    --middle-green: #5CDB95;
-    --light-green: #8EE4AF;
-    --pale-green: #EDF5E1;
+    --dark-blue: #e24e42;
+    --dark-green: #e9b000;
+    --middle-green: #008f95;
+    --light-green: #eb6e80;
     
 }
 html {
@@ -13,35 +12,24 @@ html {
 body {  
         font-family: montserrat, sans-serif;
         margin-bottom: 60px; 
+        background-color: #008f95
   }
+.center{
+  text-align: center;
+}
+.form-row{
+  background-color: white;
+  border-radius: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
 .navbar-fix {  
     padding-top: 80px;
 }
-.jumbotron {
-    text-align: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: white;
-    background-image: url("../img/background.svg")
-}
-.vertical-align {
-  padding-top: 30vh;
-}
 .fixed-width {
   width: 130px 
-}
-.spacing{
-  margin-bottom: 30px;
-  margin-top: 20px;
-}
-.outer{
-  margin-bottom: 20px;
-  margin-top: 20px;
-  border-radius: 7px;
-  background-color: #e9ecef;
-}
-.response{
-  padding: 20px;
 }
 .footer {
   text-align: center;
@@ -54,18 +42,4 @@ body {
 }
 .navbar{
   background-color: white;
-}
-.badge {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 7px;
-}
-.docsKeys{
-  width: 20%
-}
-.docsDescription{
-  width: 70%
-}
-.docsRequired{
-  width: 10%
 }

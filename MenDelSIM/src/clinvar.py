@@ -6,7 +6,7 @@ class ClinVar(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template: dict, transcript:Transcript):
         Variant.__init__(self, var_template, transcript)
-        self.id = self.impact['clinvar_id']
+        self.id = self.impact["clinvar_id"]
         self.start = self.impact["START"] - 1
         self.ref = self.impact["REF"]
         self.alt = self.impact["ALT"]
