@@ -33,7 +33,7 @@ class Transcript:
         xml = etree.parse(url, parser=etree.XMLParser())
         # Get sequence
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
-        if stranded is False: 
+        if stranded == False: 
             return sequence.upper()
         elif self.strand == 1:
             return sequence.upper()
@@ -46,11 +46,11 @@ class Transcript:
         """returns positive strand positions"""
         seq = self.get_seq()
         cut = ""
-        if type(positions) is tuple:
+        if type(positions) == tuple:
             start = positions[0]-self.txStart
             end = positions[1]-self.txStart
             cut =  seq[start:end]
-        elif type(positions) is list:
+        elif type(positions) == list:
             for pos in positions:
                 start = pos[0]-self.txStart
                 end = pos[1]-self.txStart
@@ -152,7 +152,7 @@ class Transcript:
             return self.get_utr()
         elif region == "INTRONIC":
             return self.get_introns()    
-        elif type(region) is tuple:
+        elif type(region) == tuple:
             return [region[1]]
         else:
             raise Exception("region not valid")

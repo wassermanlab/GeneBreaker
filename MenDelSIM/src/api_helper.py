@@ -13,7 +13,6 @@ def get_all_results(request_url):
             res = json.loads(req.content.decode('utf-8'))
             results = results + res['results']
             if ('next' in res):
-                print(url)
                 url = res['next']
             else: 
                 next = False

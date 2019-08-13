@@ -58,8 +58,8 @@ class Indel(Variant):
                 end = self.location + 1 - self.indel_amount
                 self.check_location(self.location, end)
             return
-        if self.location is not "ANY":
-            raise ValueError("Location must be ANY or int. ")   
+        if self.location != "ANY":
+            raise ValueError("Location must be ANY or int.")   
 
     def get_insertion_str(self, size: int) -> str:
         """returns a random string of ACGT according to size"""

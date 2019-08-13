@@ -20,34 +20,34 @@ class Variants:
         variants_json = json.load(f)
         variants_json
         try:
-            self.transcript = Transcript(
-                variants_json["GENE_UID"], variants_json["GENOME"])
-            self.var1 = self.make_variant(variants_json["VAR1"])
-            self.var2 = self.make_variant(variants_json["VAR2"])
+            self.transcript = Transcript(variants_json["GENE_UID"], variants_json["GENOME"])
+            self.var1 = self.make_variant(variants_json["VAR1"], self.transcript)
+            self.var2 = self.make_variant(variants_json["VAR2"], self.transcript)
             self.sex = variants_json["SEX"]
             self.check_sex_zygosity()
         except Exception as e:
-            print(e)
+            raise Exception(e)
 
         f.close()
 
-    def make_variant(self, var): 
-        if var is None: 
+    def make_variant(self, var, transcript): 
+        if var == "None": 
             return None
         var_type = var["TYPE"]
         if var_type == "SNV":
-            variant = SNV(var)
-        if var_type == "INDEL":
-            variant = Indel(var)
-        if var_type == "STR":
-            variant = ShortTandemRepeat(var)
-        if var_type == "MEI":
-            variant = MEI(var)
-        if var_type == "ClinVar":
-            variant = ClinVar(var)
-        if var_type == "CNV":
-            variant = CopyNumberVariant(var)
-        variant = Variant(var)
+            variant = SNV(var, transcript)
+        elif var_type == "INDEL":
+            variant = Indel(var, transcript)
+        elif var_type == "STR":
+            variant = ShortTandemRepeat(var, transcript)
+        elif var_type == "MEI":
+            variant = MEI(var, transcript)
+        elif var_type == "ClinVar":
+            variant = ClinVar(var, transcript)
+        elif var_type == "CNV":
+            variant = CopyNumberVariant(var, transcript)
+        else:
+            variant = Variant(var, transcript)
         return variant
      
     def check_sex_zygosity(self):
@@ -55,20 +55,21 @@ class Variants:
             raise ValueError('SEX must be one of: XX, XY') 
         if self.transcript.chrom is 'chrY' and self.sex is not 'XY':
             raise ValueError('SEX of proband must be XY when selecting Y gene')
-        if self.var1.zygosity is in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 is not None: 
+        if self.var1.zygosity in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 is not None: 
             raise ValueError('Cannot have a second variant if the first is HOMOZYGOUS or HEMIZYGOUS')
         if self.var1.zygosity is not 'HEMIZYGOUS' and self.sex is 'XY': 
             raise ValueError('With XY sex zygosity must be HEMIZYGOUS')
 
     def variants_2_VCF(self):
         """ turns variant template into variant, string representing vcf """
-        if self.var2 != None:
+        # print(self.var2)
+        r2 = ""
+        if self.var2 is not None:
             r2 = self.var2.get_vcf_row() + "\n"
         r1 = self.var1.get_vcf_row() + "\n"
         return (r1, r2)
 
     def save_vcf_output(self, file_name):
-
         #     # TODO: implement this
         # if "CNV" in variant_types:
         #     # make complex VCF

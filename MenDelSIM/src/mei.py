@@ -37,12 +37,12 @@ class MEI(Variant):
         ## get file name
         THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
         THIS_FOLDER = os.path.split(THIS_FOLDER)[0]
-        zip_file = THIS_FOLDER + '/static/'+ self.element + ".zip"
-        fasta_file_full = THIS_FOLDER + '/static/' + self.element + ".fa"
+        zip_file = THIS_FOLDER + '/sequences/'+ self.element + ".zip"
+        fasta_file_full = THIS_FOLDER + '/sequences/' + self.element + ".fa"
         fasta_file = self.element +".fa"
         ## unzip file 
         with ZipFile(zip_file,"r") as zip_ref:
-            zip_ref.extract(fasta_file, THIS_FOLDER + '/static/')
+            zip_ref.extract(fasta_file, THIS_FOLDER + '/sequences/')
         
         insertion = ""
         for seq_record in SeqIO.parse(fasta_file_full, "fasta"):

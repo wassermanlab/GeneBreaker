@@ -24,23 +24,23 @@ class Variant:
         """checks location for validity"""
         region_map = self.transcript.get_regionmap()
         passing = False
-        if end is None:
+        if end == None:
             for i in region_map[self.region]:
                 if start <= i[1] and start >= i[0]:
                     passing = True
         else:
-            if self.region is "GENIC" or self.region is "CODING":
+            if self.region == "GENIC" or self.region == "CODING":
                 for i in region_map[self.region]:
                     if start < i[1] and end > i[0]:
                         passing = True
-            elif self.region is "UTR":
+            elif self.region == "UTR":
                 for i in region_map["UTR"]:
                     if start < i[1] and end > i[0]:
                         passing = True
                 for i in region_map["CODING"]:
                     if start < i[1] and end > i[0]:
                         passing = False
-            elif self.region is "INTRONIC":
+            elif self.region == "INTRONIC":
                 for i in region_map["INTRONIC"]:
                     if start >= i[0] and end <= i[1]:
                         passing = True
@@ -89,7 +89,7 @@ class Variant:
     def check_region(self) -> bool:
         """checks region and gets custom region"""
         if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER', 'GENIC']:
-            if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) is None:
+            if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) == None:
                 raise ValueError(
                     'region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
             else:
