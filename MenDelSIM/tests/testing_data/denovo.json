@@ -7,7 +7,7 @@
         "REGION": "CODING",
         "IMPACT": {
             "SNV_TYPE": "G",
-            "LOCATION": 72121500
+            "START": 72121500
         },
         "ZYGOSITY": "HOMOZYGOUS"
     },

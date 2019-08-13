@@ -10,7 +10,7 @@ class MEI(Variant):
     def __init__(self, var_template: dict, transcript: Transcript):
         Variant.__init__(self, var_template, transcript)
         self.element = self.impact["ELEMENT"]
-        self.location = self.impact["LOCATION"]
+        self.start = self.impact["START"]
         try: 
             self.check_mei()
         except Exception as e:
@@ -26,10 +26,10 @@ class MEI(Variant):
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
         self.check_element()
-        if type(self.location) == int:
-            self.location = self.location - 1
-            self.check_location(self.location)
-        elif self.location != "ANY":
+        if type(self.start) == int:
+            self.start = self.start - 1
+            self.check_location(self.start)
+        elif self.start != "ANY":
             raise ValueError("locations must be ANY or and int")
 
     def get_insertion_str(self) -> str:
@@ -55,10 +55,10 @@ class MEI(Variant):
         """returns (ref, alt) tuple of insersion in 0 based"""
         # get requested region range 
         region_range = self.get_region_range()
-        if self.location == "ANY": # pick any position within the ranges
+        if self.start == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)
         else:
-            pos = self.location
+            pos = self.start
         return {"pos": pos,
                 "ref": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome),
                 "alt": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome) + self.get_insertion_str()}

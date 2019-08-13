@@ -13,7 +13,7 @@ class SNVCreationTests(unittest.TestCase):
         snv = {
             "TYPE": "SNP",
             "REGION": "INTRONIC",
-            "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
+            "IMPACT": {"SNV_TYPE": "A", "START": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             SNV(snv, self.transcript)
@@ -23,7 +23,7 @@ class SNVCreationTests(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"SNV_TYPE": "WRONG", "LOCATION": "ANY"},
+            "IMPACT": {"SNV_TYPE": "WRONG", "START": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             SNV(snv, self.transcript)
@@ -35,7 +35,7 @@ class MutationMethods(unittest.TestCase):
     snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
-        "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
+        "IMPACT": {"SNV_TYPE": "A", "START": "ANY"},
         "ZYGOSITY": "HETEROZYGOUS"}
     snv = SNV(snv, transcript)
 
@@ -77,7 +77,7 @@ class NonCodingSNV(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"SNV_TYPE": "A", "LOCATION": "ANY"},
+            "IMPACT": {"SNV_TYPE": "A", "START": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         row = snv.get_vcf_row()
@@ -89,7 +89,7 @@ class NonCodingSNV(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"SNV_TYPE": "A", "LOCATION": 72122000},
+            "IMPACT": {"SNV_TYPE": "A", "START": 72122000},
             "ZYGOSITY": "HETEROZYGOUS"}
         row = SNV(snv, self.positive_transcript).get_non_coding_SNV()
         self.assertEqual(row["pos"], 72121999)
@@ -101,7 +101,7 @@ class NonCodingSNV(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
-            "IMPACT": {"SNV_TYPE": "MISSENSE", "LOCATION": 72121999},
+            "IMPACT": {"SNV_TYPE": "MISSENSE", "START": 72121999},
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             snv = SNV(snv, self.positive_transcript)
@@ -117,7 +117,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "G", "LOCATION": 72121500},
+            "IMPACT": {"SNV_TYPE": "G", "START": 72121500},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         directed = snv.get_directed_coding_SNV(72121499)
@@ -129,7 +129,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "NONSENSE", "LOCATION": 72121513},
+            "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 72121513},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         mutation_nonsense = snv.get_directed_coding_SNV(72121512)
@@ -141,7 +141,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "MISSENSE", "LOCATION": 72121517},
+            "IMPACT": {"SNV_TYPE": "MISSENSE", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         directed_missense = snv.get_directed_coding_SNV(72121516)
@@ -153,7 +153,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "LOCATION": 72121517},
+            "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         mutation = snv.get_directed_coding_SNV(72121516)
@@ -165,7 +165,7 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "NONSENSE", "LOCATION": 72121517},
+            "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         self.assertFalse(snv.get_directed_coding_SNV(0))
@@ -180,7 +180,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "G", "LOCATION": 64048520},
+            "IMPACT": {"SNV_TYPE": "G", "START": 64048520},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.negative_transcript)
         directed = snv.get_directed_coding_SNV(64048519)
@@ -192,7 +192,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "NONSENSE", "LOCATION": 64048519},
+            "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 64048519},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.negative_transcript)
         mutation_nonsense = snv.get_directed_coding_SNV(64048518)
@@ -205,7 +205,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "MISSENSE", "LOCATION": 64048502},
+            "IMPACT": {"SNV_TYPE": "MISSENSE", "START": 64048502},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.negative_transcript)
         directed_missense = snv.get_directed_coding_SNV(64048501)
@@ -216,7 +216,7 @@ class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
-            "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "LOCATION": 64048502},
+            "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "START": 64048502},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.negative_transcript)
         mutation = snv.get_directed_coding_SNV(64048501)

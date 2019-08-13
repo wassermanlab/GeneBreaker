@@ -22,7 +22,7 @@ class IndelCreationTests(unittest.TestCase):
     def test_region_value(self):
         indel = {"TYPE": "INDEL",
                  "REGION": "TEST",
-                 "IMPACT": {"INDEL_AMOUNT": 5, "LOCATION": "ANY"},
+                 "IMPACT": {"INDEL_AMOUNT": 5, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.transcript)
@@ -31,7 +31,7 @@ class IndelCreationTests(unittest.TestCase):
     def test_type_value(self):
         indel = {"TYPE": "TEST",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"INDEL_AMOUNT": 5, "LOCATION": "ANY"},
+                 "IMPACT": {"INDEL_AMOUNT": 5, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.transcript)
@@ -40,7 +40,7 @@ class IndelCreationTests(unittest.TestCase):
     def test_type_value_indel(self):
         indel = {"TYPE": "SNV",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"INDEL_AMOUNT": 8332, "LOCATION": "ANY"},
+                 "IMPACT": {"INDEL_AMOUNT": 8332, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.transcript)
@@ -49,7 +49,7 @@ class IndelCreationTests(unittest.TestCase):
     def test_location_0(self):
         indel = {"TYPE": "INDEL",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"INDEL_AMOUNT": 5, "LOCATION": 0},
+                 "IMPACT": {"INDEL_AMOUNT": 5, "START": 0},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.SOX18).get_vcf_row()
@@ -58,7 +58,7 @@ class IndelCreationTests(unittest.TestCase):
     def test_location_str(self):
         indel = {"TYPE": "INDEL",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"INDEL_AMOUNT": 5, "LOCATION": "four"},
+                 "IMPACT": {"INDEL_AMOUNT": 5, "START": "four"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.SOX18).get_vcf_row()
@@ -66,11 +66,11 @@ class IndelCreationTests(unittest.TestCase):
 class InsersionMethodTesting(unittest.TestCase):
     indel_any = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
-                 'IMPACT': {"INDEL_AMOUNT": 5, "LOCATION": "ANY"},
+                 'IMPACT': {"INDEL_AMOUNT": 5, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
     indel_spec = {'TYPE': 'INDEL',
                   'REGION': 'CODING',
-                  'IMPACT': {"INDEL_AMOUNT": 8, "LOCATION": 129814200},
+                  'IMPACT': {"INDEL_AMOUNT": 8, "START": 129814200},
                   "ZYGOSITY": "HETEROZYGOUS"}
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
     positive_transcript = Transcript(SOX9_uid, "hg38")
@@ -115,7 +115,7 @@ class DeletionMethodTestCase(unittest.TestCase):
     def test_basic_deletion(self):
         indel = {'TYPE': 'INDEL',
                  'REGION': 'CODING',
-                 'IMPACT': {"INDEL_AMOUNT": -5, "LOCATION": 72121500},
+                 'IMPACT': {"INDEL_AMOUNT": -5, "START": 72121500},
                  "ZYGOSITY": "HETEROZYGOUS"}
         indel = Indel(indel, self.positive_transcript)
         deletion = indel.get_deletion()
@@ -127,7 +127,7 @@ class DeletionMethodTestCase(unittest.TestCase):
     def test_any_location_deletion(self):
         indel = {'TYPE': 'INDEL',
                  'REGION': 'CODING',
-                 'IMPACT': {"INDEL_AMOUNT": -5, "LOCATION": "ANY"},
+                 'IMPACT': {"INDEL_AMOUNT": -5, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         indel = Indel(indel, self.positive_transcript)
         deletion = indel.get_deletion()
@@ -138,7 +138,7 @@ class DeletionMethodTestCase(unittest.TestCase):
     def test_raises_length_over_200(self):
         indel = {'TYPE': 'INDEL',
                  'REGION': 'CODING',
-                 'IMPACT': {"INDEL_AMOUNT": 570, "LOCATION": "ANY"},
+                 'IMPACT': {"INDEL_AMOUNT": 570, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             Indel(indel, self.positive_transcript).get_deletion()
@@ -149,7 +149,7 @@ class DeletionMethodTestCase(unittest.TestCase):
         SOX18 = Transcript(SOX18_uid, "hg38") 
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
-                 'IMPACT': {"INDEL_AMOUNT": -199, "LOCATION": "ANY"},
+                 'IMPACT': {"INDEL_AMOUNT": -199, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         indel = Indel(indel, SOX18)
         with self.assertRaises(ValueError):
@@ -161,7 +161,7 @@ class DeletionMethodTestCase(unittest.TestCase):
         SOX18 = Transcript(SOX18_uid, "hg38")
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
-                 'IMPACT': {"INDEL_AMOUNT": -150, "LOCATION": 64049150},
+                 'IMPACT': {"INDEL_AMOUNT": -150, "START": 64049150},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             indel = Indel(indel, SOX18)

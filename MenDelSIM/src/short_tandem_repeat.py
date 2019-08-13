@@ -9,7 +9,7 @@ class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template, transcript: Transcript):
         Variant.__init__(self, var_template, transcript)
-        self.chrom = self.impact["CHROM"]
+        self.chrom = self.transcript.get_chr()
         self.start = self.impact["START"]
         self.end = self.impact["END"]
         self.length = self.impact["STR"]

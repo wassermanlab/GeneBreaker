@@ -6,7 +6,6 @@
         "TYPE": "CNV",
         "REGION": "GENIC",
         "IMPACT": {
-            "CHROM": "chr1",
             "START": 27959462,
             "END": 27959562,
             "COPY_CHANGE": 2
@@ -18,7 +17,7 @@
         "REGION": "CODING",
         "IMPACT": {
             "INDEL_AMOUNT": 50,
-            "LOCATION": "ANY"
+            "START": "ANY"
         },
         "ZYGOSITY": "HETEROZYGOUS"
     }

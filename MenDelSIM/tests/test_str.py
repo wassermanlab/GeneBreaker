@@ -11,7 +11,6 @@ class STRBasicTests(unittest.TestCase):
     def test_correct_motif(self):
         STR = {
             "IMPACT": {
-                "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
                 "STR": 2, 
@@ -25,7 +24,6 @@ class STRBasicTests(unittest.TestCase):
     def test_retraction_too_large(self):
         STR = {
             "IMPACT": {
-                "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
                 "STR": -50, 
@@ -44,7 +42,6 @@ class STRBasicTests(unittest.TestCase):
     def test_retraction_works(self):
         STR = {
             "IMPACT": {
-                "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
                 "STR": -2, 
@@ -62,7 +59,6 @@ class STRBasicTests(unittest.TestCase):
     def test_insertion_too_large(self):
         STR = {
             "IMPACT": {
-                "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
                 "STR": 10000, 
@@ -80,7 +76,6 @@ class STRBasicTests(unittest.TestCase):
     def test_insertion_works(self):
         STR = {
             "IMPACT": {
-                "CHROM": "chr1",
                 "END": 16631,
                 "START": 16620,
                 "STR": 5, 

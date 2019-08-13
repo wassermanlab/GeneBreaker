@@ -14,7 +14,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "GENIC",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27959462,
                 "END": 27959865,
                 "COPY_CHANGE": 1,
@@ -35,7 +34,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "CODING",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27960050,
                 "END": 27960150,
                 "COPY_CHANGE": 2,
@@ -49,7 +47,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "UTR",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27959622,
                 "END": 27960150,
                 "COPY_CHANGE": 2,
@@ -66,7 +63,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "INTRONIC",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27959999,
                 "END": 27961050,
                 "COPY_CHANGE": 2,
@@ -83,7 +79,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "INTRONIC",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27961000,
                 "END": 27961050,
                 "COPY_CHANGE": -1,
@@ -103,7 +98,6 @@ class CNVCreationTests(unittest.TestCase):
             "TYPE": "CNV",
             "REGION": "INTRONIC",
             "IMPACT": {
-                "CHROM": "chr1",
                 "START": 27961000,
                 "END": 27961050,
                 "COPY_CHANGE": 2,

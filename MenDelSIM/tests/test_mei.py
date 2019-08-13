@@ -12,7 +12,7 @@ class MEICreationTests(unittest.TestCase):
         transcript = Transcript(XKR8_uid, "hg38")
         mei = {"TYPE": "SNV",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"ELEMENT": "ALU", "LOCATION": "ANY"},
+                 "IMPACT": {"ELEMENT": "ALU", "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             MEI(mei, transcript)
@@ -22,7 +22,7 @@ class MEICreationTests(unittest.TestCase):
         SOX18 = Transcript(SOX18_uid, "hg38")
         mei = {"TYPE": "MEI",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"ELEMENT": "ALU_MELT", "LOCATION": 0},
+                 "IMPACT": {"ELEMENT": "ALU_MELT", "START": 0},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             MEI(mei,SOX18).get_vcf_row()
@@ -30,11 +30,11 @@ class MEICreationTests(unittest.TestCase):
 class InsersionMethodTesting(unittest.TestCase):
     mei_any = {'TYPE': 'MEI',
                  'REGION': 'INTRONIC',
-                 'IMPACT': {"ELEMENT": "ALU", "LOCATION": "ANY"},
+                 'IMPACT': {"ELEMENT": "ALU", "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
     mei_spec = {'TYPE': 'MEI',
                   'REGION': 'CODING',
-                  'IMPACT': {"ELEMENT": "ALU", "LOCATION": 129814000},
+                  'IMPACT': {"ELEMENT": "ALU", "START": 129814000},
                   "ZYGOSITY": "HETEROZYGOUS"}
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
     positive_transcript = Transcript(SOX9_uid, "hg38")

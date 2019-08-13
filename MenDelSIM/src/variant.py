@@ -65,7 +65,6 @@ class Variant:
                 "custom location is not on the same chromosome as the transcript")
         return (chrom, (start, end))
 
-    # TODO: fix occurrences of this
     def get_seq(self, chrom: int, start: int, end: int, genome: str) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 1"""

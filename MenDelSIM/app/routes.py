@@ -1,10 +1,11 @@
 from MenDelSIM.app import app
-from flask import request, jsonify, render_template, url_for, redirect, send_from_directory
+from flask import request, jsonify, render_template, url_for, redirect, send_from_directory, send_file
 from werkzeug.exceptions import HTTPException, NotFound, BadRequest
 from werkzeug.utils import secure_filename
 import json
 import sys, os
 from MenDelSIM.src.variants import Variants
+from datetime import datetime
 
 @app.route('/')
 @app.route('/home')
@@ -13,58 +14,24 @@ def home():
 
 @app.route('/contact')
 def contact():
-    return "CONTACT"
+    return render_template('contact.html')
 
-@app.route('/design_variants', methods=['GET', 'POST'])
+@app.route('/design_variants', methods=["GET", "POST"])
 def design_variants():
-    if request.method == 'POST':
-        variant_data = request.json
-        print(variant_data)
-        return 'HELLO'
+    # if POST then return the variant file sent with the JSON file 
+    if request.method == 'POST': 
+        if not os.path.exists('/tmp/simulator'):
+            os.makedirs('/tmp/simulator')
+        try: 
+            now = datetime.now()
+            dt_string = now.strftime("%d-%m-%Y_%H:%M:%S")
+            Variants(request.json).save_vcf_output("/tmp/simulator/"+ dt_string + ".vcf")
+            return send_file("/tmp/simulator/"+ dt_string + ".vcf", attachment_filename=dt_string + ".vcf")
+        except Exception as e:
+            return BadRequest("cannot produce requested variant: " + str(e))
+    else: # render the template to make variants  
+        return render_template('variants.html')
 
-    # try: 
-    #     variants_json = config
-    #     variants = Variants(variants_json)
-    #     variants.save_vcf_output(output)
-    # except: 
-    #     print ("Check that your config is formatted the correct way")
-
-
-    # return "design_variants"
-
-
-
-
-
-
-
-
-# def allowed_file(filename):
-#     return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in {'vcf'}
-
-# @app.route('/design_family', methods=['GET', 'POST'])
-# def design_family():
-#     if request.method == 'GET':
-#         return render_template('family.html')
-#     elif request.method == 'POST':
-#         print("POST")
-#         # check if the post request has the file part
-#         if 'file' not in request.files:
-#             return "NO_FILE"
-#         file = request.files['file']
-#         # if user does not select file, browser also
-#         if file and allowed_file(file.filename):
-#             filename = secure_filename(file.filename)
-#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#             return redirect(url_for('design_family_file', filename=filename))
-#         else: 
-#             return "invalid file"
-
-# @app.route('/design_family/<filename>')
-# def design_family_file(filename):
-#     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
-
-# @app.route('/get_family')
-# def get_family():
-#     return "get_family"
+@app.route('/design_family', methods=["GET", "POST"])
+def design_family():
+    return "family"

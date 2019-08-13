@@ -16,9 +16,13 @@ class Variants:
         """ 
         creates variants object which has gene, inheritance, var1, var2 
         """
-        f = open(variants_file)
-        variants_json = json.load(f)
-        variants_json
+        if type(variants_file) != dict: 
+            f = open(variants_file)
+            variants_json = json.load(f)
+            f.close()
+        else: 
+            variants_json = variants_file
+        
         try:
             self.transcript = Transcript(variants_json["GENE_UID"], variants_json["GENOME"])
             self.var1 = self.make_variant(variants_json["VAR1"], self.transcript)
@@ -28,7 +32,6 @@ class Variants:
         except Exception as e:
             raise Exception(e)
 
-        f.close()
 
     def make_variant(self, var, transcript): 
         if var == "None": 

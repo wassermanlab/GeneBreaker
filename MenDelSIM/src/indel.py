@@ -8,7 +8,7 @@ class Indel(Variant):
     def __init__(self, var_template: dict, transcript: Transcript):
         Variant.__init__(self, var_template, transcript)
         self.indel_amount = self.impact["INDEL_AMOUNT"]
-        self.location = self.impact["LOCATION"]
+        self.start = self.impact["START"]
 
         # checks
         self.check_indel()
@@ -50,15 +50,15 @@ class Indel(Variant):
         if self.type != "INDEL":
             raise ValueError("Must be INDEL type")
         self.check_amount()
-        if type(self.location) == int:
-            self.location = self.location - 1
+        if type(self.start) == int:
+            self.start = self.start - 1
             if (self.indel_amount>0):
-                self.check_location(self.location)
+                self.check_location(self.start)
             else: 
-                end = self.location + 1 - self.indel_amount
-                self.check_location(self.location, end)
+                end = self.start + 1 - self.indel_amount
+                self.check_location(self.start, end)
             return
-        if self.location != "ANY":
+        if self.start != "ANY":
             raise ValueError("Location must be ANY or int.")   
 
     def get_insertion_str(self, size: int) -> str:
@@ -73,10 +73,10 @@ class Indel(Variant):
         """returns (pos ,ref, alt) tuple of deletion"""
         # get ranges
         region_range = self.get_region_range()
-        if self.location == "ANY":  # pick any position within the ranges
+        if self.start == "ANY":  # pick any position within the ranges
             pos = random.choice(region_range)  # determin what this is
         else:
-            pos = self.location
+            pos = self.start
         return {"pos": pos,
                 "ref": self.get_seq(self.transcript.get_chr(), pos, pos+1-self.indel_amount, self.transcript.get_genome()),
                 "alt": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome())}
@@ -85,10 +85,10 @@ class Indel(Variant):
         """returns (ref, alt) tuple of insersion"""
         # get requested region
         region_range = self.get_region_range()
-        if self.location == "ANY":  # pick any position within the ranges
+        if self.start == "ANY":  # pick any position within the ranges
             pos = random.choice(region_range)
         else:
-            pos = self.location
+            pos = self.start
         return {"pos": pos,
                 "ref": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()),
                 "alt": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()) + self.get_insertion_str(self.indel_amount)}

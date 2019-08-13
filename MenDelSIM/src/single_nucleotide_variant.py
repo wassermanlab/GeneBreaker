@@ -31,7 +31,7 @@ class SingleNucleotideVariant(Variant):
         """ initialize snv variant """
         Variant.__init__(self, var_template, transcript)
         self.snv_type = self.impact["SNV_TYPE"]
-        self.location = self.impact["LOCATION"]
+        self.start = self.impact["START"]
         self.check_snv()
 
     def check_snv(self):
@@ -42,10 +42,10 @@ class SingleNucleotideVariant(Variant):
                 "TYPE must be missense, nonsense, synonymous or a base")
         if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
             raise ValueError("type impact not valid for non coding region")
-        if type(self.location) == int:
-            self.location = self.location - 1
-            self.check_location(self.location)
-        elif self.location != "ANY":
+        if type(self.start) == int:
+            self.start = self.start - 1
+            self.check_location(self.start)
+        elif self.start != "ANY":
             raise ValueError("locations must be ANY or and int")
 
     def get_alternate_codons(self, codon, pos):
@@ -106,10 +106,10 @@ class SingleNucleotideVariant(Variant):
         """ make random or directed SNV """
         # get ranges
         region_range = self.get_region_range()
-        if self.location == "ANY":
+        if self.start == "ANY":
             pos = random.choice(region_range)
         else:
-            pos = self.location
+            pos = self.start
         shift_pos = pos - self.transcript.get_start()
         ref = self.transcript.get_seq()[shift_pos]
         if self.snv_type == "ANY":  # user has requested random base change
@@ -171,10 +171,10 @@ class SingleNucleotideVariant(Variant):
         """ get variant row tab delimitted  """
         chrom = str(self.transcript.get_chr())
         if self.region == "CODING":
-            if self.location == "ANY":
+            if self.start == "ANY":
                 var_dict = self.get_random_coding_SNV()
             else:
-                var_dict = self.get_directed_coding_SNV(self.location)
+                var_dict = self.get_directed_coding_SNV(self.start)
         else:
             var_dict = self.get_non_coding_SNV()  # just make change to this
         if var_dict == False:
