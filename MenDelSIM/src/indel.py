@@ -15,7 +15,7 @@ class Indel(Variant):
 
     def check_amount(self):
         """checks amount of indel is integer between -200 and 200"""
-        if type(self.indel_amount) is not int:
+        if type(self.indel_amount) != int:
             raise ValueError("""For indel type the program expects an int
             representing the amount to delete or insert, 
             did not get that input.""")
@@ -32,7 +32,7 @@ class Indel(Variant):
             for region in regions:
                 region_range = region_range + list(range(region[0], region[1]))
         else:
-            if self.region is "CODING":
+            if self.region == "CODING":
                 for region in regions:
                     region_range = region_range + \
                         list(range(region[0]+self.indel_amount+1, region[1]))
@@ -50,7 +50,7 @@ class Indel(Variant):
         if self.type != "INDEL":
             raise ValueError("Must be INDEL type")
         self.check_amount()
-        if type(self.location) is int:
+        if type(self.location) == int:
             self.location = self.location - 1
             if (self.indel_amount>0):
                 self.check_location(self.location)

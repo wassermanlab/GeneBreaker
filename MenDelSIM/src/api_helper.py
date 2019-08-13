@@ -36,8 +36,8 @@ def get_str(start, end, chrom, genome):
 def get_transcript(uid, genome):
     url = host + '/api/v1/' + genome + '/genes?uids='+ str(uid)
     res = get_all_results(url)
-    if res is False:
-        return false
+    if res == False:
+        return False
     return get_all_results(url)[0]
 
 def get_chromosome(chr, genome): 

@@ -10,7 +10,7 @@ class ClinVar(Variant):
         self.start = self.impact["START"] - 1
         self.ref = self.impact["REF"]
         self.alt = self.impact["ALT"]
-        if self.type is not "ClinVar":
+        if self.type != "ClinVar":
             raise ValueError("type must be ClinVar")
         if (len(self.ref) > 1):
             self.check_location(self, self.start, self.start + len(self.ref))

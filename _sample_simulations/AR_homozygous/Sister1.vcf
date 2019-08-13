@@ -1,6 +1,0 @@
-##fileformat=VCFv4.2
-##fileDate=2018-12-12
-##source=variant_simulator
-##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	Sister1
-chr7	117199640	7106	TATC	T	.	.	.	GT	0/1

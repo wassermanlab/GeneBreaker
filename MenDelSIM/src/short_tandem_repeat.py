@@ -22,7 +22,7 @@ class ShortTandemRepeat(Variant):
             raise ValueError("Must be STR type")
         if self.length == 0:
             raise Exception("STR length must be not equal to 0")
-        if type(self.start) is not int or type(self.end) is not int:
+        if type(self.start) != int or type(self.end) != int:
             raise ValueError("start and end must be int.")
         self.start = self.start - 1
         if (self.length>0):

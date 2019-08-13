@@ -7,7 +7,7 @@ from MenDelSIM.src.api_helper import *
 class Variant:
     # template is type dict
     def __init__(self, var_template: dict, transcript: Transcript):
-        if (var_template is None):
+        if (var_template == None):
             return None
         self.transcript = transcript
         self.type = var_template["TYPE"]

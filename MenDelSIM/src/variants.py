@@ -53,18 +53,18 @@ class Variants:
     def check_sex_zygosity(self):
         if self.sex not in ['XX', 'XY']:
             raise ValueError('SEX must be one of: XX, XY') 
-        if self.transcript.chrom is 'chrY' and self.sex is not 'XY':
+        if self.transcript.chrom == 'chrY' and self.sex != 'XY':
             raise ValueError('SEX of proband must be XY when selecting Y gene')
-        if self.var1.zygosity in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 is not None: 
+        if self.var1.zygosity in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 != None: 
             raise ValueError('Cannot have a second variant if the first is HOMOZYGOUS or HEMIZYGOUS')
-        if self.var1.zygosity is not 'HEMIZYGOUS' and self.sex is 'XY': 
+        if self.var1.zygosity != 'HEMIZYGOUS' and self.sex == 'XY' and self.transcript.get_chr() in ["chrX", "chrY"]: 
             raise ValueError('With XY sex zygosity must be HEMIZYGOUS')
 
     def variants_2_VCF(self):
         """ turns variant template into variant, string representing vcf """
         # print(self.var2)
         r2 = ""
-        if self.var2 is not None:
+        if self.var2 != None:
             r2 = self.var2.get_vcf_row() + "\n"
         r1 = self.var1.get_vcf_row() + "\n"
         return (r1, r2)

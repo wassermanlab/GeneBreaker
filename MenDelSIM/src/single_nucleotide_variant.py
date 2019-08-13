@@ -42,10 +42,10 @@ class SingleNucleotideVariant(Variant):
                 "TYPE must be missense, nonsense, synonymous or a base")
         if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
             raise ValueError("type impact not valid for non coding region")
-        if type(self.location) is int:
+        if type(self.location) == int:
             self.location = self.location - 1
             self.check_location(self.location)
-        elif self.location is not "ANY":
+        elif self.location != "ANY":
             raise ValueError("locations must be ANY or and int")
 
     def get_alternate_codons(self, codon, pos):
@@ -136,7 +136,7 @@ class SingleNucleotideVariant(Variant):
             alt = self.any_mutation(codon, codon_pos)
         else:
             alt = self.snv_type
-        if alt is False:
+        if alt == False:
             return False
         # strand is + or user specified mutation
         elif strand == 1:
@@ -162,7 +162,7 @@ class SingleNucleotideVariant(Variant):
             loc = random.choice(region_range)
             region_range.remove(loc)
             snv = self.get_directed_coding_SNV(loc)
-            if snv is not False:
+            if snv != False:
                 alt = True
                 return snv
                 break
@@ -177,7 +177,7 @@ class SingleNucleotideVariant(Variant):
                 var_dict = self.get_directed_coding_SNV(self.location)
         else:
             var_dict = self.get_non_coding_SNV()  # just make change to this
-        if var_dict is False:
+        if var_dict == False:
             raise Exception("Specified SNV cannot be made")
         pos = str(var_dict["pos"] + 1)  # changing to 1 based
         ref = str(var_dict["ref"])

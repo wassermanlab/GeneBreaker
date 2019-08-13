@@ -19,7 +19,7 @@ class CopyNumberVariant(Variant):
             raise ValueError("Must be CNV type")
         if self.copy_change == 0 or self.copy_change < -1 or self.copy_change == 1:
             raise ValueError("Copy change cannot be less than -1 or equal to 1 or 0.")
-        if type(self.start) is not int or type(self.end) is not int:
+        if type(self.start) != int or type(self.end) != int:
             raise ValueError("start and end must be int.")
         self.start = self.start-1
         if self.copy_change < 0: 
