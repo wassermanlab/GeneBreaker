@@ -13,7 +13,7 @@ class STRBasicTests(unittest.TestCase):
             "IMPACT": {
                 "END": 16631,
                 "START": 16620,
-                "STR": 2, 
+                "LENGTH": 2, 
                 "MOTIF": "GCT"
             },
             "REGION": "UTR",
@@ -26,7 +26,7 @@ class STRBasicTests(unittest.TestCase):
             "IMPACT": {
                 "END": 16631,
                 "START": 16620,
-                "STR": -50, 
+                "LENGTH": -50, 
                 "MOTIF": "GCT"
             },
             "REGION": "GENIC",
@@ -44,7 +44,7 @@ class STRBasicTests(unittest.TestCase):
             "IMPACT": {
                 "END": 16631,
                 "START": 16620,
-                "STR": -2, 
+                "LENGTH": -2, 
                 "MOTIF": "GCT"
             },
             "REGION": "UTR",
@@ -61,7 +61,7 @@ class STRBasicTests(unittest.TestCase):
             "IMPACT": {
                 "END": 16631,
                 "START": 16620,
-                "STR": 10000, 
+                "LENGTH": 10000, 
                 "MOTIF": "GCT"
             },
             "REGION": "UTR",
@@ -78,7 +78,7 @@ class STRBasicTests(unittest.TestCase):
             "IMPACT": {
                 "END": 16631,
                 "START": 16620,
-                "STR": 5, 
+                "LENGTH": 5, 
                 "MOTIF": "GCT"
             },
             "REGION": "UTR",

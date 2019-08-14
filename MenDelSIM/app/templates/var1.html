@@ -1,0 +1,53 @@
+<div class="row form-row variant_1">
+    <div class="col-sm">
+        <h3 class="center">Variant 1</h3>
+        <form id=variant_1>
+            <!-- Variant 1 -->
+            <!-- ["TYPE"] -->
+            <div class="form-group">
+                <label for="typeSelect">Type</label>
+                <select class="form-control" id="typeSelect">
+                    <option id="typeClinVar">ClinVar</option>
+                    <option id="typeCNV">Copy number variant</option>
+                    <option id="typeCNV">ClinGen copy number variant</option>
+                    <option id="typeIndel">Indel</option>
+                    <option id="typeMEI">Mobile element insertion</option>
+                    <option id="typeSTR">Short tandem repeat</option>
+                    <option id="typeSNV">Single nucleotide variant</option>
+                </select>
+            </div>
+            <!-- ["REGION"] -->
+            <div class="form-group">
+                <label for="regionSelect">Gene Region</label>
+                <select class="form-control" id="regionSelect">
+                    <option id="regionCoding">Coding</option>
+                    <option id="regionIntron">Intronic</option>
+                    <option id="regionUTR">Untranslated region</option>
+                    <option id="regionGenic">Genic</option>
+                </select>
+            </div>
+            <!-- ["ZYGOSITY"] -->
+            <div class="form-group">
+                <label for="zygositySelect">Zygosity</label>
+                <select class="form-control" id="zygositySelect">
+                    <option id="zygosityHomo">Homozygous</option>
+                    <option id="zygosityHemi">Hemizygous</option>
+                    <option id="zygosityHet">Heterozygous</option>
+                </select>
+            </div>
+            <label>Region Range</label>
+            <p>RANGE</p>
+            {% include "clinvar.html" %}   
+            {% include "clingen.html" %}       
+            {% include "cnv.html" %}   
+            {% include "indel.html" %}   
+            {% include "mei.html" %}  
+            {% include "str.html" %}
+            {% include "snv.html" %}  
+            <button type="button" id="var1Back" class="btn btn-outline-secondary
+                float-left">Back</button>
+            <button type="button" id="var1Next" class="btn btn-outline-secondary
+                float-right">Next</button>
+        </form>
+    </div>
+</div>

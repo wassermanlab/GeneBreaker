@@ -12,7 +12,7 @@ class ShortTandemRepeat(Variant):
         self.chrom = self.transcript.get_chr()
         self.start = self.impact["START"]
         self.end = self.impact["END"]
-        self.length = self.impact["STR"]
+        self.length = self.impact["LENGTH"]
         self.motif = self.impact["MOTIF"]
         self.check_str()
     

@@ -9,6 +9,10 @@ html {
   position: relative;
   min-height: 100%;
 }
+.autoSelect{
+  overflow-y: auto;
+  overflow-x: auto;
+}
 body {  
         font-family: montserrat, sans-serif;
         margin-bottom: 60px; 
@@ -18,6 +22,8 @@ body {
   text-align: center;
 }
 .form-row{
+  margin-top: 30px;
+  margin-bottom: 30px;
   background-color: white;
   border-radius: 25px;
   padding-top: 20px;
@@ -42,4 +48,7 @@ body {
 }
 .navbar{
   background-color: white;
+}
+.hidden{
+  display: none
 }
