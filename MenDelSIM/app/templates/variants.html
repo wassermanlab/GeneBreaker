@@ -14,55 +14,69 @@
             <h1>Variant Designer</h1>
         </div>
     </div>
-    <div class="row form-row variant_general_info">
+    <div class="row form-row">
         <div class="col-sm">
-            <h3 class="center">General Information</h3>
-            <form id=variant_design_general>
+            <form>
                 <!-- General Information -->
                 <!-- genome -->
-                <div class="form-group">
-                    <label for="genomeSelect">Genome</label>
-                    <select class="form-control" id="genomeSelect">
-                        <option>hg38</option>
-                        <option>hg19</option>
-                    </select>
-                </div>
-                <!-- Proband SEX -->
-                <div class="form-group">
-                    <label for="genomeSelect">Sex</label>
-                    <select class="form-control" id="genomeSelect">
-                        <option>XX</option>
-                        <option>XY</option>
-                    </select>
-                </div>
-                <!-- gene uid -->
-                <label for="genes">Gene Name</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="genes">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline" id="getTranscripts" type="button">Get
-                            Transcripts</button>
-                    </div>
-                </div>
-                <!-- alert -->
-                <div class="alert alert-warning" role="alert" id="noTranscript" style="display: none">
-                    No transcript found by that name.
-                  </div>
-                <!-- transcript -->
-                <div class="form-group">
-                        <label for="transcriptSelect">Transcript</label>
-                        <select class="form-control autoSelect" size="5" id="transcriptSelect">
+                <div class="variant_general_info">
+                    <h3 class="center">General Information</h3>
+                    <div class="form-group">
+                        <label for="genomeSelect">Genome</label>
+                        <select class="form-control" id="genomeSelect">
+                            <option>hg38</option>
+                            <option>hg19</option>
                         </select>
-                      </div>
-                      <button type="button" id="generalInfoNext" class="btn btn-outline-secondary float-right">Next</button>
+                    </div>
+                    <!-- Proband SEX -->
+                    <div class="form-group">
+                        <label for="sexSelect">Sex</label>
+                        <select class="form-control" id="sexSelect">
+                            <option>XX</option>
+                            <option>XY</option>
+                        </select>
+                    </div>
+                    <!-- gene uid -->
+                    <label for="genes">Gene Name</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="genes">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline" id="getTranscripts"
+                                type="button">Get
+                                Transcripts</button>
+                        </div>
+                    </div>
+                    <!-- alert -->
+                    <div class="alert alert-warning" role="alert"
+                        id="noTranscript" style="display: none">
+                        No transcript found by that name.
+                    </div>
+                    <!-- transcript -->
+                    <div class="form-group">
+                        <label for="transcriptSelect">Transcript</label>
+                        <select class="form-control autoSelect" size="5"
+                            id="transcriptSelect">
+                        </select>
+                    </div>
+                    <button type="button" id="generalInfoNext" class="btn
+                        btn-outline-secondary float-right">Next</button>
+                </div>
+                {% with var="var_1", title="Variant 1" %}
+                {% include "var1.html" %}
+                {% endwith %}
+                {% with var="var_2", title="Variant 2" %}
+                {% include "var1.html" %}
+                {% endwith %}
+
+
+
+
             </form>
         </div>
     </div>
-    {% include "var1.html" %}
 
 
 
-    
 </div>
 {% include "footer.html" %}
 {% endblock content%}
