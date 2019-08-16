@@ -4,6 +4,7 @@ from werkzeug.exceptions import HTTPException, NotFound, BadRequest
 from werkzeug.utils import secure_filename
 import json
 import sys, os
+from MenDelSIM.src.transcript import Transcript
 from MenDelSIM.src.variants import Variants
 from MenDelSIM.src.api_helper import *
 from datetime import datetime
@@ -20,6 +21,27 @@ def contact():
 @app.route('/get_transcripts/<genome>/<name>')
 def get_transcripts(genome,name):
     return jsonify(get_all_transcripts(name, genome))
+
+@app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
+def get_clinvar(genome, transcript_uid, region):
+    transcript = Transcript(uid, genome)
+    region = get_requested_region(region)
+    # query regions
+    # return results 
+
+@app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
+def get_region(genome, transcript_uid, region):
+    # get transcript 
+    # get region
+    # query regions
+    # return results 
+
+@app.route('/get_str/<genome>/<transcript_uid>/<region>')
+def get_str(genome, transcript_uid, region):
+    # get transcript 
+    # get region
+    # query regions
+    # return results 
 
 @app.route('/design_variants', methods=["GET", "POST"])
 def design_variants():

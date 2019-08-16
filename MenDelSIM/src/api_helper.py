@@ -33,6 +33,21 @@ def get_str(start, end, chrom, genome):
     url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
     return get_all_results(url)[0]
 
+def get_strs(start, end, chrom, genome, location):
+    #takes in 1 based
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
+    return get_all_results(url)[0]
+
+def get_clinvars(start, end, chrom, genome, location):
+    #takes in 1 based
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
+    return get_all_results(url)[0]
+
+def get_cnvs(start, end, chrom, genome, location):
+    #takes in 1 based
+    url = host + '/api/v1/' + genome + '/copy_number_variantss?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
+    return get_all_results(url)[0]
+
 def get_transcript(uid, genome):
     url = host + '/api/v1/' + genome + '/genes?uids='+ str(uid)
     res = get_all_results(url)
