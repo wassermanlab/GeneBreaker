@@ -1,6 +1,12 @@
 <div class="{{ var }} hidden" id="{{var}}">
     <h3 class="center">{{title}} </h3>
     <!-- Variant 1 -->
+    <!-- ["ZYGOSITY"] -->
+    <div class="form-group">
+        <label for="zygositySelect">Zygosity</label>
+        <select class="form-control zygositySelect {{ var }}">
+        </select>
+    </div>
     <!-- ["TYPE"] -->
     <div class="form-group">
         <label for="typeSelect">Type</label>
@@ -24,24 +30,27 @@
             <option id="regionIntron">Intronic</option>
             <option id="regionUTR">Untranslated region</option>
             <option id="regionGenic">Genic</option>
+            <option id="regionCustom">Custom</option>
         </select>
     </div>
-    <!-- ["ZYGOSITY"] -->
-    <div class="form-group">
-        <label for="zygositySelect">Zygosity</label>
-        <select class="form-control zygositySelect {{ var }}" >
-        </select>
+    <div class="input-group">
+        <input type="text" placeholder="Chromosome" class="form-control"
+            id="chrom{{var}}" disabled>
+        <input type="text" placeholder="Start" class="form-control"
+            id="start{{var}}"
+            disabled>
+        <input type="text" placeholder="Stop" class="form-control"
+            id="stop{{var}}"
+            disabled>
     </div>
-    <label>Region Range</label>
-    <p>RANGE</p>
     {% with var=var %}
-        {% include "clinvar.html" %}
-        {% include "clingen.html" %}
-        {% include "cnv.html" %}
-        {% include "indel.html" %}
-        {% include "mei.html" %}
-        {% include "str.html" %}
-        {% include "snv.html" %}
+    {% include "clinvar.html" %}
+    {% include "clingen.html" %}
+    {% include "cnv.html" %}
+    {% include "indel.html" %}
+    {% include "mei.html" %}
+    {% include "str.html" %}
+    {% include "snv.html" %}
     {% endwith %}
     <button type="button" id="{{ var }}Back" class="btn btn-outline-secondary
         float-left">Back</button>

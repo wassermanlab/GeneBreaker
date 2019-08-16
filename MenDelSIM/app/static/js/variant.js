@@ -100,31 +100,50 @@ $(function () {
         variant = $(this).parent().parent().attr('id')
         set_type(variant, id)
     });
+    //on region select  
+    $(".regionSelect").change(function () {
+        id = $(this).find(":selected").attr('id')
+        variant = $(this).parent().parent().attr('id')
+        if (id === "regionCustom") {
+            $("#start" + variant).prop('disabled', false);
+            $("#stop" + variant).prop('disabled', false);
+            var chrom = $("#transcriptSelect option:Selected").attr("chrom");
+            $("#chrom" + variant).val(chrom);
+        } else {
+            $("#start" + variant).prop('disabled', true);
+            $("#stop" + variant).prop('disabled', true);
+            $("#chrom" + variant).prop('disabled', true);
+            $("#start" + variant).val('').blur();
+            $("#stop" + variant).val('').blur();
+            $("#chrom" + variant).val('').blur();
+        }
+    });
+
 });
 
-function set_type(variant, id) {
-    $(".variantDetails."+variant).hide()
+function set_type(variant, type) {
+    $(".variantDetails." + variant).hide()
     switch (id) {
         case "typeClinVar":
-            $(".clinvar.variantDetails."+variant).show()
+            $(".clinvar.variantDetails." + variant).show()
             break;
         case "typeCNV":
-            $(".cnv.variantDetails."+variant).show()
+            $(".cnv.variantDetails." + variant).show()
             break;
         case "typeClinGen":
-            $(".clingen.variantDetails."+variant).show()
+            $(".clingen.variantDetails." + variant).show()
             break;
         case "typeIndel":
-            $(".indel.variantDetails."+variant).show()
+            $(".indel.variantDetails." + variant).show()
             break
         case "typeMEI":
-            $(".mei.variantDetails."+variant).show()
+            $(".mei.variantDetails." + variant).show()
             break;
         case "typeSTR":
-            $(".str.variantDetails."+variant).show()
+            $(".str.variantDetails." + variant).show()
             break;
         case "typeSNV":
-            $(".snv.variantDetails."+variant).show()
+            $(".snv.variantDetails." + variant).show()
             break;
     }
 }
