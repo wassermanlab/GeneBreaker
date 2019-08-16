@@ -1,7 +1,7 @@
 var gud_host = "http://127.0.0.1:5000"
 var mendelsim_host = "http://127.0.0.1:5001"
-
 $(function () {
+    // get transcripts
     $("#getTranscripts").click(function () {
         $("#transcriptSelect").empty();
         $("#noTranscript").hide();
@@ -27,15 +27,13 @@ $(function () {
             }
         })
     });
-});
-// on genome change
-$(function () {
+
+    // on genome change
     $("#genomeSelect").change(function () {
         $("#transcriptSelect").empty();
     });
-});
-// show the general info -> var1
-$(function () {
+
+    // show the general info -> var1
     $("#generalInfoNext").click(function () {
         // remove previous warnings
         $(".g-warning").remove()
@@ -53,10 +51,11 @@ $(function () {
         // switch screens
         $(".variant_general_info").hide()
         $(".var_1").show()
+        id = $('.typeSelect.var_1').find(":selected").attr('id')
+        set_type('var_1', id)
     });
-});
-// on transcript select reset options for var1 and var2
-$(function () {
+
+    // on transcript select reset options for var1 and var2
     $("#transcriptSelect").change(function () {
         // fill var zygosity   
         $('.var_1').find(".zygositySelect").children().remove()
@@ -69,26 +68,63 @@ $(function () {
         // fill var1 options
         $('.var_1').find(".typeSelect").prop("selectedIndex", 0);
         $('.var_1').find(".regionSelect").prop("selectedIndex", 0);
+        $('.var_2').find(".typeSelect").prop("selectedIndex", 0);
+        $('.var_2').find(".regionSelect").prop("selectedIndex", 0);
     })
-})
-// var1 -> general info
-$(function () {
+
+    // var1 -> general info
     $("#var_1Back").click(function () {
         $(".var_1").hide()
         $(".variant_general_info").show()
     });
-});
-// var1 -> var2
-$(function () {
+
+    // var1 -> var2
     $("#var_1Next").click(function () {
         $(".var_1").hide()
         $(".var_2").show()
+        id = $('.typeSelect.var_2').find(":selected").attr('id')
+        set_type('var_2', id)
     });
-});
-// var2 -> var1
-$(function () {
+
+    // var2 -> var1
     $("#var_2Back").click(function () {
         $(".var_2").hide()
         $(".var_1").show()
+        id = $('.typeSelect.var_1').find(":selected").attr('id')
+        set_type('var_1', id)
+    });
+
+    //on type select  
+    $(".typeSelect").change(function () {
+        id = $(this).find(":selected").attr('id')
+        variant = $(this).parent().parent().attr('id')
+        set_type(variant, id)
     });
 });
+
+function set_type(variant, id) {
+    $(".variantDetails."+variant).hide()
+    switch (id) {
+        case "typeClinVar":
+            $(".clinvar.variantDetails."+variant).show()
+            break;
+        case "typeCNV":
+            $(".cnv.variantDetails."+variant).show()
+            break;
+        case "typeClinGen":
+            $(".clingen.variantDetails."+variant).show()
+            break;
+        case "typeIndel":
+            $(".indel.variantDetails."+variant).show()
+            break
+        case "typeMEI":
+            $(".mei.variantDetails."+variant).show()
+            break;
+        case "typeSTR":
+            $(".str.variantDetails."+variant).show()
+            break;
+        case "typeSNV":
+            $(".snv.variantDetails."+variant).show()
+            break;
+    }
+}

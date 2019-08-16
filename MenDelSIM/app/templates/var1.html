@@ -1,14 +1,14 @@
-<div class="{{ var }} hidden">
+<div class="{{ var }} hidden" id="{{var}}">
     <h3 class="center">{{title}} </h3>
     <!-- Variant 1 -->
     <!-- ["TYPE"] -->
     <div class="form-group">
         <label for="typeSelect">Type</label>
-        <select class="form-control typeSelect">
-            <option id="typeClinVar">Select</option>
+        <select class="form-control typeSelect {{ var }}">
+            <option id="typeSelect">Select</option>
             <option id="typeClinVar">ClinVar</option>
             <option id="typeCNV">Copy number variant</option>
-            <option id="typeCNV">ClinGen copy number variant</option>
+            <option id="typeClinGen">ClinGen copy number variant</option>
             <option id="typeIndel">Indel</option>
             <option id="typeMEI">Mobile element insertion</option>
             <option id="typeSTR">Short tandem repeat</option>
@@ -18,8 +18,8 @@
     <!-- ["REGION"] -->
     <div class="form-group">
         <label for="regionSelect">Gene Region</label>
-        <select class="form-control regionSelect">
-            <option id="typeClinVar">Select</option>
+        <select class="form-control regionSelect {{ var }}">
+            <option id="regionSelect">Select</option>
             <option id="regionCoding">Coding</option>
             <option id="regionIntron">Intronic</option>
             <option id="regionUTR">Untranslated region</option>
@@ -29,21 +29,20 @@
     <!-- ["ZYGOSITY"] -->
     <div class="form-group">
         <label for="zygositySelect">Zygosity</label>
-        <select class="form-control zygositySelect" >
-            <option id="zygosityHomo">Homozygous</option>
-            <option id="zygosityHemi">Hemizygous</option>
-            <option id="zygosityHet">Heterozygous</option>
+        <select class="form-control zygositySelect {{ var }}" >
         </select>
     </div>
     <label>Region Range</label>
     <p>RANGE</p>
-    {% include "clinvar.html" %}
-    {% include "clingen.html" %}
-    {% include "cnv.html" %}
-    {% include "indel.html" %}
-    {% include "mei.html" %}
-    {% include "str.html" %}
-    {% include "snv.html" %}
+    {% with var=var %}
+        {% include "clinvar.html" %}
+        {% include "clingen.html" %}
+        {% include "cnv.html" %}
+        {% include "indel.html" %}
+        {% include "mei.html" %}
+        {% include "str.html" %}
+        {% include "snv.html" %}
+    {% endwith %}
     <button type="button" id="{{ var }}Back" class="btn btn-outline-secondary
         float-left">Back</button>
     <button type="button" id="{{ var }}Next" class="btn btn-outline-secondary
