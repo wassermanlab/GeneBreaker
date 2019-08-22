@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'typeface-roboto';
+import 'bootstrap/dist/css/bootstrap.css';
 // import App from './App';
 import DesignVariants from './variantsDesign'
 import * as serviceWorker from './serviceWorker';

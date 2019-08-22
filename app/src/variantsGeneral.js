@@ -1,39 +1,68 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 
-const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(1),
-        float: "right"
-    },
-    input: {
-        display: 'none',
-    },
-}));
+class General extends React.Component {
+    render() {
+        if (this.props.currentStep !== 0) { // Prop: The current step
+            return null
+        }
+        // The markup for the Step 1/2 UI
+        return (
+            <div>
+                <h2>General Information</h2>
+                <Form.Group as={Row} controlId="genome">
+                    <Form.Label column sm={2}>Genome</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control as="select">
+                            <option>hg38</option>
+                            <option>hg19</option>
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} controlId="sex">
+                    <Form.Label column sm={2}>Proband Sex</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control as="select">
+                            <option>XX</option>
+                            <option>XY</option>
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} controlId="geneName">
+                    <Form.Label column sm={2}>
+                        Gene Name
+                    </Form.Label>
+                    <Col sm={10}>
+                        <InputGroup>
+                            <Form.Control type="text" />
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary">Get Transcripts</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} controlId="transcripts">
+                    <Form.Label column sm={2}>Transcripts</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control as="select">
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+                <Row>
+                <Col sm={11}></Col>
+                <Col sm={1}>
+                    <Button  variant="primary" >Next</Button></Col>
+                </Row>
+            </div>
 
-export default function Family(props) {
-    // props: 
-    //   number
-    //   genome
-    //   sex
-    //   gene_uid 
-
-    const classes = useStyles();
-
-    return (
-        <React.Fragment>
-            <Grid item xs={12}>
-                <Typography variant="h5" component="h2">
-                    Global
-            </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Button variant="contained" color="primary" className={classes.button}>
-                    Next
-      </Button>
-            </Grid>
-        </React.Fragment>);
+        )
+    }
 }
+
+export default General;
+
+

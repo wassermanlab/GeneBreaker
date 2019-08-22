@@ -1,12 +1,11 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Variant from './variantsVariant'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import General from './variantsGeneral'
 import Family from './variantsFamily'
-import Container from '@material-ui/core/Container';
+import Variant from './variantsVariant'
 
 class DesignVariants extends React.Component {
 
@@ -26,36 +25,47 @@ class DesignVariants extends React.Component {
       },
       var2: ""
     };
+    // Bind the submission to handleChange() 
+    this.handleChange = this.handleChange.bind(this)
   }
-  render() {
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <Container maxWidth="md">
-          <Paper>
-            <div  style={{ padding: 20 }}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Typography variant="h4" component="h1" align='center'>
-                    Design a Case
-            </Typography>
-                </Grid>
-                {/* stepper */}
-                {/* step 0: general information */}
-                <General sex="XX" />
-                {/* step 1: var 1 */}
-                <Variant number="1" genome="hg38" sex="XX" gene_uid="1234" />
-                {/* step 2: var 2 */}
-                <Variant number="2" genome="hg38" sex="XX" gene_uid="1234" />
-                {/* step 3: family */}
-                <Family sex="XX" />
-              </Grid>
-            </div>
-          </Paper>
-        </Container>
-      </React.Fragment>
-    );
-  }
+
+  // Use the submitted data to set the state
+  handleChange(event) {
+    const { name, value } = event.target
+    this.setState({
+      [name]: value
+    })
+}
+
+handleSubmit = (event) => {
+  event.preventDefault()
+  const { email, username, password } = this.state
+  alert(`Your registration detail: \n 
+    Email: ${email} \n 
+    Username: ${username} \n
+    Password: ${password}`)
+}
+
+
+render() {
+  return (
+    <React.Fragment>
+      <Container>
+        <Form onSubmit={this.handleSubmit}>
+          {/* general info */}
+          <General currentStep={this.state.currentStep} />
+          {/* variant 1 */}
+          <Variant currentStep={this.state.currentStep} />
+          {/* variant 2 */}
+          <Variant currentStep={this.state.currentStep} />
+          {/* family info */}
+          <Family currentStep={this.state.currentStep} />
+
+        </Form>
+      </Container>
+    </React.Fragment>
+  );
+}
 }
 
 export default DesignVariants; 
