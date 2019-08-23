@@ -17,7 +17,11 @@ class General extends React.Component {
                 <Form.Group as={Row} controlId="genome">
                     <Form.Label column sm={2}>Genome</Form.Label>
                     <Col sm={10}>
-                        <Form.Control as="select">
+                        <Form.Control as="select"
+                            name="genome"
+                            type="text"
+                            value={this.props.genome}
+                            onChange={this.props.handleInputChange}>
                             <option>hg38</option>
                             <option>hg19</option>
                         </Form.Control>
@@ -26,7 +30,11 @@ class General extends React.Component {
                 <Form.Group as={Row} controlId="sex">
                     <Form.Label column sm={2}>Proband Sex</Form.Label>
                     <Col sm={10}>
-                        <Form.Control as="select">
+                        <Form.Control as="select"
+                        name="sex"
+                        type="text"
+                        value={this.props.sex}
+                        onChange={this.props.handleInputChange}>
                             <option>XX</option>
                             <option>XY</option>
                         </Form.Control>
@@ -38,9 +46,15 @@ class General extends React.Component {
                     </Form.Label>
                     <Col sm={10}>
                         <InputGroup>
-                            <Form.Control type="text" />
+                            <Form.Control type="text" 
+                            name="gene_name"
+                            type="text"
+                            value={this.props.gene_name}
+                            onChange={this.props.handleInputChange}/>
                             <InputGroup.Append>
-                                <Button variant="outline-secondary">Get Transcripts</Button>
+                                <Button variant="outline-secondary"
+                                onClick={this.props.getTranscripts}>
+                                    Get Transcripts</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>
@@ -49,13 +63,14 @@ class General extends React.Component {
                     <Form.Label column sm={2}>Transcripts</Form.Label>
                     <Col sm={10}>
                         <Form.Control as="select">
+                        {this.props.transcripts.map(x => <option key={x.id} value={x.qualifiers.uid} chrom={x.chrom}>x.qualifiers.name</option>)}
                         </Form.Control>
                     </Col>
                 </Form.Group>
                 <Row>
-                <Col sm={11}></Col>
-                <Col sm={1}>
-                    <Button  variant="primary" >Next</Button></Col>
+                    <Col sm={11}></Col>
+                    <Col sm={1}>
+                        <Button variant="primary" >Next</Button></Col>
                 </Row>
             </div>
 
