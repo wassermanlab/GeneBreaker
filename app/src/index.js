@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-// import App from './App';
-import DesignVariants from './variantsDesign'
+import VForm from './variantForm'
+import VForm2 from './variantForm2'
 import * as serviceWorker from './serviceWorker';
   ReactDOM.render(
-    <DesignVariants />,
+    <VForm2 />,
     document.getElementById('root')
   );
 
