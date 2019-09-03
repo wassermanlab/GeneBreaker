@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import VForm from './variantForm'
-import VForm2 from './variantForm2'
 import * as serviceWorker from './serviceWorker';
   ReactDOM.render(
-    <VForm2 />,
+    <VForm />,
     document.getElementById('root')
   );
 
