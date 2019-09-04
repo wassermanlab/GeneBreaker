@@ -1,7 +1,6 @@
 import React from 'react';
 import GeneralInfo from './generalInfo'
 import VariantInfo from './variantInfo'
-import NavButtons from './navButtons'
 
 class VFrom extends React.Component {
   constructor(props) {
@@ -111,7 +110,7 @@ class VFrom extends React.Component {
           chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} 
           handleInputChange={this.handleInputChange} next={this.next}  back={this.back}
           var={1} type={this.state.var1_type} region={this.state.var1_region} zygosity={this.state.var1_zygosity}
-          customStart={this.state.var1_customStart} customStart={this.state.var1_customStart}
+          customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
           copy_change={this.state.var1_copy_change} clinvar_id={this.state.var1_clinvar_id} 
           element={this.state.var1_element} snv_type={this.state.var1_snv_type} motif={this.state.var1_motif}
