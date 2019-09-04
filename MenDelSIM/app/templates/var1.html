@@ -1,0 +1,60 @@
+<div class="{{ var }} hidden" id="{{var}}">
+    <h3 class="center">{{title}} </h3>
+    <!-- Variant 1 -->
+    <!-- ["ZYGOSITY"] -->
+    <div class="form-group">
+        <label for="zygositySelect">Zygosity</label>
+        <select class="form-control zygositySelect {{ var }}">
+        </select>
+    </div>
+    <!-- ["TYPE"] -->
+    <div class="form-group">
+        <label for="typeSelect">Type</label>
+        <select class="form-control typeSelect {{ var }}">
+            <option id="typeSelect">Select</option>
+            <option id="typeClinVar">ClinVar</option>
+            <option id="typeCNV">Copy number variant</option>
+            <option id="typeClinGen">ClinGen copy number variant</option>
+            <option id="typeIndel">Indel</option>
+            <option id="typeMEI">Mobile element insertion</option>
+            <option id="typeSTR">Short tandem repeat</option>
+            <option id="typeSNV">Single nucleotide variant</option>
+        </select>
+    </div>
+    <!-- ["REGION"] -->
+    <div class="form-group">
+        <label for="regionSelect">Gene Region</label>
+        <select class="form-control regionSelect {{ var }}">
+            <option id="regionSelect">Select</option>
+            <option id="regionCoding">Coding</option>
+            <option id="regionIntron">Intronic</option>
+            <option id="regionUTR">Untranslated region</option>
+            <option id="regionGenic">Genic</option>
+            <option id="regionCustom">Custom</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <input type="text" placeholder="Chromosome" class="form-control"
+            id="chrom{{var}}" disabled>
+        <input type="text" placeholder="Start" class="form-control"
+            id="start{{var}}"
+            disabled>
+        <input type="text" placeholder="Stop" class="form-control"
+            id="stop{{var}}"
+            disabled>
+    </div>
+    {% with var=var %}
+    {% include "clinvar.html" %}
+    {% include "clingen.html" %}
+    {% include "cnv.html" %}
+    {% include "indel.html" %}
+    {% include "mei.html" %}
+    {% include "str.html" %}
+    {% include "snv.html" %}
+    {% endwith %}
+    <button type="button" id="{{ var }}Back" class="btn btn-outline-secondary
+        float-left">Back</button>
+    <button type="button" id="{{ var }}Next" class="btn btn-outline-secondary
+        float-right">Next</button>
+
+</div>

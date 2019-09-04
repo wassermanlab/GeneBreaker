@@ -1,7 +1,0 @@
-#FamilyID	SampleID	Father	Mother	Sex	Phenotype
-AR_compound_denovo	Dad	0	0	1	1
-AR_compound_denovo	Mom	0	0	2	3
-AR_compound_denovo	Proband	Dad	Mom	1	2
-AR_compound_denovo	Brother	Dad	Mom	1	3
-AR_compound_denovo	Sister1	Dad	Mom	2	1
-AR_compound_denovo	Sister2	Dad	Mom	2	1

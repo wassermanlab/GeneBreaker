@@ -1,12 +1,15 @@
 {
-    "GENE_UID": 64805, 
-    "GENE_NAME": "SOX9",
-    "SEX": "XX-FEMALE",
+    "GENE_UID": 69540,
+    "GENOME": "hg38",
+    "SEX": "XX",
     "VAR1": {
-        "IMPACT": {"INDEL_AMOUNT": 50, "LOCATION": "ANY"},
-        "REGION": "CODING", 
-        "TYPE": "INDEL",
-        "ZYGOSITY": "HETEROZYGOUS"
-    }, 
-    "VAR2": "NONE"
+        "TYPE": "SNV",
+        "REGION": "CODING",
+        "IMPACT": {
+            "SNV_TYPE": "G",
+            "START": 72121500
+        },
+        "ZYGOSITY": "HOMOZYGOUS"
+    },
+    "VAR2": "None"
 }

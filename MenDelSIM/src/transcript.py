@@ -1,43 +1,39 @@
 from lxml import etree
-from GUD.ORM import Gene
-from GUD.ORM.genomic_feature import GenomicFeature
-from sqlalchemy import create_engine, Index
-from sqlalchemy.orm import Session
 from Bio.Seq import Seq
-from . import establish_GUD_session
+from MenDelSIM.src.api_helper import *
 
 class Transcript:
 
-    def __init__(self, uid):
+    def __init__(self, uid, genome):
         """ create transcript object """
         try:
-            session = establish_GUD_session()
-            gene = Gene()
-            transcript = gene.select_by_uid(session, uid, True)
-            self.name       = transcript.qualifiers["name2"]
-            self.cdsStart   = int(transcript.qualifiers["cdsStart"])
-            self.cdsEnd     = int(transcript.qualifiers["cdsEnd"])
-            self.exonStarts = transcript.qualifiers["exonStarts"].decode()
-            self.exonEnds   = transcript.qualifiers["exonEnds"].decode()
-            self.chrom      = transcript.chrom
-            self.txStart    = int(transcript.start)
-            self.txEnd      = int(transcript.end)
-            self.strand     = transcript.strand
+            transcript      = get_transcript(uid, genome)
+            self.genome     = genome
+            self.name       = transcript["qualifiers"]["name2"]
+            self.cdsStart   = int(transcript["qualifiers"]["cdsStart"])
+            self.cdsEnd     = int(transcript["qualifiers"]["cdsEnd"])
+            self.exonStarts = transcript["qualifiers"]["exonStarts"]
+            self.exonEnds   = transcript["qualifiers"]["exonEnds"]
+            self.chrom      = transcript["chrom"]
+            self.txStart    = int(transcript["start"])
+            self.txEnd      = int(transcript["end"])
+            self.strand     = transcript["strand"]
         except:
-            raise Exception("cannot make transcript")
+            raise Exception("Cannot make transcript. UID: %s cannot be found in genome: %s" % (uid, genome))
 
-    def get_seq(self, stranded:bool = False) -> str: 
+    def get_seq(self, stranded = False): 
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 0""" 
         # Initialize
         sequence = ""
-        url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (
-            "hg19", self.chrom, self.txStart+1, self.txEnd)
+        url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (\
+            self.genome, self.chrom, self.txStart+1, self.txEnd)
+
         # Get XML
         xml = etree.parse(url, parser=etree.XMLParser())
         # Get sequence
         sequence = xml.xpath("SEQUENCE/DNA/text()")[0].replace("\n", "")
-        if stranded is False: 
+        if stranded == False: 
             return sequence.upper()
         elif self.strand == 1:
             return sequence.upper()
@@ -50,11 +46,11 @@ class Transcript:
         """returns positive strand positions"""
         seq = self.get_seq()
         cut = ""
-        if type(positions) is tuple:
+        if type(positions) == tuple:
             start = positions[0]-self.txStart
             end = positions[1]-self.txStart
             cut =  seq[start:end]
-        elif type(positions) is list:
+        elif type(positions) == list:
             for pos in positions:
                 start = pos[0]-self.txStart
                 end = pos[1]-self.txStart
@@ -71,7 +67,11 @@ class Transcript:
 
     def get_chr(self) -> str: 
         """ returns chr from gene""" 
-        return self.chrom       
+        return self.chrom 
+
+    def get_genome(self) -> str: 
+        """ returns chr from gene""" 
+        return self.genome       
 
     def positive_sorted(self, positions: list) -> list:
         positions.sort(key=lambda tup: tup[0], reverse=False)
@@ -143,7 +143,7 @@ class Transcript:
         else: 
             raise Exception("which is not valid")
 
-    def get_requested_region(self, region: str) -> tuple: 
+    def get_requested_region(self, region): 
         if region == "GENIC":
             return [(self.txStart, self.txEnd)]
         elif region == "CODING":
@@ -152,14 +152,20 @@ class Transcript:
             return self.get_utr()
         elif region == "INTRONIC":
             return self.get_introns()    
-        elif re.match("^chr([XY]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", region) is not None:
-            return [(int(region.split(":")[1].split("-")[0]), int(region.split(":")[1].split("-")[1]))]
+        elif type(region) == tuple:
+            return [region[1]]
         else:
             raise Exception("region not valid")
 
-    ##might have to alter this 
+    def get_regionmap(self): 
+        genic = self.get_requested_region("GENIC")
+        utr = self.get_requested_region("UTR")
+        intron = self.get_requested_region("INTRONIC")
+        coding = self.get_requested_region("CODING")
+        return {"CODING": coding, "INTRONIC": intron, "UTR": utr, "GENIC": genic}
+
     def get_codon_from_pos(self, pos: int) -> tuple:
-        """ from a position get codon matching to that position:
+        """ from a position get codon matching to that position(0 based):
         return codon, position, strand of codon of nucleotide in codon (codon, pos, strand)"""
         coding = self.get_coding()
         coding_seq = self.get_seq_from_pos(coding)
@@ -167,20 +173,22 @@ class Transcript:
         if self.strand == 1:
             coding = self.positive_sorted(coding)
             for exon in coding:
-                if pos > exon[1]: #position is in later exon
-                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
-                elif exon[0] <= pos < exon[1]: #position is in this codon
+                if pos > exon[1]:                           # position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0]   # adding length of exon
+                elif exon[0] <= pos < exon[1]:              # position is in this codon
                     new_pos = new_pos + pos - exon[0]
         else: 
+            pos = pos + 1
             coding = self.negative_sorted(coding)
             for exon in coding:
-                if pos < exon[0]: #position is in later exon
-                    new_pos = new_pos + exon[1] - exon[0] # adding length of exon
-                elif exon[0] <= pos < exon[1]: #position is in this codon
+                if pos < exon[0]:                           #position is in later exon
+                    new_pos = new_pos + exon[1] - exon[0]   # adding length of exon
+                elif exon[0] <= pos < exon[1]:              # position is in this codon
                     new_pos = new_pos + exon[1] - pos
         codon_pos = new_pos%3
         codon_start = new_pos - codon_pos 
         return (coding_seq[codon_start:codon_start+3] ,codon_pos, self.strand)
 
+## display as 1 based
     def __str__(self):
-        return "{}\t{}\t{}\t{}\t0\t{}".format(self.chrom, self.txStart, self.txEnd, self.name, self.strand)
+        return "{}\t{}\t{}\t{}\t0\t{}".format(self.chrom, self.txStart+1, self.txEnd, self.name, self.strand)

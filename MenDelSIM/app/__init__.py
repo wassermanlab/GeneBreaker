@@ -1,7 +1,12 @@
-import os
-
 from flask import Flask
 
-app = Flask(__name__) 
+UPLOAD_FOLDER = '/tmp/simulator/'
 
-from . import routes
+app = Flask(__name__)
+app.config.from_mapping(
+    SECRET_KEY='dev',
+    UPLOAD_FOLDER = UPLOAD_FOLDER
+)
+
+import MenDelSIM.app.routes
+

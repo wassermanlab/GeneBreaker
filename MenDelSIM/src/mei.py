@@ -3,36 +3,46 @@ from MenDelSIM.src.transcript import Transcript
 import random
 from Bio import SeqIO
 import os
-import zipfile
+from zipfile import ZipFile
 
 class MEI(Variant):
     # assume var_template is of type dict already
-    def __init__(self, var_template: dict):
-        Variant.__init__(self, var_template)
+    def __init__(self, var_template: dict, transcript: Transcript):
+        Variant.__init__(self, var_template, transcript)
         self.element = self.impact["ELEMENT"]
-        self.location = self.impact["LOCATION"]
-        self.element_dict = {"ALU_MELT": "ALU", "LINE1_MELT": "LINE1", "SVA_MELT": "SVA"}
-        if self.location != "ANY" and type(self.location) is not int: 
-            raise ValueError("location must be ANY or int")
-        if self.element not in ["ALU_MELT", "LINE1_MELT", "SVA_MELT"]:
-            raise ValueError("""Only elements in the set of, "ALU_MELT", "LINE1_MELT", "SVA_MELT"
-            are currently supported.""")
+        self.start = self.impact["START"]
+        try: 
+            self.check_mei()
+        except Exception as e:
+            raise(e)
+
+    def check_element(self):
+        """checks element validity"""
+        if self.element not in ["ALU", "LINE", "SVA"]:
+            raise ValueError("""Only elements in the set of: "ALU", "LINE", "SVA" are currently supported.""")
+
+    def check_mei(self):
+        """checks all mei features"""
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
-
+        self.check_element()
+        if type(self.start) == int:
+            self.start = self.start - 1
+            self.check_location(self.start)
+        elif self.start != "ANY":
+            raise ValueError("locations must be ANY or and int")
 
     def get_insertion_str(self) -> str:
         """reads the fasta and gets string of fasta file"""
         ## get file name
         THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
         THIS_FOLDER = os.path.split(THIS_FOLDER)[0]
-        zip_file = THIS_FOLDER + '/static/'+ self.element + ".zip"
-        fasta_file_full = THIS_FOLDER + '/static/' + self.element_dict[self.element] + ".fa"
-        fasta_file = self.element_dict[self.element]+".fa"
+        zip_file = THIS_FOLDER + '/sequences/'+ self.element + ".zip"
+        fasta_file_full = THIS_FOLDER + '/sequences/' + self.element + ".fa"
+        fasta_file = self.element +".fa"
         ## unzip file 
-        zip_file = zipfile.ZipFile(zip_file)
-        zip_file.extract(fasta_file, os.path.join(THIS_FOLDER, 'static'))
-        zip_file.close()
+        with ZipFile(zip_file,"r") as zip_ref:
+            zip_ref.extract(fasta_file, THIS_FOLDER + '/sequences/')
         
         insertion = ""
         for seq_record in SeqIO.parse(fasta_file_full, "fasta"):
@@ -41,32 +51,21 @@ class MEI(Variant):
         os.remove(fasta_file_full)
         return insertion.upper() 
 
-    def get_insertion(self, transcript: Transcript) -> dict:
-        """returns (ref, alt) tuple of insersion"""
-        # get requested region
-        if self.region in ["CODING", "INTRONIC", "UTR", "GENIC"]:
-            regions = transcript.get_requested_region(self.region)
-            if len(regions) == 0:
-                raise ValueError("region requested does not exists")
-        else: 
-            regions = [self.parse_region(transcript, self.region)[1]]
-        # get ranges
-        region_range = []
-        for region in regions:
-            region_range = region_range + list(range(region[0], region[1]))
-        if self.location == "ANY": # pick any position within the ranges
+    def get_insertion(self) -> dict:
+        """returns (ref, alt) tuple of insersion in 0 based"""
+        # get requested region range 
+        region_range = self.get_region_range()
+        if self.start == "ANY": # pick any position within the ranges
             pos = random.choice(region_range)
         else:
-            if self.location not in region_range:
-                raise ValueError("position must be within range")
-            pos = self.location
+            pos = self.start
         return {"pos": pos,
-                "ref": self.get_seq(transcript.chrom, pos, pos+1),
-                "alt": self.get_seq(transcript.chrom, pos, pos+1) + self.get_insertion_str()}
+                "ref": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome),
+                "alt": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome) + self.get_insertion_str()}
 
-    def get_vcf_row(self, transcript: Transcript) -> str:
-        chrom = str(transcript.get_chr())
-        var_dict = self.get_insertion(transcript)
+    def get_vcf_row(self) -> str:
+        chrom = str(self.transcript.get_chr())
+        var_dict = self.get_insertion()
         pos = str(var_dict["pos"] + 1) # add 1 to make one based
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])

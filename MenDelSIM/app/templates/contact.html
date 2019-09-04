@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+{% endblock head %}
+
+{% block content %}
+{% include "nav.html" %}
+<div class="container navbar-fix">
+    <!-- RESPONSE LINE -->
+    <div class="row">
+        <div class="col-sm">
+            <h1>Contact</h1>
+            <p>For technical questions regarding GeneBreaker contact:
+                <br>
+                <ul>
+                    <li> Tamar Av-Shalom: <a href="mailto:
+                            tavshalom@cmmt.ubc.ca">tavshalom@cmmt.ubc.ca</a></li>
+                    <li>Phillip Richmond: <a href="mailto:
+                            prichmond@cmmt.ubc.ca">prichmond@cmmt.ubc.ca
+                        </a> </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+{% include "footer.html" %}
+{% endblock content%}

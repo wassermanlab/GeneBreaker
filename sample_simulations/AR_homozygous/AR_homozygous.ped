@@ -1,7 +1,0 @@
-#FamilyID	SampleID	Father	Mother	Sex	Phenotype
-AR_homozygous	Dad	0	0	1	3
-AR_homozygous	Mom	0	0	2	3
-AR_homozygous	Proband	Dad	Mom	1	2
-AR_homozygous	Brother	Dad	Mom	1	3
-AR_homozygous	Sister1	Dad	Mom	2	3
-AR_homozygous	Sister2	Dad	Mom	2	1

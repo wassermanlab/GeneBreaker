@@ -2,69 +2,71 @@
 import unittest
 from MenDelSIM.src.mei import MEI
 from MenDelSIM.src.transcript import Transcript
-from . import establish_GUD_session
-from GUD.ORM import Gene
+from MenDelSIM.src.api_helper import *
+
 
 class MEICreationTests(unittest.TestCase):
     # test 1
     def test_type_value_MEI(self):
+        XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
+        transcript = Transcript(XKR8_uid, "hg38")
         mei = {"TYPE": "SNV",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"ELEMENT": "ALU_MELT", "LOCATION": "ANY"},
+                 "IMPACT": {"ELEMENT": "ALU", "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
-            MEI(mei)
+            MEI(mei, transcript)
     # test 2
     def test_location_0(self):
-        session = establish_GUD_session()
-        SOX18_uid = Gene().select_by_name(session, "SOX18", True)[0].qualifiers["uid"]
-        SOX18 = Transcript(SOX18_uid)  # SOX18
+        SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
+        SOX18 = Transcript(SOX18_uid, "hg38")
         mei = {"TYPE": "MEI",
                  "REGION": "INTRONIC",
-                 "IMPACT": {"ELEMENT": "ALU_MELT", "LOCATION": 0},
+                 "IMPACT": {"ELEMENT": "ALU_MELT", "START": 0},
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
-            MEI(mei).get_vcf_row(SOX18)
+            MEI(mei,SOX18).get_vcf_row()
 
 class InsersionMethodTesting(unittest.TestCase):
     mei_any = {'TYPE': 'MEI',
                  'REGION': 'INTRONIC',
-                 'IMPACT': {"ELEMENT": "ALU_MELT", "LOCATION": "ANY"},
+                 'IMPACT': {"ELEMENT": "ALU", "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
-    mei_any = MEI(mei_any)
     mei_spec = {'TYPE': 'MEI',
                   'REGION': 'CODING',
-                  'IMPACT': {"ELEMENT": "ALU_MELT", "LOCATION": 132576250},
+                  'IMPACT': {"ELEMENT": "ALU", "START": 129814000},
                   "ZYGOSITY": "HETEROZYGOUS"}
-    mei_spec = MEI(mei_spec)
-    session = establish_GUD_session()
-    TOR1A_uid = Gene().select_by_name(session, "TOR1A", True)[0].qualifiers["uid"]
-    SOX9_uid = Gene().select_by_name(session, "SOX9", True)[0].qualifiers["uid"]    
-    positive_transcript = Transcript(SOX9_uid)  # SOX9
-    negative_transcript = Transcript(TOR1A_uid)  # TOR1A
+    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "hg38")
+    TOR1A_uid = get_all_transcripts("TOR1A", "hg38")[0]["qualifiers"]["uid"]
+    negative_transcript = Transcript(TOR1A_uid, "hg38")
 
     # test 3
     def test_check_insertion_generation(self):
-        self.assertEqual(len(self.mei_any.get_insertion_str()), 281)
+        mei = MEI(self.mei_any, self.positive_transcript)
+        self.assertEqual(len(mei.get_insertion_str()), 281)
 
-    # test 8
+    # test 4
     def test_get_insertion_any(self):
-        insertion = self.mei_any.get_insertion(self.positive_transcript)
+        mei = MEI(self.mei_any, self.positive_transcript)
+        insertion = mei.get_insertion()
         self.assertEqual(len(insertion["alt"]), 282)
 
-    # test 9
+    # test 5
     def test_get_insertion_spec(self):
-        insertion = self.mei_spec.get_insertion(self.negative_transcript)
-        self.assertEqual(insertion["pos"], 132576250)
+        mei = MEI(self.mei_spec, self.negative_transcript)
+        insertion = mei.get_insertion()
+        self.assertEqual(insertion["pos"], 129813999)
         self.assertEqual(len(insertion["alt"]), 282)
 
-    # test 10
+    # test 6
     def test_get_insertion_row(self):
-        insertion = self.mei_spec.get_vcf_row(self.negative_transcript)
+        mei = MEI(self.mei_spec, self.negative_transcript)
+        insertion = mei.get_vcf_row()
         insertion = insertion.split("\t")
         insertion[4] = insertion[4].rstrip()
         self.assertEqual(insertion[0], "chr9")
-        self.assertEqual(insertion[1], '132576251')
+        self.assertEqual(insertion[1], '129814000')
         self.assertEqual(len(insertion[4]), 282)
         print(insertion)
 

@@ -1,71 +1,67 @@
-from flask import render_template, flash, redirect, url_for, jsonify, request
-from . import app
+from MenDelSIM.app import app
+from flask import request, jsonify, render_template, url_for, redirect, send_from_directory, send_file
+from werkzeug.exceptions import HTTPException, NotFound, BadRequest
+from werkzeug.utils import secure_filename
+import json
+import sys, os
+from MenDelSIM.src.transcript import Transcript
+from MenDelSIM.src.variants import Variants
+from MenDelSIM.src.api_helper import *
+from datetime import datetime
 
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('home.html')
 
-@app.route('/variants')
-def variants():
-    return render_template('variants.html')
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
-@app.route('/family')
-def family():
-    var1 = request.args.get('var1', default=None) 
-    var2 = request.args.get('var2', default=None) 
-    sex = request.args.get('sex', default=None) 
-    return render_template('family.html', sex = sex, var1=var1, var2=var2)
+@app.route('/get_transcripts/<genome>/<name>')
+def get_transcripts(genome,name):
+    # TODO: remove cross origin
+    response = jsonify(get_all_transcripts(name, genome))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
+# @app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
+# def get_clinvar(genome, transcript_uid, region):
+#     transcript = Transcript(uid, genome)
+#     region = get_requested_region(region)
+#     # query regions
+#     # return results 
 
+# @app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
+# def get_region(genome, transcript_uid, region):
+#     # get transcript 
+#     # get region
+#     # query regions
+#     # return results 
 
+# @app.route('/get_str/<genome>/<transcript_uid>/<region>')
+# def get_str(genome, transcript_uid, region):
+#     # get transcript 
+#     # get region
+#     # query regions
+#     # return results 
 
+@app.route('/design_variants', methods=["GET", "POST"])
+def design_variants():
+    # if POST then return the variant file sent with the JSON file 
+    if request.method == 'POST': 
+        if not os.path.exists('/tmp/simulator'):
+            os.makedirs('/tmp/simulator')
+        try: 
+            now = datetime.now()
+            dt_string = now.strftime("%d-%m-%Y_%H:%M:%S")
+            Variants(request.json).save_vcf_output("/tmp/simulator/"+ dt_string + ".vcf")
+            return send_file("/tmp/simulator/"+ dt_string + ".vcf", attachment_filename=dt_string + ".vcf")
+        except Exception as e:
+            return BadRequest("cannot produce requested variant: " + str(e))
+    else: # render the template to make variants \
+        return render_template('variants.html')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/variant_gen2', methods=['GET'])
-# def variant_gen2():
-#     return render_template('variant_gen.html', title='Variant Generator')
-
-# @app.route('/variant_gen', methods=['GET'])
-# def variant_gen():
-#     return render_template('variants.html', title='Variant Generator')
-
-# @app.route('/variant_gen/var1', methods=['GET'])
-# def var1():
-#     gene_uid = request.args.get('gene_uid', type=str)
-#     chrom = request.args.get('chrom', type=str)
-#     sex = request.args.get('sex', type=str)
-#     return render_template('variant_specifics.html',  
-#     title='Variant Generator', gene_uid=gene_uid, chrom=chrom, sex=sex)
-
-# @app.route('/_get_transcript', methods=['GET'])
-# def get_transcript():
-#     session = establish_GUD_session()
-#     gene_name = request.args.get('gene_name', "", type=str)
-#     gene = Gene()
-#     genes = gene.select_by_name(session, gene_name, True)
-#     session.close()
-#     response = []
-#     if len(genes) > 0:
-#         for g in genes:
-#             response.append({'uid': int(g.qualifiers["uid"]),
-#                             'accession': str(g.qualifiers["name"]),
-#                             'name': str(g.qualifiers["name2"]),
-#                             'chrom': str(g.chrom)})
-#     return jsonify(response)
-
+@app.route('/design_family', methods=["GET", "POST"])
+def design_family():
+    return "family"
