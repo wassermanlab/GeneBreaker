@@ -2,6 +2,8 @@ from MenDelSIM.src.variant import Variant
 from MenDelSIM.src.transcript import Transcript
 import random
 
+
+## TODO: remove ref and alt from here
 class ClinVar(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template: dict, transcript:Transcript):

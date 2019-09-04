@@ -2,7 +2,7 @@ from MenDelSIM.src.variant import Variant
 from MenDelSIM.src.transcript import Transcript
 import random
 
-
+## TODO: change indel_amount to length
 class Indel(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template: dict, transcript: Transcript):

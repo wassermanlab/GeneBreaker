@@ -20,28 +20,31 @@ def contact():
 
 @app.route('/get_transcripts/<genome>/<name>')
 def get_transcripts(genome,name):
-    return jsonify(get_all_transcripts(name, genome))
+    # TODO: remove cross origin
+    response = jsonify(get_all_transcripts(name, genome))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
-@app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
-def get_clinvar(genome, transcript_uid, region):
-    transcript = Transcript(uid, genome)
-    region = get_requested_region(region)
-    # query regions
-    # return results 
+# @app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
+# def get_clinvar(genome, transcript_uid, region):
+#     transcript = Transcript(uid, genome)
+#     region = get_requested_region(region)
+#     # query regions
+#     # return results 
 
-@app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
-def get_region(genome, transcript_uid, region):
-    # get transcript 
-    # get region
-    # query regions
-    # return results 
+# @app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
+# def get_region(genome, transcript_uid, region):
+#     # get transcript 
+#     # get region
+#     # query regions
+#     # return results 
 
-@app.route('/get_str/<genome>/<transcript_uid>/<region>')
-def get_str(genome, transcript_uid, region):
-    # get transcript 
-    # get region
-    # query regions
-    # return results 
+# @app.route('/get_str/<genome>/<transcript_uid>/<region>')
+# def get_str(genome, transcript_uid, region):
+#     # get transcript 
+#     # get region
+#     # query regions
+#     # return results 
 
 @app.route('/design_variants', methods=["GET", "POST"])
 def design_variants():
