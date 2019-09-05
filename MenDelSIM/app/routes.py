@@ -9,42 +9,45 @@ from MenDelSIM.src.variants import Variants
 from MenDelSIM.src.api_helper import *
 from datetime import datetime
 
-@app.route('/')
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
 @app.route('/get_transcripts/<genome>/<name>')
-def get_transcripts(genome,name):
+def get_transcripts_api(genome,name):
     # TODO: remove cross origin
     response = jsonify(get_all_transcripts(name, genome))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-# @app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
-# def get_clinvar(genome, transcript_uid, region):
-#     transcript = Transcript(uid, genome)
-#     region = get_requested_region(region)
-#     # query regions
-#     # return results 
+@app.route('/get_str/<genome>/<transcript_uid>/<region>')
+def get_strs_api(genome, transcript_uid, region):
+    transcript = Transcript(transcript_uid, genome)
+    region = transcript.get_requested_region(region)
+    strs = []
+    for r in region:
+        strs = strs + get_strs(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
+    response = jsonify(strs)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
-# @app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
-# def get_region(genome, transcript_uid, region):
-#     # get transcript 
-#     # get region
-#     # query regions
-#     # return results 
+@app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
+def get_clinvar_api(genome, transcript_uid, region):
+    transcript = Transcript(transcript_uid, genome)
+    region = transcript.get_requested_region(region)
+    clinvar = []
+    for r in region:
+        clinvar = clinvar + get_clinvars(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
+    response = jsonify(clinvar)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
-# @app.route('/get_str/<genome>/<transcript_uid>/<region>')
-# def get_str(genome, transcript_uid, region):
-#     # get transcript 
-#     # get region
-#     # query regions
-#     # return results 
+@app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
+def get_clingen_api(genome, transcript_uid, region):
+    transcript = Transcript(transcript_uid, genome)
+    region = transcript.get_requested_region(region)
+    clingen = []
+    for r in region:
+        clingen = clingen + get_cnvs(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
+    response = jsonify(clingen)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/design_variants', methods=["GET", "POST"])
 def design_variants():

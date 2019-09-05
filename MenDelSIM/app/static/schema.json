@@ -1,0 +1,70 @@
+{
+    "gene_uid": "",
+    "genome": "hg38",
+    "sex": "",
+    "var1": {
+        "type": "",
+        "region": "",
+        "zygosity": "",
+        "impact": {
+            "clinvar": {
+                "id": ""
+            },
+            "cnv": {
+                "start": "",
+                "end": "",
+                "copy_change": ""
+            },
+            "indel": {
+                "length": "",
+                "start": ""
+            },
+            "mei": {
+                "element": "",
+                "start": ""
+            },
+            "snv": {
+                "snv_type": "",
+                "start": ""
+            },
+            "str": {
+                "str_id": "",
+                "length": ""
+            }
+        }
+    },
+    "var2": {
+        "type": "",
+        "region": "",
+        "zygosity": "",
+        "impact": {
+            "clinvar": {
+                "id": "",
+                "start": ""
+            },
+            "cnv": {
+                "start": "",
+                "end": "",
+                "copy_change": ""
+            },
+            "indel": {
+                "length": "",
+                "start": ""
+            },
+            "mei": {
+                "element": "",
+                "start": ""
+            },
+            "snv": {
+                "snv_type": "",
+                "start": ""
+            },
+            "str": {
+                "start": "",
+                "end": "",
+                "motif": "",
+                "length": ""
+            }
+        }
+    }
+}

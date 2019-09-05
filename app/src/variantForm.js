@@ -26,7 +26,7 @@ class VFrom extends React.Component {
       var1_length: "",
       var1_element: "",
       var1_snv_type: "",
-      var1_motif: "",
+      var1_str_id: "",
       //var2 state
       var2: true,
       var2_type: "",
@@ -41,7 +41,7 @@ class VFrom extends React.Component {
       var2_length: "",
       var2_element: "",
       var2_snv_type: "",
-      var2_motif: "",
+      var2_str_id: "",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -113,7 +113,7 @@ class VFrom extends React.Component {
           customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
           copy_change={this.state.var1_copy_change} clinvar_id={this.state.var1_clinvar_id} 
-          element={this.state.var1_element} snv_type={this.state.var1_snv_type} motif={this.state.var1_motif}
+          element={this.state.var1_element} snv_type={this.state.var1_snv_type} str_id={this.state.var1_str_id}
         />
         {/* var2 */}
          {/* <VariantInfo 

@@ -1,5 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import NavButtons from './navButtons'
+import CNV from './variant_components/cnv'
+import Indel from './variant_components/indel'
+import Mei from './variant_components/mei'
+import Snv from './variant_components/snv'
+import Zygosity from './variant_components/zygosity'
+
 
 // todo: move to separate component 
 function Clinvar(props) {
@@ -21,143 +27,29 @@ function Clingen(props) {
   )
 }
 function Str(props) {
+  const [str_list, getStr] = useState([]);
+  
   if (props.type !== "str") {
     return null;
   }
   return (
     <React.Fragment>
-
+      <div className="form-group">
+        <label>Transcript</label>
+        <select className="form-control"
+          name={"var" + props.var + "_str_id"}
+          value={this.props.str_id}
+          onChange={this.props.handleInputChange}
+          size="5">
+          <option key="0" value=""></option>
+          {/* {this.state.transcript_list.map((item, index) => (
+            <option key={item.qualifiers.uid} value={item.chrom + "_" + item.qualifiers.uid}> {item.qualifiers.name} </option>
+          ))} */}
+        </select>
+      </div>
     </React.Fragment>
   )
 }
-function CNV(props) {
-  //start, end, copy_change
-  if (props.type !== "cnv") {
-    return null;
-  }
-  return (
-    <React.Fragment>
-      <label>Start position</label>
-      <input type="number" className="form-control" min="1"
-        name={"var" + props.var + "_start"}
-        value={props.start}
-        onChange={props.handleInputChange} />
-      <label>End position</label>
-      <input type="number" className="form-control" min="2"
-        name={"var" + props.var + "_end"}
-        value={props.end}
-        onChange={props.handleInputChange} />
-      <label>Copy Change</label>
-      <input type="number" className="form-control" min="-1"
-        name={"var" + props.var + "_copy_change"}
-        value={props.copy_change}
-        onChange={props.handleInputChange} />
-      <small className="form-text text-muted">
-        input an integer copy number change where -1 is a deletion and positive numbers greater than 1 indicated multiplications.
-      </small>
-    </React.Fragment>
-  )
-}
-function Indel(props) {
-  // start, length
-  if (props.type !== "indel") {
-    return null;
-  }
-  return (<React.Fragment>
-    <label>Start position</label>
-    <input type="text" className="form-control"
-      name={"var" + props.var + "_start"}
-      value={props.start}
-      onChange={props.handleInputChange} />
-    <small className="form-text text-muted">input the start position of your variant or "ANY" if you want it anywhere within the region.
-    </small>
-    <label>Length</label>
-    <input type="number" className="form-control" min="-200" max="200"
-      name={"var" + props.var + "_length"}
-      value={props.length}
-      onChange={props.handleInputChange} />
-    <small className="form-text text-muted">
-      input an integer length for your indel where negative numbers are deletions and positive numbers insertions, indels must be between -200 and 200.
-      </small>
-  </React.Fragment>)
-}
-function Mei(props) {
-  // element, start
-  if (props.type !== "mei") {
-    return null;
-  }
-  return (<React.Fragment>
-    <label>Start position</label>
-    <input type="text" className="form-control"
-      name={"var" + props.var + "_start"}
-      value={props.start}
-      onChange={props.handleInputChange} />
-    <small className="form-text text-muted">input the start position of your variant or "ANY" if you want it anywhere within the region.
-    </small>
-    <div className="form-group">
-      <label>Element</label>
-      <select className="form-control"
-        name={"var" + props.var + "_element"}
-        value={props.element}
-        onChange={props.handleInputChange}>
-        <option value="">Select</option>
-        <option value="alu">ALU</option>
-        <option value="line">LINE</option>
-        <option value="sva">SVA</option>
-      </select>
-    </div>
-  </React.Fragment>)
-}
-function Snv(props) {
-  //start, type
-  if (props.type !== "snv") {
-    return null;
-  }
-  return (<React.Fragment>
-    <label>Start position</label>
-    <input type="text" className="form-control"
-      name={"var" + props.var + "_start"}
-      value={props.start}
-      onChange={props.handleInputChange} />
-    <small className="form-text text-muted">input the start position of your variant or "ANY" if you want it anywhere within the region.
-    </small>
-    <div className="form-group">
-      <label>SNV impact</label>
-      <select className="form-control"
-        name={"var" + props.var + "_snv_type"}
-        value={props.snv_type}
-        onChange={props.handleInputChange}>
-        <option value="">Select</option>
-        <option value="stoploss">Stop Loss</option>
-        <option value="missense">Missense</option>
-        <option value="nonsense">Nonsense</option>
-        <option value="synonymous">Synonymous</option>
-        <option value="A">A</option>
-        <option value="T">T</option>
-        <option value="G">G</option>
-        <option value="C">C</option>
-        <option value="ANY">ANY</option>
-      </select>
-    </div>
-  </React.Fragment>)
-}
-
-
-function Zygosity(props) {
-  // XY sex and X or Y gene 
-  if (props.sex === "XY" && (props.chrom === "chrY" || props.chrom === "chrX")) {
-    return <option value="hemizygous">Hemizygous</option>
-  } else if (props.var === 2) { // variant 2
-    return <option value="heterozygous">Heterozygous</option>
-  } else { // variant 1
-    return (
-      <React.Fragment>
-        <option value="homozygous">Homozygous</option>
-        <option value="heterozygous">Heterozygous</option>
-      </React.Fragment>)
-  }
-}
-
 
 class VariantInfo extends React.Component {
   //page, chrom, sex, gene_uid, handleInputChange, next, back
@@ -241,13 +133,24 @@ class VariantInfo extends React.Component {
         {/* impact */}
         <Clinvar
           type={this.props.type}
-          handleInputChange={this.props.handleInputChange} />
+          handleInputChange={this.props.handleInputChange}
+          clinvar_id={this.props.clinvar_id}
+          var={this.props.var}
+          region={this.props.region} />
         <Clingen
           type={this.props.type}
-          handleInputChange={this.props.handleInputChange} />
+          handleInputChange={this.props.handleInputChange}
+          start={this.props.start}
+          end={this.props.end}
+          copy_change={this.props.copy_change}
+          var={this.props.var}
+          region={this.props.region} />
         <Str
           type={this.props.type}
-          handleInputChange={this.props.handleInputChange} />
+          handleInputChange={this.props.handleInputChange}
+          str_id={this.props.str_id}
+          var={this.props.var}
+          region={this.props.region} />
         <CNV
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}

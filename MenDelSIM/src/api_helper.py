@@ -31,29 +31,42 @@ def get_all_transcripts(gene_name, genome):
 def get_str(start, end, chrom, genome):
     #takes in 1 based
     url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
-    return get_all_results(url)[0]
+    res = get_all_results(url)
+    if res != False: 
+        return res[0]
+    return []
 
 def get_strs(start, end, chrom, genome, location):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
-    return get_all_results(url)[0]
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' + location
+    res = get_all_results(url)
+    if res != False:
+        return res
+    return []
 
 def get_clinvars(start, end, chrom, genome, location):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
-    return get_all_results(url)[0]
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' +location
+    res = get_all_results(url)
+    if res != False: 
+        return res
+    return []
 
 def get_cnvs(start, end, chrom, genome, location):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/copy_number_variantss?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
-    return get_all_results(url)[0]
+    url = host + '/api/v1/' + genome + '/copy_number_variants?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' +location
+    print(url)
+    res = get_all_results(url)
+    if res != False: 
+        return res
+    return []
 
 def get_transcript(uid, genome):
     url = host + '/api/v1/' + genome + '/genes?uids='+ str(uid)
     res = get_all_results(url)
-    if res == False:
-        return False
-    return get_all_results(url)[0]
+    if res != False: 
+        return res[0]
+    return []
 
 def get_chromosome(chr, genome): 
     url = host + '/api/v1/' + genome + '/chroms'
