@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import NavButtons from './navButtons'
 import CNV from './variant_components/cnv'
 import Indel from './variant_components/indel'
 import Mei from './variant_components/mei'
 import Snv from './variant_components/snv'
+import Str from './variant_components/str'
 import Zygosity from './variant_components/zygosity'
 
 
@@ -26,33 +27,9 @@ function Clingen(props) {
     </React.Fragment>
   )
 }
-function Str(props) {
-  const [str_list, getStr] = useState([]);
-  
-  if (props.type !== "str") {
-    return null;
-  }
-  return (
-    <React.Fragment>
-      <div className="form-group">
-        <label>Transcript</label>
-        <select className="form-control"
-          name={"var" + props.var + "_str_id"}
-          value={this.props.str_id}
-          onChange={this.props.handleInputChange}
-          size="5">
-          <option key="0" value=""></option>
-          {/* {this.state.transcript_list.map((item, index) => (
-            <option key={item.qualifiers.uid} value={item.chrom + "_" + item.qualifiers.uid}> {item.qualifiers.name} </option>
-          ))} */}
-        </select>
-      </div>
-    </React.Fragment>
-  )
-}
 
 class VariantInfo extends React.Component {
-  //page, chrom, sex, gene_uid, handleInputChange, next, back
+  //page, chrom, sex, gene_uid, handleInputChange, next, back, genome
   //var, var2, type, region, zygosity, clinvar_id, start, end, copy_change, length, element, snv_type, motif
 
   constructor(props) {
@@ -90,15 +67,15 @@ class VariantInfo extends React.Component {
             value={this.props.region}
             onChange={this.props.handleInputChange}>
             <option value="">Select</option>
-            <option value="coding">Coding</option>
-            <option value="genic">Genic</option>
-            <option value="utr">UTR</option>
-            <option value="intronic">Intronic</option>
-            <option value="custom">Custom</option>
+            <option value="CODING">Coding</option>
+            <option value="GENIC">Genic</option>
+            <option value="UTR">UTR</option>
+            <option value="INTRONIC">Intronic</option>
+            <option value="CUSTOM">Custom</option>
           </select>
         </div>
         {/* customRegion */}
-        {this.props.region === "custom" ?
+        {this.props.region === "CUSTOM" ?
           <div>
             <label>Custom region</label>
             <div className="input-group" >
@@ -144,13 +121,19 @@ class VariantInfo extends React.Component {
           end={this.props.end}
           copy_change={this.props.copy_change}
           var={this.props.var}
+          gene_uid={this.props.var}
+          genome={this.props.genome}
           region={this.props.region} />
         <Str
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}
           str_id={this.props.str_id}
           var={this.props.var}
-          region={this.props.region} />
+          gene_uid={this.props.gene_uid}
+          genome={this.props.genome}
+          region={this.props.region==="CUSTOM"? 
+          (this.props.chrom+":"+this.props.customStart+"-"+this.props.customEnd): 
+          this.props.region} />
         <CNV
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}

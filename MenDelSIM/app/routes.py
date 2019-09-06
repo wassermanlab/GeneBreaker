@@ -17,35 +17,28 @@ def get_transcripts_api(genome,name):
     return response
 
 @app.route('/get_str/<genome>/<transcript_uid>/<region>')
-def get_strs_api(genome, transcript_uid, region):
-    transcript = Transcript(transcript_uid, genome)
-    region = transcript.get_requested_region(region)
-    strs = []
-    for r in region:
-        strs = strs + get_strs(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
-    response = jsonify(strs)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
 @app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
-def get_clinvar_api(genome, transcript_uid, region):
-    transcript = Transcript(transcript_uid, genome)
-    region = transcript.get_requested_region(region)
-    clinvar = []
-    for r in region:
-        clinvar = clinvar + get_clinvars(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
-    response = jsonify(clinvar)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
 @app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
-def get_clingen_api(genome, transcript_uid, region):
+def get_clingen_clinvar_str_api(genome, transcript_uid, region):
     transcript = Transcript(transcript_uid, genome)
-    region = transcript.get_requested_region(region)
-    clingen = []
+    res = []
+    if region in ["UTR", "INTRONIC", "GENIC", "CODING"]:
+        region = transcript.get_requested_region(region)
+    else:
+        start = int(region.split(":")[1].split("-")[0])-1
+        end = int(region.split(":")[1].split("-")[1])
+        region = [(start, end)]
+    location = "overlapping"
+    if region in ["UTR", "INTRONIC"]:
+        location = "within"
     for r in region:
-        clingen = clingen + get_cnvs(r[0]+1, r[1], transcript.get_chr(), genome, "within") #add 1 to start to make 1 based for api call
-    response = jsonify(clingen)
+        if request.path.startswith("/get_str"):
+            res = res + get_strs(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
+        elif request.path.startswith("/get_clinvar"):
+            res = res + get_clinvars(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
+        else:
+            res = res + get_cnvs(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
+    response = jsonify(res)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

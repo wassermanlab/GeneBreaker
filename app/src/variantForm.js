@@ -6,12 +6,12 @@ class VFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 2,
       // general state
-      gene_uid: "",
+      gene_uid: "69540",
       genome: "hg38",
       gene_name: "",
-      chrom: "",
+      chrom: "chr17",
       sex: "XX",
       // var 1 state
       var1_type: "",
@@ -109,8 +109,8 @@ class VFrom extends React.Component {
         //var, var2, type, region, zygosity, clinvar_id, start, end, copy_change, length, element, snv_type, motif */}
         <VariantInfo 
           page={this.state.page} 
-          chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} 
-          handleInputChange={this.handleInputChange} next={this.next}  back={this.back}
+          chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} genome={this.state.genome} 
+          handleInputChange={this.handleInputChange} next={this.next} back={this.back}
           var={1} type={this.state.var1_type} region={this.state.var1_region} zygosity={this.state.var1_zygosity}
           customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
@@ -120,7 +120,7 @@ class VFrom extends React.Component {
         {/* var2 */}
          {/* <VariantInfo 
           page={this.state.page} 
-          chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} 
+          chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} genome={this.state.genome} 
           handleInputChange={this.handleInputChange} next={this.next}  back={this.back}
           var={2} var2={this.state.var2}
           type={this.state.var2_type} region={this.state.var2_region} zygosity={this.state.var2_zygosity}

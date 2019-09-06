@@ -46,7 +46,7 @@ def get_strs(start, end, chrom, genome, location):
 
 def get_clinvars(start, end, chrom, genome, location):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' +location
+    url = host + '/api/v1/' + genome + '/clinvar?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' +location
     res = get_all_results(url)
     if res != False: 
         return res
