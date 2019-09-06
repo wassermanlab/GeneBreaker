@@ -6,7 +6,7 @@ class VFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 2,
+      page: 1,
       // general state
       gene_uid: "",
       genome: "hg38",
@@ -72,10 +72,12 @@ class VFrom extends React.Component {
 
     //custom state change to deal with chrom
     if (name === "gene_uid" && value !== "") {
-      const parts = value.split("_");
+      const index = target.selectedIndex;
+      const option = target.childNodes[index];
+      const chrom = option.getAttribute('chrom');
       this.setState({
-        gene_uid: parts[1],
-        chrom: parts[0]
+        gene_uid: value,
+        chrom: chrom
       },
         () => console.log(this.state));
       return null;

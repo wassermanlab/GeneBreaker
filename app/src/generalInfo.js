@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import NavButtons from './navButtons'
 
 // todo: move to separate component 
@@ -109,7 +109,7 @@ class GeneralInfo extends React.Component {
               size="5">
               <option key="0" value=""></option>
               {this.state.transcript_list.map((item, index) => (
-                <option key={item.qualifiers.uid} value={item.chrom + "_" + item.qualifiers.uid}> {item.qualifiers.name} </option>
+                <option key={item.qualifiers.uid} value={item.qualifiers.uid} chrom={item.chrom}> {item.qualifiers.name} </option>
               ))}
             </select>
           </div>
