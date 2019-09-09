@@ -29,6 +29,24 @@ class VariantInfo extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      no_region: false,
+      no_type: false,
+      no_zygosity: false, 
+      invalid_region: false, 
+      no_clinvar: false,
+      invalid_cnv: false,
+      no_cnv_start: false, 
+      no_cnv_end: false, 
+      no_cnv_copychange: false,
+      no_indel_start: false,
+      no_indel_length: false, 
+      no_mei_start: false,
+      no_snv_start: false,
+      no_snv_type: false,
+      no_str_id: false,
+      no_str_length: false,
+    };
 
     this.getOptions = this.getOptions.bind(this);
     this.customNext = this.customNext.bind(this);
@@ -170,7 +188,7 @@ class VariantInfo extends React.Component {
           </select>
         </div>
         <VariantErrors
-          props={this.props}
+          props={this.state}
         />
         <NavButtons
           next={this.props.back}
