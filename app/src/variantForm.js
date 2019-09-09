@@ -6,9 +6,9 @@ class VFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 2,
       // general state
-      gene_uid: "",
+      gene_uid: "69540",
       genome: "hg38",
       gene_name: "",
       chrom: "chr17",

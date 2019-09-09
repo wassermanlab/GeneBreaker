@@ -16,10 +16,17 @@ def get_transcripts_api(genome,name):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/get_str/<genome>/<transcript_uid>/')
+@app.route('/get_clinvar/<genome>/<transcript_uid>/')
+@app.route('/get_clingen/<genome>/<transcript_uid>/')
 @app.route('/get_str/<genome>/<transcript_uid>/<region>')
 @app.route('/get_clinvar/<genome>/<transcript_uid>/<region>')
 @app.route('/get_clingen/<genome>/<transcript_uid>/<region>')
-def get_clingen_clinvar_str_api(genome, transcript_uid, region):
+def get_clingen_clinvar_str_api(genome, transcript_uid, region=None):
+    if (region is None ):
+        response = jsonify([])
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     transcript = Transcript(transcript_uid, genome)
     res = []
     if region in ["UTR", "INTRONIC", "GENIC", "CODING"]:

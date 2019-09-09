@@ -13,11 +13,11 @@ import Zygosity from './variant_components/zygosity'
 function VariantErrors(props) {
   const error = [];
   if(props.props.type === ""){
-    error.push(<div className="alert alert-danger" role="alert">no type selected.</div>)}
+    error.push(<div key={"no_type"} className="alert alert-danger" role="alert">no type selected.</div>)}
   if(props.props.region === ""){
-    error.push(<div className="alert alert-danger" role="alert">no region selected.</div>)}
+    error.push(<div key={"no_region"} className="alert alert-danger" role="alert">no region selected.</div>)}
   if(props.props.zygosity === ""){
-    error.push(<div className="alert alert-danger" role="alert">no zygosity selected.</div>)}
+    error.push(<div key={"no_zygosity"} className="alert alert-danger" role="alert">no zygosity selected.</div>)}
   if(props.props.region === "CUSTOM" && parseInt(props.props.customStart) >= parseInt(props.props.customEnd)){
     error.push(<div className="alert alert-danger" role="alert">start of custom region should be less than end.</div>)}
   return error;
