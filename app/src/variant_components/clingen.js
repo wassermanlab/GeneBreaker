@@ -3,34 +3,37 @@ function Clingen(props) {
   ///get_str/<genome>/<transcript_uid>/<region>
   const [str_list, setStr] = useState([]);
 
-  function check_region() {
-    const re = new RegExp('^chr(1[0-9]|Y|Z|2[0-2]|[1-9])\:\d+\-\d+$/')
-    if (props.region in ["CODING", "GENIC", "UTR", "INTRONIC"]) {
-      return true;
-    } else {
-      if (re.test(props.region)) {
-        const start = props.regions.split(":")[1].split("-")[0]
-        const end = props.regions.split(":")[1].split("-")[0]
-        if (parseInt(end) > parseInt(start)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
-  async function fetchUrl() {
-    if (!check_region) {
-      return null;
-    }
-    const response = await fetch('http://127.0.0.1:5001/get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region);
-    const json = await response.json();
-    setStr(json);
-  }
 
   useEffect(() => {
+    function check_region() {
+      // eslint-disable-next-line
+      const re = new RegExp('^chr(1[0-9]|Y|Z|2[0-2]|[1-9])\:\d+\-\d+$/')
+      if (props.region in ["CODING", "GENIC", "UTR", "INTRONIC"]) {
+        return true;
+      } else {
+        if (re.test(props.region)) {
+          const start = props.region.split(":")[1].split("-")[0]
+          const end = props.region.split(":")[1].split("-")[0]
+          if (parseInt(end) > parseInt(start)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    async function fetchUrl() {
+      if (!check_region) {
+        return null;
+      }
+      const response = await fetch('http://127.0.0.1:5001/get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region);
+      const json = await response.json();
+      setStr(json);
+    }
+
     fetchUrl();
-  }, [props.region]);
+  }, [props.region, props.gene_uid, props.genome]);
 
   if (props.type !== "clingen") {
     return null;
@@ -47,7 +50,7 @@ function Clingen(props) {
           size="5">
           <option key="0" value=""></option>
           {str_list.map((item, index) => (
-            <option key={item.qualifiers.uid} value={item.qualifiers.uid} start={item.start + 1} end={item.end} copy_change={item.qualifiers.copy_number_change}>
+            <option key={index + item.qualifiers.uid} value={item.qualifiers.uid} start={item.start + 1} end={item.end} copy_change={item.qualifiers.copy_number_change}>
               Start: {item.start + 1} &emsp;&emsp; End: {item.end} &emsp;&emsp; Clinical assertion: {item.qualifiers.clinical_assertion} &emsp;&emsp; Copy change: {item.qualifiers.copy_number_change} </option>
           ))}
         </select>

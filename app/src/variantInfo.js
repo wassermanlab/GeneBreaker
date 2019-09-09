@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import NavButtons from './navButtons'
 import CNV from './variant_components/cnv'
 import Clinvar from './variant_components/clinvar'
@@ -9,6 +9,19 @@ import Snv from './variant_components/snv'
 import Str from './variant_components/str'
 import Zygosity from './variant_components/zygosity'
 
+// todo: move to separate component 
+function VariantErrors(props) {
+  const error = [];
+  if(props.props.type === ""){
+    error.push(<div className="alert alert-danger" role="alert">no type selected.</div>)}
+  if(props.props.region === ""){
+    error.push(<div className="alert alert-danger" role="alert">no region selected.</div>)}
+  if(props.props.zygosity === ""){
+    error.push(<div className="alert alert-danger" role="alert">no zygosity selected.</div>)}
+  if(props.props.region === "CUSTOM" && parseInt(props.props.customStart) >= parseInt(props.props.customEnd)){
+    error.push(<div className="alert alert-danger" role="alert">start of custom region should be less than end.</div>)}
+  return error;
+}
 
 class VariantInfo extends React.Component {
   //page, chrom, sex, gene_uid, handleInputChange, next, back, genome
@@ -97,9 +110,9 @@ class VariantInfo extends React.Component {
           var={this.props.var}
           gene_uid={this.props.gene_uid}
           genome={this.props.genome}
-          region={this.props.region==="CUSTOM"? 
-          (this.props.chrom+":"+this.props.customStart+"-"+this.props.customEnd): 
-          this.props.region} />
+          region={this.props.region === "CUSTOM" ?
+            (this.props.chrom + ":" + this.props.customStart + "-" + this.props.customEnd) :
+            this.props.region} />
         <Clingen
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}
@@ -115,9 +128,9 @@ class VariantInfo extends React.Component {
           var={this.props.var}
           gene_uid={this.props.gene_uid}
           genome={this.props.genome}
-          region={this.props.region==="CUSTOM"? 
-          (this.props.chrom+":"+this.props.customStart+"-"+this.props.customEnd): 
-          this.props.region}
+          region={this.props.region === "CUSTOM" ?
+            (this.props.chrom + ":" + this.props.customStart + "-" + this.props.customEnd) :
+            this.props.region}
           length={this.props.length} />
         <CNV
           type={this.props.type}
@@ -156,6 +169,9 @@ class VariantInfo extends React.Component {
             <Zygosity chrom={this.props.chrom} sex={this.props.sex} var={this.props.var} />
           </select>
         </div>
+        <VariantErrors
+          props={this.props}
+        />
         <NavButtons
           next={this.props.back}
           back={this.props.back}
