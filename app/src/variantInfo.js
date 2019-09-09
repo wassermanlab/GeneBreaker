@@ -1,32 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import NavButtons from './navButtons'
 import CNV from './variant_components/cnv'
+import Clinvar from './variant_components/clinvar'
+import Clingen from './variant_components/clingen'
 import Indel from './variant_components/indel'
 import Mei from './variant_components/mei'
 import Snv from './variant_components/snv'
 import Str from './variant_components/str'
 import Zygosity from './variant_components/zygosity'
 
-
-// todo: move to separate component 
-function Clinvar(props) {
-  if (props.type !== "clinvar") {
-    return null;
-  }
-  return (
-    <React.Fragment>
-    </React.Fragment>
-  )
-}
-function Clingen(props) {
-  if (props.type !== "clingen") {
-    return null;
-  }
-  return (
-    <React.Fragment>
-    </React.Fragment>
-  )
-}
 
 class VariantInfo extends React.Component {
   //page, chrom, sex, gene_uid, handleInputChange, next, back, genome
@@ -113,15 +95,17 @@ class VariantInfo extends React.Component {
           handleInputChange={this.props.handleInputChange}
           clinvar_id={this.props.clinvar_id}
           var={this.props.var}
-          region={this.props.region} />
+          gene_uid={this.props.gene_uid}
+          genome={this.props.genome}
+          region={this.props.region==="CUSTOM"? 
+          (this.props.chrom+":"+this.props.customStart+"-"+this.props.customEnd): 
+          this.props.region} />
         <Clingen
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}
-          start={this.props.start}
-          end={this.props.end}
-          copy_change={this.props.copy_change}
+          clingen_uid={this.props.clingen_uid}
           var={this.props.var}
-          gene_uid={this.props.var}
+          gene_uid={this.props.gene_uid}
           genome={this.props.genome}
           region={this.props.region} />
         <Str

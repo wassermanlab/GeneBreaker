@@ -22,6 +22,7 @@ class VFrom extends React.Component {
       var1_clinvar_id: "",
       var1_start: "",
       var1_end: "",
+      var1_clingen_uid: "",
       var1_copy_change: "",
       var1_length: "",
       var1_element: "",
@@ -37,6 +38,7 @@ class VFrom extends React.Component {
       var2_clinvar_id: "",
       var2_start: "",
       var2_end: "",
+      var2_clingen_uid: "",
       var2_copy_change: "",
       var2_length: "",
       var2_element: "",
@@ -71,6 +73,37 @@ class VFrom extends React.Component {
     const name = target.name;
 
     //custom state change to deal with chrom
+    if (name === "var1_clingen_uid" && value !== "") {
+      const index = target.selectedIndex;
+      const option = target.childNodes[index];
+      const start = option.getAttribute('start');
+      const end = option.getAttribute('end');
+      const copy_change = option.getAttribute('copy_change');
+      this.setState({
+        var1_start: start,
+        var1_end: end,
+        var1_copy_change: copy_change,
+        var1_clingen_uid: value
+      },
+        () => console.log(this.state));
+      return null;
+    }
+    if (name === "var2_clingen_uid" && value !== ""){
+      const index = target.selectedIndex;
+      const option = target.childNodes[index];
+      const start = option.getAttribute('start');
+      const end = option.getAttribute('end');
+      const copy_change = option.getAttribute('copy_change');
+      this.setState({
+        var2_start: start,
+        var2_end: end,
+        var2_copy_change: copy_change,
+        var2_clingen_uid: value
+      },
+        () => console.log(this.state));
+      return null;
+    }
+
     if (name === "gene_uid" && value !== "") {
       const index = target.selectedIndex;
       const option = target.childNodes[index];
@@ -114,7 +147,7 @@ class VFrom extends React.Component {
           var={1} type={this.state.var1_type} region={this.state.var1_region} zygosity={this.state.var1_zygosity}
           customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
-          copy_change={this.state.var1_copy_change} clinvar_id={this.state.var1_clinvar_id} 
+          clingen_uid={this.state.var1_clingen_uid} copy_change={this.state.var1_copy_change} clinvar_id={this.state.var1_clinvar_id} 
           element={this.state.var1_element} snv_type={this.state.var1_snv_type} str_id={this.state.var1_str_id}
         />
         {/* var2 */}
@@ -126,7 +159,7 @@ class VFrom extends React.Component {
           type={this.state.var2_type} region={this.state.var2_region} zygosity={this.state.var2_zygosity}
           customStart={this.state.var2_customStart} customStart={this.state.var2_customStart}
           start={this.state.var2_start} end={this.state.var2_end} length={this.state.var2_length}
-          copy_change={this.state.var2_copy_change} clinvar_id={this.state.var2_clinvar_id} 
+          clingen_uid={this.state.var2_clingen_uid} copy_change={this.state.var2_copy_change} clinvar_id={this.state.var2_clinvar_id} 
           element={this.state.var2_element} snv_type={this.state.var2_snv_type} motif={this.state.var2_motif}
         /> */}
       </form>
