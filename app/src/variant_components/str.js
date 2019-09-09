@@ -20,7 +20,7 @@ function Str(props) {
   }
 
   async function fetchUrl() {
-    if (!check_region){
+    if (!check_region) {
       return null;
     }
     const response = await fetch('http://127.0.0.1:5001/get_str/' + props.genome + '/' + props.gene_uid + '/' + props.region);
@@ -39,7 +39,7 @@ function Str(props) {
   return (
     <React.Fragment>
       <div className="form-group">
-        <label>Str</label>
+        <label>Short tandem repeat</label>
         <select className="form-control"
           name={"var" + props.var + "_str_id"}
           value={props.str_id}
@@ -51,7 +51,17 @@ function Str(props) {
               Start: {item.start + 1} &emsp;&emsp; End: {item.end} &emsp;&emsp; Motif: {item.qualifiers.motif} &emsp;&emsp; Pathogenicity: {item.qualifiers.pathogenicity} </option>
           ))}
         </select>
+        <small className="form-text text-muted">
+              Known pathogenic short tandem repeats have a non-zero pathogenicity representing a known repeat difference length.
+          </small>
       </div>
+      <label>Repeat difference length</label>
+      <div className="input-group" >
+        <input type="text" className="form-control" value={props.length} name={"var" + props.var + "_length"} />
+      </div>
+        <small className="form-text text-muted">
+              Positive integers represent the number of additional repeats, negative integers represent the number of retractions. 
+          </small>
     </React.Fragment>
   )
 }

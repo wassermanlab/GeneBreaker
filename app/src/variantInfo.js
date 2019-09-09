@@ -133,7 +133,8 @@ class VariantInfo extends React.Component {
           genome={this.props.genome}
           region={this.props.region==="CUSTOM"? 
           (this.props.chrom+":"+this.props.customStart+"-"+this.props.customEnd): 
-          this.props.region} />
+          this.props.region}
+          length={this.props.length} />
         <CNV
           type={this.props.type}
           handleInputChange={this.props.handleInputChange}
