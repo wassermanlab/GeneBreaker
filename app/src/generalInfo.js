@@ -16,9 +16,9 @@ function GeneralErrors(props) {
 
 class GeneralInfo extends React.Component {
   //page, chrom, genome, sex, gene_name, gene_uid, handleInputChange, next, back
-  
+
   constructor(props) {
-  super(props);
+    super(props);
     this.state = {
       transcript_list: [],
       no_transcript: false,
@@ -30,28 +30,21 @@ class GeneralInfo extends React.Component {
 
   }
 
-  getTranscripts(event) {
-    this.setState({...this.state, 
-      no_transcript: false,
-      isFetching: true})
-    fetch('http://127.0.0.1:5001/get_transcripts/' + this.props.genome + '/' + this.props.gene_name) // TODO: change this url
-      .then(response => response.json())
-      .then(result => this.setState({transcript_list: result, 
-                                     isFetching: false}))
-      .catch(e => {
-        this.setState({
-          no_transcript: true, 
-          transcript_list: [], 
-          isFetching: false})
-      });
+  async getTranscripts(event) {
+      const response = await fetch('http://127.0.0.1:5001/get_transcripts/' + this.props.genome + '/' + this.props.gene_name);
+      const json = await response.json();
+      if(!json) {
+        this.setState({no_transcript: true, transcript_list:[]})
+      }
+      this.setState({no_transcript: false, transcript_list:json})
   }
 
   // error check for the whole page!
-  customNext(){
+  customNext() {
     if (this.props.gene_uid === "") {
-      this.setState({transcript_select: true})
+      this.setState({ transcript_select: true })
     } else if (this.props.chrom === "chrY" && this.props.sex === "XX") {
-      this.setState({transcript_sex: true})
+      this.setState({ transcript_sex: true })
     } else {
       this.props.next()
     }
@@ -65,63 +58,63 @@ class GeneralInfo extends React.Component {
 
       // {/* general: genome, sex, gene_uid, chr, transcript */}
       <React.Fragment>
-          {/* genome */}
-          <div className="form-group">
-            <label>Genome</label>
-            <select className="form-control"
-              name="genome"
-              value={this.props.genome}
-              onChange={this.props.handleInputChange}>
-              <option value="hg38">hg38</option>
-              <option value="hg19">hg19</option>
-            </select>
+        {/* genome */}
+        <div className="form-group">
+          <label>Genome</label>
+          <select className="form-control"
+            name="genome"
+            value={this.props.genome}
+            onChange={this.props.handleInputChange}>
+            <option value="hg38">hg38</option>
+            <option value="hg19">hg19</option>
+          </select>
+        </div>
+        {/* sex */}
+        <div className="form-group">
+          <label>Genome</label>
+          <select className="form-control"
+            name="sex"
+            value={this.props.sex}
+            onChange={this.props.handleInputChange}>
+            <option value="XX">XX</option>
+            <option value="XY">XY</option>
+          </select>
+        </div>
+        {/* gene name/symbol */}
+        <label>Gene symbol</label>
+        <div className="input-group mb-3">
+          <input type="text" className="form-control" name="gene_name" value={this.props.gene_name} onChange={this.props.handleInputChange} />
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button" onClick={this.getTranscripts}>Get Transcripts</button>
           </div>
-          {/* sex */}
-          <div className="form-group">
-            <label>Genome</label>
-            <select className="form-control"
-              name="sex"
-              value={this.props.sex}
-              onChange={this.props.handleInputChange}>
-              <option value="XX">XX</option>
-              <option value="XY">XY</option>
-            </select>
-          </div>
-          {/* gene name/symbol */}
-          <label>Gene symbol</label>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" name="gene_name" value={this.props.gene_name} onChange={this.props.handleInputChange} />
-            <div className="input-group-append">
-              <button className="btn btn-outline-secondary" type="button" onClick={this.getTranscripts}>Get Transcripts</button>
-            </div>
-          </div>
-          {/* gene/name errors */}
-          {this.state.no_transcript ? 
+        </div>
+        {/* gene/name errors */}
+        {this.state.no_transcript ?
           <div className="alert alert-danger" role="alert">No transcripts found by the requested name.</div> : null
-          }
-          {/* transcript list */}
-          <div className="form-group">
-            <label>Transcript</label>
-            <select className="form-control"
-              name="gene_uid"
-              value={this.props.gene_uid}
-              onChange={this.props.handleInputChange}
-              size="5">
-              <option key="0" value=""></option>
-              {this.state.transcript_list.map((item, index) => (
-                <option key={item.qualifiers.uid} value={item.qualifiers.uid} chrom={item.chrom}> {item.qualifiers.name} </option>
-              ))}
-            </select>
-          </div>
-          <GeneralErrors 
-            transcript_select={this.state.transcript_select}
-            transcript_sex={this.state.transcript_sex}
-          />
-          <NavButtons 
-          next={this.customNext} 
-          back={this.props.back} 
+        }
+        {/* transcript list */}
+        <div className="form-group">
+          <label>Transcript</label>
+          <select className="form-control"
+            name="gene_uid"
+            value={this.props.gene_uid}
+            onChange={this.props.handleInputChange}
+            size="5">
+            <option key="0" value=""></option>
+            {this.state.transcript_list.length>0? (this.state.transcript_list.map((item, index) => (
+              <option key={item.qualifiers.uid} value={item.qualifiers.uid} chrom={item.chrom}> {item.qualifiers.name} </option>
+            ))): null}
+          </select>
+        </div>
+        <GeneralErrors
+          transcript_select={this.state.transcript_select}
+          transcript_sex={this.state.transcript_sex}
+        />
+        <NavButtons
+          next={this.customNext}
+          back={this.props.back}
           page={this.props.page} />
-        </React.Fragment>
+      </React.Fragment>
     );
   }
 
