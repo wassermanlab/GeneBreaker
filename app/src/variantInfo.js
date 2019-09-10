@@ -30,15 +30,24 @@ class VariantInfo extends React.Component {
     };
 
     this.customNext = this.customNext.bind(this);
+    this.customSubmit = this.customSubmit.bind(this);
 
   }
-
-  checkErrors() {
+  
+  get_errors() {
     let errors = {}
+    let start_error = false;
+    if ( !((parseInt(this.props.start) >= 1 ) || (this.props.start === "ANY"))) {
+      start_error = true;
+    }
+
     for (var val of ["region", "zygosity", "type"]) { // checks that region zygosity and type are filled
       if (this.props[val] === "") {
         errors["no_" + val] = "no " + val + " selected."
       }
+    }
+    if (this.props.zygosity !== "heterozygous") { // check custom region
+      errors["zygosity_error"] = "cannot create a second variant unless the first variant is heterozygous."
     }
     if (this.props.region === "CUSTOM") { // check custom region
       if (parseInt(this.props.customStart) >= parseInt(this.props.customEnd)) {
@@ -68,7 +77,7 @@ class VariantInfo extends React.Component {
         }
         break;
       case "indel":
-        if (parseInt(this.props.start) < 1) {
+        if (start_error) {
           errors["indel_start"] = "must pick valid start of indel."
         }
         if (parseInt(this.props.length) > 200 || parseInt(this.props.length) < -200 || parseInt(this.props.length) === 0) {
@@ -76,12 +85,12 @@ class VariantInfo extends React.Component {
         }
         break;
       case "mei":
-        if (parseInt(this.props.start) < 1) {
+        if (start_error) {
           errors["mei_start"] = "must pick valid start for mei."
         }
         break;
       case "snv":
-        if (parseInt(this.props.start) < 1) {
+        if (start_error) {
           errors["snv_start"] = "must pick valid start for snv."
         }
         if (this.props.snv_type === "") {
@@ -89,7 +98,7 @@ class VariantInfo extends React.Component {
         }
         break;
       case "str":
-        if (parseInt(this.props.start) < 1) {
+        if (start_error) {
           errors["str_start"] = "must pick valid start for str."
         }
         if (this.props.length === 0) {
@@ -99,14 +108,27 @@ class VariantInfo extends React.Component {
       default:
         break;
     }
-    this.setState({ errors: errors })
+    return errors;
   }
+
   // error check for the whole page!
   customNext() {
-    this.checkErrors()
-    if (this.state.errors === {}) {
-      this.props.next()
-    }
+    const errors = this.get_errors()
+    this.setState({ errors: errors }, () => {
+      if (Object.entries(this.state.errors).length === 0) {
+        this.props.next()
+      }
+    })
+  }
+
+  // error check for the whole page!
+  customSubmit() {
+    const errors = this.get_errors()
+    this.setState({ errors: errors }, () => {
+      if (Object.entries(this.state.errors).length === 0) {
+        this.props.submit()
+      }
+    })
   }
 
   render() {
@@ -120,7 +142,6 @@ class VariantInfo extends React.Component {
     if (this.props.page === 3 && this.props.var === 1) {
       return null;
     }
-
     return (
       // {/* general: genome, sex, gene_uid, chr, transcript */}
       <React.Fragment>
@@ -241,6 +262,7 @@ class VariantInfo extends React.Component {
         <NavButtons
           next={this.customNext}
           back={this.props.back}
+          submit={this.props.submit}
           page={this.props.page} />
       </React.Fragment>
     );

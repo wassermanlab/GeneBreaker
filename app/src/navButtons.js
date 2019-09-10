@@ -2,18 +2,20 @@ import React from 'react';
 
 function NavButtons(props) {
   if (props.page === 1) {
-    return (<div><button type="button" className="btn btn-primary float-right" onClick={props.next}>Next</button></div>)
+    return (<div><button type="button" className="btn btn-primary float-right" onClick={props.next}>Variant 1</button></div>)
   }
   else if (props.page === 2) {
     return (
       <div>
-        <button type="button" className="btn btn-primary float-right" onClick={props.next}>Next</button>
-        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> </div>)
+        <button type="button" className="btn btn-primary float-right" onClick={props.submit}>Finish Design</button>
+        <button type="button" className="btn btn-primary float-right" onClick={props.next}>Variant 2</button>
+        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Variant 1</button> </div>)
   }
   else if (props.page === 3) {
     return (
       <div>
-        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> </div>)
+        <button type="button" className="btn btn-primary float-right" onClick={props.submit}>Finish Design</button>
+        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Variant 1</button> </div>)
   }
   return null;
 }

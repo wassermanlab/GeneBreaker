@@ -58,7 +58,7 @@ function Str(props) {
       </div>
       <label>Repeat difference length</label>
       <div className="input-group" >
-        <input type="text" className="form-control" value={props.length} name={"var" + props.var + "_length"} />
+        <input type="text" className="form-control" value={props.length} name={"var" + props.var + "_length"} onChange={props.handleInputChange}/>
       </div>
       <small className="form-text text-muted">
         Positive integers represent the number of additional repeats, negative integers represent the number of retractions.
