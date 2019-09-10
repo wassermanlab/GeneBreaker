@@ -8,6 +8,7 @@ import Mei from './variant_components/mei'
 import Snv from './variant_components/snv'
 import Str from './variant_components/str'
 import Zygosity from './variant_components/zygosity'
+import SelectComp from './selectComp'
 
 // todo: move to separate component 
 function VariantErrors(props) {
@@ -116,20 +117,18 @@ class VariantInfo extends React.Component {
       // {/* general: genome, sex, gene_uid, chr, transcript */}
       <React.Fragment>
         {/* region */}
-        <div className="form-group">
-          <label>Region</label>
-          <select className="form-control"
-            name={"var" + this.props.var + "_region"}
-            value={this.props.region}
-            onChange={this.props.handleInputChange}>
-            <option value="">Select</option>
-            <option value="CODING">Coding</option>
-            <option value="GENIC">Genic</option>
-            <option value="UTR">UTR</option>
-            <option value="INTRONIC">Intronic</option>
-            <option value="CUSTOM">Custom</option>
-          </select>
-        </div>
+        <SelectComp
+           title={"Region"}
+           name={"var" + this.props.var + "_region"}
+           value={this.props.region}
+           onChange={this.props.handleInputChange}
+           options={[{value: "", text: "Select"},
+           {value: "CODING", text: "Coding"},
+           {value: "GENIC", text: "Genic"},
+           {value: "UTR", text: "Untranslated Region"},
+           {value: "INTRONIC", text: "Intronic"},
+           {value: "CUSTOM", text: "Custom"}]}
+           />
         {/* customRegion */}
         {this.props.region === "CUSTOM" ?
           <div>
@@ -147,22 +146,20 @@ class VariantInfo extends React.Component {
           </div>
           : null}
         {/* type */}
-        <div className="form-group">
-          <label>Type</label>
-          <select className="form-control"
-            name={"var" + this.props.var + "_type"}
-            value={this.props.type}
-            onChange={this.props.handleInputChange}>
-            <option value="">Select</option>
-            <option value="clinvar">ClinVar Variant</option>
-            <option value="clingen">Clingen Copy Number Variant</option>
-            <option value="cnv">Copy Number Variant</option>
-            <option value="indel">Indel</option>
-            <option value="mei">Mobile Element Insertion</option>
-            <option value="snv">Single Nucleotide Variant</option>
-            <option value="str">Short Tandem Repeat</option>
-          </select>
-        </div>
+        <SelectComp
+          title={"Type"}
+          name={"var" + this.props.var + "_type"}
+          value={this.props.type}
+          onChange={this.props.handleInputChange}
+          options={[{ value: "", text: "Select" },
+          { value: "clinvar", text: "ClinVar Variant" },
+          { value: "clingen", text: "Clingen Copy Number Variant" },
+          { value: "cnv", text: "Copy Number Variant" },
+          { value: "indel", text: "Indel" },
+          { value: "mei", text: "Mobile Element Insertion" },
+          { value: "snv", text: "Single Nucleotide Variant" },
+          { value: "str", text: "Short Tandem Repeat" }]}
+        />
         {/* impact */}
         <Clinvar
           type={this.props.type}

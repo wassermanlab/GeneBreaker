@@ -1,4 +1,5 @@
 import React from 'react';
+import SelectComp from '../selectComp'
 
 function Snv(props) {
     //start, type
@@ -13,24 +14,22 @@ function Snv(props) {
         onChange={props.handleInputChange} />
       <small className="form-text text-muted">input the start position of your variant or "ANY" if you want it anywhere within the region.
       </small>
-      <div className="form-group">
-        <label>SNV impact</label>
-        <select className="form-control"
+      <SelectComp
+          title={"SNV Impact"}
           name={"var" + props.var + "_snv_type"}
           value={props.snv_type}
-          onChange={props.handleInputChange}>
-          <option value="">Select</option>
-          <option value="stoploss">Stop Loss</option>
-          <option value="missense">Missense</option>
-          <option value="nonsense">Nonsense</option>
-          <option value="synonymous">Synonymous</option>
-          <option value="A">A</option>
-          <option value="T">T</option>
-          <option value="G">G</option>
-          <option value="C">C</option>
-          <option value="ANY">ANY</option>
-        </select>
-      </div>
+          onChange={props.handleInputChange}
+          options={[{value: "", text: "Select"},
+          {value: "stoploss", text: "Stoploss"},
+          {value: "missense", text: "Missense"},
+          {value: "nonsense", text: "Nonsense"},
+          {value: "synonymous", text: "Synonymous"},
+          {value: "A", text: "A"},
+          {value: "T", text: "T"},
+          {value: "G", text: "G"},
+          {value: "C", text: "C"},
+          {value: "any", text: "Any"}]}
+          />
     </React.Fragment>)
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import NavButtons from './navButtons'
+import SelectComp from './selectComp'
 
 // todo: move to separate component 
 function GeneralErrors(props) {
@@ -31,12 +32,12 @@ class GeneralInfo extends React.Component {
   }
 
   async getTranscripts(event) {
-      const response = await fetch('http://127.0.0.1:5001/get_transcripts/' + this.props.genome + '/' + this.props.gene_name);
-      const json = await response.json();
-      if(!json) {
-        this.setState({no_transcript: true, transcript_list:[]})
-      }
-      this.setState({no_transcript: false, transcript_list:json})
+    const response = await fetch('http://127.0.0.1:5001/get_transcripts/' + this.props.genome + '/' + this.props.gene_name);
+    const json = await response.json();
+    if (!json) {
+      this.setState({ no_transcript: true, transcript_list: [] })
+    }
+    this.setState({ no_transcript: false, transcript_list: json })
   }
 
   // error check for the whole page!
@@ -59,27 +60,21 @@ class GeneralInfo extends React.Component {
       // {/* general: genome, sex, gene_uid, chr, transcript */}
       <React.Fragment>
         {/* genome */}
-        <div className="form-group">
-          <label>Genome</label>
-          <select className="form-control"
-            name="genome"
-            value={this.props.genome}
-            onChange={this.props.handleInputChange}>
-            <option value="hg38">hg38</option>
-            <option value="hg19">hg19</option>
-          </select>
-        </div>
+        <SelectComp
+          title={"Genome"}
+          name={"genome"}
+          value={this.props.genome}
+          onChange={this.props.handleInputChange}
+          options={[{value: "hg38", text: "hg38"},{value: "hg19", text: "hg19"}]}
+          />
         {/* sex */}
-        <div className="form-group">
-          <label>Genome</label>
-          <select className="form-control"
-            name="sex"
-            value={this.props.sex}
-            onChange={this.props.handleInputChange}>
-            <option value="XX">XX</option>
-            <option value="XY">XY</option>
-          </select>
-        </div>
+        <SelectComp
+          title={"Sex"}
+          name={"sez"}
+          value={this.props.sex}
+          onChange={this.props.handleInputChange}
+          options={[{value: "XX", text: "XX"},{value: "XY", text: "XY"}]}
+          />
         {/* gene name/symbol */}
         <label>Gene symbol</label>
         <div className="input-group mb-3">
@@ -101,9 +96,9 @@ class GeneralInfo extends React.Component {
             onChange={this.props.handleInputChange}
             size="5">
             <option key="0" value=""></option>
-            {this.state.transcript_list.length>0? (this.state.transcript_list.map((item, index) => (
+            {this.state.transcript_list.length > 0 ? (this.state.transcript_list.map((item, index) => (
               <option key={item.qualifiers.uid} value={item.qualifiers.uid} chrom={item.chrom}> {item.qualifiers.name} </option>
-            ))): null}
+            ))) : null}
           </select>
         </div>
         <GeneralErrors
