@@ -28,7 +28,6 @@ class VFrom extends React.Component {
       var1_snv_type: "",
       var1_str_id: "",
       //var2 state
-      var2: true,
       var2_type: "",
       var2_region: "",
       var2_customStart: "",
@@ -149,17 +148,16 @@ class VFrom extends React.Component {
           element={this.state.var1_element} snv_type={this.state.var1_snv_type} str_id={this.state.var1_str_id}
         />
         {/* var2 */}
-         {/* <VariantInfo 
-          page={this.state.page} 
+        <VariantInfo 
+          page={this.state.page}
           chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} genome={this.state.genome} 
-          handleInputChange={this.handleInputChange} next={this.next}  back={this.back}
-          var={2} var2={this.state.var2}
-          type={this.state.var2_type} region={this.state.var2_region} zygosity={this.state.var2_zygosity}
-          customStart={this.state.var2_customStart} customStart={this.state.var2_customStart}
+          handleInputChange={this.handleInputChange} next={this.next} back={this.back}
+          var={2} type={this.state.var2_type} region={this.state.var2_region} zygosity={this.state.var2_zygosity}
+          customStart={this.state.var2_customStart} customEnd={this.state.var2_customEnd}
           start={this.state.var2_start} end={this.state.var2_end} length={this.state.var2_length}
-          clingen_uid={this.state.var2_clingen_uid} ge} clinvar_id={this.state.var2_clinvar_id} 
-          element={this.state.var2_element} snv_type={this.state.var2_snv_type} motif={this.state.var2_motif}
-        /> */}
+          clingen_uid={this.state.var2_clingen_uid} clinvar_id={this.state.var2_clinvar_id} 
+          element={this.state.var2_element} snv_type={this.state.var2_snv_type} str_id={this.state.var2_str_id}
+        />
       </form>
     );
   }

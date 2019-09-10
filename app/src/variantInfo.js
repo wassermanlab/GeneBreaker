@@ -33,8 +33,7 @@ class VariantInfo extends React.Component {
 
   }
 
-  // error check for the whole page!
-  customNext() {
+  checkErrors() {
     let errors = {}
     for (var val of ["region", "zygosity", "type"]) { // checks that region zygosity and type are filled
       if (this.props[val] === "") {
@@ -101,7 +100,11 @@ class VariantInfo extends React.Component {
         break;
     }
     this.setState({ errors: errors })
-    if (errors === {}) {
+  }
+  // error check for the whole page!
+  customNext() {
+    this.checkErrors()
+    if (this.state.errors === {}) {
       this.props.next()
     }
   }
@@ -111,24 +114,29 @@ class VariantInfo extends React.Component {
     if (this.props.page !== 2 && this.props.page !== 3) {
       return null;
     }
+    if (this.props.page === 2 && this.props.var === 2) {
+      return null;
+    }
+    if (this.props.page === 3 && this.props.var === 1) {
+      return null;
+    }
 
     return (
-
       // {/* general: genome, sex, gene_uid, chr, transcript */}
       <React.Fragment>
         {/* region */}
         <SelectComp
-           title={"Region"}
-           name={"var" + this.props.var + "_region"}
-           value={this.props.region}
-           onChange={this.props.handleInputChange}
-           options={[{value: "", text: "Select"},
-           {value: "CODING", text: "Coding"},
-           {value: "GENIC", text: "Genic"},
-           {value: "UTR", text: "Untranslated Region"},
-           {value: "INTRONIC", text: "Intronic"},
-           {value: "CUSTOM", text: "Custom"}]}
-           />
+          title={"Region"}
+          name={"var" + this.props.var + "_region"}
+          value={this.props.region}
+          onChange={this.props.handleInputChange}
+          options={[{ value: "", text: "Select" },
+          { value: "CODING", text: "Coding" },
+          { value: "GENIC", text: "Genic" },
+          { value: "UTR", text: "Untranslated Region" },
+          { value: "INTRONIC", text: "Intronic" },
+          { value: "CUSTOM", text: "Custom" }]}
+        />
         {/* customRegion */}
         {this.props.region === "CUSTOM" ?
           <div>
@@ -236,6 +244,7 @@ class VariantInfo extends React.Component {
           page={this.props.page} />
       </React.Fragment>
     );
+
   }
 
 
