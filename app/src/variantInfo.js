@@ -12,40 +12,20 @@ import Zygosity from './variant_components/zygosity'
 // todo: move to separate component 
 function VariantErrors(props) {
   const error = [];
-  if(props.props.type === ""){
-    error.push(<div key={"no_type"} className="alert alert-danger" role="alert">no type selected.</div>)}
-  if(props.props.region === ""){
-    error.push(<div key={"no_region"} className="alert alert-danger" role="alert">no region selected.</div>)}
-  if(props.props.zygosity === ""){
-    error.push(<div key={"no_zygosity"} className="alert alert-danger" role="alert">no zygosity selected.</div>)}
-  if(props.props.region === "CUSTOM" && parseInt(props.props.customStart) >= parseInt(props.props.customEnd)){
-    error.push(<div className="alert alert-danger" role="alert">start of custom region should be less than end.</div>)}
+  for (var key in props.errors) {
+    error.push(<div key={key} className="alert alert-danger" role="alert">{props.errors[key]}</div>)
+  }
   return error;
 }
 
 class VariantInfo extends React.Component {
   //page, chrom, sex, gene_uid, handleInputChange, next, back, genome
-  //var, var2, type, region, zygosity, clinvar_id, start, end, copy_change, length, element, snv_type, motif
+  //var, var2, type, region, zygosity, clinvar_id, start, end, length, element, snv_type, motif
 
   constructor(props) {
     super(props);
     this.state = {
-      no_region: false,
-      no_type: false,
-      no_zygosity: false, 
-      invalid_region: false, 
-      no_clinvar: false,
-      invalid_cnv: false,
-      no_cnv_start: false, 
-      no_cnv_end: false, 
-      no_cnv_copychange: false,
-      no_indel_start: false,
-      no_indel_length: false, 
-      no_mei_start: false,
-      no_snv_start: false,
-      no_snv_type: false,
-      no_str_id: false,
-      no_str_length: false,
+      errors: {},
     };
 
     this.getOptions = this.getOptions.bind(this);
@@ -53,13 +33,77 @@ class VariantInfo extends React.Component {
 
   }
 
-  getOptions(event) {
-    return null;
-  }
-
   // error check for the whole page!
   customNext() {
-    return null;
+    errors = {}
+    for (var val of ["region", "zygosity", "type"]) { // checks that region zygosity and type are filled
+      if (this.props[val] === "") {
+        errors["no_" + val] = "no " + val + " selected."
+      }
+    }
+    if (this.props.region === "CUSTOM") { // check custom region
+      if (parseInt(this.props.customStart) >= parseInt(this.props.customEnd)) {
+        errors["custom_region"] = "start of custom region must be less than end."
+      }
+    }
+    switch (this.props.type) { // check types specific stuff 
+      case cnv:
+        if (parseInt(this.props.start) >= this.props.end) {
+          errors["cnv_start_end"] = "start of cnv must be less than end."
+        }
+        if (parseInt(this.props.length) < -1 || parseInt(this.props.length) === 0) {
+          errors["cnv_copy_change"] = "copy change cannot be less than -1 or equal 0."
+        }
+        break;
+      case clingen:
+        if (parseInt(this.props.start) >= this.props.end) {
+          errors["cnv_start_end"] = "start of cnv must be less than end."
+        }
+        if (parseInt(this.props.length) < -1 || parseInt(this.props.length) === 0) {
+          errors["cnv_copy_change"] = "copy change cannot be less than -1 or equal 0."
+        }
+        break;
+      case clinvar:
+        if (this.props.clinvar_id === "") {
+          errors["no_clinvar_id"] = "clinvar variant must be selected."
+        }
+        break;
+      case indel:
+        if (parseInt(this.props.start) < 1) {
+          errors["indel_start"] = "must pick valid start of indel."
+        }
+        if (parseInt(this.props.length) > 200 || parseInt(this.props.length) < -200 || parseInt(this.props.length) == 0) {
+          errors["indel_length"] = "indel length  must be between -200 and 200 and cannot equal to 0."
+        }
+        break;
+      case mei:
+        if (parseInt(this.props.start) < 1) {
+          errors["mei_start"] = "must pick valid start for mei."
+        }
+        break;
+      case snv:
+        if (parseInt(this.props.start) < 1) {
+          errors["snv_start"] = "must pick valid start for snv."
+        }
+        if (this.props.snv_type === "") {
+          errors["snv_type"] = "must select valid snv type."
+        }
+        break;
+      case str:
+        if (parseInt(this.props.start) < 1) {
+          errors["str_start"] = "must pick valid start for str."
+        }
+        if (this.props.length === 0) {
+          errors["str_length"] = "length of str cannot equal 0"
+        }
+        break;
+      default:
+        break;
+    }
+    this.setState({ errors: errors })
+    if (errors == {}) {
+      this.props.next()
+    }
   }
 
   render() {
@@ -155,7 +199,7 @@ class VariantInfo extends React.Component {
           handleInputChange={this.props.handleInputChange}
           start={this.props.start}
           end={this.props.end}
-          copy_change={this.props.copy_change}
+          copy_change={this.props.length}
           var={this.props.var} />
         <Indel
           type={this.props.type}
@@ -188,7 +232,7 @@ class VariantInfo extends React.Component {
           </select>
         </div>
         <VariantErrors
-          props={this.state}
+          errors={this.state.errors}
         />
         <NavButtons
           next={this.props.back}
