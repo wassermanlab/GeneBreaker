@@ -13,7 +13,6 @@ from datetime import datetime
 def get_transcripts_api(genome,name):
     # TODO: remove cross origin
     response = jsonify(get_all_transcripts(name, genome))
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/get_str/<genome>/<transcript_uid>/')
@@ -46,7 +45,6 @@ def get_clingen_clinvar_str_api(genome, transcript_uid, region=None):
         else:
             res = res + get_cnvs(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
     response = jsonify(res)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/design_variants', methods=["POST"])
@@ -58,10 +56,9 @@ def design_variants():
         try: 
             now = datetime.now()
             dt_string = now.strftime("%d-%m-%Y_%H:%M:%S")
-            Variants(request.json).save_vcf_output("/tmp/simulator/"+ dt_string + ".vcf")
-            # return send_file("/tmp/simulator/"+ dt_string + ".vcf", attachment_filename=dt_string + ".vcf")
-            response = make_response(send_file("/tmp/simulator/"+ dt_string + ".vcf", attachment_filename=dt_string + ".vcf"))
-            response.headers.add('Access-Control-Allow-Origin', '*')
-            return response
+            Variants(request.json).save_vcf_output("/tmp/simulator/"+ dt_string + ".txt")
+            return send_file("/tmp/simulator/"+ dt_string + ".txt")
+
         except Exception as e:
             return BadRequest("cannot produce requested variant: " + str(e))
+

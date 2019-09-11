@@ -20,15 +20,15 @@ function Snv(props) {
           value={props.snv_type}
           onChange={props.handleInputChange}
           options={[{value: "", text: "Select"},
-          {value: "stoploss", text: "Stoploss"},
-          {value: "missense", text: "Missense"},
-          {value: "nonsense", text: "Nonsense"},
-          {value: "synonymous", text: "Synonymous"},
+          {value: "STOPLOSS", text: "Stoploss"},
+          {value: "MISSENSE", text: "Missense"},
+          {value: "NONSENSE", text: "Nonsense"},
+          {value: "SYNONYMOUS", text: "Synonymous"},
           {value: "A", text: "A"},
           {value: "T", text: "T"},
           {value: "G", text: "G"},
           {value: "C", text: "C"},
-          {value: "any", text: "Any"}]}
+          {value: "ANY", text: "Any"}]}
           />
     </React.Fragment>)
   }

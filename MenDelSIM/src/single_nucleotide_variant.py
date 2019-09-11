@@ -113,7 +113,8 @@ class SingleNucleotideVariant(Variant):
         shift_pos = pos - self.transcript.get_start()
         ref = self.transcript.get_seq()[shift_pos]
         if self.snv_type == "ANY":  # user has requested random base change
-            choices = ['A', 'T', 'G', 'C'].remove(ref.upper())
+            choices = ['A', 'T', 'G', 'C']
+            choices.remove(ref.upper())
             alt = random.choice(choices)
         else:  # user has requested specific base change
             alt = self.snv_type

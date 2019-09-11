@@ -1,6 +1,7 @@
 import React from 'react';
 import GeneralInfo from './generalInfo'
 import VariantInfo from './variantInfo'
+import { saveAs } from 'file-saver';
 
 class VFrom extends React.Component {
   constructor(props) {
@@ -49,7 +50,6 @@ class VFrom extends React.Component {
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
   }
-
   get_region(variant) {
     if (this.state["var" + variant + "_region"] === "CUSTOM") {
       return this.state.chrom + ":" + this.state["var" + variant + "_customStart"] + "-" + this.state["var" + variant + "_customEnd"];
@@ -61,42 +61,40 @@ class VFrom extends React.Component {
     let impact = {}
     switch (this.state["var" + variant + "_type"]) {
       case "clinvar":
-        impact.CLINVAR_ID = this.state["var" + variant + "_clinvar_id"]
+        impact.CLINVAR_ID = parseInt(this.state["var" + variant + "_clinvar_id"])
         break
       case "clingen":
-        impact.START = this.state["var" + variant + "_start"]
-        impact.END = this.state["var" + variant + "_end"]
-        impact.COPY_CHANGE = this.state["var" + variant + "_length"]
+        impact.START = parseInt(this.state["var" + variant + "_start"])
+        impact.END = parseInt(this.state["var" + variant + "_end"])
+        impact.COPY_CHANGE = parseInt(this.state["var" + variant + "_length"])
         break
       case "cnv":
         break
       case "indel":
-        impact.START = this.state["var" + variant + "_start"]
-        impact.INDEL_AMOUNT = this.state["var" + variant + "_clinvar_id"]
+        impact.START = (this.state["var" + variant + "_start"] === "ANY") ? "ANY" : parseInt(this.state["var" + variant + "_start"])
+        impact.INDEL_AMOUNT = parseInt(this.state["var" + variant + "_clinvar_id"])
         break
       case "mei":
-        impact.START = this.state["var" + variant + "_start"]
+        impact.START = (this.state["var" + variant + "_start"] === "ANY") ? "ANY" : parseInt(this.state["var" + variant + "_start"])
         impact.ELEMENT = this.state["var" + variant + "_element"]
         break
       case "snv":
-        impact.START = this.state["var" + variant + "_start"]
+        impact.START = (this.state["var" + variant + "_start"] === "ANY") ? "ANY" : parseInt(this.state["var" + variant + "_start"])
         impact.SNV_TYPE = this.state["var" + variant + "_snv_type"]
         break
       case "str":
-        impact.STR_ID = this.state["var" + variant + "_str_id"]
-        impact.LENGTH = this.state["var" + variant + "_length"]
+        impact.STR_ID = parseInt(this.state["var" + variant + "_str_id"])
+        impact.LENGTH = parseInt(this.state["var" + variant + "_length"])
         break
       default:
         break
     }
     return impact;
   }
-
-  // sets page to page+1
-  submit() {
+  async submit() {
 
     let config = {
-      GENE_UID: this.state.gene_uid,
+      GENE_UID: parseInt(this.state.gene_uid),
       GENOME: this.state.genome,
       SEX: this.state.sex,
       VAR1: {
@@ -113,16 +111,19 @@ class VFrom extends React.Component {
       }
     }
     if (!this.state.var2) {
-      config["VAR2"] = "NONE"
+      config["VAR2"] = "None"
     }
-
     console.log(JSON.stringify(config))
-    fetch('http://127.0.0.1:5001/design_variants', {
+    const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
       method: 'POST',
-      body: JSON.stringify(config)
-    })
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(config),
+    });
+    const content = await rawResponse.blob();
+    saveAs(content, 'test.vcf');
   }
-
   // sets page to page+1
   next() {
     let currentPage = this.state.page;
@@ -135,7 +136,6 @@ class VFrom extends React.Component {
     }
     this.setState({ page: currentPage });
   }
-
   // sets page to page-1
   back() {
     let currentPage = this.state.page;
@@ -149,7 +149,6 @@ class VFrom extends React.Component {
     }
     this.setState({ page: currentPage });
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -204,7 +203,6 @@ class VFrom extends React.Component {
     },
       () => console.log(this.state));
   }
-
   render() {
     return (
       <form>
