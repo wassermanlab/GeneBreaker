@@ -11,11 +11,11 @@ class ShortTandemRepeat(Variant):
         Variant.__init__(self, var_template, transcript)
         self.chrom = self.transcript.get_chr()
         # get STR
-        get_str(self.transcript.get_genome(), uid)
-        self.start = self.impact["START"]
-        self.end = self.impact["END"]
+        STR = get_str(self.transcript.get_genome(), str(self.impact["STR_ID"]))
+        self.start = STR["start"]
+        self.end = STR["end"]
         self.length = self.impact["LENGTH"]
-        self.motif = self.impact["MOTIF"]
+        self.motif = STR["qualifiers"]["motif"]
         self.check_str()
     
     
@@ -71,7 +71,7 @@ class ShortTandemRepeat(Variant):
             var_dict = self.get_expantion()
         if self.length < 0:  # deletion
             var_dict = self.get_retraction()
-        chrom = transcript.get_chrom()
+        chrom = self.transcript.get_chr()
         pos = str(var_dict["pos"] + 1)  # add 1 to make 1 based
         ref = str(var_dict["ref"])
         alt = str(var_dict["alt"])
