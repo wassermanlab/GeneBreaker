@@ -30,7 +30,7 @@ def get_all_transcripts(gene_name, genome):
 
 def get_str(genome, uid):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/short_tandem_repeats?uids=' + uid
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?uids=' + str(uid)
     res = get_all_results(url)
     if res != False: 
         return res[0]
@@ -46,7 +46,7 @@ def get_strs(start, end, chrom, genome, location):
 
 def get_clinvar(genome, uid):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/clinvar?uids=' + uid
+    url = host + '/api/v1/' + genome + '/clinvar?uids=' + str(uid)
     res = get_all_results(url)
     if res != False: 
         return res[0]

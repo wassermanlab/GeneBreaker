@@ -96,9 +96,9 @@ class Variant:
 
     def check_type(self) -> bool:
         """checks type"""
-        if self.type not in ['SNV', 'INDEL', 'CNV', 'MEI', 'STR', 'ClinVar']:
+        if self.type not in ['SNV', 'INDEL', 'CNV', 'MEI', 'STR', 'CLINVAR']:
             raise ValueError(
-                'TYPE not one of the recognized types: SNV, INDEL, CNV, MEI, STR, ClinVar')
+                'TYPE not one of the recognized types: SNV, INDEL, CNV, MEI, STR, CLINVAR')
         return True
 
     def check_zygosity(self):

@@ -113,12 +113,6 @@ class VFrom extends React.Component {
         ZYGOSITY: this.state.var2_zygosity.toUpperCase()
       }
     }
-    if (config.VAR1.TYPE === "CLINGEN") {
-      config.VAR1.TYPE = "CNV"
-    }
-    if (config.VAR2.TYPE === "CLINGEN") {
-      config.VAR1.TYPE = "CNV"
-    }
     if (!this.state.var2) {
       config["VAR2"] = "None"
     }

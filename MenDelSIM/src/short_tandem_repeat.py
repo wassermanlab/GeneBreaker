@@ -11,13 +11,12 @@ class ShortTandemRepeat(Variant):
         Variant.__init__(self, var_template, transcript)
         self.chrom = self.transcript.get_chr()
         # get STR
-        STR = get_str(self.transcript.get_genome(), str(self.impact["STR_ID"]))
+        STR = get_str(self.transcript.get_genome(), self.impact["STR_ID"])
         self.start = STR["start"]
         self.end = STR["end"]
         self.length = self.impact["LENGTH"]
         self.motif = STR["qualifiers"]["motif"]
         self.check_str()
-    
     
     def check_str(self):
         if self.type != "STR":

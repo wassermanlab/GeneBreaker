@@ -1,13 +1,33 @@
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"SNV","REGION":"CODING","IMPACT":{"START":"ANY","SNV_TYPE":"missense"},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"STR","REGION":"GENIC","IMPACT":{"STR_ID":"773827","LENGTH":"9"},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"MEI","REGION":"GENIC","IMPACT":{"START":"ANY","ELEMENT":"alu"},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"INDEL","REGION":"GENIC","IMPACT":{"START":"ANY","INDEL_AMOUNT":""},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"CNV","REGION":"chr17:1-10000","IMPACT":{},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"CLINGEN","REGION":"GENIC","IMPACT":{"START":"150734","END":"83084062","COPY_CHANGE":"1"},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
-
-{"GENE_UID":"69540","GENOME":"hg38","SEX":"XX","VAR1":{"TYPE":"CLINVAR","REGION":"GENIC","IMPACT":{"CLINVAR_ID":"450255"},"ZYGOSITY":"HOMOZYGOUS"},"VAR2":"NONE"}
+// 'SingleNucleotideVariant' object has no attribute 'get_requested_region'
+{
+    "GENE_UID": 69540,
+    "GENOME": "hg38",
+    "SEX": "XX",
+    "VAR1": {
+        "TYPE": "SNV",
+        "REGION": "CODING",
+        "IMPACT": {
+            "START": "ANY",
+            "SNV_TYPE": "ANY"
+        },
+        "ZYGOSITY": "HOMOZYGOUS"
+    },
+    "VAR2": "None"
+}
+// Copy change cannot be less than -1 or equal to 1 or 0. => fix just to take in copy change of 1 
+{
+    "GENE_UID": 69540,
+    "GENOME": "hg38",
+    "SEX": "XX",
+    "VAR1": {
+        "TYPE": "CNV",
+        "REGION": "CODING",
+        "IMPACT": {
+            "START": 150734,
+            "END": 83084062,
+            "COPY_CHANGE": 1
+        },
+        "ZYGOSITY": "HOMOZYGOUS"
+    },
+    "VAR2": "None"
+}

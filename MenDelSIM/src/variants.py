@@ -45,9 +45,11 @@ class Variants:
             variant = ShortTandemRepeat(var, transcript)
         elif var_type == "MEI":
             variant = MEI(var, transcript)
-        elif var_type == "ClinVar":
+        elif var_type == "CLINVAR":
             variant = ClinVar(var, transcript)
         elif var_type == "CNV":
+            variant = CopyNumberVariant(var, transcript)
+        elif var_type == "CLINGEN":
             variant = CopyNumberVariant(var, transcript)
         else:
             variant = Variant(var, transcript)

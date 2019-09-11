@@ -1,6 +1,7 @@
 from MenDelSIM.src.variant import Variant
 from MenDelSIM.src.transcript import Transcript
 import random
+from MenDelSIM.src.api_helper import *
 
 
 ## TODO: remove ref and alt from here
@@ -8,12 +9,13 @@ class ClinVar(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template: dict, transcript:Transcript):
         Variant.__init__(self, var_template, transcript)
-        self.id = self.impact["clinvar_id"]
-        self.start = self.impact["START"] - 1
-        self.ref = self.impact["REF"]
-        self.alt = self.impact["ALT"]
-        if self.type != "ClinVar":
-            raise ValueError("type must be ClinVar")
+        self.id = self.impact["CLINVAR_ID"]
+        clinvar = get_clinvar(self.transcript.get_genome(), self.id)
+        self.start = clinvar['start']
+        self.ref = clinvar['qualifiers']['ref']
+        self.alt = clinvar['qualifiers']['alt']
+        if self.type != "CLINVAR":
+            raise ValueError("type must be CLINVAR")
         if (len(self.ref) > 1):
             self.check_location(self, self.start, self.start + len(self.ref))
         elif (len(self.ref) == 1):
