@@ -28,9 +28,9 @@ def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
     return get_all_results(url)
 
-def get_str(start, end, chrom, genome):
+def get_str(genome, uid):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/short_tandem_repeats?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=exact'
+    url = host + '/api/v1/' + genome + '/short_tandem_repeats?uids=' + uid
     res = get_all_results(url)
     if res != False: 
         return res[0]
@@ -42,6 +42,14 @@ def get_strs(start, end, chrom, genome, location):
     res = get_all_results(url)
     if res != False:
         return res
+    return []
+
+def get_clinvar(genome, uid):
+    #takes in 1 based
+    url = host + '/api/v1/' + genome + '/clinvar?uids=' + uid
+    res = get_all_results(url)
+    if res != False: 
+        return res[0]
     return []
 
 def get_clinvars(start, end, chrom, genome, location):
@@ -75,9 +83,3 @@ def get_chromosome(chr, genome):
         if i["chrom"] == chr:
             return i
     return False
-
-# print(get_chromosome("chr3", "hg19"))
-# t = get_transcript("69540","hg38")
-# print(t)        
-# print(len(get_all_genenames("hg38")))
-# print(len(get_all_results("http://127.0.0.1:5000/api/v1/hg38/chroms")))

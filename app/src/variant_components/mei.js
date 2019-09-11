@@ -20,9 +20,9 @@ function Mei(props) {
           value={props.element}
           onChange={props.handleInputChange}>
           <option value="">Select</option>
-          <option value="alu">ALU</option>
-          <option value="line">LINE</option>
-          <option value="sva">SVA</option>
+          <option value="ALU">ALU</option>
+          <option value="LINE">LINE</option>
+          <option value="SVA">SVA</option>
         </select>
       </div>
     </React.Fragment>)

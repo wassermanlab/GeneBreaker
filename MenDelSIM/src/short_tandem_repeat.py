@@ -10,6 +10,8 @@ class ShortTandemRepeat(Variant):
     def __init__(self, var_template, transcript: Transcript):
         Variant.__init__(self, var_template, transcript)
         self.chrom = self.transcript.get_chr()
+        # get STR
+        get_str(self.transcript.get_genome(), uid)
         self.start = self.impact["START"]
         self.end = self.impact["END"]
         self.length = self.impact["LENGTH"]

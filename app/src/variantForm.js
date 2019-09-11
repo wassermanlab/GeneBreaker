@@ -69,10 +69,13 @@ class VFrom extends React.Component {
         impact.COPY_CHANGE = parseInt(this.state["var" + variant + "_length"])
         break
       case "cnv":
+        impact.START = parseInt(this.state["var" + variant + "_start"])
+        impact.END = parseInt(this.state["var" + variant + "_end"])
+        impact.COPY_CHANGE = parseInt(this.state["var" + variant + "_length"])
         break
       case "indel":
         impact.START = (this.state["var" + variant + "_start"] === "ANY") ? "ANY" : parseInt(this.state["var" + variant + "_start"])
-        impact.INDEL_AMOUNT = parseInt(this.state["var" + variant + "_clinvar_id"])
+        impact.INDEL_AMOUNT = parseInt(this.state["var" + variant + "_length"])
         break
       case "mei":
         impact.START = (this.state["var" + variant + "_start"] === "ANY") ? "ANY" : parseInt(this.state["var" + variant + "_start"])
@@ -110,9 +113,16 @@ class VFrom extends React.Component {
         ZYGOSITY: this.state.var2_zygosity.toUpperCase()
       }
     }
+    if (config.VAR1.TYPE === "CLINGEN") {
+      config.VAR1.TYPE = "CNV"
+    }
+    if (config.VAR2.TYPE === "CLINGEN") {
+      config.VAR1.TYPE = "CNV"
+    }
     if (!this.state.var2) {
       config["VAR2"] = "None"
     }
+    
     console.log(JSON.stringify(config))
     const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
       method: 'POST',
@@ -228,7 +238,7 @@ class VFrom extends React.Component {
           var={1} type={this.state.var1_type} region={this.state.var1_region} zygosity={this.state.var1_zygosity}
           customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
-          clingen_uid={this.state.var1_clingen_uid} clinvar_id={this.state.var1_clinvar_id}
+          clingen_uid={this.state.var1_clingen_uid} clinvar_id={this.state.var1_clinvar_id} 
           element={this.state.var1_element} snv_type={this.state.var1_snv_type} str_id={this.state.var1_str_id}
         />
         {/* var2 */}

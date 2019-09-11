@@ -19,11 +19,11 @@ function CNV(props) {
           onChange={props.handleInputChange} />
         <label>Copy Change</label>
         <input type="number" className="form-control" min="-1"
-          name={"var" + props.var + "_copy_change"}
+          name={"var" + props.var + "_length"}
           value={props.copy_change}
           onChange={props.handleInputChange} />
         <small className="form-text text-muted">
-          input an integer copy number change where -1 is a deletion and positive numbers greater than 1 indicated multiplications.
+          input an integer copy number change where -1 is a deletion and positive numbers are additions.
         </small>
       </React.Fragment>
     )
