@@ -156,7 +156,7 @@ class SingleNucleotideVariant(Variant):
     def get_random_coding_SNV(self):
         """ get coding SNV, returns  dict{pos, ref, alt}"""
         # get available positions # get requested region
-        region_range = self.get_requested_region()
+        region_range = self.get_region_range()
         # while loop randomly choosing positions in the available
         alt = False
         while len(region_range) > 0:

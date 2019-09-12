@@ -44,15 +44,20 @@ class Variant:
                 for i in region_map["INTRONIC"]:
                     if start >= i[0] and end <= i[1]:
                         passing = True
+            else:
+                i = self.parse_region()
+                if start >= i[1][0] and end <= i[1][1]:
+                    passing = True
+
         if not passing:
             raise ValueError("invalid position.")
 
     def parse_region(self) -> dict:
         """sets self.region to {chrom: ___, start: ___, stop: ___}"""
-        chrom = var_region.split(":")[0]
-        start = int(var_region.split(":")[1].split(
+        chrom = self.region.split(":")[0]
+        start = int(self.region.split(":")[1].split(
             "-")[0]) - 1  # making 0 based
-        end = int(var_region.split(":")[1].split("-")[1])
+        end = int(self.region.split(":")[1].split("-")[1])
         if start >= end:
             raise ValueError("start is greater than end in custom position")
         if start < 0:
@@ -60,7 +65,7 @@ class Variant:
         if end > get_chromosome(self.transcript.chrom, self.transcript.genome)["size"]:
             raise ValueError(
                 "invalid end position, greater than chromosome length")
-        if chrom != transcript.chrom:
+        if chrom != self.transcript.chrom:
             raise ValueError(
                 "custom location is not on the same chromosome as the transcript")
         return (chrom, (start, end))
