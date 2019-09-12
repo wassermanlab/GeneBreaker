@@ -93,7 +93,7 @@ class Indel(Variant):
                 "ref": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()),
                 "alt": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()) + self.get_insertion_str(self.indel_amount)}
 
-    def get_vcf_row(self) -> str:
+    def get_vcf_row(self) -> dict:
         chrom = str(self.transcript.get_chr())
         if self.indel_amount > 0:  # insersion
             var_dict = self.get_insertion()
@@ -109,4 +109,14 @@ class Indel(Variant):
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

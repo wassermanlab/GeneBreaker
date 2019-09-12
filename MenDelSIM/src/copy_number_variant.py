@@ -18,31 +18,34 @@ class CopyNumberVariant(Variant):
         if self.type != "CNV":
             raise ValueError("Must be CNV type")
         if self.copy_change == 0 or self.copy_change < -1:
-            raise ValueError("Copy change cannot be less than -1 or equal to  0.")
+            raise ValueError(
+                "Copy change cannot be less than -1 or equal to  0.")
         if type(self.start) != int or type(self.end) != int:
             raise ValueError("start and end must be int.")
         self.start = self.start-1
-        if self.copy_change < 0: 
+        if self.copy_change < 0:
             self.check_location(self.start, self.end)
         else:
             end = self.end + (self.end - self.start)*self.copy_change
-            self.check_location(self.start, end) 
+            self.check_location(self.start, end)
         if (self.end - self.start) < 50:
-            raise ValueError("cnvs must be at least 50 bp long") 
-            
+            raise ValueError("cnvs must be at least 50 bp long")
+
     def get_anchor_position(self) -> str:
         """Retrieve a DNA sequence from UCSC.
         Note: UCSC assumes 1 based indexing so we add a 1"""
         # Initialize
-        seq = self.get_seq(self.chrom, (self.start-1), self.start, self.transcript.get_genome())
+        seq = self.get_seq(self.chrom, (self.start-1),
+                           self.start, self.transcript.get_genome())
         return seq.upper()
 
     def get_region_seq(self) -> str:
         # Get sequence
-        seq = self.get_seq(self.chrom, self.start, self.end, self.transcript.get_genome())
+        seq = self.get_seq(self.chrom, self.start, self.end,
+                           self.transcript.get_genome())
         return seq.upper()
 
-    def get_vcf_row(self, format: str = "simple") -> str:
+    def get_vcf_row(self, format: str = "simple") -> dict:
         # get regions
         chrom = self.chrom
         pos = str(self.start + 1)  # add 1 to make 1 based
@@ -65,7 +68,7 @@ class CopyNumberVariant(Variant):
         #         end = str(int(pos) + distance*self.copy_change)
         #         info = "SVTYPE=DUP;END=" + end + \
         #             ";SVLEN=-"+str(distance*self.copy_change)
-        #     else:  # deletion   
+        #     else:  # deletion
         #         alt = "<DEL>"
         #         info = "SVTYPE=DEL;END=" + end + ";SVLEN=-"+str(distance)
         ID = "_".join(["cnv", pos, str(self.copy_change)])
@@ -76,4 +79,14 @@ class CopyNumberVariant(Variant):
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"
 
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", info, "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": info,
+            "format": "GT",
+            "proband": zygosity}

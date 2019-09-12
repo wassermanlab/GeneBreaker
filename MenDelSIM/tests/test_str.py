@@ -4,17 +4,17 @@ from MenDelSIM.src.short_tandem_repeat import ShortTandemRepeat
 from MenDelSIM.src.transcript import Transcript
 from MenDelSIM.src.api_helper import *
 
+
 class STRBasicTests(unittest.TestCase):
     WASH7P_uid = get_all_transcripts("WASH7P", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(WASH7P_uid, "hg38")
     # test 1
+
     def test_correct_motif(self):
         STR = {
             "IMPACT": {
-                "END": 16631,
-                "START": 16620,
-                "LENGTH": 2, 
-                "MOTIF": "GCT"
+                "STR_ID": 9,
+                "LENGTH": 2,
             },
             "REGION": "UTR",
             "TYPE": "STR",
@@ -24,10 +24,8 @@ class STRBasicTests(unittest.TestCase):
     def test_retraction_too_large(self):
         STR = {
             "IMPACT": {
-                "END": 16631,
-                "START": 16620,
-                "LENGTH": -50, 
-                "MOTIF": "GCT"
+                "STR_ID": 9,
+                "LENGTH": -50,
             },
             "REGION": "GENIC",
             "TYPE": "STR",
@@ -42,10 +40,8 @@ class STRBasicTests(unittest.TestCase):
     def test_retraction_works(self):
         STR = {
             "IMPACT": {
-                "END": 16631,
-                "START": 16620,
-                "LENGTH": -2, 
-                "MOTIF": "GCT"
+                "STR_ID": 9,
+                "LENGTH": -2,
             },
             "REGION": "UTR",
             "TYPE": "STR",
@@ -59,10 +55,8 @@ class STRBasicTests(unittest.TestCase):
     def test_insertion_too_large(self):
         STR = {
             "IMPACT": {
-                "END": 16631,
-                "START": 16620,
-                "LENGTH": 10000, 
-                "MOTIF": "GCT"
+                "STR_ID": 9,
+                "LENGTH": 10000,
             },
             "REGION": "UTR",
             "TYPE": "STR",
@@ -76,10 +70,8 @@ class STRBasicTests(unittest.TestCase):
     def test_insertion_works(self):
         STR = {
             "IMPACT": {
-                "END": 16631,
-                "START": 16620,
-                "LENGTH": 5, 
-                "MOTIF": "GCT"
+                "STR_ID": 9,
+                "LENGTH": 5,
             },
             "REGION": "UTR",
             "TYPE": "STR",

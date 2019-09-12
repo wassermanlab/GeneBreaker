@@ -63,7 +63,7 @@ class MEI(Variant):
                 "ref": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome),
                 "alt": self.get_seq(self.transcript.chrom, pos, pos+1, self.transcript.genome) + self.get_insertion_str()}
 
-    def get_vcf_row(self) -> str:
+    def get_vcf_row(self) -> dict:
         chrom = str(self.transcript.get_chr())
         var_dict = self.get_insertion()
         pos = str(var_dict["pos"] + 1) # add 1 to make one based
@@ -76,4 +76,14 @@ class MEI(Variant):
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"  
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

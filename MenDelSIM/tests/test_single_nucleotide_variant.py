@@ -81,8 +81,7 @@ class NonCodingSNV(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
         row = snv.get_vcf_row()
-        row = row.split("\t")
-        self.assertEqual(row[4].rstrip(), "A")
+        self.assertEqual(row["alt"], "A")
 
     # test 11
     def test_basic_non_coding_exact(self):

@@ -190,4 +190,14 @@ class SingleNucleotideVariant(Variant):
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

@@ -21,7 +21,7 @@ class ClinVar(Variant):
         elif (len(self.ref) == 1):
             self.check_location(self.start)
 
-    def get_vcf_row(self) -> str:
+    def get_vcf_row(self) -> dict:
         chrom = self.transcript.get_chr()
         pos = str(self.start + 1)  # add 1 to make 1 based
         ref = str(self.ref)
@@ -33,4 +33,14 @@ class ClinVar(Variant):
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

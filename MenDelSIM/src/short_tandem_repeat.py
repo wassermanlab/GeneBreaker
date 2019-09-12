@@ -11,9 +11,9 @@ class ShortTandemRepeat(Variant):
         Variant.__init__(self, var_template, transcript)
         self.chrom = self.transcript.get_chr()
         # get STR
-        STR = get_str(self.transcript.get_genome(), self.impact["STR_ID"])
-        self.start = STR["start"]
-        self.end = STR["end"]
+        STR = get_str(self.transcript.get_genome(), int(self.impact["STR_ID"]))
+        self.start = int(STR["start"])
+        self.end = int(STR["end"])
         self.length = self.impact["LENGTH"]
         self.motif = STR["qualifiers"]["motif"]
         self.check_str()
@@ -25,7 +25,7 @@ class ShortTandemRepeat(Variant):
             raise Exception("STR length must be not equal to 0")
         if type(self.start) != int or type(self.end) != int:
             raise ValueError("start and end must be int.")
-        self.start = self.start - 1
+        self.start = self.start
         if (self.length>0):
             self.check_location(self.start)
         else: 
@@ -64,7 +64,7 @@ class ShortTandemRepeat(Variant):
                 "ref": ref,
                 "alt": alt}
 
-    def get_vcf_row(self) -> str:
+    def get_vcf_row(self) -> dict:
         # get regions
         if self.length > 0:  # insersion
             var_dict = self.get_expantion()
@@ -81,4 +81,14 @@ class ShortTandemRepeat(Variant):
             zygosity = "1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"
-        return "\t".join([chrom, pos, ID, ref, alt, ".", ".", ".", "GT", zygosity])
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

@@ -5,26 +5,21 @@ from MenDelSIM.src.api_helper import *
 
 
 class clinvarTests(unittest.TestCase):
-    ISG15_uid = get_all_transcripts("ISG15", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(ISG15_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(SOX9_uid, "hg38")
 
     # test 1
-    def test_copy_number_error(self):
+    def test_clinvar(self):
         clinvar = {
-            "TYPE": "ClinVar",
+            "TYPE": "CLINVAR",
             "REGION": "GENIC",
             "IMPACT": {
-                "clinvar_id": 475283,
-                "START": 1014042,
-                "REF": "G",
-                "ALT": "A",
+                "CLINVAR_ID": 450265,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         clinvar = ClinVar(clinvar, self.transcript)
-        row = clinvar.get_vcf_row().split("\t")
-        self.assertEqual(row[0], "chr1")
-        self.assertEqual(row[1], "1014042")
-        self.assertEqual(
-            row[3], "G")
-        self.assertEqual(
-            row[4], "A")
+        row = clinvar.get_vcf_row()
+        self.assertEqual(row["chrom"], "chr17")
+        self.assertEqual(row["pos"], "72121409")
+        self.assertEqual(row["ref"], "C")
+        self.assertEqual(row["alt"], "T")

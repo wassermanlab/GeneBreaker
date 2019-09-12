@@ -125,8 +125,8 @@ class VFrom extends React.Component {
       },
       body: JSON.stringify(config),
     });
-    const content = await rawResponse.blob();
-    saveAs(content, 'test.vcf');
+    const content = await rawResponse.json();
+    console.log(content)
   }
   // sets page to page+1
   next() {

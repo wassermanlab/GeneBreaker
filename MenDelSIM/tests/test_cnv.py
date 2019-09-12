@@ -16,7 +16,7 @@ class CNVCreationTests(unittest.TestCase):
             "IMPACT": {
                 "START": 27959462,
                 "END": 27959865,
-                "COPY_CHANGE": 1,
+                "COPY_CHANGE": 0,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
@@ -85,12 +85,12 @@ class CNVCreationTests(unittest.TestCase):
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript)
-        row = cnv.get_vcf_row().split("\t")
-        self.assertEqual(row[0], "chr1")
-        self.assertEqual(row[1], "27960999")
+        row = cnv.get_vcf_row()
+        self.assertEqual(row['chrom'], "chr1")
+        self.assertEqual(row['pos'], "27960999")
         self.assertEqual(
-            row[3], "GCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
-        self.assertEqual(row[4], "G")
+            row['ref'], "GCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+        self.assertEqual(row['alt'], "G")
 
     # test 7
     def test_insertion(self):
@@ -104,10 +104,10 @@ class CNVCreationTests(unittest.TestCase):
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript)
-        row = cnv.get_vcf_row().split("\t")
-        self.assertEqual(row[0], "chr1")
-        self.assertEqual(row[1], "27961000")
+        row = cnv.get_vcf_row()
+        self.assertEqual(row['chrom'], "chr1")
+        self.assertEqual(row['pos'], "27961000")
         self.assertEqual(
-            row[3], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+            row['ref'], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
         self.assertEqual(
-            row[4], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCCCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+            row['alt'], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCCCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")

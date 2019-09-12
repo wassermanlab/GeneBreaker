@@ -63,11 +63,9 @@ class InsersionMethodTesting(unittest.TestCase):
     def test_get_insertion_row(self):
         mei = MEI(self.mei_spec, self.negative_transcript)
         insertion = mei.get_vcf_row()
-        insertion = insertion.split("\t")
-        insertion[4] = insertion[4].rstrip()
-        self.assertEqual(insertion[0], "chr9")
-        self.assertEqual(insertion[1], '129814000')
-        self.assertEqual(len(insertion[4]), 282)
+        self.assertEqual(insertion['chrom'], "chr9")
+        self.assertEqual(insertion['pos'], '129814000')
+        self.assertEqual(len(insertion['alt']), 282)
         print(insertion)
 
 if __name__ == '__main__':

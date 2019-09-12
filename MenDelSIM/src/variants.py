@@ -16,25 +16,27 @@ class Variants:
         """ 
         creates variants object which has gene, inheritance, var1, var2 
         """
-        if type(variants_file) != dict: 
+        if type(variants_file) != dict:
             f = open(variants_file)
             variants_json = json.load(f)
             f.close()
-        else: 
+        else:
             variants_json = variants_file
-        
+
         try:
-            self.transcript = Transcript(variants_json["GENE_UID"], variants_json["GENOME"])
-            self.var1 = self.make_variant(variants_json["VAR1"], self.transcript)
-            self.var2 = self.make_variant(variants_json["VAR2"], self.transcript)
+            self.transcript = Transcript(
+                variants_json["GENE_UID"], variants_json["GENOME"])
+            self.var1 = self.make_variant(
+                variants_json["VAR1"], self.transcript)
+            self.var2 = self.make_variant(
+                variants_json["VAR2"], self.transcript)
             self.sex = variants_json["SEX"]
             self.check_sex_zygosity()
         except Exception as e:
             raise Exception(e)
 
-
-    def make_variant(self, var, transcript): 
-        if var == "None": 
+    def make_variant(self, var, transcript):
+        if var == "None":
             return None
         var_type = var["TYPE"]
         if var_type == "SNV":
@@ -54,15 +56,16 @@ class Variants:
         else:
             variant = Variant(var, transcript)
         return variant
-     
+
     def check_sex_zygosity(self):
         if self.sex not in ['XX', 'XY']:
-            raise ValueError('SEX must be one of: XX, XY') 
+            raise ValueError('SEX must be one of: XX, XY')
         if self.transcript.chrom == 'chrY' and self.sex != 'XY':
             raise ValueError('SEX of proband must be XY when selecting Y gene')
-        if self.var1.zygosity in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 != None: 
-            raise ValueError('Cannot have a second variant if the first is HOMOZYGOUS or HEMIZYGOUS')
-        if self.var1.zygosity != 'HEMIZYGOUS' and self.sex == 'XY' and self.transcript.get_chr() in ["chrX", "chrY"]: 
+        if self.var1.zygosity in ['HOMOZYGOUS', 'HEMIZYGOUS'] and self.var2 != None:
+            raise ValueError(
+                'Cannot have a second variant if the first is HOMOZYGOUS or HEMIZYGOUS')
+        if self.var1.zygosity != 'HEMIZYGOUS' and self.sex == 'XY' and self.transcript.get_chr() in ["chrX", "chrY"]:
             raise ValueError('With XY sex zygosity must be HEMIZYGOUS')
 
     def variants_2_VCF(self):
@@ -70,11 +73,11 @@ class Variants:
         # print(self.var2)
         r2 = ""
         if self.var2 != None:
-            r2 = self.var2.get_vcf_row() + "\n"
-        r1 = self.var1.get_vcf_row() + "\n"
+            r2 = self.var2.get_vcf_row() 
+        r1 = self.var1.get_vcf_row() 
         return (r1, r2)
 
-    def save_vcf_output(self, file_name):
+    def save_vcf_output(self):
         #     # TODO: implement this
         # if "CNV" in variant_types:
         #     # make complex VCF
@@ -98,6 +101,6 @@ class Variants:
         header = header + "##source=variant_simulator\n"
         header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
         header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n"
-        f = open(file_name, "w+")
-        f.write(header+vcf[0]+vcf[1])
-        f.close()
+        return {"header": header,
+                "var1": vcf[0],
+                "var2": vcf[1]}

@@ -51,14 +51,13 @@ def get_clingen_clinvar_str_api(genome, transcript_uid, region=None):
 def design_variants():
     # if POST then return the variant file sent with the JSON file 
     if request.method == 'POST': 
-        if not os.path.exists('/tmp/simulator'):
-            os.makedirs('/tmp/simulator')
         try: 
-            now = datetime.now()
-            dt_string = now.strftime("%d-%m-%Y_%H:%M:%S")
-            Variants(request.json).save_vcf_output("/tmp/simulator/"+ dt_string + ".txt")
-            return send_file("/tmp/simulator/"+ dt_string + ".txt")
+            response = Variants(request.json).save_vcf_output()
+            print(response)
+            response = jsonify(response)
+            return response
 
         except Exception as e:
-            return BadRequest("cannot produce requested variant: " + str(e))
+            response = jsonify({"error": str(e)})
+            return response
 
