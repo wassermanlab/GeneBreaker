@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import VForm from './variantForm'
 import AppRouter from './app'
 import * as serviceWorker from './serviceWorker';
   

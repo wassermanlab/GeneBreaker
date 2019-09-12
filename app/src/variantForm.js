@@ -1,7 +1,6 @@
 import React from 'react';
 import GeneralInfo from './generalInfo'
 import VariantInfo from './variantInfo'
-import { saveAs } from 'file-saver';
 
 class VFrom extends React.Component {
   constructor(props) {
@@ -125,8 +124,13 @@ class VFrom extends React.Component {
       },
       body: JSON.stringify(config),
     });
-    const content = await rawResponse.json();
-    console.log(content)
+    const vcf = await rawResponse.json();
+    // console.log(vcf)
+    this.props.history.push('/family', {vcf: vcf})
+
+
+
+
   }
   // sets page to page+1
   next() {
