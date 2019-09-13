@@ -1,7 +1,12 @@
 import React from 'react';
 import GlobalInfo from './globalInfo'
+import VariantInfo from './variantInfo'
 import NavButtons from './navButtons'
 import check_errors from './helpers.js'
+import SNV from './snv'
+import CNV from './cnv'
+import Indel from './indel'
+import MEI from './mei'
 // import VariantInfo from './variantInfo'
 // import FInfo from './familyInfo'
 
@@ -140,22 +145,24 @@ class MasterForm extends React.Component {
         <GlobalInfo page={this.state.page} gene_uid={this.state.gene_uid} genome={this.state.genome}
           gene_name={this.state.gene_name} sex={this.state.sex} onChange={this.handleInputChangeGeneral} />
         {/* var1 */}
-        {/* <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
+         <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
           type={this.state.type_1} region={this.state.region_1}
-          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1} />
-        <ClinVar type={this.state.type_1} page={this.state.page} var={1}
-          clinvar_id={this.state.clinvar_id_1} />
+          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1} onChange={this.handleInputChange} />
+          {/* var2 */}
+        {/*<ClinVar type={this.state.type_1} page={this.state.page} var={1}
+          clinvar_id={this.state.clinvar_id_1} onChange={this.handleInputChange} />
         <ClinGen type={this.state.type_1} page={this.state.page} var={1}
-          clingen_id={this.state.clingen_id_1} />
+          clingen_id={this.state.clingen_id_1} onChange={this.handleInputChange}/>
+           <STR type={this.state.type_1} page={this.state.page} var={1} str_id={this.state.str_id_1}  onChange={this.handleInputChange} />
+           */}
         <CNV type={this.state.type_1} page={this.state.page} var={1}
-          start={this.state.start_1} end={this.state.end_1} length={this.state.length_1} />
+          start={this.state.start_1} end={this.state.end_1} length={this.state.length_1}  onChange={this.handleInputChange} />
         <Indel type={this.state.type_1} page={this.state.page} var={1}
-          start={this.state.start_1} length={this.state.length_1} />
+          start={this.state.start_1} length={this.state.length_1}  onChange={this.handleInputChange} />
         <MEI type={this.state.type_1} page={this.state.page} var={1}
-          element={this.state.element_1} />
+          element={this.state.element_1} onChange={this.handleInputChange} />
         <SNV type={this.state.type_1} page={this.state.page} var={1}
-          start={this.state.start_1} snv_type={this.state.snv_type_1} />
-        <STR type={this.state.type_1} page={this.state.page} var={1} str_id={this.state.str_id_1} /> */}
+          start={this.state.start_1} snv_type={this.state.snv_type_1} onChange={this.handleInputChange} />
         {/* var2 */}
         {/* <VariantInfo page={this.state.page} var={2} sex={this.state.sex} chrom={this.state.chrom}
           type={this.state.type_2} region={this.state.region_2}
