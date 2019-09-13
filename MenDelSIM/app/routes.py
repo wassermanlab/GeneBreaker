@@ -9,10 +9,16 @@ from MenDelSIM.src.variants import Variants
 from MenDelSIM.src.api_helper import *
 from datetime import datetime
 
+@app.route('/get_transcripts/<genome>/')
 @app.route('/get_transcripts/<genome>/<name>')
-def get_transcripts_api(genome,name):
+def get_transcripts_api(genome,name = None):
     # TODO: remove cross origin
-    response = jsonify(get_all_transcripts(name, genome))
+    if (name is None):
+        return jsonify([])
+    response = get_all_transcripts(name, genome)
+    if response is False: 
+        return jsonify([])
+    response = jsonify(response)
     return response
 
 @app.route('/get_str/<genome>/<transcript_uid>/')
