@@ -1,6 +1,7 @@
 import React from 'react';
 import GeneralInfo from './generalInfo'
 import VariantInfo from './variantInfo'
+import FInfo from './familyInfo'
 
 class VFrom extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class VFrom extends React.Component {
       gene_uid: "",
       genome: "hg38",
       gene_name: "",
-      chrom: "",
+      chrom: "chr17",
       sex: "XX",
       // var 1 state
       var1_type: "",
@@ -42,12 +43,48 @@ class VFrom extends React.Component {
       var2_element: "",
       var2_snv_type: "",
       var2_str_id: "",
+      vars: {
+        header: "##fileDate=2019-09-13↵##source=variant_simulator↵#…M	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	PROBAND↵", 
+        var1: {
+          alt: "T",
+          chrom: "chr17",
+          filter: ".",
+          format: "GT",
+          id: "450264",
+          info: ".",
+          pos: "72121406",
+          proband: "0/1",
+          qual: ".",
+          ref: "C",
+        }, 
+        var2: {
+          alt: "A",
+          chrom: "chr17",
+          filter: ".",
+          format: "GT",
+          id: "450264",
+          info: ".",
+          pos: "72121406",
+          proband: "0/1",
+          qual: ".",
+          ref: "C",
+        }
+      },
+      family: [{relationship: "", sex: "", var1: "", var2: ""}]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.submit = this.submit.bind(this)
+    this.getVars = this.getVars.bind(this)
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
+  }
+  handleFamilyInputChange(event) {
+    return null;
+  }
+  addFamilyMember(event){
+    this.state((prevState)=> ({
+      family:[...prevState.family, {relationship: "", sex: "", var1: "", var2: ""}],
+    }))
   }
   get_region(variant) {
     if (this.state["var" + variant + "_region"] === "CUSTOM") {
@@ -93,7 +130,7 @@ class VFrom extends React.Component {
     }
     return impact;
   }
-  async submit() {
+  async getVars() {
 
     let config = {
       GENE_UID: parseInt(this.state.gene_uid),
@@ -115,7 +152,7 @@ class VFrom extends React.Component {
     if (!this.state.var2) {
       config["VAR2"] = "None"
     }
-    
+
     console.log(JSON.stringify(config))
     const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
       method: 'POST',
@@ -125,12 +162,8 @@ class VFrom extends React.Component {
       body: JSON.stringify(config),
     });
     const vcf = await rawResponse.json();
-    // console.log(vcf)
-    this.props.history.push('/family', {vcf: vcf})
-
-
-
-
+    console.log(vcf);
+    // this.setState({ vars: vcf , page: 4});
   }
   // sets page to page+1
   next() {
@@ -149,6 +182,9 @@ class VFrom extends React.Component {
     let currentPage = this.state.page;
 
     currentPage = currentPage - 1;
+    if (currentPage === 3 && this.state.var2 === false) {
+      currentPage = currentPage - 1;
+    }
     if (currentPage === 2) {
       this.setState({
         page: currentPage,
@@ -193,7 +229,6 @@ class VFrom extends React.Component {
         () => console.log(this.state));
       return null;
     }
-
     if (name === "gene_uid" && value !== "") {
       const index = target.selectedIndex;
       const option = target.childNodes[index];
@@ -232,24 +267,29 @@ class VFrom extends React.Component {
         <VariantInfo
           page={this.state.page}
           chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} genome={this.state.genome}
-          handleInputChange={this.handleInputChange} next={this.next} back={this.back} submit={this.submit}
+          handleInputChange={this.handleInputChange} next={this.next} back={this.back} get_vars={this.getVars}
           var={1} type={this.state.var1_type} region={this.state.var1_region} zygosity={this.state.var1_zygosity}
           customStart={this.state.var1_customStart} customEnd={this.state.var1_customEnd}
           start={this.state.var1_start} end={this.state.var1_end} length={this.state.var1_length}
-          clingen_uid={this.state.var1_clingen_uid} clinvar_id={this.state.var1_clinvar_id} 
+          clingen_uid={this.state.var1_clingen_uid} clinvar_id={this.state.var1_clinvar_id}
           element={this.state.var1_element} snv_type={this.state.var1_snv_type} str_id={this.state.var1_str_id}
         />
         {/* var2 */}
         <VariantInfo
           page={this.state.page}
           chrom={this.state.chrom} sex={this.state.sex} gene_uid={this.state.gene_uid} genome={this.state.genome}
-          handleInputChange={this.handleInputChange} next={this.next} back={this.back} submit={this.submit}
+          handleInputChange={this.handleInputChange} next={this.next} back={this.back} get_vars={this.getVars}
           var={2} type={this.state.var2_type} region={this.state.var2_region} zygosity={this.state.var2_zygosity}
           customStart={this.state.var2_customStart} customEnd={this.state.var2_customEnd}
           start={this.state.var2_start} end={this.state.var2_end} length={this.state.var2_length}
           clingen_uid={this.state.var2_clingen_uid} clinvar_id={this.state.var2_clinvar_id}
           element={this.state.var2_element} snv_type={this.state.var2_snv_type} str_id={this.state.var2_str_id}
         />
+        <FInfo
+          page={this.state.page}
+          chrom={this.state.chrom} sex={this.state.sex} vars={this.state.vars}
+        />
+
       </form>
     );
   }

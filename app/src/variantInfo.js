@@ -30,7 +30,7 @@ class VariantInfo extends React.Component {
     };
 
     this.customNext = this.customNext.bind(this);
-    this.customSubmit = this.customSubmit.bind(this);
+    this.customGetVars = this.customGetVars.bind(this);
 
   }
   
@@ -122,11 +122,11 @@ class VariantInfo extends React.Component {
   }
 
   // error check for the whole page!
-  customSubmit() {
+  customGetVars() {
     const errors = this.get_errors()
     this.setState({ errors: errors }, () => {
       if (Object.entries(this.state.errors).length === 0) {
-        this.props.submit()
+        this.props.get_vars()
       }
     })
   }
@@ -262,7 +262,7 @@ class VariantInfo extends React.Component {
         <NavButtons
           next={this.customNext}
           back={this.props.back}
-          submit={this.props.submit}
+          get_vars={this.props.get_vars}
           page={this.props.page} />
       </React.Fragment>
     );
