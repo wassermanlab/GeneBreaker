@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectComp from '../selectComp'
+import SelectComp from './selectComp'
 import SelectList from './selectList'
 
 function GlobalInfo(props) {

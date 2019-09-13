@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectComp from '../selectComp'
+import SelectComp from './selectComp'
 import Zygosity from './zygosity'
 
 function VariantInfo(props) {
@@ -30,7 +30,7 @@ function VariantInfo(props) {
             <input type="text" className="form-control"
               name={"customStart_" + props.var} value={props.customStart} onChange={props.onChange} />
             <input type="text" className="form-control"
-              name={"customEnd" + props.var} value={props.customEnd} onChange={props.onChange} />
+              name={"customEnd_" + props.var} value={props.customEnd} onChange={props.onChange} />
           </div>
           <small className="form-text text-muted">
             chrZ:start-end
