@@ -120,6 +120,33 @@ class MasterForm extends React.Component {
     },
       () => console.log(this.state));
   }
+  handleInputChangeClinGen(event) {
+    const target = event.target;
+    const name = target.name;
+    const index = target.selectedIndex;
+    const option = target.childNodes[index];
+    const start = option.getAttribute('start');
+    const end = option.getAttribute('end');
+    const copy_change = option.getAttribute('copy_change');
+
+    // state change for everything else 
+    if (name === "clingen_id_1") {
+      this.setState({
+        start_1: start,
+        end_1: end,
+        copy_change_1: copy_change,
+      },
+        () => console.log(this.state));
+    } else {
+      this.setState({
+        start_2: start,
+        end_2: end,
+        copy_change_2: copy_change,
+      },
+        () => console.log(this.state));
+    }
+
+  }
   handleInputChangeGeneral(event) {
     const target = event.target;
     const value = target.value;
@@ -162,7 +189,7 @@ class MasterForm extends React.Component {
           start={this.state.start_1} snv_type={this.state.snv_type_1} onChange={this.handleInputChange} />
         <ClinGen type={this.state.type_1} page={this.state.page} var={1} region={this.state.region_1}
           chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1}
-          clingen_id={this.state.clingen_id_1} onChange={this.handleInputChange}
+          clingen_id={this.state.clingen_id_1} onChange={this.handleInputChangeClinGen}
           genome={this.state.genome} gene_uid={this.state.gene_uid} />
         <STR type={this.state.type_1} page={this.state.page} var={1} str_id={this.state.str_id_1} onChange={this.handleInputChange}
           genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
