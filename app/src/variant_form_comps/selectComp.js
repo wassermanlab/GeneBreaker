@@ -18,12 +18,3 @@ function SelectComp(props) {
   )
 }
 export default SelectComp;
-
-
-// <SelectComp
-//           title={"Genome"}
-//           name={"genome"}
-//           value={this.props.genome}
-//           onChange={this.props.handleInputChange}
-//           options={[{value: "hg38", text: "hg38"},{value: "hg19", text: "hg19"}]}
-//           />

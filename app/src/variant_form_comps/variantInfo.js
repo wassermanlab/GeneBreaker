@@ -13,7 +13,7 @@ function VariantInfo(props) {
         title={"Region"}
         name={"region_" + props.var}
         value={props.region}
-        onChange={props.onChange}
+        onChange={props.onChangeClear}
         options={[{ value: "", text: "Select" },
         { value: "CODING", text: "Coding" },
         { value: "GENIC", text: "Genic" },
@@ -42,7 +42,7 @@ function VariantInfo(props) {
         title={"Type"}
         name={"type_" + props.var}
         value={props.type}
-        onChange={props.onChange}
+        onChange={props.onChangeClear}
         options={[{ value: "", text: "Select" },
         { value: "clinvar", text: "ClinVar Variant" },
         { value: "clingen", text: "Clingen Copy Number Variant" },

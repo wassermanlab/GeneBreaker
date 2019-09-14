@@ -86,6 +86,7 @@ class MasterForm extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputChangeGeneral = this.handleInputChangeGeneral.bind(this);
+    this.handelInputChangeClearFields = this.handelInputChangeClearFields.bind(this);
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
   }
@@ -167,6 +168,25 @@ class MasterForm extends React.Component {
         () => console.log(this.state));
     } else { this.setState({ [name]: value }, () => console.log(this.state)); }
   }
+  handelInputChangeClearFields(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    const num = name[name.length -1];
+    // state change for everything else 
+    this.setState({
+      [name]: value,
+      ["clinvar_id_" + num]: "",
+      ["start_" + num]: "",
+      ["end_" + num]: "",
+      ["clingen_id_" + num]: "",
+      ["length_" + num]: "",
+      ["element_" + num]: "",
+      ["snv_type_" + num]: "",
+      ["str_id_" + num]: "",
+    },
+      () => console.log(this.state));
+  }
 
   render() {
     return (
@@ -177,7 +197,8 @@ class MasterForm extends React.Component {
         {/**************** var1 ****************/}
         <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
           type={this.state.type_1} region={this.state.region_1}
-          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1} onChange={this.handleInputChange} />
+          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1} 
+          onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
         {/**************** var2 ****************/}
         <CNV type={this.state.type_1} page={this.state.page} var={1}
           start={this.state.start_1} end={this.state.end_1} length={this.state.length_1} onChange={this.handleInputChange} />
