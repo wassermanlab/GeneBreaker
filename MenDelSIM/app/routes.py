@@ -8,6 +8,7 @@ from MenDelSIM.src.transcript import Transcript
 from MenDelSIM.src.variants import Variants
 from MenDelSIM.src.api_helper import *
 from datetime import datetime
+from MenDelSIM.src.file_outputs import make_ped, make_vcf
 
 @app.route('/get_transcripts/<genome>/')
 @app.route('/get_transcripts/<genome>/<name>')
@@ -30,7 +31,6 @@ def get_transcripts_api(genome,name = None):
 def get_clingen_clinvar_str_api(genome, transcript_uid, region=None):
     if (region is None ):
         response = jsonify([])
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     transcript = Transcript(transcript_uid, genome)
     res = []
@@ -66,4 +66,28 @@ def design_variants():
         except Exception as e:
             response = jsonify({"error": str(e)})
             return response
+
+@app.route('/get_file', methods=["POST"])
+def get_file():
+    # takes in a json file like this {var1: {}, var2: {}, family: {}}
+    if request.method == 'POST': 
+        if not os.path.exists('/tmp/simulator'):
+            os.makedirs('/tmp/simulator')
+        try: 
+            filetype = request.args.get('filetype')
+            request_payload = request.json 
+            dt_string = datetime.now().strftime("%d-%m-%Y_%H:%M:%S")
+            filename = dt_string+".vcf"
+            if (filetype == "ped"):
+                make_ped(request_payload, filename)
+            elif (filetype == "vcf"): 
+                make_vcf(request_payload, filename)
+            else: 
+                Exception("incorrect type")
+            return send_file("/tmp/simulator/"+ filename)
+        except Exception as e:
+            response = jsonify(e)
+            return response
+
+
 

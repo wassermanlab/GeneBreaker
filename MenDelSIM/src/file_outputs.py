@@ -1,5 +1,4 @@
 import json
-import datetime
 
 
 # both take in a json file like this {var1: {}, var2: {}, family: {}}
@@ -35,20 +34,19 @@ def get_row(individual_id, individual, mother, father):
     return row
 
 
-def make_ped(variants):
+def make_ped(variants, filename):
     header = "#Family ID\tIndividual ID\tPaternal ID\tMaternal ID\tSex\tPhenotype"
     father = 'father' in variants['family']
     mother = 'mother' in variants['family']
     rows = ""
     for key, val in variants['family'].items():
         rows = rows + get_row(key, val, mother, father)
-    date = datetime.datetime.now()
-    f = open(str(date) + ".ped", "w+")
+    f = open(filename, "w+")
     f.write(header+rows)
     f.close()
 
 
-def make_vcf(variants):
+def make_vcf(variants, filename):
     header = "##fileformat=VCFv4.2\n"
     header = header + "##fileDate=" + str(datetime.date.today()) + "\n"
     header = header + "##source=variant_simulator\n"
@@ -83,7 +81,7 @@ def make_vcf(variants):
     header = header + "\n"
     row1 = row1 + "\n"
     row2 = row2 + "\n"
-    f = open(str(datetime.date.today())+".vcf", "w+")
+    f = open(filename, "w+")
     f.write(header+row1+row2)
     f.close()
 
