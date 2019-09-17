@@ -97,10 +97,5 @@ class Variants:
         #     f.close()
 
         vcf = self.variants_2_VCF()
-        header = "##fileDate=" + str(date.today()) + "\n"
-        header = header + "##source=variant_simulator\n"
-        header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
-        header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n"
-        return {"header": header,
-                "var1": vcf[0],
+        return {"var1": vcf[0],
                 "var2": vcf[1]}
