@@ -10,8 +10,7 @@ import MEI from './mei'
 import ClinGen from './clingen'
 import STR from './str'
 import Clinvar from './clinvar'
-// import VariantInfo from './variantInfo'
-// import FInfo from './familyInfo'
+import FInfo from './familyInfo'
 
 class MasterForm extends React.Component {
   constructor(props) {
@@ -40,7 +39,7 @@ class MasterForm extends React.Component {
       snv_type_1: "",
       str_id_1: "",
       //var2 state
-      var2: false,
+      var2: "false",
       type_2: "",
       region_2: "",
       customStart_2: "",
@@ -54,34 +53,8 @@ class MasterForm extends React.Component {
       element_2: "",
       snv_type_2: "",
       str_id_2: "",
-      vars: {
-        header: "##fileDate=2019-09-13↵##source=variant_simulator↵#…M	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	PROBAND↵",
-        var1: {
-          alt: "T",
-          chrom: "chr17",
-          filter: ".",
-          format: "GT",
-          id: "450264",
-          info: ".",
-          pos: "72121406",
-          proband: "0/1",
-          qual: ".",
-          ref: "C",
-        },
-        var2: {
-          alt: "A",
-          chrom: "chr17",
-          filter: ".",
-          format: "GT",
-          id: "450264",
-          info: ".",
-          pos: "72121406",
-          proband: "0/1",
-          qual: ".",
-          ref: "C",
-        }
-      },
-      family: [{ relationship: "", sex: "", var1: "", var2: "" }]
+      vars: {},
+      family: {}
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -89,8 +62,136 @@ class MasterForm extends React.Component {
     this.handelInputChangeClearFields = this.handelInputChangeClearFields.bind(this);
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
+    this.get_vars = this.get_vars.bind(this)
+    this.addFamily = this.addFamily.bind(this)
+    this.removeFamily = this.removeFamily.bind(this)
+    this.handleFamilyCheckChange = this.handleFamilyCheckChange.bind(this)
   }
 
+  handleFamilyCheckChange(event) {
+    const checked = event.target.checked;
+    const name = event.target.name.split("_");
+    const family_key = name[1]
+    const key = name[0]
+    let fam = this.state.family;
+    fam[family_key][key] = checked;
+    this.setState({
+      family: fam},() => console.log(this.state))
+  }
+
+  removeFamily(event) {
+    const member = event.target.value;
+    let fam = this.state.family;
+    delete fam[member];
+    this.setState({
+      family: fam},() => console.log(this.state))
+  }
+
+  addFamily(event) {
+    const member = event.target.value;
+    const keys = Object.keys(this.state.family);
+    const brothers = keys.filter((m) => { return m.startsWith("brother") });
+    const sisters = keys.filter((m) => { return m.startsWith("sister") });
+    let fam = this.state.family;
+    switch (member) {
+      case "m":
+        if (!keys.includes('mother')) { fam.mother = { relationship: "mother", sex: "XX", var1: false, var2: false, affected: false } }
+        break
+      case "f":
+        if (!keys.includes('father')) { fam.father = { relationship: "father", sex: "XY", var1: false, var2: false, affected: false} }
+        break
+      case "b":
+          fam["brother" + (brothers.length + 1)] = { relationship: "sibling", sex: "XY", var1: false, var2: false, affected: false  }
+        break
+      case "s":
+          fam["sister" + (sisters.length + 1)] = { relationship: "sibling", sex: "XX", var1: false, var2: false, affected: false }
+        break
+      default:
+        break
+    }
+    this.setState({
+      family: fam},() => console.log(this.state))
+  }
+
+  get_region(variant) {
+    if (this.state["region_" + variant] === "CUSTOM") {
+      return this.state.chrom + ":" + this.state["customStart_" + variant] + "-" + this.state["customEnd_" + variant];
+    }
+    return this.state["region_" + variant];
+  }
+
+  get_impact(variant) {
+    let impact = {}
+    switch (this.state["type_" + variant]) {
+      case "clinvar":
+        impact.CLINVAR_ID = parseInt(this.state["clinvar_id_" + variant])
+        break
+      case "clingen":
+        impact.START = parseInt(this.state["start_" + variant])
+        impact.END = parseInt(this.state["end_" + variant])
+        impact.COPY_CHANGE = parseInt(this.state["length_" + variant])
+        break
+      case "cnv":
+        impact.START = parseInt(this.state["start_" + variant])
+        impact.END = parseInt(this.state["end_" + variant])
+        impact.COPY_CHANGE = parseInt(this.state["length_" + variant])
+        break
+      case "indel":
+        impact.START = (this.state["start_" + variant] === "ANY") ? "ANY" : parseInt(this.state["start_" + variant])
+        impact.INDEL_AMOUNT = parseInt(this.state["length_" + variant])
+        break
+      case "mei":
+        impact.START = (this.state["start_" + variant] === "ANY") ? "ANY" : parseInt(this.state["start_" + variant])
+        impact.ELEMENT = this.state["element_" + variant]
+        break
+      case "snv":
+        impact.START = (this.state["start_" + variant] === "ANY") ? "ANY" : parseInt(this.state["start_" + variant])
+        impact.SNV_TYPE = this.state["snv_type_" + variant]
+        break
+      case "str":
+        impact.STR_ID = parseInt(this.state["str_id_" + variant])
+        impact.LENGTH = parseInt(this.state["length_" + variant])
+        break
+      default:
+        break
+    }
+    return impact;
+  }
+
+  async get_vars() {
+
+    let config = {
+      GENE_UID: parseInt(this.state.gene_uid),
+      GENOME: this.state.genome,
+      SEX: this.state.sex,
+      VAR1: {
+        TYPE: this.state.type_1.toUpperCase(),
+        REGION: this.get_region(1),
+        IMPACT: this.get_impact(1),
+        ZYGOSITY: this.state.zygosity_1.toUpperCase()
+      },
+      VAR2: {
+        TYPE: this.state.type_2.toUpperCase(),
+        REGION: this.get_region(2),
+        IMPACT: this.get_impact(2),
+        ZYGOSITY: this.state.zygosity_2.toUpperCase()
+      }
+    }
+    if (this.state.var2 === "false") {
+      config["VAR2"] = "None"
+    }
+
+    const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(config),
+    });
+    const vcf = await rawResponse.json();
+    console.log(vcf);
+    this.setState({ vars: vcf, page: 4 });
+  }
   // sets page to page+1
   next() {
     const errors = check_errors(this.state)
@@ -105,9 +206,7 @@ class MasterForm extends React.Component {
   // sets page to page-1
   back() {
     let currentPage = this.state.page;
-
     currentPage = currentPage - 1;
-
     this.setState({ page: currentPage });
   }
   handleInputChange(event) {
@@ -172,7 +271,7 @@ class MasterForm extends React.Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    const num = name[name.length -1];
+    const num = name[name.length - 1];
     // state change for everything else 
     this.setState({
       [name]: value,
@@ -197,9 +296,8 @@ class MasterForm extends React.Component {
         {/**************** var1 ****************/}
         <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
           type={this.state.type_1} region={this.state.region_1}
-          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1} 
+          customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1}
           onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
-        {/**************** var2 ****************/}
         <CNV type={this.state.type_1} page={this.state.page} var={1}
           start={this.state.start_1} end={this.state.end_1} length={this.state.length_1} onChange={this.handleInputChange} />
         <Indel type={this.state.type_1} page={this.state.page} var={1}
@@ -220,29 +318,37 @@ class MasterForm extends React.Component {
           genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
           chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} />
         {/**************** var2 ****************/}
-        {/* <VariantInfo page={this.state.page} var={2} sex={this.state.sex} chrom={this.state.chrom}
+        <VariantInfo var2={(this.state.zygosity_1 !== "heterozygous") ? false : this.state.var2} page={this.state.page} var={2} sex={this.state.sex} chrom={this.state.chrom}
           type={this.state.type_2} region={this.state.region_2}
-          customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} zygosity={this.state.zygosity_2} />
-        <ClinVar type={this.state.type_2} page={this.state.page} var={2}
-          clinvar_id={this.state.clinvar_id_2} />
-        <ClinGen type={this.state.type_2} page={this.state.page} var={2}
-          clingen_id={this.state.clingen_id_2} />
+          customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} zygosity={this.state.zygosity_2}
+          onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
         <CNV type={this.state.type_2} page={this.state.page} var={2}
-          start={this.state.start_2} end={this.state.end_2} length={this.state.length_2} />
+          start={this.state.start_2} end={this.state.end_2} length={this.state.length_2} onChange={this.handleInputChange} />
         <Indel type={this.state.type_2} page={this.state.page} var={2}
-          start={this.state.start_2} length={this.state.length_2} />
+          start={this.state.start_2} length={this.state.length_2} onChange={this.handleInputChange} />
         <MEI type={this.state.type_2} page={this.state.page} var={2}
-          element={this.state.element_2} />
+          element={this.state.element_2} onChange={this.handleInputChange} />
         <SNV type={this.state.type_2} page={this.state.page} var={2}
-          start={this.state.start_2} snv_type={this.state.snv_type_2} />
-        <STR type={this.state.type_2} page={this.state.page} var={2} str_id={this.state.str_id_2} /> */}
+          start={this.state.start_2} snv_type={this.state.snv_type_2} onChange={this.handleInputChange} />
+        <ClinGen type={this.state.type_2} page={this.state.page} var={2} region={this.state.region_2}
+          chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2}
+          clingen_id={this.state.clingen_id_2} onChange={this.handleInputChangeClinGen}
+          genome={this.state.genome} gene_uid={this.state.gene_uid} />
+        <STR type={this.state.type_2} page={this.state.page} var={2} str_id={this.state.str_id_2} onChange={this.handleInputChange}
+          genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
+          chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} />
+        <Clinvar type={this.state.type_2} page={this.state.page} var={2}
+          clinvar_id={this.state.clinvar_id_2} onChange={this.handleInputChange}
+          genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
+          chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_1} />
         {/**************** family ****************/}
-        {/**************** <FamilyInfo /> ****************/}
+        <FInfo page={this.state.page} family={this.state.family} vars={this.state.vars} sex={this.state.sex} 
+        onAdd={this.addFamily} onRemove={this.removeFamily} onChange={this.handleFamilyCheckChange} />
         {/**************** buttons ****************/}
         {this.state.errors.map((item, index) => (
           <div key={"error_" + index} className="alert alert-danger" role="alert">{item}</div>
         ))}
-        <NavButtons page={this.state.page} next={this.next} />
+        <NavButtons page={this.state.page} next={this.next} back={this.back} get_vars={this.get_vars} />
       </form>
     );
   }
