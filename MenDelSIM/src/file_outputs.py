@@ -14,15 +14,15 @@ import datetime
 
 def get_row(individual_id, individual, mother, father):
     row = "FAM\t" + individual_id + "\t"
-    if (individual_id in ["Father", "Mother"]):
+    if (individual_id in ["father", "mother"]):
         row = row + "0\t0\t"
     else:
         if (father):
-            row = row + "Father\t"
+            row = row + "father\t"
         else:
             row = row + "0\t"
         if (mother):
-            row = row + "Mother\t"
+            row = row + "mother\t"
         else:
             row = row + "0\t"
     if (individual["sex"] == "XX"):
@@ -37,7 +37,7 @@ def get_row(individual_id, individual, mother, father):
 
 
 def make_ped(variants, filename):
-    header = "#Family ID\tIndividual ID\tPaternal ID\tMaternal ID\tSex\tPhenotype"
+    header = "#Family ID\tIndividual ID\tPaternal ID\tMaternal ID\tSex\tPhenotype\n"
     father = 'father' in variants['family']
     mother = 'mother' in variants['family']
     rows = ""
@@ -163,4 +163,4 @@ variants = {'var1': {'alt': 'T',
                        'sister1': {'relationship': 'sibling', 'sex': 'XX', 'var1': False, 'var2': False, 'affected': False},
                        'proband': {'relationship': 'sibling', 'sex': 'XX', 'var1': True, 'var2': True, 'affected': True}}}
 
-make_vcf(variants, 'test.vcf')
+make_ped(variants, 'test.vcf')
