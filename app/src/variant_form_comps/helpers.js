@@ -8,7 +8,6 @@ function check_general(chrom, sex, transcript) {
   }
   return errors;
 }
-
 function check_variant(variant, type, region, zygosity, customStart, customEnd,
   clinvar_id, start, end, clingen_id, length, element, snv_type, str_id) {
   if (!variant) {
@@ -86,15 +85,46 @@ function check_variant(variant, type, region, zygosity, customStart, customEnd,
   }
   return errors;
 }
+function check_family(var1, var2, family){
+  let errors = []
+  const chrom = var1.chrom;
+  let single = false;
+  if (var2 === "" && var1.proband === "0/1") {
+    single = true;
+  }
+  for (let m in family) {
+    const member = family[m];
+    if (member.sex === "XX" && chrom === "chrY" && member.var1) {
+      errors.push(m+" cannot have a Y chromosome variant being a XX female.")
+    } 
+    if (member.sex === "XY" && member.var2 && member.var1 && chrom === "chrY") {  
+      errors.push(m+" cannot have two Y chromosome variants being a XY male.")
+    }
+    if (member.sex === "XY" && member.var2 && member.var1 && chrom === "chrX") {  
+      errors.push(m+" cannot have two X chromosome variants being a XY male.")
+    }
+    if (member.var1 && member.var2 && single) {
+      errors.push(m+" cannot have variants because there is only 1 variant to choose from.")
+    }
+  }
+  return errors;
+}
 function check_errors(props) {
   let errors;
   if (props.page === 1) {
     errors = check_general(props.chrom, props.sex, props.gene_uid)
-  } if (props.page === 2) {
+  } else if (props.page === 2) {
     errors = check_variant(true, props.type_1, props.region_1, props.zygosity_1,
       props.customStart_1, props.customEnd_1, props.clinvar_id_1,
       props.start_1, props.end_1, props.clingen_id_1, props.length_1, props.element_1,
       props.snv_type_1, props.str_id_1)
+  } else if (props.page === 3) {
+    errors = check_variant(props.var2, props.type_2, props.region_2, props.zygosity_2,
+      props.customStart_2, props.customEnd_2, props.clinvar_id_2,
+      props.start_2, props.end_2, props.clingen_id_2, props.length_2, props.element_2,
+      props.snv_type_2, props.str_id_2)
+  } else if (props.page === 4) {
+    errors = check_family(props.vars.var1, props.vars.var2, props.family)
   }
   return errors;
 }

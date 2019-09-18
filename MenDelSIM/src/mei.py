@@ -73,7 +73,7 @@ class MEI(Variant):
         if self.zygosity == "HOMOZYGOUS":
             zygosity = "1/1"  
         if self.zygosity == "HEMIZYGOUS":
-            zygosity = "1"
+            zygosity = "1/1"
         if self.zygosity == "HETEROZYGOUS":
             zygosity = "0/1"  
         return {

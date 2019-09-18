@@ -14,12 +14,14 @@ function NavButtons(props) {
     return (
       <div>
         <button type="button" className="btn btn-primary float-right" onClick={props.get_vars}>Next</button>
-        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> </div>)
+        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> 
+        </div>)
   }
   else if (props.page === 4) {
     return (
       <div>
-        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> </div>)
+        <button type="button" className="btn btn-primary float-right" onClick={props.back}>Back</button> 
+        </div>)
   }
   return null;
 }

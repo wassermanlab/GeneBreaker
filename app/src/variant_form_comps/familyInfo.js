@@ -79,7 +79,9 @@ function FInfo(props) {
                     <td>{props.sex}</td>
                     <td><input type="checkbox" checked disabled /></td>
                     <td>
-                        {(props.vars.var1.proband === "0/1" && props.vars.var2 !== "") ? <input type="checkbox" disabled /> : <input type="checkbox" checked disabled />}
+                        {((props.vars.var1.proband === "0/1" && props.vars.var2 !== "") || 
+                        (["chrX", "chrY"].includes(props.vars.var1.proband.chrom) && props.sex === "XY" )) ? 
+                        <input type="checkbox" disabled /> : <input type="checkbox" disabled />}
                     </td>
                     <td><input type="checkbox" checked disabled /></td>
                     <td><button type="button" className="btn btn-primary" disabled>Remove</button></td>
@@ -104,6 +106,14 @@ function FInfo(props) {
                 <button className="dropdown-item" type="button" onClick={props.onAdd} value={"f"} >Father</button>
                 <button className="dropdown-item" type="button" onClick={props.onAdd} value={"s"} >Sister</button>
                 <button className="dropdown-item" type="button" onClick={props.onAdd} value={"b"} >Brother</button>
+            </div>
+        </div>
+        <div className="dropdown">
+            <button className="btn btn-primary dropdown-toggle float-right" type="button" data-toggle="dropdown">
+                Download output</button>
+            <div className="dropdown-menu">
+                <button className="dropdown-item" type="button" onClick={props.downloadFile} value={"vcf"} >VCF</button>
+                <button className="dropdown-item" type="button" onClick={props.downloadFile} value={"ped"} >PED</button>
             </div>
         </div>
     </React.Fragment>)

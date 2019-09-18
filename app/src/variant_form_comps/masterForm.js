@@ -11,6 +11,7 @@ import ClinGen from './clingen'
 import STR from './str'
 import Clinvar from './clinvar'
 import FInfo from './familyInfo'
+import { saveAs } from 'file-saver';
 
 class MasterForm extends React.Component {
   constructor(props) {
@@ -66,6 +67,36 @@ class MasterForm extends React.Component {
     this.addFamily = this.addFamily.bind(this)
     this.removeFamily = this.removeFamily.bind(this)
     this.handleFamilyCheckChange = this.handleFamilyCheckChange.bind(this)
+    this.downloadFile = this.downloadFile.bind(this)
+  }
+
+  async downloadFile(event) {
+    const errors = check_errors(this.state)
+    if (errors.length !== 0) {
+      this.setState({ errors: errors });
+      return null;
+    }
+    return null;
+    let fam = this.state.family
+    // two different variants
+    // two the same
+    // 1 variant
+    if (this.state.vars.var2 === "" && this.state.vars.var1.Proband === "0/1") {
+      fam['Proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: false, affected: true }
+    } else {
+      fam['Proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: true, affected: true }
+    }
+
+    const file_type = event.target.value;
+    const rawResponse = await fetch('http://127.0.0.1:5001/get_file?' + file_type, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(fam),
+    });
+    const blob = await rawResponse.getBlob();
+    saveAs(blob, "test.vcf")
   }
 
   handleFamilyCheckChange(event) {
@@ -76,7 +107,8 @@ class MasterForm extends React.Component {
     let fam = this.state.family;
     fam[family_key][key] = checked;
     this.setState({
-      family: fam},() => console.log(this.state))
+      family: fam
+    }, () => console.log(this.state))
   }
 
   removeFamily(event) {
@@ -84,7 +116,8 @@ class MasterForm extends React.Component {
     let fam = this.state.family;
     delete fam[member];
     this.setState({
-      family: fam},() => console.log(this.state))
+      family: fam
+    }, () => console.log(this.state))
   }
 
   addFamily(event) {
@@ -98,19 +131,20 @@ class MasterForm extends React.Component {
         if (!keys.includes('mother')) { fam.mother = { relationship: "mother", sex: "XX", var1: false, var2: false, affected: false } }
         break
       case "f":
-        if (!keys.includes('father')) { fam.father = { relationship: "father", sex: "XY", var1: false, var2: false, affected: false} }
+        if (!keys.includes('father')) { fam.father = { relationship: "father", sex: "XY", var1: false, var2: false, affected: false } }
         break
       case "b":
-          fam["brother" + (brothers.length + 1)] = { relationship: "sibling", sex: "XY", var1: false, var2: false, affected: false  }
+        fam["brother" + (brothers.length + 1)] = { relationship: "sibling", sex: "XY", var1: false, var2: false, affected: false }
         break
       case "s":
-          fam["sister" + (sisters.length + 1)] = { relationship: "sibling", sex: "XX", var1: false, var2: false, affected: false }
+        fam["sister" + (sisters.length + 1)] = { relationship: "sibling", sex: "XX", var1: false, var2: false, affected: false }
         break
       default:
         break
     }
     this.setState({
-      family: fam},() => console.log(this.state))
+      family: fam
+    }, () => console.log(this.state))
   }
 
   get_region(variant) {
@@ -342,12 +376,14 @@ class MasterForm extends React.Component {
           genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
           chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_1} />
         {/**************** family ****************/}
-        <FInfo page={this.state.page} family={this.state.family} vars={this.state.vars} sex={this.state.sex} 
-        onAdd={this.addFamily} onRemove={this.removeFamily} onChange={this.handleFamilyCheckChange} />
+        <FInfo page={this.state.page} family={this.state.family} vars={this.state.vars} sex={this.state.sex}
+          onAdd={this.addFamily} onRemove={this.removeFamily} onChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
         {/**************** buttons ****************/}
-        {this.state.errors.map((item, index) => (
-          <div key={"error_" + index} className="alert alert-danger" role="alert">{item}</div>
-        ))}
+        <div style={{padding: '30px'}}>
+          {this.state.errors.map((item, index) => (
+            <div key={"error_" + index} className="alert alert-danger" role="alert">{item}</div>
+          ))}
+        </div>
         <NavButtons page={this.state.page} next={this.next} back={this.back} get_vars={this.get_vars} />
       </form>
     );
