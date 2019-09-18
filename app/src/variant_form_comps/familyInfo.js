@@ -81,7 +81,7 @@ function FInfo(props) {
                     <td>
                         {((props.vars.var1.proband === "0/1" && props.vars.var2 !== "") || 
                         (["chrX", "chrY"].includes(props.vars.var1.proband.chrom) && props.sex === "XY" )) ? 
-                        <input type="checkbox" disabled /> : <input type="checkbox" disabled />}
+                        <input type="checkbox" disabled /> : <input type="checkbox" checked disabled />}
                     </td>
                     <td><input type="checkbox" checked disabled /></td>
                     <td><button type="button" className="btn btn-primary" disabled>Remove</button></td>

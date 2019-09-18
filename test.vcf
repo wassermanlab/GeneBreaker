@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##fileDate=2019-09-18
+##source=variant_simulator
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	mother	father	sister1	proband
+chrX	72121409	450265	C	T	.	.	.	GT	0/1	0/0	0/0	0/1
+chrX	72121409	450265	C	A	.	.	.	GT	0/0	1/1	0/0	0/1

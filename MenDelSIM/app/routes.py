@@ -59,7 +59,6 @@ def design_variants():
     if request.method == 'POST': 
         try: 
             response = Variants(request.json).save_vcf_output()
-            print(response)
             response = jsonify(response)
             return response
 
@@ -76,11 +75,13 @@ def get_file():
         try: 
             filetype = request.args.get('filetype')
             request_payload = request.json 
+            print(request_payload)
             dt_string = datetime.now().strftime("%d-%m-%Y_%H:%M:%S")
-            filename = dt_string+".vcf"
             if (filetype == "ped"):
+                filename = dt_string + ".ped"
                 make_ped(request_payload, filename)
             elif (filetype == "vcf"): 
+                filename = dt_string + ".vcf"
                 make_vcf(request_payload, filename)
             else: 
                 Exception("incorrect type")

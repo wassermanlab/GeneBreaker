@@ -1,5 +1,5 @@
 import json
-
+import datetime
 
 # both take in a json file like this {var1: {}, var2: {}, family: {}}
 # vars have the following keys: chrom, pos, id, ref, alt, qual, filter, info, format, proband
@@ -10,6 +10,8 @@ import json
 # Maternal ID
 # Sex (1=male; 2=female; other=unknown)
 # Phenotype (unaffected=1; affected=2)
+
+
 def get_row(individual_id, individual, mother, father):
     row = "FAM\t" + individual_id + "\t"
     if (individual_id in ["Father", "Mother"]):
@@ -57,32 +59,45 @@ def make_vcf(variants, filename):
                       variants["var1"]["filter"], variants["var1"]["info"], variants["var1"]["format"]])
     row2 = ""
     chrom = variants['var1']['chrom']
-    # no second variant
-    if (variants["var2"] == ""):
-        for key, val in variants['family'].items():
-            header = header + "\t" + key
-            if chrom in ["chrX", "chrY"] and val["sex"] == "XY":
-                row1 = row1 + "\t1/1"
-            else:
-                if val["var1"] and val["var2"]:
-                    row1 = row1 + "\t1/1"
-                else:
-                    row1 = row1 + "\t0/1"
-    else:  # two different variants
+    if (variants["var2"] != ""):  # no second variant ie. 1 variant or 1 homozygous/hemizygous variant
         row2 = "\t".join([variants["var2"]["chrom"], variants["var2"]["pos"], variants["var2"]["id"],
                           variants["var2"]["ref"], variants["var2"]["alt"], variants["var2"]["qual"],
                           variants["var2"]["filter"], variants["var2"]["info"], variants["var2"]["format"]])
-        for key, val in variants['family'].items():
-            header = header + "\t" + key
+    
+    for key, val in variants['family'].items():
+        header = header + "\t" + key
+        if val["sex"] == "XY" and chrom in ["chrX", "chrY"]:
             if val["var1"]:
+                row1 = row1 + "\t1/1"
+            elif not val["var1"]:
+                row1 = row1 + "\t0/0"
+            if val["var2"] and row2 == "":
+                row1 = row1 + "\t1/1"
+            elif row2 == "":
+                row1 = row1 + "\t0/0"
+            if val["var2"] and row2 != "":
+                row2 = row2 + "\t1/1"
+            elif row2 != "":
+                row2 = row2 + "\t0/0"
+        else: 
+            if val["var1"] and val["var2"] and row2 == "": ## homozygous on var 1 
+                row1 = row1 + "\t1/1"
+            elif (val["var1"] or val["var2"]) and row2 == "": ## heterozygous on var 1 
                 row1 = row1 + "\t0/1"
-            if val["var2"]:
+            elif not val["var1"] and not val["var2"] and row2 == "": ## homozygous on var 1 
+                row1 = row1 + "\t0/0"
+
+            if val["var1"] and row2 != "": ## het on var 1 
+                row1 = row1 + "\t0/1"
+            elif not val["var1"] and row2 != "": ## none var 1
+                row1 = row1 + "\t0/0"
+            if val["var2"] and row2 != "": ## het on var 2
                 row2 = row2 + "\t0/1"
-    header = header + "\n"
-    row1 = row1 + "\n"
-    row2 = row2 + "\n"
+            elif not val["var2"] and row2 != "": ## none var 2
+                row2 = row2 + "\t0/0"
+
     f = open(filename, "w+")
-    f.write(header+row1+row2)
+    f.write(header + "\n" + row1 + "\n"+row2 + "\n")
     f.close()
 
     #     header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
@@ -91,3 +106,61 @@ def make_vcf(variants, filename):
     #     header = header + "##INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of structural variant\"\n"
     #     header = header + "##ALT=<ID=DUP,Description=\"Duplication\"\n"
     #     header = header + "##ALT=<ID=DEL,Description=\"Deletion\"\n"
+
+
+variants = {'var1': {'alt': 'T',
+                     'chrom': 'chr17',
+                     'filter': '.',
+                     'format': 'GT',
+                     'id': '450265',
+                     'info': '.',
+                     'pos': '72121409',
+                     'proband': '1/1',
+                     'qual': '.',
+                     'ref': 'C'},
+            'var2': '',
+            'family': {'mother': {'relationship': 'mother', 'sex': 'XX', 'var1': True, 'var2': False, 'affected': True},
+                       'father': {'relationship': 'father', 'sex': 'XY', 'var1': False, 'var2': True, 'affected': False},
+                       'sister1': {'relationship': 'sibling', 'sex': 'XX', 'var1': False, 'var2': False, 'affected': False},
+                       'proband': {'relationship': 'sibling', 'sex': 'XX', 'var1': True, 'var2': True, 'affected': True}}}
+variants = {'var1': {'alt': 'T',
+                     'chrom': 'chrX',
+                     'filter': '.',
+                     'format': 'GT',
+                     'id': '450265',
+                     'info': '.',
+                     'pos': '72121409',
+                     'proband': '1/1',
+                     'qual': '.',
+                     'ref': 'C'},
+            'var2': '',
+            'family': {'mother': {'relationship': 'mother', 'sex': 'XX', 'var1': True, 'var2': False, 'affected': True},
+                       'father': {'relationship': 'father', 'sex': 'XY', 'var1': False, 'var2': True, 'affected': False},
+                       'sister1': {'relationship': 'sibling', 'sex': 'XX', 'var1': False, 'var2': False, 'affected': False},
+                       'proband': {'relationship': 'sibling', 'sex': 'XX', 'var1': True, 'var2': True, 'affected': True}}}
+variants = {'var1': {'alt': 'T',
+                     'chrom': 'chrX',
+                     'filter': '.',
+                     'format': 'GT',
+                     'id': '450265',
+                     'info': '.',
+                     'pos': '72121409',
+                     'proband': '0/1',
+                     'qual': '.',
+                     'ref': 'C'},
+            'var2': {'alt': 'A',
+                     'chrom': 'chrX',
+                     'filter': '.',
+                     'format': 'GT',
+                     'id': '450265',
+                     'info': '.',
+                     'pos': '72121409',
+                     'proband': '0/1',
+                     'qual': '.',
+                     'ref': 'C'},
+            'family': {'mother': {'relationship': 'mother', 'sex': 'XX', 'var1': True, 'var2': False, 'affected': True},
+                       'father': {'relationship': 'father', 'sex': 'XY', 'var1': False, 'var2': True, 'affected': False},
+                       'sister1': {'relationship': 'sibling', 'sex': 'XX', 'var1': False, 'var2': False, 'affected': False},
+                       'proband': {'relationship': 'sibling', 'sex': 'XX', 'var1': True, 'var2': True, 'affected': True}}}
+
+make_vcf(variants, 'test.vcf')

@@ -76,25 +76,26 @@ class MasterForm extends React.Component {
       this.setState({ errors: errors });
       return null;
     }
-    return null;
+    
     let fam = this.state.family
     // two different variants
     // two the same
     // 1 variant
     if (this.state.vars.var2 === "" && this.state.vars.var1.Proband === "0/1") {
-      fam['Proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: false, affected: true }
+      fam['proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: false, affected: true }
     } else {
-      fam['Proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: true, affected: true }
+      fam['proband'] = { relationship: "sibling", sex: this.state.sex, var1: true, var2: true, affected: true }
     }
-
+    
     const file_type = event.target.value;
     const rawResponse = await fetch('http://127.0.0.1:5001/get_file?' + file_type, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(fam),
+      body: JSON.stringify({var1: this.state.vars.var1, var2: this.state.vars.var2, family: fam}),
     });
+    return null;
     const blob = await rawResponse.getBlob();
     saveAs(blob, "test.vcf")
   }
