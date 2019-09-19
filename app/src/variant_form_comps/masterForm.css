@@ -1,0 +1,37 @@
+body {
+  background-color: #77A6F7
+}
+
+.formDiv {
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 7%;
+  padding-top: 5%;
+  margin-top: 5%
+}
+.nav-btn {
+  margin: 1%
+}
+.fam-btn {
+  margin: 1%;
+}
+.errors {
+  margin-top: 1%;
+}
+.btn-primary{
+  background-color: #77A6F7;
+  border-color: #77A6F7;
+}
+.btn-secondary{
+
+}
+
+/* colors
+green #00887A
+pink #FFCCBC
+white #FFFFFF
+light blue #D3E3FC
+dark blue #77A6F7
+*/

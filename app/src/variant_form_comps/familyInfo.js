@@ -84,7 +84,7 @@ function FInfo(props) {
                         <input type="checkbox" disabled /> : <input type="checkbox" checked disabled />}
                     </td>
                     <td><input type="checkbox" checked disabled /></td>
-                    <td><button type="button" className="btn btn-primary" disabled>Remove</button></td>
+                    <td><button type="button" className="btn btn-secondary" disabled>Remove</button></td>
                 </tr>
                 {Object.keys(props.family).map((item, index) => (
                     <tr key={item}>
@@ -93,13 +93,13 @@ function FInfo(props) {
                         <td><input type="checkbox" onChange={props.onChange} name={"var1_" + item} /></td>
                         <td><input type="checkbox" onChange={props.onChange} name={"var2_" + item} /></td>
                         <td><input type="checkbox" onChange={props.onChange} name={"affected_" + item} /></td>
-                        <td><button type="button" className="btn btn-primary" onClick={props.onRemove} value={item} >Remove</button></td>
+                        <td><button type="button" className="btn btn-secondary" onClick={props.onRemove} value={item} >Remove</button></td>
                     </tr>
                 ))}
             </tbody>
         </table>
         <div className="dropdown">
-            <button className="btn btn-primary dropdown-toggle float-right" type="button" data-toggle="dropdown">
+            <button className="btn btn-secondary dropdown-toggle float-right fam-btn" type="button" data-toggle="dropdown">
                 Add family Member</button>
             <div className="dropdown-menu">
                 <button className="dropdown-item" type="button" onClick={props.onAdd} value={"m"} >Mother</button>
@@ -109,7 +109,7 @@ function FInfo(props) {
             </div>
         </div>
         <div className="dropdown">
-            <button className="btn btn-primary dropdown-toggle float-right" type="button" data-toggle="dropdown">
+            <button className="btn btn-secondary dropdown-toggle float-right fam-btn" type="button" data-toggle="dropdown">
                 Download output</button>
             <div className="dropdown-menu">
                 <button className="dropdown-item" type="button" onClick={props.downloadFile} value={"vcf"} >VCF</button>
