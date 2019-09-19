@@ -88,16 +88,15 @@ class MasterForm extends React.Component {
     }
     
     const file_type = event.target.value;
-    const rawResponse = await fetch('http://127.0.0.1:5001/get_file?' + file_type, {
+    const rawResponse = await fetch('http://127.0.0.1:5001/get_file?filetype=' + file_type, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({var1: this.state.vars.var1, var2: this.state.vars.var2, family: fam}),
     });
-    return null;
-    const blob = await rawResponse.getBlob();
-    saveAs(blob, "test.vcf")
+    const blob = await rawResponse.blob();
+    saveAs(blob, "test." + file_type)
   }
 
   handleFamilyCheckChange(event) {

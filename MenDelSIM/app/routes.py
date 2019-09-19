@@ -74,18 +74,17 @@ def get_file():
             os.makedirs('/tmp/simulator')
         try: 
             filetype = request.args.get('filetype')
-            request_payload = request.json 
-            print(request_payload)
+            request_payload = request.json
             dt_string = datetime.now().strftime("%d-%m-%Y_%H:%M:%S")
             if (filetype == "ped"):
-                filename = dt_string + ".ped"
+                filename = "/tmp/simulator/"+ dt_string + ".ped"
                 make_ped(request_payload, filename)
             elif (filetype == "vcf"): 
-                filename = dt_string + ".vcf"
+                filename = "/tmp/simulator/"+ dt_string + ".vcf"
                 make_vcf(request_payload, filename)
             else: 
                 Exception("incorrect type")
-            return send_file("/tmp/simulator/"+ filename)
+            return send_file(filename)
         except Exception as e:
             response = jsonify(e)
             return response
