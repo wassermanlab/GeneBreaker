@@ -1,7 +1,3 @@
-body {
-  background-color: #77A6F7
-}
-
 .formDiv {
   background-color: #ffffff;
   border-radius: 25px;
@@ -9,7 +5,7 @@ body {
   padding-right: 5%;
   padding-bottom: 7%;
   padding-top: 5%;
-  margin-top: 5%
+  margin-top: 10%
 }
 .nav-btn {
   margin: 1%
@@ -30,8 +26,8 @@ body {
 
 /* colors
 green #00887A
+dark blue #77A6F7
 pink #FFCCBC
 white #FFFFFF
 light blue #D3E3FC
-dark blue #77A6F7
 */

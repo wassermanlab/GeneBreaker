@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import AppRouter from './app'
 import * as serviceWorker from './serviceWorker';
+import './index.css'
   
 
 // ReactDOM.render(

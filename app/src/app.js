@@ -1,19 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import MasterForm from "./variant_form_comps/masterForm";
-
-function Index() {
-  return <h2>Home</h2>;
-}
+import Home from "./home";
 
 function AppRouter() {
   return (
     <Router>
-      <div>
-        <Route path="/" exact component={Index} />
+        <Route path="/" exact component={Home} />
         <Route path="/variants/" component={MasterForm} />
         {/* <Route path="/family/" component={Family} /> */}
-      </div>
     </Router>
   );
 }

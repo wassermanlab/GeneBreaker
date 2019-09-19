@@ -12,15 +12,17 @@ import STR from './str'
 import Clinvar from './clinvar'
 import FInfo from './familyInfo'
 import { saveAs } from 'file-saver';
+import Nav from '../nav';
+import Footer from '../footer';
 import './masterForm.css';
 
 function Errors(props) {
   return (
-    
-      props.errors.map((item, index) => (
-        <div key={"error_" + index} className="alert alert-danger" role="alert">{item}</div>
-      ))
-    
+
+    props.errors.map((item, index) => (
+      <div key={"error_" + index} className="alert alert-danger" role="alert">{item}</div>
+    ))
+
   )
 }
 
@@ -334,82 +336,85 @@ class MasterForm extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="formDiv">
-          <form>
-            <div className="row">
-              <div className="col-sm">
-                {/**************** global ****************/}
-                <GlobalInfo page={this.state.page} gene_uid={this.state.gene_uid} genome={this.state.genome}
-                  gene_name={this.state.gene_name} sex={this.state.sex} onChange={this.handleInputChangeGeneral} />
-                {/**************** var1 ****************/}
-                <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
-                  type={this.state.type_1} region={this.state.region_1}
-                  customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1}
-                  onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
-                <CNV type={this.state.type_1} page={this.state.page} var={1}
-                  start={this.state.start_1} end={this.state.end_1} length={this.state.length_1} onChange={this.handleInputChange} />
-                <Indel type={this.state.type_1} page={this.state.page} var={1}
-                  start={this.state.start_1} length={this.state.length_1} onChange={this.handleInputChange} />
-                <MEI type={this.state.type_1} page={this.state.page} var={1}
-                  element={this.state.element_1} onChange={this.handleInputChange} />
-                <SNV type={this.state.type_1} page={this.state.page} var={1}
-                  start={this.state.start_1} snv_type={this.state.snv_type_1} onChange={this.handleInputChange} />
-                <ClinGen type={this.state.type_1} page={this.state.page} var={1} region={this.state.region_1}
-                  chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1}
-                  clingen_id={this.state.clingen_id_1} onChange={this.handleInputChangeClinGen}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} />
-                <STR type={this.state.type_1} page={this.state.page} var={1} str_id={this.state.str_id_1} onChange={this.handleInputChange}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
-                  chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} />
-                <Clinvar type={this.state.type_1} page={this.state.page} var={1}
-                  clinvar_id={this.state.clinvar_id_1} onChange={this.handleInputChange}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
-                  chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} />
-                {/**************** var2 ****************/}
-                <VariantInfo var2={(this.state.zygosity_1 !== "heterozygous") ? false : this.state.var2} page={this.state.page} var={2} sex={this.state.sex} chrom={this.state.chrom}
-                  type={this.state.type_2} region={this.state.region_2}
-                  customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} zygosity={this.state.zygosity_2}
-                  onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
-                <CNV type={this.state.type_2} page={this.state.page} var={2}
-                  start={this.state.start_2} end={this.state.end_2} length={this.state.length_2} onChange={this.handleInputChange} />
-                <Indel type={this.state.type_2} page={this.state.page} var={2}
-                  start={this.state.start_2} length={this.state.length_2} onChange={this.handleInputChange} />
-                <MEI type={this.state.type_2} page={this.state.page} var={2}
-                  element={this.state.element_2} onChange={this.handleInputChange} />
-                <SNV type={this.state.type_2} page={this.state.page} var={2}
-                  start={this.state.start_2} snv_type={this.state.snv_type_2} onChange={this.handleInputChange} />
-                <ClinGen type={this.state.type_2} page={this.state.page} var={2} region={this.state.region_2}
-                  chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2}
-                  clingen_id={this.state.clingen_id_2} onChange={this.handleInputChangeClinGen}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} />
-                <STR type={this.state.type_2} page={this.state.page} var={2} str_id={this.state.str_id_2} onChange={this.handleInputChange}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
-                  chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} />
-                <Clinvar type={this.state.type_2} page={this.state.page} var={2}
-                  clinvar_id={this.state.clinvar_id_2} onChange={this.handleInputChange}
-                  genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
-                  chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_1} />
-                {/**************** family ****************/}
-                <FInfo page={this.state.page} family={this.state.family} vars={this.state.vars} sex={this.state.sex}
-                  onAdd={this.addFamily} onRemove={this.removeFamily} onChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
+      <div className="master-background">
+        <Nav/>
+        <div className="container">
+          <div className="formDiv">
+            <form>
+              <div className="row">
+                <div className="col-sm">
+                  {/**************** global ****************/}
+                  <GlobalInfo page={this.state.page} gene_uid={this.state.gene_uid} genome={this.state.genome}
+                    gene_name={this.state.gene_name} sex={this.state.sex} onChange={this.handleInputChangeGeneral} />
+                  {/**************** var1 ****************/}
+                  <VariantInfo page={this.state.page} var={1} sex={this.state.sex} chrom={this.state.chrom}
+                    type={this.state.type_1} region={this.state.region_1}
+                    customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1}
+                    onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
+                  <CNV type={this.state.type_1} page={this.state.page} var={1}
+                    start={this.state.start_1} end={this.state.end_1} length={this.state.length_1} onChange={this.handleInputChange} />
+                  <Indel type={this.state.type_1} page={this.state.page} var={1}
+                    start={this.state.start_1} length={this.state.length_1} onChange={this.handleInputChange} />
+                  <MEI type={this.state.type_1} page={this.state.page} var={1}
+                    element={this.state.element_1} onChange={this.handleInputChange} />
+                  <SNV type={this.state.type_1} page={this.state.page} var={1}
+                    start={this.state.start_1} snv_type={this.state.snv_type_1} onChange={this.handleInputChange} />
+                  <ClinGen type={this.state.type_1} page={this.state.page} var={1} region={this.state.region_1}
+                    chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1}
+                    clingen_id={this.state.clingen_id_1} onChange={this.handleInputChangeClinGen}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} />
+                  <STR type={this.state.type_1} page={this.state.page} var={1} str_id={this.state.str_id_1} onChange={this.handleInputChange}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
+                    chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} />
+                  <Clinvar type={this.state.type_1} page={this.state.page} var={1}
+                    clinvar_id={this.state.clinvar_id_1} onChange={this.handleInputChange}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_1}
+                    chrom={this.state.chrom} customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} />
+                  {/**************** var2 ****************/}
+                  <VariantInfo var2={(this.state.zygosity_1 !== "heterozygous") ? false : this.state.var2} page={this.state.page} var={2} sex={this.state.sex} chrom={this.state.chrom}
+                    type={this.state.type_2} region={this.state.region_2}
+                    customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} zygosity={this.state.zygosity_2}
+                    onChange={this.handleInputChange} onChangeClear={this.handelInputChangeClearFields} />
+                  <CNV type={this.state.type_2} page={this.state.page} var={2}
+                    start={this.state.start_2} end={this.state.end_2} length={this.state.length_2} onChange={this.handleInputChange} />
+                  <Indel type={this.state.type_2} page={this.state.page} var={2}
+                    start={this.state.start_2} length={this.state.length_2} onChange={this.handleInputChange} />
+                  <MEI type={this.state.type_2} page={this.state.page} var={2}
+                    element={this.state.element_2} onChange={this.handleInputChange} />
+                  <SNV type={this.state.type_2} page={this.state.page} var={2}
+                    start={this.state.start_2} snv_type={this.state.snv_type_2} onChange={this.handleInputChange} />
+                  <ClinGen type={this.state.type_2} page={this.state.page} var={2} region={this.state.region_2}
+                    chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2}
+                    clingen_id={this.state.clingen_id_2} onChange={this.handleInputChangeClinGen}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} />
+                  <STR type={this.state.type_2} page={this.state.page} var={2} str_id={this.state.str_id_2} onChange={this.handleInputChange}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
+                    chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} />
+                  <Clinvar type={this.state.type_2} page={this.state.page} var={2}
+                    clinvar_id={this.state.clinvar_id_2} onChange={this.handleInputChange}
+                    genome={this.state.genome} gene_uid={this.state.gene_uid} region={this.state.region_2}
+                    chrom={this.state.chrom} customStart={this.state.customStart_2} customEnd={this.state.customEnd_1} />
+                  {/**************** family ****************/}
+                  <FInfo page={this.state.page} family={this.state.family} vars={this.state.vars} sex={this.state.sex}
+                    onAdd={this.addFamily} onRemove={this.removeFamily} onChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
 
+                </div>
               </div>
-            </div>
-            {/**************** buttons ****************/}
-            <div className="row">
-              <div className="col-sm">
-                <NavButtons page={this.state.page} next={this.next} back={this.back} get_vars={this.get_vars} />
+              {/**************** buttons ****************/}
+              <div className="row">
+                <div className="col-sm">
+                  <NavButtons page={this.state.page} next={this.next} back={this.back} get_vars={this.get_vars} />
+                </div>
               </div>
-            </div>
-            <div className="row errors">
-              <div className="col-sm">
-                <Errors errors={this.state.errors} />
+              <div className="row errors">
+                <div className="col-sm">
+                  <Errors errors={this.state.errors} />
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div >
         </div >
-      </div >
+      </div>
     );
   }
 }
