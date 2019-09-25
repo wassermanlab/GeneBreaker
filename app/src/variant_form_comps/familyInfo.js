@@ -7,7 +7,7 @@ function FInfo(props) {
     }
     return (<React.Fragment>
         <h2>Variants</h2>
-        <table className="table">
+        <table className="table table-responsive">
             <thead>
                 <tr>
                     <th scope="col">Variant</th>
@@ -40,14 +40,14 @@ function FInfo(props) {
                         <th scope="row">2</th>
                         <td colSpan="9">Homozygous with variant 1</td>
                     </tr> : null}
-                {(props.vars.var1.proband === "0/1" && props.vars.var2 !== "") ?
+                {(props.vars.var1.proband === "0/1" && props.vars.var2 === "") ?
                     <tr>
                         <th scope="row">2</th>
                         <td colSpan="9">No variant 2</td>
                     </tr> : null}
                 {props.vars.var2 !== "" ? (
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">2</th>
                         <td>{props.vars.var2.chrom}</td>
                         <td>{props.vars.var2.pos}</td>
                         <td>{props.vars.var2.id}</td>
@@ -62,7 +62,7 @@ function FInfo(props) {
         </table>
         <h2>Family</h2>
         {/* id -- sex -- var1 -- var2 -- affected */}
-        <table className="table">
+        <table className="table table-responsive">
             <thead>
                 <tr>
                     <th scope="col">Family Member</th>

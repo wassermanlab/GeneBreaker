@@ -13,7 +13,6 @@ import Clinvar from './clinvar'
 import FInfo from './familyInfo'
 import { saveAs } from 'file-saver';
 import Nav from '../nav';
-import Footer from '../footer';
 import './masterForm.css';
 
 function Errors(props) {
@@ -227,7 +226,6 @@ class MasterForm extends React.Component {
     if (this.state.var2 === "false") {
       config["VAR2"] = "None"
     }
-
     const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
       method: 'POST',
       headers: {
@@ -236,8 +234,12 @@ class MasterForm extends React.Component {
       body: JSON.stringify(config),
     });
     const vcf = await rawResponse.json();
-    console.log(vcf);
-    this.setState({ vars: vcf, page: 4 });
+    if ("error" in vcf) {
+      this.setState({ errors: [vcf["error"]] })
+    } else {
+      this.setState({ vars: vcf, page: 4 },
+        () => console.log(this.state));
+    }
   }
   // sets page to page+1
   next() {
@@ -337,7 +339,7 @@ class MasterForm extends React.Component {
   render() {
     return (
       <div className="master-background">
-        <Nav/>
+        <Nav />
         <div className="container">
           <div className="formDiv">
             <form>

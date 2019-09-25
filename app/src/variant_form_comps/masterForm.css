@@ -20,8 +20,9 @@
   background-color: #77A6F7;
   border-color: #77A6F7;
 }
-.btn-secondary{
-
+.table{
+  table-layout:fixed;
+  width:100%;
 }
 
 /* colors
