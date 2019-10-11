@@ -1,11 +1,11 @@
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.variant import Variant
-from MenDelSIM.src.clinvar import ClinVar
-from MenDelSIM.src.copy_number_variant import CopyNumberVariant
-from MenDelSIM.src.indel import Indel
-from MenDelSIM.src.mei import MEI
-from MenDelSIM.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from MenDelSIM.src.short_tandem_repeat import ShortTandemRepeat
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.variant import Variant
+from GeneBreaker.src.clinvar import ClinVar
+from GeneBreaker.src.copy_number_variant import CopyNumberVariant
+from GeneBreaker.src.indel import Indel
+from GeneBreaker.src.mei import MEI
+from GeneBreaker.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from GeneBreaker.src.short_tandem_repeat import ShortTandemRepeat
 import json
 from datetime import date
 
@@ -92,6 +92,9 @@ class Variants:
         #     header = header + "##ALT=<ID=DUP,Description=\"Duplication\"\n"
         #     header = header + "##ALT=<ID=DEL,Description=\"Deletion\"\n"
         #     header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n"
+        # "##ALT=<ID=INS:ME:ALU,Description=\"Insertion of ALU element\"\n"
+        # "##ALT=<ID=INS:ME:LINE,Description=\"Insertion of LINE1 element\"\n"
+        # "##ALT=<ID=INS:ME:SVA,Description=\"Insertion of SVA element\"\n"
         #     f = open("vcf4.2."+file_name, "w+")
         #     f.write(header+vcf[0]+vcf[1])
         #     f.close()

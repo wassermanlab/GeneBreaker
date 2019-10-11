@@ -1,6 +1,6 @@
 import requests
 import json
-host = 'http://127.0.0.1:5000'
+host = 'http://gud.cmmt.ubc.ca:8080'
 
 def get_all_results(request_url):
     # http://127.0.0.1:5000/api/v1/hg38/chroms

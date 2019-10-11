@@ -1,11 +1,11 @@
 import unittest
-from MenDelSIM.src.copy_number_variant import CopyNumberVariant
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.copy_number_variant import CopyNumberVariant
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 
 class CNVCreationTests(unittest.TestCase):
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
+    XKR8_uid = get_all_transcripts("27959865", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
 
     # test 1

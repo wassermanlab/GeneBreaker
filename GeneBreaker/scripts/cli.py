@@ -3,7 +3,7 @@
 import argparse
 import datetime
 import json
-from MenDelSIM.src.variants import Variants
+from GeneBreaker.src.variants import Variants
 
 def parse_arguments():
     """Parses inputted arguments as described"""

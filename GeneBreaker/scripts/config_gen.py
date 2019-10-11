@@ -8,7 +8,7 @@ from GUD.ORM import Chrom
 from GUD.ORM import CNV
 from sqlalchemy import create_engine, Index
 from sqlalchemy.orm import Session
-from MenDelSIM.src.transcript import Transcript
+from GeneBreaker.src.transcript import Transcript
 from . import establish_GUD_session
 
 try:

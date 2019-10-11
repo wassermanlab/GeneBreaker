@@ -1,7 +1,7 @@
 import unittest
-from MenDelSIM.src.clinvar import ClinVar
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.clinvar import ClinVar
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 
 class clinvarTests(unittest.TestCase):

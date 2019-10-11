@@ -1,5 +1,5 @@
-from MenDelSIM.src.variant import Variant
-from MenDelSIM.src.transcript import Transcript
+from GeneBreaker.src.variant import Variant
+from GeneBreaker.src.transcript import Transcript
 import random
 
 

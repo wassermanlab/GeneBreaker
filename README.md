@@ -1,10 +1,10 @@
-# MenDelSIM - Mendelian Disease Simulator 
+# GeneBreaker - Mendelian Disease Simulator 
 
 ## Introduction 
 
 Human mendelian disease are characterized as genetic disorders caused by changes in a single loci or gene. These genetic disorders follow different inheritance patterns depending on the type of alteration in the loci. Many rare genetic diseases are mendelian in nature some examples include: cystic fibrosis, hemophilia, and color blindness. 
 
-The MenDelSIM package allows for the simulation of new or known variants in a single gene representing a possible mendelian disease case aswell as simulation of full family profiles following a specified inheritance pattern as specified below. 
+The GeneBreaker package allows for the simulation of new or known variants in a single gene representing a possible mendelian disease case aswell as simulation of full family profiles following a specified inheritance pattern as specified below. 
 
 
 ## Directory Structure 

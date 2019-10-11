@@ -1,7 +1,7 @@
 import re
-from MenDelSIM.src.transcript import Transcript
+from GeneBreaker.src.transcript import Transcript
 from lxml import etree
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.api_helper import *
 
 
 class Variant:
@@ -13,6 +13,12 @@ class Variant:
         self.type = var_template["TYPE"]
         self.region = var_template["REGION"]
         self.impact = var_template["IMPACT"]
+
+        self.chrom = self.transcript.get_chr()
+        self.pos = None
+        self.id = None
+        self.ref = None
+        self.alt = None
         self.zygosity = var_template["ZYGOSITY"]
         try:
             self.check_variant()
@@ -132,3 +138,27 @@ class Variant:
         if len(region_range) == 0:
             raise ValueError("""invalid region selected""")
         return region_range
+
+    def get_vcf_row(self) -> dict:
+        chrom = self.chrom
+        pos = str(self.pos + 1)  # add 1 to make 1 based
+        ref = str(self.ref)
+        alt = str(self.alt)
+        ID = str(self.id)
+        if self.zygosity == "HOMOZYGOUS":
+            zygosity = "1/1"
+        if self.zygosity == "HEMIZYGOUS":
+            zygosity = "1/1"
+        if self.zygosity == "HETEROZYGOUS":
+            zygosity = "0/1"
+        return {
+            "chrom": chrom,
+            "pos":  pos,
+            "id": ID,
+            "ref": ref,
+            "alt": alt,
+            "qual": ".",
+            "filter": ".",
+            "info": ".",
+            "format": "GT",
+            "proband": zygosity}

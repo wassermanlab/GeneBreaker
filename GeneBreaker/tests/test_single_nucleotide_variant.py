@@ -1,7 +1,7 @@
 import unittest
-from MenDelSIM.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 
 class SNVCreationTests(unittest.TestCase):

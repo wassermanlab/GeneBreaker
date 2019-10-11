@@ -1,7 +1,7 @@
-from MenDelSIM.src.variant import Variant
-from MenDelSIM.src.transcript import Transcript
+from GeneBreaker.src.variant import Variant
+from GeneBreaker.src.transcript import Transcript
 import random
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.api_helper import *
 from lxml import etree
 
 

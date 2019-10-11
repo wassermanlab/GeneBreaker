@@ -1,8 +1,8 @@
 # python -m unittest tests.test_gene
 import unittest
-from MenDelSIM.src.short_tandem_repeat import ShortTandemRepeat
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.short_tandem_repeat import ShortTandemRepeat
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 
 class STRBasicTests(unittest.TestCase):

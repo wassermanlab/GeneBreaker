@@ -1,10 +1,12 @@
 # python -m unittest tests.test_gene
 import unittest
-from MenDelSIM.src.indel import Indel
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+import time
+from GeneBreaker.src.indel import Indel
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 class IndelCreationTests(unittest.TestCase):
+    time.sleep(2)
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
     SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
@@ -64,6 +66,7 @@ class IndelCreationTests(unittest.TestCase):
             Indel(indel, self.SOX18).get_vcf_row()
 
 class InsersionMethodTesting(unittest.TestCase):
+    time.sleep(2)
     indel_any = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": 5, "START": "ANY"},
@@ -105,10 +108,10 @@ class InsersionMethodTesting(unittest.TestCase):
 
 
 class DeletionMethodTestCase(unittest.TestCase):
+    time.sleep(2)
     # positive_transcript = Transcript(64805)  # SOX9
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
     positive_transcript = Transcript(SOX9_uid, "hg38")  
-    
     # test 11
     def test_basic_deletion(self):
         indel = {'TYPE': 'INDEL',
@@ -149,9 +152,8 @@ class DeletionMethodTestCase(unittest.TestCase):
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -199, "START": "ANY"},
                  "ZYGOSITY": "HETEROZYGOUS"}
-        indel = Indel(indel, SOX18)
         with self.assertRaises(ValueError):
-            indel.get_deletion()
+            Indel(indel, SOX18)
 
     # test 15
     def test_raises_length_greater_than_location(self):

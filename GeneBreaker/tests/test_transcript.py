@@ -1,7 +1,7 @@
 import unittest
-from MenDelSIM.src.transcript import Transcript
 from Bio.Seq import Seq
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 class TranscriptCreationTests(unittest.TestCase): 
     # @unittest.skip

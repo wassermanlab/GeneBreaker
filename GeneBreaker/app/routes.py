@@ -1,14 +1,14 @@
-from MenDelSIM.app import app
+from GeneBreaker.app import app
 from flask import request, jsonify, render_template, url_for, redirect, send_from_directory, send_file, make_response
 from werkzeug.exceptions import HTTPException, NotFound, BadRequest
 from werkzeug.utils import secure_filename
 import json
 import sys, os
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.variants import Variants
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.variants import Variants
+from GeneBreaker.src.api_helper import *
 from datetime import datetime
-from MenDelSIM.src.file_outputs import make_ped, make_vcf
+from GeneBreaker.src.file_outputs import make_ped, make_vcf
 
 @app.route('/')
 def test():

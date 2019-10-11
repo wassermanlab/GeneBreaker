@@ -1,8 +1,8 @@
 # python -m unittest tests.test_gene
 import unittest
-from MenDelSIM.src.variant import Variant
-from MenDelSIM.src.transcript import Transcript
-from MenDelSIM.src.api_helper import *
+from GeneBreaker.src.variant import Variant
+from GeneBreaker.src.transcript import Transcript
+from GeneBreaker.src.api_helper import *
 
 class VariantCreationTests(unittest.TestCase):
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]

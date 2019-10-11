@@ -1,14 +1,14 @@
 # python -m unittest tests.test_gene 
 import unittest
-from MenDelSIM.src.variants import Variants
+from GeneBreaker.src.variants import Variants
 
 class VariantCreationTests(unittest.TestCase):
     def test_writing_file_denovo(self):
-        config = "MenDelSIM/tests/testing_data/denovo.json"
+        config = "GeneBreaker/tests/testing_data/denovo.json"
         _vars = Variants(config).save_vcf_output()
 
     def test_writing_file_biparental2(self):
-        config = "MenDelSIM/tests/testing_data/biparental_2.json"
+        config = "GeneBreaker/tests/testing_data/biparental_2.json"
         _vars = Variants(config).save_vcf_output()
 
 
