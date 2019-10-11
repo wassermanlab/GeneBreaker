@@ -10,6 +10,10 @@ from MenDelSIM.src.api_helper import *
 from datetime import datetime
 from MenDelSIM.src.file_outputs import make_ped, make_vcf
 
+@app.route('/')
+def test():
+    return "TEST"
+
 @app.route('/get_transcripts/<genome>/')
 @app.route('/get_transcripts/<genome>/<name>')
 def get_transcripts_api(genome,name = None):

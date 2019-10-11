@@ -4,11 +4,8 @@
 
 Human mendelian disease are characterized as genetic disorders caused by changes in a single loci or gene. These genetic disorders follow different inheritance patterns depending on the type of alteration in the loci. Many rare genetic diseases are mendelian in nature some examples include: cystic fibrosis, hemophilia, and color blindness. 
 
-<img src="readme_static/overview.png" width="400">
-
 The MenDelSIM package allows for the simulation of new or known variants in a single gene representing a possible mendelian disease case aswell as simulation of full family profiles following a specified inheritance pattern as specified below. 
 
-<img src="readme_static/inheritance_1.png" width="400"><img src="readme_static/inheritance_2.png" width="400">
 
 ## Directory Structure 
 

@@ -2,6 +2,9 @@
 *.tsv
 *Rhistory
 *str_simulations*
+genebreaker.ini
+genebreaker.sock 
+wsgi.py
 
 #vscode
 .vscode
