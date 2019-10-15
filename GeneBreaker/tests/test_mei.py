@@ -1,6 +1,7 @@
 # python -m unittest tests.test_gene
 import unittest
 import time
+import re
 from GeneBreaker.src.mei import MEI
 from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
@@ -49,24 +50,17 @@ class InsersionMethodTesting(unittest.TestCase):
     def test_get_insertion_any(self):
         mei = MEI(self.mei_any, self.positive_transcript)
         vcf_row = mei.get_vcf_row()
-        print(vcf_row)
-        # self.assertEqual(len(insertion["alt"]), 282)
+        self.assertEqual(vcf_row["alt"], '<INS:MEI:ALU>')
+        self.assertRegex(vcf_row["info"], re.compile('.*SVLEN=282.*'))
     
-#     # test 5
-#     def test_get_insertion_spec(self):
-#         mei = MEI(self.mei_spec, self.negative_transcript)
-#         insertion = mei.get_insertion()
-#         self.assertEqual(insertion["pos"], 129813999)
-#         self.assertEqual(len(insertion["alt"]), 282)
-
-#     # test 6
-#     def test_get_insertion_row(self):
-#         mei = MEI(self.mei_spec, self.negative_transcript)
-#         insertion = mei.get_vcf_row()
-#         self.assertEqual(insertion['chrom'], "chr9")
-#         self.assertEqual(insertion['pos'], '129814000')
-#         self.assertEqual(len(insertion['alt']), 282)
-#         print(insertion)
+    # test 5
+    def test_get_insertion_spec(self):
+        mei = MEI(self.mei_spec, self.negative_transcript)
+        vcf_row = mei.get_vcf_row()
+        self.assertEqual(vcf_row["pos"], '129814000')
+        self.assertEqual(vcf_row["alt"], '<INS:MEI:ALU>')
+        self.assertEqual(vcf_row["info"], 'SVTYPE=INS;END=129814282;SVLEN=282;')
+        self.assertEqual(vcf_row['chrom'], "chr9")
 
 if __name__ == '__main__':
     unittest.main()

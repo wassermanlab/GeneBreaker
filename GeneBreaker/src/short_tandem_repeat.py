@@ -8,24 +8,32 @@ from lxml import etree
 class ShortTandemRepeat(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template, transcript: Transcript):
-        Variant.__init__(self, var_template, transcript)
-        self.chrom = self.transcript.get_chr()
-        # get STR
-        STR = get_str(self.transcript.get_genome(), int(self.impact["STR_ID"]))
-        self.start = int(STR["start"])
-        self.end = int(STR["end"])
-        self.length = self.impact["LENGTH"]
-        self.motif = STR["qualifiers"]["motif"]
-        self.check_str()
+        try:
+            Variant.__init__(self, var_template, transcript)
+            self.chrom = self.transcript.get_chr()
+            STR = get_str(self.transcript.get_genome(), int(self.impact["STR_ID"]))
+            self.start = int(STR["start"])
+            self.end = int(STR["end"])
+            self.length = self.impact["LENGTH"]
+            self.motif = STR["qualifiers"]["motif"]
+            self.check_str()
+            # get deletion/insersion 
+            if self.length > 0:  # insersion
+                var_dict = self.get_expantion()
+            if self.length < 0:  # deletion
+                var_dict = self.get_retraction()
+            self.pos = var_dict["pos"]
+            self.ref = str(var_dict["ref"])
+            self.alt = str(var_dict["alt"])
+            self.id = "_".join(["str", str(self.pos), str(self.length)])
+        except Exception as e:
+            raise(e)
     
     def check_str(self):
         if self.type != "STR":
             raise ValueError("Must be STR type")
-        if self.length == 0:
-            raise Exception("STR length must be not equal to 0")
         if type(self.start) != int or type(self.end) != int:
             raise ValueError("start and end must be int.")
-        self.start = self.start
         if (self.length>0):
             self.check_location(self.start)
         else: 
@@ -63,32 +71,3 @@ class ShortTandemRepeat(Variant):
         return {"pos": self.start,
                 "ref": ref,
                 "alt": alt}
-
-    def get_vcf_row(self) -> dict:
-        # get regions
-        if self.length > 0:  # insersion
-            var_dict = self.get_expantion()
-        if self.length < 0:  # deletion
-            var_dict = self.get_retraction()
-        chrom = self.transcript.get_chr()
-        pos = str(var_dict["pos"] + 1)  # add 1 to make 1 based
-        ref = str(var_dict["ref"])
-        alt = str(var_dict["alt"])
-        ID = "_".join(["str", pos, str(self.length)])
-        if self.zygosity == "HOMOZYGOUS":
-            zygosity = "1/1"
-        if self.zygosity == "HEMIZYGOUS":
-            zygosity = "1/1"
-        if self.zygosity == "HETEROZYGOUS":
-            zygosity = "0/1"
-        return {
-            "chrom": chrom,
-            "pos":  pos,
-            "id": ID,
-            "ref": ref,
-            "alt": alt,
-            "qual": ".",
-            "filter": ".",
-            "info": ".",
-            "format": "GT",
-            "proband": zygosity}
