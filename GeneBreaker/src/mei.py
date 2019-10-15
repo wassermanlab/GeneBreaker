@@ -11,14 +11,12 @@ class MEI(Variant):
         try:
             Variant.__init__(self, var_template, transcript)
             self.element = self.impact["ELEMENT"]
-            self.start = self.impact["START"]
+            self.pos = self.impact["START"]
             self.check_mei()
             # make mei
             region_range = self.get_region_range()
-            if self.start == "ANY": # pick any position within the ranges
+            if self.pos == "ANY": # pick any position within the ranges
                 self.pos = random.choice(region_range)
-            else:
-                self.pos = self.start
             self.id = "_".join(["mei", str(self.pos+1), self.element])
             self.ref = self.get_seq(self.transcript.chrom, self.pos, self.pos+1, self.transcript.genome)
             self.alt = "<INS:MEI:"+self.element+">"
@@ -36,10 +34,10 @@ class MEI(Variant):
         if self.type != "MEI":
             raise ValueError("Must be MEI type")
         self.check_element()
-        if type(self.start) == int:
-            self.start = self.start - 1
-            self.check_location(self.start)
-        elif self.start != "ANY":
+        if type(self.pos) == int:
+            self.pos = self.pos - 1
+            self.check_location(self.pos)
+        elif self.pos != "ANY":
             raise ValueError("locations must be ANY or and int")
 
     def get_vcf_row(self) -> dict:
