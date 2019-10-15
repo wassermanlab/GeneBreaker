@@ -21,3 +21,14 @@ class clinvarTests(unittest.TestCase):
         self.assertEqual(row["pos"], "72121409")
         self.assertEqual(row["ref"], "C")
         self.assertEqual(row["alt"], "T")
+    
+     # test 2
+    def test_clinvar_wrong(self):
+        clinvar = {
+            "TYPE": "CLINVAR",
+            "REGION": "GENIC",
+            "IMPACT": {"CLINVAR_ID": 2000000000},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        with self.assertRaises(ValueError):
+            ClinVar(clinvar, self.transcript)
+
