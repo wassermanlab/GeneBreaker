@@ -93,7 +93,7 @@ class InsersionMethodTesting(unittest.TestCase):
         self.assertEqual(len(insertion["alt"]), 6)
 
     # test 9
-    def test_get_insertion_spec(self): #################################################
+    def test_get_insertion_spec(self):
         insertion = self.indel_spec.get_insertion()
         self.assertEqual(insertion["pos"], 129814199)
         self.assertEqual(len(insertion["alt"]), 9)

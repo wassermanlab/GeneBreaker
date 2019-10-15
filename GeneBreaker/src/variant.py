@@ -7,20 +7,20 @@ from GeneBreaker.src.api_helper import *
 class Variant:
     # template is type dict
     def __init__(self, var_template: dict, transcript: Transcript):
-        if (var_template == None):
-            return None
-        self.transcript = transcript
-        self.type = var_template["TYPE"]
-        self.region = var_template["REGION"]
-        self.impact = var_template["IMPACT"]
-
-        self.chrom = self.transcript.get_chr()
-        self.pos = None
-        self.id = None
-        self.ref = None
-        self.alt = None
-        self.zygosity = var_template["ZYGOSITY"]
         try:
+            if (var_template == None):
+                return None
+            self.transcript = transcript
+            self.type = var_template["TYPE"]
+            self.region = var_template["REGION"]
+            self.impact = var_template["IMPACT"]
+
+            self.chrom = self.transcript.get_chr()
+            self.pos = None
+            self.id = None
+            self.ref = None
+            self.alt = None
+            self.zygosity = var_template["ZYGOSITY"]
             self.check_variant()
         except Exception as e:
             raise(e)

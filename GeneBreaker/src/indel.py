@@ -6,18 +6,21 @@ import random
 class Indel(Variant):
     # assume var_template is of type dict already
     def __init__(self, var_template: dict, transcript: Transcript):
-        Variant.__init__(self, var_template, transcript)
-        self.indel_amount = self.impact["INDEL_AMOUNT"]
-        self.start = self.impact["START"]
-        self.check_indel()
-        if self.indel_amount > 0:  # insersion
-            var_dict = self.get_insertion()
-        if self.indel_amount < 0:  # deletion
-            var_dict = self.get_deletion()
-        self.pos = var_dict["pos"]
-        self.id = "_".join(["indel", str(self.pos+1), str(self.indel_amount)])
-        self.ref = str(var_dict["ref"])
-        self.alt = str(var_dict["alt"])
+        try:
+            Variant.__init__(self, var_template, transcript)
+            self.indel_amount = self.impact["INDEL_AMOUNT"]
+            self.start = self.impact["START"]
+            self.check_indel()
+            if self.indel_amount > 0:  # get insersion
+                var_dict = self.get_insertion()
+            if self.indel_amount < 0:  # get deletion
+                var_dict = self.get_deletion()
+            self.pos = var_dict["pos"]
+            self.id = "_".join(["indel", str(self.pos+1), str(self.indel_amount)])
+            self.ref = str(var_dict["ref"])
+            self.alt = str(var_dict["alt"])
+        except Exception as e:
+            raise(e)
 
     def check_amount(self):
         """checks amount of indel is integer between -200 and 200"""
@@ -99,30 +102,4 @@ class Indel(Variant):
                 "ref": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()),
                 "alt": self.get_seq(self.transcript.get_chr(), pos, pos+1, self.transcript.get_genome()) + self.get_insertion_str(self.indel_amount)}
 
-    # def get_vcf_row(self) -> dict:
-    #     chrom = str(self.transcript.get_chr())
-    #     if self.indel_amount > 0:  # insersion
-    #         var_dict = self.get_insertion()
-    #     if self.indel_amount < 0:  # deletion
-    #         var_dict = self.get_deletion()
-    #     pos = str(var_dict["pos"] + 1)  # add 1 to make it on based
-    #     ref = str(var_dict["ref"])
-    #     alt = str(var_dict["alt"])
-    #     ID = "_".join(["indel", pos, str(self.indel_amount)])
-    #     if self.zygosity == "HOMOZYGOUS":
-    #         zygosity = "1/1"
-    #     if self.zygosity == "HEMIZYGOUS":
-    #         zygosity = "1/1"
-    #     if self.zygosity == "HETEROZYGOUS":
-    #         zygosity = "0/1"
-    #     return {
-    #         "chrom": chrom,
-    #         "pos":  pos,
-    #         "id": ID,
-    #         "ref": ref,
-    #         "alt": alt,
-    #         "qual": ".",
-    #         "filter": ".",
-    #         "info": ".",
-    #         "format": "GT",
-    #         "proband": zygosity}
+  
