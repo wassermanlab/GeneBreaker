@@ -62,7 +62,7 @@ def design_variants():
     # if POST then return the variant file sent with the JSON file 
     if request.method == 'POST': 
         try: 
-            response = Variants(request.json).save_vcf_output()
+            response = Variants(request.json).get_variant_rows()
             response = jsonify(response)
             return response
 

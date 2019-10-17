@@ -77,28 +77,7 @@ class Variants:
         r1 = self.var1.get_vcf_row() 
         return (r1, r2)
 
-    def save_vcf_output(self):
-        #     # TODO: implement this
-        # if "CNV" in variant_types:
-        #     # make complex VCF
-        #     vcf = self.variants_2_VCF(format="4.2")
-        #     header = "##fileformat=VCFv4.2\n"
-        #     header = header + "##fileDate=" + str(date.today()) + "\n"
-        #     header = header + "##source=variant_simulator\n"
-        #     header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
-        #     header = header + "##INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the variant described in this record\"\n"
-        #     header = header + "##INFO=<ID=SVLEN,Number=.,Type=Integer,Description=\"Difference in length between REF and ALT alleles\"\n"
-        #     header = header + "##INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of structural variant\"\n"
-        #     header = header + "##ALT=<ID=DUP,Description=\"Duplication\"\n"
-        #     header = header + "##ALT=<ID=DEL,Description=\"Deletion\"\n"
-        #     header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tPROBAND\n"
-        # "##ALT=<ID=INS:ME:ALU,Description=\"Insertion of ALU element\"\n"
-        # "##ALT=<ID=INS:ME:LINE,Description=\"Insertion of LINE1 element\"\n"
-        # "##ALT=<ID=INS:ME:SVA,Description=\"Insertion of SVA element\"\n"
-        #     f = open("vcf4.2."+file_name, "w+")
-        #     f.write(header+vcf[0]+vcf[1])
-        #     f.close()
-
+    def get_variant_rows(self):
         vcf = self.variants_2_VCF()
         return {"var1": vcf[0],
                 "var2": vcf[1]}

@@ -11,7 +11,6 @@ import datetime
 # Sex (1=male; 2=female; other=unknown)
 # Phenotype (unaffected=1; affected=2)
 
-
 def get_row(individual_id, individual, mother, father):
     row = "FAM\t" + individual_id + "\t"
     if (individual_id in ["father", "mother"]):
@@ -52,6 +51,14 @@ def make_vcf(variants, filename):
     header = "##fileformat=VCFv4.2\n"
     header = header + "##fileDate=" + str(datetime.date.today()) + "\n"
     header = header + "##source=variant_simulator\n"
+    header = header + "##INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the variant described in this record\">\n"
+    header = header + "##INFO=<ID=SVLEN,Number=.,Type=Integer,Description=\"Difference in length between REF and ALT alleles\">\n"
+    header = header + "##INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of structural variant\">\n"
+    header = header + "##ALT=<ID=DEL,Description=\"Deletion\">\n"
+    header = header + "##ALT=<ID=DUP:TANDEM,Description=\"Tandem Duplication\">\n"
+    header = header + "##ALT=<ID=INS:ME:ALU,Description=\"Insertion of ALU element\">\n"
+    header = header + "##ALT=<ID=INS:ME:LINE,Description=\"Insertion of LINE1 element\">\n"
+    header = header + "##ALT=<ID=INS:ME:SVA,Description=\"Insertion of SVA element\">\n"
     header = header + "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\"\n"
     header = header + "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT"
     row1 = "\t".join([variants["var1"]["chrom"], variants["var1"]["pos"], variants["var1"]["id"],

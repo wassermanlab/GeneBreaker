@@ -5,11 +5,11 @@ from GeneBreaker.src.variants import Variants
 class VariantCreationTests(unittest.TestCase):
     def test_writing_file_denovo(self):
         config = "GeneBreaker/tests/testing_data/denovo.json"
-        _vars = Variants(config).save_vcf_output()
+        _vars = Variants(config).get_variant_rows()
 
     def test_writing_file_biparental2(self):
         config = "GeneBreaker/tests/testing_data/biparental_2.json"
-        _vars = Variants(config).save_vcf_output()
+        _vars = Variants(config).get_variant_rows()
 
 
 
