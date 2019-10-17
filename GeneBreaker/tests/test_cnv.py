@@ -1,11 +1,12 @@
 import unittest
+import time 
 from GeneBreaker.src.copy_number_variant import CopyNumberVariant
 from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
 
 
 class CNVCreationTests(unittest.TestCase):
-    XKR8_uid = get_all_transcripts("27959865", "hg38")[0]["qualifiers"]["uid"]
+    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
 
     # test 1
@@ -39,7 +40,8 @@ class CNVCreationTests(unittest.TestCase):
                 "COPY_CHANGE": 2,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
-        CopyNumberVariant(cnv, self.transcript)
+        with self.assertRaises(ValueError):
+            CopyNumberVariant(cnv, self.transcript)
 
     # test 4
     def test_UTR_overlap(self):
@@ -49,11 +51,9 @@ class CNVCreationTests(unittest.TestCase):
             "IMPACT": {
                 "START": 27959622,
                 "END": 27960150,
-                "COPY_CHANGE": 2,
+                "COPY_CHANGE": 1,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
-        with self.assertRaises(ValueError):
-            CopyNumberVariant(cnv, self.transcript)
         cnv["IMPACT"]["END"] = 27959682
         CopyNumberVariant(cnv, self.transcript)
 
@@ -65,7 +65,7 @@ class CNVCreationTests(unittest.TestCase):
             "IMPACT": {
                 "START": 27959999,
                 "END": 27961050,
-                "COPY_CHANGE": 2,
+                "COPY_CHANGE": 1,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
@@ -84,13 +84,11 @@ class CNVCreationTests(unittest.TestCase):
                 "COPY_CHANGE": -1,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
-        cnv = CopyNumberVariant(cnv, self.transcript)
-        row = cnv.get_vcf_row()
-        self.assertEqual(row['chrom'], "chr1")
-        self.assertEqual(row['pos'], "27960999")
-        self.assertEqual(
-            row['ref'], "GCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
-        self.assertEqual(row['alt'], "G")
+        cnv = CopyNumberVariant(cnv, self.transcript).get_vcf_row()
+        self.assertEqual(cnv['chrom'], "chr1")
+        self.assertEqual(cnv['pos'], "27961000")
+        self.assertEqual(cnv['ref'], "C")
+        self.assertEqual(cnv['alt'], "<DEL>")
 
     # test 7
     def test_insertion(self):
@@ -100,14 +98,13 @@ class CNVCreationTests(unittest.TestCase):
             "IMPACT": {
                 "START": 27961000,
                 "END": 27961050,
-                "COPY_CHANGE": 2,
+                "COPY_CHANGE": 1,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
-        cnv = CopyNumberVariant(cnv, self.transcript)
-        row = cnv.get_vcf_row()
-        self.assertEqual(row['chrom'], "chr1")
-        self.assertEqual(row['pos'], "27961000")
+        cnv = CopyNumberVariant(cnv, self.transcript).get_vcf_row()
+        self.assertEqual(cnv['chrom'], "chr1")
+        self.assertEqual(cnv['pos'], "27961000")
         self.assertEqual(
-            row['ref'], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+            cnv['ref'], "C")
         self.assertEqual(
-            row['alt'], "CAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCCCAACCTCAGCTGGCTTCTTGACCTGGGCCTCCCTGGGAGTTTCAGCAGCCC")
+            cnv['alt'], "<DUP:TANDEM>")

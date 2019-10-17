@@ -62,6 +62,15 @@ class Transcript:
         elif self.strand == -1:
             return str(Seq(cut).reverse_complement())
 
+    def get_strand(self) -> str:
+        return self.strand
+
+    def get_cdsStart(self) -> str:
+        return self.cdsStart
+    
+    def get_cdsEnd(self) -> str:
+        return self.cdsEnd
+
     def get_start(self) -> int:
         return self.txStart
 
