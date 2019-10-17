@@ -2,9 +2,11 @@ import unittest
 from GeneBreaker.src.single_nucleotide_variant import SingleNucleotideVariant as SNV
 from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
+import time
 
 
 class SNVCreationTests(unittest.TestCase):
+    time.sleep(1)
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
     # test 1
@@ -30,6 +32,7 @@ class SNVCreationTests(unittest.TestCase):
 
 
 class MutationMethods(unittest.TestCase):
+    time.sleep(1)
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(XKR8_uid, "hg38")
     snv = {
@@ -53,7 +56,7 @@ class MutationMethods(unittest.TestCase):
 
     # test 6
     def test_misssense_exists(self):
-        print(self.snv.missense_mutation("CAC", 2))
+        self.assertIn(self.snv.missense_mutation("CAC", 2), ["G", "A"])
 
     # test 7
     def test_synonymous_exists(self):
@@ -66,13 +69,22 @@ class MutationMethods(unittest.TestCase):
     # test 9
     def test_any_mutation(self):
         self.assertIn(self.snv.any_mutation("CAA", 2), ["G", "C", "T"])
+    
+    # test 10
+    def test_stoploss(self):
+        self.assertIn(self.snv.stoploss_mutation("TAG", 2), ["C", "T"])
+    
+    # test 11
+    def test_stoploss_not_valid(self):
+        self.assertFalse(self.snv.stoploss_mutation("GGA", 2))
 
 
 class NonCodingSNV(unittest.TestCase):
+    time.sleep(1)
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
     positive_transcript = Transcript(SOX9_uid, "hg38")
-    # test 10
-
+    
+    # test 12
     def test_basic_non_coding(self):
         snv = {
             "TYPE": "SNV",
@@ -83,19 +95,19 @@ class NonCodingSNV(unittest.TestCase):
         row = snv.get_vcf_row()
         self.assertEqual(row["alt"], "A")
 
-    # test 11
+    # test 13
     def test_basic_non_coding_exact(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "INTRONIC",
             "IMPACT": {"SNV_TYPE": "A", "START": 72122000},
             "ZYGOSITY": "HETEROZYGOUS"}
-        row = SNV(snv, self.positive_transcript).get_non_coding_SNV()
-        self.assertEqual(row["pos"], 72121999)
+        row = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertEqual(row["pos"], "72122000")
         self.assertEqual(row["ref"], "C")
         self.assertEqual(row["alt"], "A")
 
-    # test 12
+    # test 14
     def test_non_coding_incorrect_impact(self):
         snv = {
             "TYPE": "SNV",
@@ -104,38 +116,36 @@ class NonCodingSNV(unittest.TestCase):
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             snv = SNV(snv, self.positive_transcript)
-            snv.get_non_coding_SNV()
 
 
 class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
+    time.sleep(1)
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
     positive_transcript = Transcript(SOX9_uid, "hg38")
-    # test 13
-
+    
+    # test 15
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "G", "START": 72121500},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.positive_transcript)
-        directed = snv.get_directed_coding_SNV(72121499)
-        self.assertEqual(directed['ref'], "T")
-        self.assertEqual(directed['alt'], "G")
+        snv = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "T")
+        self.assertEqual(snv['alt'], "G")
 
-    # test 14
+    # test 16
     def test_directed_SNV_exists_nonsense(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 72121513},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.positive_transcript)
-        mutation_nonsense = snv.get_directed_coding_SNV(72121512)
-        self.assertEqual(mutation_nonsense['ref'], "C")
-        self.assertEqual(mutation_nonsense['alt'], "A")
+        snv = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertEqual(snv['alt'], "A")
 
-    # test 15
+    # test 17
     def test_directed_SNV_exists_missense(self):
         snv = {
             "TYPE": "SNV",
@@ -143,81 +153,148 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
             "IMPACT": {"SNV_TYPE": "MISSENSE", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
         snv = SNV(snv, self.positive_transcript)
-        directed_missense = snv.get_directed_coding_SNV(72121516)
-        self.assertNotEqual(directed_missense, False)
-        print(directed_missense)
 
-    # test 16
+    # test 18
     def test_directed_SNV_exists_SYNONYMOUS(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.positive_transcript)
-        mutation = snv.get_directed_coding_SNV(72121516)
-        self.assertEqual(mutation['ref'], "C")
-        self.assertEqual(mutation['alt'], "T")
+        snv = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertEqual(snv['alt'], "T")
 
-    # test 17
+    # test 19
     def test_directed_SNV_false(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 72121517},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.positive_transcript)
-        self.assertFalse(snv.get_directed_coding_SNV(0))
+        with self.assertRaises(Exception):
+            snv = SNV(snv, self.positive_transcript)
+
+    # test 20
+    def test_directed_SNV_stoploss_false(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": 72124380},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        with self.assertRaises(Exception):
+            snv = SNV(snv, self.positive_transcript)
+        
+    # test 21
+    def test_directed_SNV_stoploss_exists(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": 72124385},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        snv = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "T")
+        self.assertIn(snv['alt'], ["A","G","C"])
+        self.assertEqual(snv['pos'], "72124385")
+    
+    # test 22
+    def test_undirected_SNV_stoploss_exists(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": "ANY"},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        snv = SNV(snv, self.positive_transcript).get_vcf_row()
+        self.assertIn(snv['pos'], ["72124385", "72124386", "72124387"])
+
 
 
 class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
+    time.sleep(1)
     SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
     negative_transcript = Transcript(SOX18_uid, "hg38")
-    # test 18
-
+    
+    # test 23
     def test_directed_SNV_exists_single_replacement(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "G", "START": 64048520},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.negative_transcript)
-        directed = snv.get_directed_coding_SNV(64048519)
-        self.assertEqual(directed['ref'], "C")
-        self.assertEqual(directed['alt'], "G")
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertEqual(snv['alt'], "G")
 
-    # test 19
+    # test 24
     def test_directed_SNV_exists_nonsense(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "NONSENSE", "START": 64048519},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.negative_transcript)
-        mutation_nonsense = snv.get_directed_coding_SNV(64048518)
-        print(mutation_nonsense)
-        self.assertEqual(mutation_nonsense['ref'], "C")
-        self.assertEqual(mutation_nonsense['alt'], "A")
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertEqual(snv['alt'], "A")
 
-    # test 20
+    # test 25
     def test_directed_SNV_not_exists_missense(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "MISSENSE", "START": 64048502},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.negative_transcript)
-        directed_missense = snv.get_directed_coding_SNV(64048501)
-        self.assertEqual(directed_missense, False)
+        with self.assertRaises(Exception):
+            snv = SNV(snv, self.negative_transcript)
 
-    # test 21
+    # test 26
     def test_directed_SNV_exists_SYNONYMOUS(self):
         snv = {
             "TYPE": "SNV",
             "REGION": "CODING",
             "IMPACT": {"SNV_TYPE": "SYNONYMOUS", "START": 64048502},
             "ZYGOSITY": "HETEROZYGOUS"}
-        snv = SNV(snv, self.negative_transcript)
-        mutation = snv.get_directed_coding_SNV(64048501)
-        self.assertEqual(mutation['ref'], "C")
-        self.assertIn(mutation['alt'], ["A", "G", "T"])
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertIn(snv['alt'], ["A", "G", "T"])
+
+    # test 27
+    def test_directed_SNV_stoploss_false(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": 64048164},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        with self.assertRaises(Exception):
+            snv = SNV(snv, self.negative_transcript)
+        
+    # test 28
+    def test_directed_SNV_stoploss_exists(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": 64048166},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+        self.assertEqual(snv['ref'], "C")
+        self.assertIn(snv['alt'], ["A","G"])
+        self.assertEqual(snv['pos'], "64048166")
+    
+    # test 29
+    def test_undirected_SNV_stoploss_exists(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "STOPLOSS", "START": "ANY"},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+        self.assertIn(snv['pos'], ["64048166", "64048167", "64048168"])
+    
+    # test 29
+    def test_undirected_SNV(self):
+        snv = {
+            "TYPE": "SNV",
+            "REGION": "CODING",
+            "IMPACT": {"SNV_TYPE": "ANY", "START": "ANY"},
+            "ZYGOSITY": "HETEROZYGOUS"}
+        snv = SNV(snv, self.negative_transcript).get_vcf_row()
+

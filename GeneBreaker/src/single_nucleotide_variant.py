@@ -29,24 +29,47 @@ class SingleNucleotideVariant(Variant):
 
     def __init__(self, var_template, transcript: Transcript):
         """ initialize snv variant """
-        Variant.__init__(self, var_template, transcript)
-        self.snv_type = self.impact["SNV_TYPE"]
-        self.start = self.impact["START"]
-        self.check_snv()
+        try:
+            Variant.__init__(self, var_template, transcript)
+            self.snv_type = self.impact["SNV_TYPE"]
+            self.pos = self.impact["START"]
+            self.check_snv()
+            if self.region == "CODING":
+                if self.pos == "ANY":
+                    var_dict = self.get_random_coding_SNV()
+                else:
+                    var_dict = self.get_directed_coding_SNV(self.pos)
+            else:
+                var_dict = self.get_non_coding_SNV()  # just make change to this
+            if var_dict == False:
+                raise Exception("Specified SNV cannot be made")
+            self.pos = var_dict["pos"]
+            self.ref = str(var_dict["ref"])
+            self.alt = str(var_dict["alt"])
+        except Exception as e:
+            raise(e)
 
     def check_snv(self):
         if self.type != "SNV":
             raise ValueError("Must be SNV type")
-        if self.snv_type not in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "A", "T", "G", "C", "ANY"]:
+        if self.snv_type not in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "STOPLOSS",  "A", "T", "G", "C", "ANY"]:
             raise ValueError(
                 "TYPE must be missense, nonsense, synonymous or a base")
-        if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS"]:
-            raise ValueError("type impact not valid for non coding region")
-        if type(self.start) == int:
-            self.start = self.start - 1
-            self.check_location(self.start)
-        elif self.start != "ANY":
-            raise ValueError("locations must be ANY or and int")
+        if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "STOPLOSS"]:
+            raise ValueError("type impact not valid for non-coding region")
+        if type(self.pos) == int:
+            self.pos = self.pos - 1
+            self.check_location(self.pos)
+        elif self.pos != "ANY":
+            raise ValueError("locations must be ANY or and int")       
+        if type(self.pos) == int and self.snv_type == "STOPLOSS": ## directed stoploss
+            if self.transcript.get_strand() == 1:
+                self.transcript.get_cdsStart()
+                valid_range = range(self.transcript.get_cdsEnd()-3, self.transcript.get_cdsEnd())
+            else: 
+                valid_range = range(self.transcript.get_cdsStart(), self.transcript.get_cdsStart()+3)
+            if self.pos not in valid_range:
+                raise ValueError("directed stop loss must be at the stop codon position")
 
     def get_alternate_codons(self, codon, pos):
         choices = ['A', 'T', 'G', 'C']
@@ -94,6 +117,17 @@ class SingleNucleotideVariant(Variant):
             return False
         return False
 
+    def stoploss_mutation(self, codon, pos):
+        if codon not in self.stop_codons: ## if codon requested is not a stop codon
+            return False
+        else: 
+            alternate_codons = self.get_alternate_codons(codon, pos)
+            random.shuffle(alternate_codons)
+            for i in alternate_codons:
+                if i not in self.stop_codons:
+                    return i[pos]
+            return False
+
     def any_mutation(self, codon, pos):
         """ make random mutation in codon, returns False if 
         mutation cannot be made there the alternate variant"""
@@ -106,10 +140,10 @@ class SingleNucleotideVariant(Variant):
         """ make random or directed SNV """
         # get ranges
         region_range = self.get_region_range()
-        if self.start == "ANY":
+        if self.pos == "ANY":
             pos = random.choice(region_range)
         else:
-            pos = self.start
+            pos = self.pos
         shift_pos = pos - self.transcript.get_start()
         ref = self.transcript.get_seq()[shift_pos]
         if self.snv_type == "ANY":  # user has requested random base change
@@ -133,6 +167,8 @@ class SingleNucleotideVariant(Variant):
             alt = self.nonsense_mutation(codon, codon_pos)
         elif self.snv_type == "SYNONYMOUS":
             alt = self.synonymous_mutation(codon, codon_pos)
+        elif self.snv_type == "STOPLOSS":
+            alt = self.stoploss_mutation(codon, codon_pos)
         elif self.snv_type == "ANY":
             alt = self.any_mutation(codon, codon_pos)
         else:
@@ -156,48 +192,22 @@ class SingleNucleotideVariant(Variant):
     def get_random_coding_SNV(self):
         """ get coding SNV, returns  dict{pos, ref, alt}"""
         # get available positions # get requested region
-        region_range = self.get_region_range()
+        if self.snv_type == "STOPLOSS": 
+            if self.transcript.get_strand() == 1: 
+                end = self.transcript.get_cdsEnd()
+                region_range = range(end-3, end)
+            else: 
+                start = self.transcript.get_cdsStart() 
+                region_range = range(start, start+3)
+        else:
+            region_range = self.get_region_range()
         # while loop randomly choosing positions in the available
+        region_range = list(region_range)
         alt = False
-        while len(region_range) > 0:
+        while len(region_range) > 0 and not alt:
             loc = random.choice(region_range)
             region_range.remove(loc)
             snv = self.get_directed_coding_SNV(loc)
             if snv != False:
                 alt = True
                 return snv
-                break
-
-    def get_vcf_row(self):
-        """ get variant row tab delimitted  """
-        chrom = str(self.transcript.get_chr())
-        if self.region == "CODING":
-            if self.start == "ANY":
-                var_dict = self.get_random_coding_SNV()
-            else:
-                var_dict = self.get_directed_coding_SNV(self.start)
-        else:
-            var_dict = self.get_non_coding_SNV()  # just make change to this
-        if var_dict == False:
-            raise Exception("Specified SNV cannot be made")
-        pos = str(var_dict["pos"] + 1)  # changing to 1 based
-        ref = str(var_dict["ref"])
-        alt = str(var_dict["alt"])
-        ID = "_".join(["snv", pos, str(self.snv_type)])
-        if self.zygosity == "HOMOZYGOUS":
-            zygosity = "1/1"
-        if self.zygosity == "HEMIZYGOUS":
-            zygosity = "1/1"
-        if self.zygosity == "HETEROZYGOUS":
-            zygosity = "0/1"
-        return {
-            "chrom": chrom,
-            "pos":  pos,
-            "id": ID,
-            "ref": ref,
-            "alt": alt,
-            "qual": ".",
-            "filter": ".",
-            "info": ".",
-            "format": "GT",
-            "proband": zygosity}
