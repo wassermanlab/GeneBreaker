@@ -24,7 +24,7 @@ def main():
     try: 
         variants_json = config
         variants = Variants(variants_json)
-        variants.save_vcf_output(output)
+        variants.get_variant_rows(output)
     except: 
         print ("Check that your config is formatted the correct way")
 

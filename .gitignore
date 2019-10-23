@@ -5,6 +5,8 @@
 genebreaker.ini
 genebreaker.sock 
 wsgi.py
+*config.py
+*config.ini
 
 #vscode
 .vscode

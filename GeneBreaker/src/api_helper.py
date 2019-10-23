@@ -1,6 +1,9 @@
 import requests
 import json
-host = 'http://gud.cmmt.ubc.ca:8080'
+import configparser
+config = configparser.ConfigParser()
+config.read('GeneBreaker/src/config.ini')
+host = config.get('DEFAULT', 'GUD_HOST')
 
 def get_all_results(request_url):
     # http://127.0.0.1:5000/api/v1/hg38/chroms
