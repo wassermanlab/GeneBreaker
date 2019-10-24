@@ -1,6 +1,7 @@
 import React from 'react';
 import SelectComp from './selectComp'
 import SelectList from './selectList'
+import host from '../config'
 
 function GlobalInfo(props) {
 
@@ -29,7 +30,7 @@ function GlobalInfo(props) {
       {/* gene name/symbol */}
       <label>Gene symbol</label>
       <input type="text" className="form-control" name="gene_name" value={props.gene_name} onChange={props.onChange} />
-      <SelectList title={"Transcripts"} url={'http://127.0.0.1:5001/get_transcripts/' + props.genome + '/' + props.gene_name}
+      <SelectList title={"Transcripts"} url={host + 'get_transcripts/' + props.genome + '/' + props.gene_name}
         name={"gene_uid"} value={props.gene_uid} type={"transcript"} onChange={props.onChange}
       />
     </React.Fragment >

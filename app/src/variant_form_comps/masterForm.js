@@ -14,6 +14,7 @@ import FInfo from './familyInfo'
 import { saveAs } from 'file-saver';
 import Nav from '../nav';
 import './masterForm.css';
+import host from '../config'
 
 function Errors(props) {
   return (
@@ -100,7 +101,7 @@ class MasterForm extends React.Component {
     }
 
     const file_type = event.target.value;
-    const rawResponse = await fetch('http://127.0.0.1:5001/get_file?filetype=' + file_type, {
+    const rawResponse = await fetch(host + 'get_file?filetype=' + file_type, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -226,7 +227,7 @@ class MasterForm extends React.Component {
     if (this.state.var2 === "false") {
       config["VAR2"] = "None"
     }
-    const rawResponse = await fetch('http://127.0.0.1:5001/design_variants', {
+    const rawResponse = await fetch(host + 'design_variants', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

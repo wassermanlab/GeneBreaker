@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import SelectList from './selectList'
+import host from '../config'
 
 function Clingen(props) {
-  const [url, setUrl] = useState('http://127.0.0.1:5001/get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region);
+  const [url, setUrl] = useState(host + 'get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region);
 
   useEffect(() => {
 
     function onRegionChange() {
       if (props.region === "CUSTOM") {
         const region = (props.chrom + ":" + props.customStart + "-" + props.customEnd)
-        setUrl('http://127.0.0.1:5001/get_clingen/' + props.genome + '/' + props.gene_uid + '/' + region)
+        setUrl(host + 'get_clingen/' + props.genome + '/' + props.gene_uid + '/' + region)
       } else {
-        setUrl('http://127.0.0.1:5001/get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region)
+        setUrl(host + 'get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region)
       }
     }
 
