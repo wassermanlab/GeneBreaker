@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SelectList from './selectList'
-import host from '../config'
+import {host} from '../host'
 
 function STR(props) {
   const [url, setUrl] = useState(host + 'get_str/' + props.genome + '/' + props.gene_uid + '/' + props.region);
-
   useEffect(() => {
 
     function onRegionChange() {

@@ -1,1 +1,0 @@
-const host = "http://genebreaker.cmmt.ubc.ca:8080/"

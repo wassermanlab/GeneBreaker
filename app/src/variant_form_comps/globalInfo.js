@@ -1,10 +1,9 @@
 import React from 'react';
 import SelectComp from './selectComp'
 import SelectList from './selectList'
-import host from '../config'
+import {host} from '../host'
 
 function GlobalInfo(props) {
-
   if (props.page !== 1) {
     return null;
   }

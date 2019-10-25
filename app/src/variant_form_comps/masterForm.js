@@ -14,8 +14,7 @@ import FInfo from './familyInfo'
 import { saveAs } from 'file-saver';
 import Nav from '../nav';
 import './masterForm.css';
-import host from '../config'
-
+import {host} from '../host'
 function Errors(props) {
   return (
 

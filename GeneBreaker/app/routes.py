@@ -16,7 +16,7 @@ def test():
 
 @app.route('/get_transcripts/<genome>/')
 @app.route('/get_transcripts/<genome>/<name>')
-def get_transcripts_api(genome,name = None):
+def get_transcripts_api(genome, name = None):
     # TODO: remove cross origin
     if (name is None):
         return jsonify([])

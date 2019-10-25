@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SelectList from './selectList'
-import host from '../config'
+import {host} from '../host'
 
 function Clingen(props) {
   const [url, setUrl] = useState(host + 'get_clingen/' + props.genome + '/' + props.gene_uid + '/' + props.region);

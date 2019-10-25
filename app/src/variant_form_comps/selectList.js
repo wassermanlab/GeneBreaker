@@ -13,7 +13,6 @@ function SelectList(props) {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-
     async function fetchUrl() {
       const response = await fetch(props.url);
       const json = await response.json();
