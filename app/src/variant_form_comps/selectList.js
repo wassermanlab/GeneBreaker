@@ -14,6 +14,7 @@ function SelectList(props) {
 
   useEffect(() => {
     async function fetchUrl() {
+      console.log(props.url)
       const response = await fetch(props.url);
       const json = await response.json();
       setList(json);

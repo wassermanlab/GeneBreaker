@@ -14,7 +14,7 @@ import FInfo from './familyInfo'
 import { saveAs } from 'file-saver';
 import Nav from '../nav';
 import './masterForm.css';
-import {host} from '../host'
+import { host } from '../host'
 function Errors(props) {
   return (
 
@@ -118,18 +118,14 @@ class MasterForm extends React.Component {
     const key = name[0]
     let fam = this.state.family;
     fam[family_key][key] = checked;
-    this.setState({
-      family: fam
-    }, () => console.log(this.state))
+    this.setState({ family: fam })
   }
 
   removeFamily(event) {
     const member = event.target.value;
     let fam = this.state.family;
     delete fam[member];
-    this.setState({
-      family: fam
-    }, () => console.log(this.state))
+    this.setState({ family: fam })
   }
 
   addFamily(event) {
@@ -154,9 +150,7 @@ class MasterForm extends React.Component {
       default:
         break
     }
-    this.setState({
-      family: fam
-    }, () => console.log(this.state))
+    this.setState({ family: fam })
   }
 
   get_region(variant) {
@@ -237,8 +231,7 @@ class MasterForm extends React.Component {
     if ("error" in vcf) {
       this.setState({ errors: [vcf["error"]] })
     } else {
-      this.setState({ vars: vcf, page: 4 },
-        () => console.log(this.state));
+      this.setState({ vars: vcf, page: 4 });
     }
   }
   // sets page to page+1
@@ -267,7 +260,7 @@ class MasterForm extends React.Component {
     this.setState({
       [name]: value
     },
-      () => console.log(this.state));
+      () => (this.state));
   }
   handleInputChangeClinGen(event) {
     const target = event.target;
@@ -284,15 +277,13 @@ class MasterForm extends React.Component {
         start_1: start,
         end_1: end,
         copy_change_1: copy_change,
-      },
-        () => console.log(this.state));
+      });
     } else {
       this.setState({
         start_2: start,
         end_2: end,
         copy_change_2: copy_change,
-      },
-        () => console.log(this.state));
+      });
     }
 
   }
@@ -303,8 +294,7 @@ class MasterForm extends React.Component {
 
     // state change for everything else 
     if (name === "gene_name" || name === "genome") {
-      this.setState({ [name]: value, gene_uid: "", chrom: "" },
-        () => console.log(this.state));
+      this.setState({ [name]: value, gene_uid: "", chrom: "" });
     } else if (name === "gene_uid" && value !== "") {
       const index = target.selectedIndex;
       const option = target.childNodes[index];
@@ -312,9 +302,8 @@ class MasterForm extends React.Component {
       this.setState({
         gene_uid: value,
         chrom: chrom
-      },
-        () => console.log(this.state));
-    } else { this.setState({ [name]: value }, () => console.log(this.state)); }
+      });
+    } else { this.setState({ [name]: value }); }
   }
   handelInputChangeClearFields(event) {
     const target = event.target;
@@ -332,8 +321,7 @@ class MasterForm extends React.Component {
       ["element_" + num]: "",
       ["snv_type_" + num]: "",
       ["str_id_" + num]: "",
-    },
-      () => console.log(this.state));
+    });
   }
 
   render() {
