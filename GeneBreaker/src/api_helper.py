@@ -1,6 +1,7 @@
 import requests
 import json
 import configparser
+import time
 config = configparser.ConfigParser()
 config.read('GeneBreaker/src/config.ini')
 host = config.get('DEFAULT', 'GUD_HOST')
@@ -9,7 +10,14 @@ def get_all_results(request_url):
     results = []
     next = True
     url = request_url
+    # in this while loop wait 1 sec
+    counter = 0 
     while(next):
+        if (counter == 4):
+            counter = 0 
+            time.sleep(1)
+        else: 
+            counter = counter + 1
         req = requests.get(url)
         if req.status_code == 200:
             res = json.loads(req.content.decode('utf-8'))
