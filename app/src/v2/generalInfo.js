@@ -11,33 +11,30 @@ function GeneralInfo(props) {
 
   return (
     <React.Fragment>
+      <h1>General Info</h1>
       {/* genome */}
       <SelectComp
         title={"Genome"}
         name={"genome"}
         value={props.genome}
         onChange={props.onChange}
-        options={[{ value: "hg38", text: "hg38" }, { value: "hg19", text: "hg19" }]}
-      />
+        options={[{ value: "hg38", text: "hg38" }, { value: "hg19", text: "hg19" }]}/>
       {/* sex */}
       <SelectComp
         title={"Sex"}
         name={"sex"}
         value={props.sex}
         onChange={props.onChange}
-        options={[{ value: "XX", text: "XX" }, { value: "XY", text: "XY" }]}
-      />
+        options={[{ value: "XX", text: "XX" }, { value: "XY", text: "XY" }]}/>
       {/* gene symbol */}
       <InputComp
         title={"Gene symbol"}
         name={"gene_name"}
         value={props.gene_name}
-        onChange={props.onChange}
-      />
+        onChange={props.onChange}/>
       {/* transcript list */}
       <SelectList title={"Transcripts"} url={host + 'get_transcripts/' + props.genome + '/' + props.gene_name}
-        name={"gene_uid"} value={props.gene_uid} type={"transcript"} onChange={props.onChange}
-      />
+        name={"gene_uid"} value={props.gene_uid} type={"transcript"} onChange={props.onChange}/>
     </React.Fragment >
   )
 }

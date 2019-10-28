@@ -5,10 +5,13 @@ function SelectList(props) {
 
   useEffect(() => {
     async function fetchUrl() {
-      console.log(props.url)
-      const response = await fetch(props.url);
-      const json = await response.json();
-      setList(json);
+      try {
+        const response = await fetch(props.url)
+        const json = await response.json();
+        setList(json);
+      } catch (error) {
+        console.error('Error:', error)
+      }
     }
     fetchUrl();
   }, [props.url]);
@@ -33,18 +36,18 @@ function SelectList(props) {
   return (
     <React.Fragment>
       <div className="form-group row">
-        <label  className="col-sm-2 col-form-label" >{props.title}</label>
+        <label className="col-sm-2 col-form-label" >{props.title}</label>
         <div className="col-sm-10">
-        <select className="form-control"
-          name={props.name}
-          value={props.value}
-          onChange={props.onChange}
-          size="5">
-          <option key="0" value=""></option>
-          {list.map((item, index) => (
-            option(item, index)
-          ))}
-        </select>
+          <select className="form-control"
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+            size="5">
+            <option key="0" value=""></option>
+            {list.map((item, index) => (
+              option(item, index)
+            ))}
+          </select>
         </div>
       </div>
     </React.Fragment>
