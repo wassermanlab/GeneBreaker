@@ -30,17 +30,17 @@ function VariantInfo(props) {
   }, [props.type, props.chrom, props.customStart, props.customEnd, props.region, props.gene_uid, props.genome]);
 
   let zygosity_options = [{ value: "", text: "Select" }, { value: "HETEROZYGOUS", text: "heterozygous" }];
-  if (props.page === 2) {
+  if (props.var === 1) {
     if (props.sex === "XY" && (props.chrom === "chrX" || props.chrom === "chrY")) {
       zygosity_options = [{ value: "", text: "Select" }, { value: "HEMIZYGOUS", text: "hemizygous" }];
     } else {
       zygosity_options.push({ value: "HOMOZYGOUS", text: "homozygous" })
     }
   }
-  if (props.page < 2 || props.page > 3) {
+  if (props.page-1 !== props.var) {
     return null;
   }
-  else if (props.page === 3 && props.zygosity_1 !== "HETEROZYGOUS") {
+  else if (props.var === 2 && (props.zygosity_1 !== "HETEROZYGOUS")) {
     return (
       <React.Fragment>
         <p>Variant 2 cannot be made with a homozygous or hemizygous variant 1.</p>
@@ -89,10 +89,10 @@ function VariantInfo(props) {
         options={zygosity_options} />
     {/* specif variant details */}
     <VariantDetails  
-     url={url} type={props.type} var={props.page - 1}
-     clinvar_id={props.clinvar_id_1} start={props.start_1} end={props.end_1}
-     clingen_id={props.clingen_id_1} length={props.length_1} element={props.element_1}
-     snv_type={props.snv_type_1} str_id={props.str_id_1} onChange={props.handleInputChange}
+     url={url} type={props.type} var={props.var}
+     clinvar_id={props.clinvar_id} start={props.start} end={props.end}
+     clingen_id={props.clingen_id} length={props.length} element={props.element}
+     snv_type={props.snv_type} str_id={props.str_id} onChange={props.handleInputChange}
     />
     </React.Fragment >
   )
