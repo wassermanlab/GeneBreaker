@@ -5,6 +5,8 @@ import Nav from '../nav';
 import GeneralInfo from './generalInfo';
 import VariantInfo from './variantInfo';
 import NavButtons from './navButtons';
+import Errors from './errors';
+import check_errors from './helpers.js'
 
 class MasterForm2 extends React.Component {
   constructor(props) {
@@ -58,11 +60,11 @@ class MasterForm2 extends React.Component {
 
   // sets page to page+1
   next() {
-    // const errors = []
-    // if (errors.length !== 0) {
-    //   this.setState({ errors: errors });
-    //   return null;
-    // }
+    const errors = check_errors(this.state)
+    if (errors.length !== 0) {
+      this.setState({ errors: errors });
+      return null;
+    }
     let currentPage = this.state.page;
     currentPage = currentPage + 1;
     this.setState({ page: currentPage, errors: [] });
@@ -153,6 +155,14 @@ class MasterForm2 extends React.Component {
     const value = target.value;
     const name = target.name;
     this.resetState(name)
+    if (name === "gene_uid") {
+      const index = target.selectedIndex;
+      const option = target.childNodes[index];
+      const chrom = option.getAttribute('chrom');
+      this.setState({
+        chrom: chrom
+      });
+    }
     this.setState({
       [name]: value
     }, () => { console.log(this.state); });
@@ -185,6 +195,8 @@ class MasterForm2 extends React.Component {
                 snv_type={this.state.snv_type_2} str_id={this.state.str_id_2} genome={this.state.genome}
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
+              {/* errors */}
+              <Errors errors={this.state.errors}/>
               {/* buttons */}
               <NavButtons page={this.state.page} next={this.next} back={this.back} />
             </form>
