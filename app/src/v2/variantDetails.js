@@ -54,8 +54,8 @@ function VariantInfo(props) {
       </React.Fragment>)
     case "STR":
       return (<React.Fragment>
-        <SelectList title={"ClinGen variants"} url={props.url} name={"clingen_id_" + props.var}
-          value={props.clingen_id} type={"clingen"} onChange={props.onChange} />
+        <SelectList title={"Short tandem repeats"} url={props.url} name={"str_id_" + props.var}
+          value={props.str_id} type={"str"} onChange={props.onChange} />
         <InputComp title={"Repeat length"} name={"length_" + props.var} value={props.length} onChange={props.onChange} />
       </React.Fragment>)
     default:

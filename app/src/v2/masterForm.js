@@ -75,7 +75,7 @@ class MasterForm2 extends React.Component {
     currentPage = currentPage - 1;
     this.setState({ page: currentPage });
   }
-  
+
   resetState(name) {
     switch (name) {
       case "genome":
@@ -84,7 +84,7 @@ class MasterForm2 extends React.Component {
           gene_uid: "",
           chrom: ""
         });
-        /* falls through */
+      /* falls through */
       case "gene_uid": // resets everything past var 1 
         this.setState({
           type_1: "",
@@ -101,7 +101,7 @@ class MasterForm2 extends React.Component {
           snv_type_1: "",
           str_id_1: ""
         });
-        /* falls through */
+      /* falls through */
       case "zygosity_1": // resets everything past var 2
         this.setState({
           var2: "false",
@@ -149,12 +149,8 @@ class MasterForm2 extends React.Component {
         break
     }
   }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.resetState(name)
+  customStateChange(target, name) {
+    const variant = this.state.page - 1;
     if (name === "gene_uid") {
       const index = target.selectedIndex;
       const option = target.childNodes[index];
@@ -163,6 +159,26 @@ class MasterForm2 extends React.Component {
         chrom: chrom
       });
     }
+    else if (name === ("clingen_id_" + variant)) {
+      const index = target.selectedIndex;
+      const option = target.childNodes[index];
+      const start = option.getAttribute('start');
+      const end = option.getAttribute('end');
+      const length = option.getAttribute('copy_change');
+      this.setState({
+        [("start_" + variant)]: start,
+        [("end_" + variant)]: end,
+        [("length_" + variant)]: length
+      });
+    }
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.resetState(name)
+    this.customStateChange(target, name)
     this.setState({
       [name]: value
     }, () => { console.log(this.state); });
@@ -196,7 +212,7 @@ class MasterForm2 extends React.Component {
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
               {/* errors */}
-              <Errors errors={this.state.errors}/>
+              <Errors errors={this.state.errors} />
               {/* buttons */}
               <NavButtons page={this.state.page} next={this.next} back={this.back} />
             </form>

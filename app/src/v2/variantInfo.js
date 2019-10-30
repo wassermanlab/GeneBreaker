@@ -92,7 +92,7 @@ function VariantInfo(props) {
      url={url} type={props.type} var={props.var}
      clinvar_id={props.clinvar_id} start={props.start} end={props.end}
      clingen_id={props.clingen_id} length={props.length} element={props.element}
-     snv_type={props.snv_type} str_id={props.str_id} onChange={props.handleInputChange}
+     snv_type={props.snv_type} str_id={props.str_id} onChange={props.onChange}
     />
     </React.Fragment >
   )
