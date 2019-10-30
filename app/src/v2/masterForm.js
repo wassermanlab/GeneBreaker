@@ -7,6 +7,7 @@ import VariantInfo from './variantInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
 import check_errors from './helpers.js'
+import Progress from './progressComp';
 
 class MasterForm2 extends React.Component {
   constructor(props) {
@@ -121,7 +122,6 @@ class MasterForm2 extends React.Component {
         });
         break
       case "type_1": // resets everything past var 1 
-        console.log("type1")
         this.setState({
           clinvar_id_1: "",
           start_1: "",
@@ -191,6 +191,8 @@ class MasterForm2 extends React.Component {
         <div className="container">
           <div className="formDiv">
             <form>
+              {/* progress */}
+              <Progress page={this.state.page}/>
               {/* generalInfo */}
               <GeneralInfo page={this.state.page} gene_uid={this.state.gene_uid} genome={this.state.genome}
                 gene_name={this.state.gene_name} sex={this.state.sex} onChange={this.handleInputChange} />
