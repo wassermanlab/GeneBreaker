@@ -47,10 +47,9 @@ function VariantInfo(props) {
       </React.Fragment>
     )
   }
+  if (props.render === "true") {
   return (
     <React.Fragment>
-      {/*  */}
-      {/* Region */}
       <SelectComp
         title={"Region"}
         name={"region_" + (props.page - 1)}
@@ -94,8 +93,10 @@ function VariantInfo(props) {
      clingen_id={props.clingen_id} length={props.length} element={props.element}
      snv_type={props.snv_type} str_id={props.str_id} onChange={props.onChange}
     />
+    
     </React.Fragment >
-  )
+  )}
+  return null;
 }
 
 

@@ -8,6 +8,7 @@ import NavButtons from './navButtons';
 import Errors from './errors';
 import check_errors from './helpers.js'
 import Progress from './progressComp';
+import SelectComp from './selectComp'
 
 class MasterForm2 extends React.Component {
   constructor(props) {
@@ -192,21 +193,28 @@ class MasterForm2 extends React.Component {
           <div className="formDiv">
             <form>
               {/* progress */}
-              <Progress page={this.state.page}/>
+              <Progress page={this.state.page} />
               {/* generalInfo */}
               <GeneralInfo page={this.state.page} gene_uid={this.state.gene_uid} genome={this.state.genome}
                 gene_name={this.state.gene_name} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* var1Info */}
               <VariantInfo
-                var={1} page={this.state.page} type={this.state.type_1} region={this.state.region_1}
+                var={1} page={this.state.page} render={"true"} type={this.state.type_1} region={this.state.region_1}
                 customStart={this.state.customStart_1} customEnd={this.state.customEnd_1} zygosity={this.state.zygosity_1}
                 clinvar_id={this.state.clinvar_id_1} start={this.state.start_1} end={this.state.end_1}
                 clingen_id={this.state.clingen_id_1} length={this.state.length_1} element={this.state.element_1}
                 snv_type={this.state.snv_type_1} str_id={this.state.str_id_1} genome={this.state.genome}
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* var2Info */}
+              {this.state.zygosity_1 === "HETEROZYGOUS" && this.state.page === 3 &&
+                < SelectComp
+                  title={"Design a second variant"}
+                  name={"var2"}
+                  value={this.state.var2}
+                  onChange={this.handleInputChange}
+                  options={[{ value: true, text: "yes" }, { value: false, text: "no" },]} />}
               <VariantInfo
-                zygosity_1={this.state.zygosity_1} var={2} page={this.state.page} type={this.state.type_2} region={this.state.region_2}
+                zygosity_1={this.state.zygosity_1} render={this.state.var2} var={2} page={this.state.page} type={this.state.type_2} region={this.state.region_2}
                 customStart={this.state.customStart_2} customEnd={this.state.customEnd_2} zygosity={this.state.zygosity_2}
                 clinvar_id={this.state.clinvar_id_2} start={this.state.start_2} end={this.state.end_2}
                 clingen_id={this.state.clingen_id_2} length={this.state.length_2} element={this.state.element_2}
