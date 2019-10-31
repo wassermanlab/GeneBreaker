@@ -50,6 +50,7 @@ function VariantInfo(props) {
   if (props.render === "true") {
   return (
     <React.Fragment>
+      <h1>Variant {props.var} Info</h1>
       <SelectComp
         title={"Region"}
         name={"region_" + (props.page - 1)}

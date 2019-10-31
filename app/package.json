@@ -9,6 +9,7 @@
     "bootstrap": "^4.3.1",
     "file-saver": "^2.0.2",
     "formik": "^1.5.8",
+    "igv": "^2.3.3",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
     "react": "^16.9.0",

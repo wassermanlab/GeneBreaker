@@ -1,8 +1,9 @@
-function check_var(type, region, zygosity, clinvar_id, start, end, length, element, snv_type, str_id, variant=true) {
+import { host } from '../host'
+function check_var(type, region, zygosity, clinvar_id, start, end, length, element, snv_type, str_id, variant) {
   let errors = [];
-  if (variant === false) {
+  if (variant === "false") {
     return errors;
-  } 
+  }
   // if region, type or zygosity === ""
   if (region === "" || type === "" || zygosity === "") {
     errors.push("Insure all fields are filled.")
@@ -30,7 +31,7 @@ function check_var(type, region, zygosity, clinvar_id, start, end, length, eleme
       }
       break;
     case "SNV":
-      if (start === "" || snv_type === "" ) {
+      if (start === "" || snv_type === "") {
         errors.push("Insure all fields for CNVs are filled out.")
       }
       break;
@@ -56,13 +57,12 @@ function check_page_1(chrom, gene_uid, sex) {
   return errors;
 }
 
-function check_errors(props) {
+export function check_errors(props) {
+  let variant = props.page - 1;
   switch (props.page) {
     case 1:
-      return check_page_1(props.chrom, props.gene_uid, props.sex)
+      return check_page_1(props.chrom, props.gene_uid, props.sex);
     case 2:
-    case 3:
-      const variant = props.page - 1;
       return check_var(
         props["type_" + variant],
         props["region_" + variant],
@@ -73,7 +73,20 @@ function check_errors(props) {
         props["length_" + variant],
         props["element_" + variant],
         props["snv_type_" + variant],
-        props["str_id_" + variant], 
+        props["str_id_" + variant],
+        "true");
+    case 3:
+      return check_var(
+        props["type_" + variant],
+        props["region_" + variant],
+        props["zygosity_" + variant],
+        props["clinvar_id_" + variant],
+        props["start_" + variant],
+        props["end_" + variant],
+        props["length_" + variant],
+        props["element_" + variant],
+        props["snv_type_" + variant],
+        props["str_id_" + variant],
         props.var2);
     case 4:
       break
@@ -81,4 +94,81 @@ function check_errors(props) {
       break
   }
 }
-export default check_errors;
+
+function create_variant(props, variant) {
+  const region = props[("region_" + variant)];
+  const zygosity = props[("zygosity_" + variant)];
+  let type = props[("type_" + variant)];
+  let impact;
+  switch (type) {
+    case "CLINVAR":
+      impact = { CLINVAR_ID: parseInt(props[("clinvar_id_" + variant)]) }
+      break;
+    case "CLINGEN":
+    case "CNV":
+      type = "CNV"
+      impact = {
+        START: parseInt(props[("start_" + variant)]),
+        END: parseInt(props[("end_" + variant)]),
+        COPY_CHANGE: parseInt(props[("length_" + variant)])
+      }
+      break;
+    case "INDEL":
+      impact = {
+        START: (props[("start_" + variant)] === "ANY" ? "ANY" : parseInt(props[("start_" + variant)])),
+        INDEL_AMOUNT: parseInt(props[("length_" + variant)])
+      }
+      break;
+
+    case "MEI":
+      impact = {
+        START: (props[("start_" + variant)] === "ANY" ? "ANY" : parseInt(props[("start_" + variant)])),
+        ELEMENT: props[("element_" + variant)]
+      }
+      break;
+    case "SNV":
+      impact = {
+        START: (props[("start_" + variant)] === "ANY" ? "ANY" : parseInt(props[("start_" + variant)])),
+        SNV_TYPE: props[("snv_type_" + variant)]
+      }
+      break;
+    case "STR":
+      impact = {
+        STR_ID: parseInt(props[("str_id_" + variant)]),
+        LENGTH: parseInt(props[("length_" + variant)])
+      }
+      break;
+    default:
+      break;
+  }
+  return {
+    REGION: region,
+    ZYGOSITY: zygosity,
+    TYPE: type,
+    IMPACT: impact
+  }
+}
+
+export async function get_variants(props) {
+  let json = {
+    GENE_UID: parseInt(props.gene_uid),
+    GENOME: props.genome,
+    SEX: props.sex,
+  }
+  json["VAR1"] = create_variant(props, 1)
+  if (props.var2 === "true") {
+    json["VAR2"] = create_variant(props, 2)
+  } else {
+    json["VAR2"] = "NONE"
+  }
+
+  const rawResponse = await fetch(host + 'design_variants', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(json),
+  });
+  const vcf = await rawResponse.json();
+  return vcf;
+}

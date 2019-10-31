@@ -6,7 +6,8 @@ import GeneralInfo from './generalInfo';
 import VariantInfo from './variantInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
-import check_errors from './helpers.js'
+import {check_errors, get_variants} from './helpers.js'
+// import get_variants from './helpers.js'
 import Progress from './progressComp';
 import SelectComp from './selectComp'
 
@@ -61,13 +62,21 @@ class MasterForm2 extends React.Component {
   }
 
   // sets page to page+1
-  next() {
+  async next() {
     const errors = check_errors(this.state)
     if (errors.length !== 0) {
       this.setState({ errors: errors });
       return null;
     }
     let currentPage = this.state.page;
+    if (currentPage === 3) {
+      const vcf = await get_variants(this.state);
+      if ("error" in vcf) {
+        this.setState({ errors: [vcf["error"]] })
+      } else {
+        this.setState({ vars: vcf});
+      }
+    }
     currentPage = currentPage + 1;
     this.setState({ page: currentPage, errors: [] });
   }
