@@ -4,6 +4,7 @@ import React from 'react';
 import Nav from '../nav';
 import GeneralInfo from './generalInfo';
 import VariantInfo from './variantInfo';
+import FamilyInfo from './familyInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
 import {check_errors, get_variants} from './helpers.js'
@@ -230,6 +231,7 @@ class MasterForm2 extends React.Component {
                 snv_type={this.state.snv_type_2} str_id={this.state.str_id_2} genome={this.state.genome}
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
+              <FamilyInfo vars={this.state.vars} page={this.state.page} />
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}
