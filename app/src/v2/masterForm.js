@@ -160,6 +160,7 @@ class MasterForm2 extends React.Component {
         break
     }
   }
+
   customStateChange(target, name) {
     const variant = this.state.page - 1;
     if (name === "gene_uid") {
@@ -182,6 +183,10 @@ class MasterForm2 extends React.Component {
         [("length_" + variant)]: length
       });
     }
+  }
+
+  familyController() {
+    
   }
 
   handleInputChange(event) {

@@ -36,7 +36,7 @@ function FamilyInfo(props) {
   }
   return (
     <React.Fragment>
-      <h1>Family Info</h1>
+      <h1>Variants</h1>
       <table className="table">
         <thead>
           <tr>
@@ -56,6 +56,27 @@ function FamilyInfo(props) {
             <td>{props.vars.var1.alt}</td>
           </tr>
           {row2}
+        </tbody>
+      </table>
+      <h1>Family Info</h1>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Var1</th>
+            <th scope="col">Var2</th>
+            <th scope="col">Affected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>XX</td>
+            <td><input type="checkbox" /></td>
+            <td><input type="checkbox" /></td>
+            <td><input type="checkbox" /></td>
+          </tr>
         </tbody>
       </table>
     </React.Fragment >
