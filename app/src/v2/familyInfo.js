@@ -8,7 +8,32 @@ function FamilyInfo(props) {
   if (props.page !== 4) {
     return null;
   }
-  console.log(props.vars)
+  let row2;
+  if (props.vars.var2 === "") {
+    if (props.vars.var1.proband === "1/1") {
+      row2 = (
+        <tr>
+          <th scope="row">2</th>
+          <td colSpan="4">Same as variant 1</td>
+        </tr>)
+    } else {
+      row2 = (
+        <tr>
+          <th scope="row">2</th>
+          <td colSpan="4">None</td>
+        </tr>)
+    }
+  }
+  else {
+    row2 = (
+      <tr>
+        <th scope="row">2</th>
+        <td>{props.vars.var2.chrom}</td>
+        <td>{props.vars.var2.pos}</td>
+        <td>{props.vars.var2.ref}</td>
+        <td>{props.vars.var2.alt}</td>
+      </tr>)
+  }
   return (
     <React.Fragment>
       <h1>Family Info</h1>
@@ -22,21 +47,15 @@ function FamilyInfo(props) {
             <th scope="col">Alt</th>
           </tr>
         </thead>
-        <tbody>        
+        <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
+            <td>{props.vars.var1.chrom}</td>
+            <td>{props.vars.var1.pos}</td>
+            <td>{props.vars.var1.ref}</td>
+            <td>{props.vars.var1.alt}</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-          </tr>
+          {row2}
         </tbody>
       </table>
     </React.Fragment >

@@ -159,9 +159,8 @@ export async function get_variants(props) {
   if (props.var2 === "true") {
     json["VAR2"] = create_variant(props, 2)
   } else {
-    json["VAR2"] = "NONE"
+    json["VAR2"] = "None"
   }
-
   const rawResponse = await fetch(host + 'design_variants', {
     method: 'POST',
     headers: {
