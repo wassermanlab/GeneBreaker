@@ -17,7 +17,7 @@ class MasterForm2 extends React.Component {
     super(props);
     this.state = {
       errors: [],
-      page: 1,
+      page: 4,
       // general state
       gene_uid: "",
       genome: "hg38",
@@ -53,8 +53,8 @@ class MasterForm2 extends React.Component {
       element_2: "",
       snv_type_2: "",
       str_id_2: "",
-      vars: {},
-      family: {}
+      vars: JSON.parse('{"var1":{"alt":"T","chrom":"chr17","filter":".","format":"GT","id":"278215","info":".","pos":"72121406","proband":"0/1","qual":".","ref":"C"},"var2":{"alt":"C","chrom":"chr17","filter":".","format":"GT","id":"278305","info":".","pos":"72121763","proband":"0/1","qual":".","ref":"G"}}'),
+      family: {proband:{sex: "XX", var1: 1, var2: 1, affected: 1}}
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -71,11 +71,13 @@ class MasterForm2 extends React.Component {
     }
     let currentPage = this.state.page;
     if (currentPage === 3) {
-      const vcf = await get_variants(this.state);
-      if ("error" in vcf) {
-        this.setState({ errors: [vcf["error"]] })
+      const vars = await get_variants(this.state);
+      if ("error" in vars) {
+        this.setState({ errors: [vars["error"]] })
       } else {
-        this.setState({ vars: vcf});
+        const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0: 1)
+        const fam = {proband:{sex: this.state.sex, var1: 1, var2: var2, affected: 1}}
+        this.setState({ vars: vars, fam: fam});
       }
     }
     currentPage = currentPage + 1;
@@ -186,7 +188,7 @@ class MasterForm2 extends React.Component {
   }
 
   familyController() {
-    
+
   }
 
   handleInputChange(event) {
@@ -236,11 +238,11 @@ class MasterForm2 extends React.Component {
                 snv_type={this.state.snv_type_2} str_id={this.state.str_id_2} genome={this.state.genome}
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
-              <FamilyInfo vars={this.state.vars} page={this.state.page} />
+              <FamilyInfo vars={this.state.vars} page={this.state.page}  family={this.state.family}  />
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}
-              <NavButtons page={this.state.page} next={this.next} back={this.back} />
+              <NavButtons page={this.state.page} next={this.next} back={this.back}/>
             </form>
           </div >
         </div >

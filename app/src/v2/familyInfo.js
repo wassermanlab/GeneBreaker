@@ -67,18 +67,48 @@ function FamilyInfo(props) {
             <th scope="col">Var1</th>
             <th scope="col">Var2</th>
             <th scope="col">Affected</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>XX</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
+            <th scope="row">proband</th>
+            <td>{props.family.proband.sex}</td>
+            <td><input type="checkbox" checked disabled /></td>
+            <td>
+              {((props.vars.var1.proband === "0/1" && props.vars.var2 === "") ||
+                (["chrX", "chrY"].includes(props.vars.var1.chrom) && props.family.proband.sex === "XY")) ?
+                <input type="checkbox" disabled /> : <input type="checkbox" checked disabled />}
+            </td>
+            <td><input type="checkbox" checked disabled /></td>
+            <td><button type="button" className="btn btn-secondary" disabled>Remove</button></td>
           </tr>
+          {Object.keys(props.family).map((item, index) => (
+            (item !== "proband" ? <tr key={item}>
+            <th scope="row">{item}</th>
+            <td>{props.family[item].sex}</td>
+            <td><input type="checkbox" onChange={props.onChange} name={"var1_" + item} /></td>
+            <td><input type="checkbox" onChange={props.onChange} name={"var2_" + item} /></td>
+            <td><input type="checkbox" onChange={props.onChange} name={"affected_" + item} /></td>
+            <td><button type="button" className="btn btn-secondary" onClick={props.onRemove} value={item} >Remove</button></td>
+          </tr>: null)
+            
+          ))}
         </tbody>
       </table>
+      <div>
+        <div className="dropdown">
+          <button className="btn btn-primary float-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Family Member
+          </button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button className="dropdown-item" type="button" value={"m"} >Mother</button>
+            <button className="dropdown-item" type="button" value={"f"} >Father</button>
+            <button className="dropdown-item" type="button" value={"s"} >Sister</button>
+            <button className="dropdown-item" type="button" value={"b"} >Brother</button>
+          </div>
+        </div>
+      </div>
     </React.Fragment >
   )
 }
