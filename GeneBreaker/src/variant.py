@@ -99,7 +99,7 @@ class Variant:
     def check_region(self) -> bool:
         """checks region and gets custom region"""
         if self.region not in ['CODING', 'UTR', 'INTRONIC', 'PROMOTER', 'ENHANCER', 'GENIC']:
-            if re.match("^chr([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) == None:
+            if re.match("^([XYM]|[1-9]|1[0-9]|2[0-2]):\d+-\d+$", self.region) == None:
                 raise ValueError(
                     'region not one of the recognized regions: CODING, UTR, INTRONIC, PROMOTER, ENHANCER, GENIC, or the custom format')
             else:

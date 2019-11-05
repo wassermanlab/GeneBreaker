@@ -44,17 +44,17 @@ class CNVCreationTests(unittest.TestCase):
             CopyNumberVariant(cnv, self.transcript)
 
     # test 4
-    def test_UTR_overlap(self):
+    def test_UTR_overlap(self): ###############################################CHECK####################################
         cnv = {
             "TYPE": "CNV",
             "REGION": "UTR",
             "IMPACT": {
-                "START": 27959622,
-                "END": 27960150,
+                "START": 27959781,
+                "END": 27959832,
                 "COPY_CHANGE": 1,
             },
             "ZYGOSITY": "HETEROZYGOUS"}
-        cnv["IMPACT"]["END"] = 27959682
+        cnv["IMPACT"]["END"] = 27959883
         CopyNumberVariant(cnv, self.transcript)
 
     # test 5
@@ -85,7 +85,7 @@ class CNVCreationTests(unittest.TestCase):
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript).get_vcf_row()
-        self.assertEqual(cnv['chrom'], "chr1")
+        self.assertEqual(cnv['chrom'], "1")
         self.assertEqual(cnv['pos'], "27961000")
         self.assertEqual(cnv['ref'], "C")
         self.assertEqual(cnv['alt'], "<DEL>")
@@ -102,7 +102,7 @@ class CNVCreationTests(unittest.TestCase):
             },
             "ZYGOSITY": "HETEROZYGOUS"}
         cnv = CopyNumberVariant(cnv, self.transcript).get_vcf_row()
-        self.assertEqual(cnv['chrom'], "chr1")
+        self.assertEqual(cnv['chrom'], "1")
         self.assertEqual(cnv['pos'], "27961000")
         self.assertEqual(
             cnv['ref'], "C")

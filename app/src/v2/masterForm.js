@@ -7,7 +7,7 @@ import VariantInfo from './variantInfo';
 import FamilyInfo from './familyInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
-import {check_errors, get_variants} from './helpers.js'
+import { check_errors, get_variants } from './helpers.js'
 // import get_variants from './helpers.js'
 import Progress from './progressComp';
 import SelectComp from './selectComp'
@@ -17,7 +17,7 @@ class MasterForm2 extends React.Component {
     super(props);
     this.state = {
       errors: [],
-      page: 4,
+      page: 1,
       // general state
       gene_uid: "",
       genome: "hg38",
@@ -53,35 +53,103 @@ class MasterForm2 extends React.Component {
       element_2: "",
       snv_type_2: "",
       str_id_2: "",
-      vars: JSON.parse('{"var1":{"alt":"T","chrom":"chr17","filter":".","format":"GT","id":"278215","info":".","pos":"72121406","proband":"0/1","qual":".","ref":"C"},"var2":{"alt":"C","chrom":"chr17","filter":".","format":"GT","id":"278305","info":".","pos":"72121763","proband":"0/1","qual":".","ref":"G"}}'),
-      family: {proband:{sex: "XX", var1: 1, var2: 1, affected: 1}}
+      vars: {},
+      family: {}
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.addFamily = this.addFamily.bind(this)
+    this.removeFamily = this.removeFamily.bind(this)
+    this.handleFamilyCheckChange = this.handleFamilyCheckChange.bind(this)
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
+    this.goToFamily = this.goToFamily.bind(this)
+  }
+
+  // handles state change for family marker
+  handleFamilyCheckChange(event) {
+    const checked = event.target.checked;
+    const name = event.target.name.split("_");
+    const family_key = name[1]
+    const key = name[0]
+    let fam = this.state.family;
+    fam[family_key][key] = checked;
+    this.setState({ family: fam })
+  }
+
+  //removes family member
+  removeFamily(event) {
+    const member = event.target.value;
+    let fam = this.state.family;
+    delete fam[member];
+    this.setState({ family: fam })
+  }
+
+  // add family member
+  addFamily(event) {
+    const member = event.target.value;
+    const keys = Object.keys(this.state.family);
+    const brothers = keys.filter((m) => { return m.startsWith("brother") });
+    const sisters = keys.filter((m) => { return m.startsWith("sister") });
+    let fam = this.state.family;
+    switch (member) {
+      case "m":
+        if (!keys.includes('mother')) { fam.mother = { relationship: "mother", sex: "XX", var1: false, var2: false, affected: false } }
+        break
+      case "f":
+        if (!keys.includes('father')) { fam.father = { relationship: "father", sex: "XY", var1: false, var2: false, affected: false } }
+        break
+      case "b":
+        fam["brother" + (brothers.length + 1)] = { relationship: "sibling", sex: "XY", var1: false, var2: false, affected: false }
+        break
+      case "s":
+        fam["sister" + (sisters.length + 1)] = { relationship: "sibling", sex: "XX", var1: false, var2: false, affected: false }
+        break
+      default:
+        break
+    }
+    this.setState({ family: fam })
   }
 
   // sets page to page+1
-  async next() {
+  next() {
     const errors = check_errors(this.state)
     if (errors.length !== 0) {
       this.setState({ errors: errors });
       return null;
     }
     let currentPage = this.state.page;
-    if (currentPage === 3) {
-      const vars = await get_variants(this.state);
+    currentPage = currentPage + 1;
+    this.setState({ page: currentPage, errors: [] }, () => { console.log(this.state); });
+    // if (currentPage === 3) {
+    //   get_variants(this.state).then(vars => {
+    //     if ("error" in vars) {
+    //       this.setState({ errors: [vars["error"]] })
+    //       return null;
+    //     } else {
+    //       const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0 : 1)
+    //       const fam = { proband: { sex: this.state.sex, var1: 1, var2: var2, affected: 1 } }
+    //       this.setState({ vars: vars, fam: fam,  page: currentPage+1, errors: [] }, () => { console.log(this.state); } );
+    //       return null;
+    //     }
+    //   }
+    //   )
+    // }
+  }
+  goToFamily() {
+    let currentPage = this.state.page;
+    get_variants(this.state).then(vars => {
       if ("error" in vars) {
         this.setState({ errors: [vars["error"]] })
+        return null;
       } else {
-        const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0: 1)
-        const fam = {proband:{sex: this.state.sex, var1: 1, var2: var2, affected: 1}}
-        this.setState({ vars: vars, fam: fam});
+        const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0 : 1)
+        const fam = { proband: { sex: this.state.sex, var1: 1, var2: var2, affected: 1 } }
+        this.setState({ vars: vars, fam: fam, page: currentPage + 1, errors: [] }, () => { console.log(this.state); });
+        return null;
       }
-    }
-    currentPage = currentPage + 1;
-    this.setState({ page: currentPage, errors: [] });
+    })
+
   }
   // sets page to page-1
   back() {
@@ -187,10 +255,6 @@ class MasterForm2 extends React.Component {
     }
   }
 
-  familyController() {
-
-  }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -238,11 +302,12 @@ class MasterForm2 extends React.Component {
                 snv_type={this.state.snv_type_2} str_id={this.state.str_id_2} genome={this.state.genome}
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
-              <FamilyInfo vars={this.state.vars} page={this.state.page}  family={this.state.family}  />
+              <FamilyInfo vars={this.state.vars} page={this.state.page} family={this.state.family} addFamily={this.addFamily}
+                removeFamily={this.removeFamily} handleFamilyCheckChange={this.handleFamilyCheckChange} />
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}
-              <NavButtons page={this.state.page} next={this.next} back={this.back}/>
+              <NavButtons page={this.state.page} goToFamily={this.goToFamily} next={this.next} back={this.back} />
             </form>
           </div >
         </div >

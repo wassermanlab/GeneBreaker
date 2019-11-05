@@ -13,7 +13,7 @@ function NavButtons(props) {
   else if (props.page === 3) {
     return (
       <div>
-        <button type="button" className="btn btn-primary float-right nav-btn" onClick={props.next}>Next</button>
+        <button type="button" className="btn btn-primary float-right nav-btn" onClick={props.goToFamily}>Next</button>
         <button type="button" className="btn btn-primary float-right nav-btn" onClick={props.back}>Back</button> 
         </div>)
   }

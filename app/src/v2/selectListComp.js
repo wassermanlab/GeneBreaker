@@ -27,7 +27,7 @@ function SelectList(props) {
       return (<option key={index} value={item.qualifiers.uid}>
         Start: {item.start + 1} &emsp;&emsp; End: {item.end} &emsp;&emsp; Motif: {item.qualifiers.motif} &emsp;&emsp; Pathogenicity: {item.qualifiers.pathogenicity} </option>)
     } else if (props.type === 'clinvar') {
-      return (<option key={index} value={item.qualifiers.uid}>
+      return (<option key={index} value={item.qualifiers.clinvarID}>
         Start: {item.start + 1} &emsp;&emsp; Ref: {item.qualifiers.ref} &emsp;&emsp; Alt: {item.qualifiers.alt} &emsp;&emsp; Clinical Significance: {item.qualifiers.CLNSIG} </option>
       )
     }

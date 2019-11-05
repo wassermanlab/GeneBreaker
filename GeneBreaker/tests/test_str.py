@@ -8,7 +8,7 @@ from GeneBreaker.src.api_helper import *
 class STRBasicTests(unittest.TestCase):
     WASH7P_uid = get_all_transcripts("WASH7P", "hg38")[0]["qualifiers"]["uid"]
     transcript = Transcript(WASH7P_uid, "hg38")
-    STR_uid = get_strs(16620, 16631, "chr1", "hg38", "exact")[0]["qualifiers"]["uid"]
+    STR_uid = get_strs(16620, 16631, "1", "hg38", "exact")[0]["qualifiers"]["uid"]
     # test 1
 
     def test_correct_motif(self):
@@ -32,13 +32,10 @@ class STRBasicTests(unittest.TestCase):
             "REGION": "GENIC",
             "TYPE": "STR",
             "ZYGOSITY": "HETEROZYGOUS"}
-        with self.assertRaises(Exception) as cm:
-            STR = ShortTandemRepeat(STR, self.transcript)
-        err = cm.exception
-        self.assertEqual(
-            str(err), 'retraction length is larger than the total str')
+        with self.assertRaises(TypeError):
+            ShortTandemRepeat(STR, self.transcript)
 
-    def test_retraction_works(self):
+    def test_retraction_works(self): 
         STR = {
             "IMPACT": {
                 "STR_ID": self.STR_uid,

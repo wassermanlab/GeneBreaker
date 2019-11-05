@@ -101,7 +101,7 @@ class InsersionMethodTesting(unittest.TestCase):
     # test 10
     def test_get_insertion_row(self): 
         insertion = self.indel_spec.get_vcf_row()
-        self.assertEqual(insertion['chrom'], "chr9")
+        self.assertEqual(insertion['chrom'], "9")
         self.assertEqual(insertion['pos'], '129814200')
         self.assertEqual(len(insertion['alt']), 9)
         print(insertion)

@@ -31,7 +31,7 @@ function VariantInfo(props) {
 
   let zygosity_options = [{ value: "", text: "Select" }, { value: "HETEROZYGOUS", text: "heterozygous" }];
   if (props.var === 1) {
-    if (props.sex === "XY" && (props.chrom === "chrX" || props.chrom === "chrY")) {
+    if (props.sex === "XY" && (props.chrom === "X" || props.chrom === "Y")) {
       zygosity_options = [{ value: "", text: "Select" }, { value: "HEMIZYGOUS", text: "hemizygous" }];
     } else {
       zygosity_options.push({ value: "HOMOZYGOUS", text: "homozygous" })

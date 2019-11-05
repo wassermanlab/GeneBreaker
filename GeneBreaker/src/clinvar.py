@@ -15,7 +15,7 @@ class ClinVar(Variant):
                 self.ref = clinvar['qualifiers']['ref']
                 self.alt = clinvar['qualifiers']['alt']
             else:                                                   # no valid clinvar result
-                raise ValueError("type must be CLINVARID_invalid") 
+                raise ValueError("type must be CLINVAR_ID") 
             if self.type != "CLINVAR":                              # check type
                 raise ValueError("type must be CLINVAR") 
             if (len(self.ref) > 1):                                 # check location

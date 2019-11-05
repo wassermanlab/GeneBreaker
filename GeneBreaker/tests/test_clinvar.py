@@ -13,11 +13,11 @@ class clinvarTests(unittest.TestCase):
         clinvar = {
             "TYPE": "CLINVAR",
             "REGION": "GENIC",
-            "IMPACT": {"CLINVAR_ID": 278222},
+            "IMPACT": {"CLINVAR_ID": 507525},
             "ZYGOSITY": "HETEROZYGOUS"}
         clinvar = ClinVar(clinvar, self.transcript)
         row = clinvar.get_vcf_row()
-        self.assertEqual(row["chrom"], "chr17")
+        self.assertEqual(row["chrom"], "17")
         self.assertEqual(row["pos"], "72121409")
         self.assertEqual(row["ref"], "C")
         self.assertEqual(row["alt"], "T")

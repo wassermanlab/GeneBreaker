@@ -77,7 +77,7 @@ function FamilyInfo(props) {
             <td><input type="checkbox" checked disabled /></td>
             <td>
               {((props.vars.var1.proband === "0/1" && props.vars.var2 === "") ||
-                (["chrX", "chrY"].includes(props.vars.var1.chrom) && props.family.proband.sex === "XY")) ?
+                (["X", "Y"].includes(props.vars.var1.chrom) && props.family.proband.sex === "XY")) ?
                 <input type="checkbox" disabled /> : <input type="checkbox" checked disabled />}
             </td>
             <td><input type="checkbox" checked disabled /></td>
@@ -87,10 +87,10 @@ function FamilyInfo(props) {
             (item !== "proband" ? <tr key={item}>
             <th scope="row">{item}</th>
             <td>{props.family[item].sex}</td>
-            <td><input type="checkbox" onChange={props.onChange} name={"var1_" + item} /></td>
-            <td><input type="checkbox" onChange={props.onChange} name={"var2_" + item} /></td>
-            <td><input type="checkbox" onChange={props.onChange} name={"affected_" + item} /></td>
-            <td><button type="button" className="btn btn-secondary" onClick={props.onRemove} value={item} >Remove</button></td>
+            <td><input type="checkbox" onChange={props.handleFamilyCheckChange} name={"var1_" + item} /></td>
+            <td><input type="checkbox" onChange={props.handleFamilyCheckChange} name={"var2_" + item} /></td>
+            <td><input type="checkbox" onChange={props.handleFamilyCheckChange} name={"affected_" + item} /></td>
+            <td><button type="button" className="btn btn-secondary" onClick={props.removeFamily} value={item} >Remove</button></td>
           </tr>: null)
             
           ))}
@@ -102,10 +102,10 @@ function FamilyInfo(props) {
             Add Family Member
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button className="dropdown-item" type="button" value={"m"} >Mother</button>
-            <button className="dropdown-item" type="button" value={"f"} >Father</button>
-            <button className="dropdown-item" type="button" value={"s"} >Sister</button>
-            <button className="dropdown-item" type="button" value={"b"} >Brother</button>
+            <button className="dropdown-item" type="button" value={"m"} onClick={props.addFamily}>Mother</button>
+            <button className="dropdown-item" type="button" value={"f"} onClick={props.addFamily}>Father</button>
+            <button className="dropdown-item" type="button" value={"s"} onClick={props.addFamily}>Sister</button>
+            <button className="dropdown-item" type="button" value={"b"} onClick={props.addFamily}>Brother</button>
           </div>
         </div>
       </div>

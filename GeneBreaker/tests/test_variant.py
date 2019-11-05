@@ -31,7 +31,7 @@ class VariantCreationTests(unittest.TestCase):
     def test_region_fail2(self):
         variant = {
             "TYPE": "INDEL",
-            "REGION": "chr2:126-245a",
+            "REGION": "2:126-245a",
             "IMPACT": {"INDEL_AMOUNT":-400 , "LOCATION": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
@@ -40,7 +40,7 @@ class VariantCreationTests(unittest.TestCase):
     def test_region_pass(self):
         variant = {
             "TYPE": "INDEL",
-            "REGION": "chr2:126-245",
+            "REGION": "2:126-245",
             "IMPACT": {"INDEL_AMOUNT":-400 , "LOCATION": "ANY"},
             "ZYGOSITY": "HETEROZYGOUS"}
         good_var = Variant(variant, self.transcript)

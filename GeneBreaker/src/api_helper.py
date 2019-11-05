@@ -56,7 +56,7 @@ def get_strs(start, end, chrom, genome, location):
 
 def get_clinvar(genome, uid):
     #takes in 1 based
-    url = host + '/api/v1/' + genome + '/clinvar?uids=' + str(uid)
+    url = host + '/api/v1/' + genome + '/clinvar?clinvar_ids=' + str(uid)
     res = get_all_results(url)
     if res != False: 
         return res[0]

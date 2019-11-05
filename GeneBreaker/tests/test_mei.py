@@ -60,7 +60,7 @@ class InsersionMethodTesting(unittest.TestCase):
         self.assertEqual(vcf_row["pos"], '129814000')
         self.assertEqual(vcf_row["alt"], '<INS:MEI:ALU>')
         self.assertEqual(vcf_row["info"], 'SVTYPE=INS;END=129814282;SVLEN=282;')
-        self.assertEqual(vcf_row['chrom'], "chr9")
+        self.assertEqual(vcf_row['chrom'], "9")
 
 if __name__ == '__main__':
     unittest.main()

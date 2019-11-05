@@ -51,7 +51,7 @@ function check_page_1(chrom, gene_uid, sex) {
   if (gene_uid === "") {
     errors.push("Must select transcript.")
   }
-  if (chrom === "chrY" && sex === "XX") {
+  if (chrom === "Y" && sex === "XX") {
     errors.push("cannot select Y chromosome gene with XX proband.")
   }
   return errors;
