@@ -1,0 +1,26 @@
+{
+  "arch": "x86_64",
+  "build": "h10a08f8_12",
+  "build_number": 12,
+  "channel": "https://conda.anaconda.org/bioconda/linux-64",
+  "constrains": [],
+  "depends": [
+    "htslib >=1.9,<1.10.0a0",
+    "libgcc-ng >=7.3.0",
+    "ncurses >=6.1,<6.2.0a0",
+    "zlib >=1.2.11,<1.3.0a0"
+  ],
+  "features": "",
+  "fn": "samtools-1.9-h10a08f8_12.tar.bz2",
+  "license": "MIT",
+  "md5": "a30f9567459497443fb98c5d46384769",
+  "name": "samtools",
+  "platform": "linux",
+  "sha256": "06441e2e0208bf8cc2506c47152a0fbfd5487970e5cfceb9c2fee3bda535a8bc",
+  "size": 306353,
+  "subdir": "linux-64",
+  "timestamp": 1567712105248,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/bioconda/linux-64/samtools-1.9-h10a08f8_12.tar.bz2",
+  "version": "1.9"
+}

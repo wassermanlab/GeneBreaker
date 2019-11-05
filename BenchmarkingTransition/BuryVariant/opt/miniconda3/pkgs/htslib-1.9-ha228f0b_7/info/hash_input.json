@@ -1,0 +1,8 @@
+{
+  "curl": "7.64",
+  "zlib": "1.2",
+  "bzip2": "1",
+  "libdeflate": "1.0",
+  "c_compiler": "gcc",
+  "xz": "5.2"
+}

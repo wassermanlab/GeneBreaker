@@ -1,0 +1,330 @@
+{
+  "build": "ha228f0b_4",
+  "build_number": 4,
+  "channel": "https://conda.anaconda.org/bioconda/linux-64",
+  "constrains": [],
+  "depends": [
+    "bzip2 >=1.0.6,<2.0a0",
+    "curl >=7.64.1,<8.0a0",
+    "libdeflate >=1.0,<1.1.0a0",
+    "libgcc-ng >=7.3.0",
+    "xz >=5.2.4,<5.3.0a0",
+    "zlib >=1.2.11,<1.3.0a0"
+  ],
+  "extracted_package_dir": "/mnt/causes-vnx1/PERSONAL/RICHMOND/GeneBreaker/BenchmarkingTransition/BuryVariant/opt/miniconda3/pkgs/bcftools-1.9-ha228f0b_4",
+  "features": "",
+  "files": [
+    "bin/bcftools",
+    "bin/color-chrs.pl",
+    "bin/guess-ploidy.py",
+    "bin/plot-roh.py",
+    "bin/plot-vcfstats",
+    "bin/run-roh.pl",
+    "bin/vcfutils.pl",
+    "libexec/bcftools/GTisec.so",
+    "libexec/bcftools/GTsubset.so",
+    "libexec/bcftools/ad-bias.so",
+    "libexec/bcftools/af-dist.so",
+    "libexec/bcftools/check-ploidy.so",
+    "libexec/bcftools/check-sparsity.so",
+    "libexec/bcftools/color-chrs.so",
+    "libexec/bcftools/contrast.so",
+    "libexec/bcftools/counts.so",
+    "libexec/bcftools/dosage.so",
+    "libexec/bcftools/fill-AN-AC.so",
+    "libexec/bcftools/fill-from-fasta.so",
+    "libexec/bcftools/fill-tags.so",
+    "libexec/bcftools/fixploidy.so",
+    "libexec/bcftools/fixref.so",
+    "libexec/bcftools/frameshifts.so",
+    "libexec/bcftools/guess-ploidy.so",
+    "libexec/bcftools/impute-info.so",
+    "libexec/bcftools/isecGT.so",
+    "libexec/bcftools/mendelian.so",
+    "libexec/bcftools/missing2ref.so",
+    "libexec/bcftools/prune.so",
+    "libexec/bcftools/setGT.so",
+    "libexec/bcftools/smpl-stats.so",
+    "libexec/bcftools/split.so",
+    "libexec/bcftools/tag2tag.so",
+    "libexec/bcftools/trio-stats.so",
+    "libexec/bcftools/trio-switch-rate.so",
+    "share/man/man1/bcftools.1"
+  ],
+  "fn": "bcftools-1.9-ha228f0b_4.tar.bz2",
+  "license": "MIT",
+  "link": {
+    "source": "/mnt/causes-vnx1/PERSONAL/RICHMOND/GeneBreaker/BenchmarkingTransition/BuryVariant/opt/miniconda3/pkgs/bcftools-1.9-ha228f0b_4",
+    "type": 1
+  },
+  "md5": "5d335e415d7568a52fecc7c48e975691",
+  "name": "bcftools",
+  "package_tarball_full_path": "/mnt/causes-vnx1/PERSONAL/RICHMOND/GeneBreaker/BenchmarkingTransition/BuryVariant/opt/miniconda3/pkgs/bcftools-1.9-ha228f0b_4.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "bin/bcftools",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/opt/conda/conda-bld/bcftools_1557772710225/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "sha256": "a3eea32d965b4bb5eb4d3fb34ce11de927d6e512a391e65b77c6bd22499e0893",
+        "sha256_in_prefix": "c73a3e02cd4820f624eee5aaeff4630cb6785ffa8adecc42f317d7d9dd59157b",
+        "size_in_bytes": 2005824
+      },
+      {
+        "_path": "bin/color-chrs.pl",
+        "path_type": "hardlink",
+        "sha256": "341bf8d087fa73801d2d39d4bda9c94bd05fd13e720a98b9d2f176ca29613c9f",
+        "sha256_in_prefix": "341bf8d087fa73801d2d39d4bda9c94bd05fd13e720a98b9d2f176ca29613c9f",
+        "size_in_bytes": 16947
+      },
+      {
+        "_path": "bin/guess-ploidy.py",
+        "path_type": "hardlink",
+        "sha256": "3961420f5556e2058855615f782af69d6d8e7b20b0bf9f1201721d52924008e6",
+        "sha256_in_prefix": "3961420f5556e2058855615f782af69d6d8e7b20b0bf9f1201721d52924008e6",
+        "size_in_bytes": 4333
+      },
+      {
+        "_path": "bin/plot-roh.py",
+        "path_type": "hardlink",
+        "sha256": "c8dcc4e8fef823ee79d69b7cdd654d24bffc2fb88fe6cfe6c010f04accb74c6f",
+        "sha256_in_prefix": "c8dcc4e8fef823ee79d69b7cdd654d24bffc2fb88fe6cfe6c010f04accb74c6f",
+        "size_in_bytes": 15407
+      },
+      {
+        "_path": "bin/plot-vcfstats",
+        "path_type": "hardlink",
+        "sha256": "1838f1fcd80738fab2b526bb8baf138b4d963e39be99a514dbcc8fe0db201803",
+        "sha256_in_prefix": "1838f1fcd80738fab2b526bb8baf138b4d963e39be99a514dbcc8fe0db201803",
+        "size_in_bytes": 76369
+      },
+      {
+        "_path": "bin/run-roh.pl",
+        "path_type": "hardlink",
+        "sha256": "de2b6277049896f68d67c0e9c43e25d02962f977062171190b53f1af12bd2e82",
+        "sha256_in_prefix": "de2b6277049896f68d67c0e9c43e25d02962f977062171190b53f1af12bd2e82",
+        "size_in_bytes": 13375
+      },
+      {
+        "_path": "bin/vcfutils.pl",
+        "path_type": "hardlink",
+        "sha256": "81beca7f7df5a8775cdd56a5fbea733b0b31e8efe82f532060006a3972bb9f30",
+        "sha256_in_prefix": "81beca7f7df5a8775cdd56a5fbea733b0b31e8efe82f532060006a3972bb9f30",
+        "size_in_bytes": 18199
+      },
+      {
+        "_path": "libexec/bcftools/GTisec.so",
+        "path_type": "hardlink",
+        "sha256": "5143ef47bd7d6677e3e5d73b4e4ffbbb322a093aa4ae7feff58b4b2eadd9a43b",
+        "sha256_in_prefix": "5143ef47bd7d6677e3e5d73b4e4ffbbb322a093aa4ae7feff58b4b2eadd9a43b",
+        "size_in_bytes": 22192
+      },
+      {
+        "_path": "libexec/bcftools/GTsubset.so",
+        "path_type": "hardlink",
+        "sha256": "f8ab22967e45337657e33423824954f463240e001b4abb5d100f518f88f2e056",
+        "sha256_in_prefix": "f8ab22967e45337657e33423824954f463240e001b4abb5d100f518f88f2e056",
+        "size_in_bytes": 17440
+      },
+      {
+        "_path": "libexec/bcftools/ad-bias.so",
+        "path_type": "hardlink",
+        "sha256": "c7ec8463fb6900f3f5c0b35692f1b2baa06c5f8df491cca794cda763152263c2",
+        "sha256_in_prefix": "c7ec8463fb6900f3f5c0b35692f1b2baa06c5f8df491cca794cda763152263c2",
+        "size_in_bytes": 62312
+      },
+      {
+        "_path": "libexec/bcftools/af-dist.so",
+        "path_type": "hardlink",
+        "sha256": "cb0d5e45472448c73c06c73ca6e36182a538fdd41708dbc0e10a7307e0bce6a9",
+        "sha256_in_prefix": "cb0d5e45472448c73c06c73ca6e36182a538fdd41708dbc0e10a7307e0bce6a9",
+        "size_in_bytes": 22056
+      },
+      {
+        "_path": "libexec/bcftools/check-ploidy.so",
+        "path_type": "hardlink",
+        "sha256": "2d2c81d14673eae12a879459a1921237f7c2d1021b3047c4a375d93b259c314c",
+        "sha256_in_prefix": "2d2c81d14673eae12a879459a1921237f7c2d1021b3047c4a375d93b259c314c",
+        "size_in_bytes": 16960
+      },
+      {
+        "_path": "libexec/bcftools/check-sparsity.so",
+        "path_type": "hardlink",
+        "sha256": "c02eee12cc49c881bb02b3c8c017818ea1699c1f71e351a8d8945e3899bf3cb6",
+        "sha256_in_prefix": "c02eee12cc49c881bb02b3c8c017818ea1699c1f71e351a8d8945e3899bf3cb6",
+        "size_in_bytes": 27016
+      },
+      {
+        "_path": "libexec/bcftools/color-chrs.so",
+        "path_type": "hardlink",
+        "sha256": "e1e657d9ed9a582ab4b7d6d96b650f673b75c53484b575166a3dcb13d376fe09",
+        "sha256_in_prefix": "e1e657d9ed9a582ab4b7d6d96b650f673b75c53484b575166a3dcb13d376fe09",
+        "size_in_bytes": 39848
+      },
+      {
+        "_path": "libexec/bcftools/contrast.so",
+        "path_type": "hardlink",
+        "sha256": "447335e551e4af2d48f426e85afbe27adaeff4a868d0d38b2ab1d813290735e8",
+        "sha256_in_prefix": "447335e551e4af2d48f426e85afbe27adaeff4a868d0d38b2ab1d813290735e8",
+        "size_in_bytes": 27416
+      },
+      {
+        "_path": "libexec/bcftools/counts.so",
+        "path_type": "hardlink",
+        "sha256": "55fb68a370ddc88e4c9bcb58ba0a28a323aae28be441930814cc1fbc63bd2200",
+        "sha256_in_prefix": "55fb68a370ddc88e4c9bcb58ba0a28a323aae28be441930814cc1fbc63bd2200",
+        "size_in_bytes": 16808
+      },
+      {
+        "_path": "libexec/bcftools/dosage.so",
+        "path_type": "hardlink",
+        "sha256": "629faf016e521f8ad643234bf6bb461b3a93eb2370eaa043dd818d88579d8ed0",
+        "sha256_in_prefix": "629faf016e521f8ad643234bf6bb461b3a93eb2370eaa043dd818d88579d8ed0",
+        "size_in_bytes": 30624
+      },
+      {
+        "_path": "libexec/bcftools/fill-AN-AC.so",
+        "path_type": "hardlink",
+        "sha256": "0bfac4b9774d4269b059be261c76a6cc7364b677e0e7f48d1f1500219cce9e80",
+        "sha256_in_prefix": "0bfac4b9774d4269b059be261c76a6cc7364b677e0e7f48d1f1500219cce9e80",
+        "size_in_bytes": 16936
+      },
+      {
+        "_path": "libexec/bcftools/fill-from-fasta.so",
+        "path_type": "hardlink",
+        "sha256": "97aae9ee5e7c27ff171e1fc0afdbb885cc72d43e200fba06c8dfec2f068c9b25",
+        "sha256_in_prefix": "97aae9ee5e7c27ff171e1fc0afdbb885cc72d43e200fba06c8dfec2f068c9b25",
+        "size_in_bytes": 127200
+      },
+      {
+        "_path": "libexec/bcftools/fill-tags.so",
+        "path_type": "hardlink",
+        "sha256": "a343405fbd77fee8b1cbdcfb4864ae2fa5134debc8824c6684ffc32f81b9ff4c",
+        "sha256_in_prefix": "a343405fbd77fee8b1cbdcfb4864ae2fa5134debc8824c6684ffc32f81b9ff4c",
+        "size_in_bytes": 43808
+      },
+      {
+        "_path": "libexec/bcftools/fixploidy.so",
+        "path_type": "hardlink",
+        "sha256": "4c9ce1cbbe87c67b5e912766c7d3034bdbe3f07a13567750b555615d08348f3c",
+        "sha256_in_prefix": "4c9ce1cbbe87c67b5e912766c7d3034bdbe3f07a13567750b555615d08348f3c",
+        "size_in_bytes": 49888
+      },
+      {
+        "_path": "libexec/bcftools/fixref.so",
+        "path_type": "hardlink",
+        "sha256": "11c68782b86631f5acac9e72062868d340ec57131beed76778531cf70e1f5a14",
+        "sha256_in_prefix": "11c68782b86631f5acac9e72062868d340ec57131beed76778531cf70e1f5a14",
+        "size_in_bytes": 31168
+      },
+      {
+        "_path": "libexec/bcftools/frameshifts.so",
+        "path_type": "hardlink",
+        "sha256": "dcaf792b70647b839d894edfa8551f5494ae79abf9fe628540cef6b868b96d5e",
+        "sha256_in_prefix": "dcaf792b70647b839d894edfa8551f5494ae79abf9fe628540cef6b868b96d5e",
+        "size_in_bytes": 17528
+      },
+      {
+        "_path": "libexec/bcftools/guess-ploidy.so",
+        "path_type": "hardlink",
+        "sha256": "c643021b371d3d99cb9f73833c31713eece296f8fac1065271b6a6cf0fc74ca5",
+        "sha256_in_prefix": "c643021b371d3d99cb9f73833c31713eece296f8fac1065271b6a6cf0fc74ca5",
+        "size_in_bytes": 35288
+      },
+      {
+        "_path": "libexec/bcftools/impute-info.so",
+        "path_type": "hardlink",
+        "sha256": "c28d900123c4d8dddab55104d78839fa35fc3a5d4778abb0772a7402027744f9",
+        "sha256_in_prefix": "c28d900123c4d8dddab55104d78839fa35fc3a5d4778abb0772a7402027744f9",
+        "size_in_bytes": 17280
+      },
+      {
+        "_path": "libexec/bcftools/isecGT.so",
+        "path_type": "hardlink",
+        "sha256": "5a7b9c5a4319f23f3c987435977b0d4b2ec14bbc8edcf8d1afd6421a344519f0",
+        "sha256_in_prefix": "5a7b9c5a4319f23f3c987435977b0d4b2ec14bbc8edcf8d1afd6421a344519f0",
+        "size_in_bytes": 22304
+      },
+      {
+        "_path": "libexec/bcftools/mendelian.so",
+        "path_type": "hardlink",
+        "sha256": "04149c6b4326b21cb63b2819c089f427dc5add4d3693bb80b56d77f8863fe120",
+        "sha256_in_prefix": "04149c6b4326b21cb63b2819c089f427dc5add4d3693bb80b56d77f8863fe120",
+        "size_in_bytes": 35784
+      },
+      {
+        "_path": "libexec/bcftools/missing2ref.so",
+        "path_type": "hardlink",
+        "sha256": "4c8ddf4ddfb4238f2909988f27facd44757b19eb989e9178bb8ab6be078152e1",
+        "sha256_in_prefix": "4c8ddf4ddfb4238f2909988f27facd44757b19eb989e9178bb8ab6be078152e1",
+        "size_in_bytes": 17440
+      },
+      {
+        "_path": "libexec/bcftools/prune.so",
+        "path_type": "hardlink",
+        "sha256": "64e9d85f4eccb80220adb3d20ed1b705aeb5dd03eb759744e03e7399e7a3103a",
+        "sha256_in_prefix": "64e9d85f4eccb80220adb3d20ed1b705aeb5dd03eb759744e03e7399e7a3103a",
+        "size_in_bytes": 31320
+      },
+      {
+        "_path": "libexec/bcftools/setGT.so",
+        "path_type": "hardlink",
+        "sha256": "63ad2c906d985ccb0e3b1ef72cd90ec3279616d6932c7db7542c9487ec55de20",
+        "sha256_in_prefix": "63ad2c906d985ccb0e3b1ef72cd90ec3279616d6932c7db7542c9487ec55de20",
+        "size_in_bytes": 130896
+      },
+      {
+        "_path": "libexec/bcftools/smpl-stats.so",
+        "path_type": "hardlink",
+        "sha256": "279e0bf59232d2a0cb2f83a58180ae917c31e1707b1106464b9a270fefb7c143",
+        "sha256_in_prefix": "279e0bf59232d2a0cb2f83a58180ae917c31e1707b1106464b9a270fefb7c143",
+        "size_in_bytes": 31392
+      },
+      {
+        "_path": "libexec/bcftools/split.so",
+        "path_type": "hardlink",
+        "sha256": "560b0f665c00c4a89ed6226089635ab28d5e722235b89862d88c4b18ce1dbd9b",
+        "sha256_in_prefix": "560b0f665c00c4a89ed6226089635ab28d5e722235b89862d88c4b18ce1dbd9b",
+        "size_in_bytes": 31680
+      },
+      {
+        "_path": "libexec/bcftools/tag2tag.so",
+        "path_type": "hardlink",
+        "sha256": "e8277efe9060d92c48b68f5aea25c4c21cdab26eed17ff65f97f84f700904158",
+        "sha256_in_prefix": "e8277efe9060d92c48b68f5aea25c4c21cdab26eed17ff65f97f84f700904158",
+        "size_in_bytes": 22184
+      },
+      {
+        "_path": "libexec/bcftools/trio-stats.so",
+        "path_type": "hardlink",
+        "sha256": "d2f6d68a9799297538c1cf710067f199afb74cddf9cf2e0082c523038566f805",
+        "sha256_in_prefix": "d2f6d68a9799297538c1cf710067f199afb74cddf9cf2e0082c523038566f805",
+        "size_in_bytes": 35912
+      },
+      {
+        "_path": "libexec/bcftools/trio-switch-rate.so",
+        "path_type": "hardlink",
+        "sha256": "1bd24ce61ce71bcbf7f6f6a208a278ef9b0892246df4f8b6d1b97e3feb231668",
+        "sha256_in_prefix": "1bd24ce61ce71bcbf7f6f6a208a278ef9b0892246df4f8b6d1b97e3feb231668",
+        "size_in_bytes": 22432
+      },
+      {
+        "_path": "share/man/man1/bcftools.1",
+        "path_type": "hardlink",
+        "sha256": "e20263860efab5a1d72eaffcb66cecefac87bbde1c7ea92e052e9bb012d26373",
+        "sha256_in_prefix": "e20263860efab5a1d72eaffcb66cecefac87bbde1c7ea92e052e9bb012d26373",
+        "size_in_bytes": 130300
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "bcftools=1.9",
+  "sha256": "6d982265b96c5bcd2d490f43efbb3adee96126943ca5c081e9407e0827a364e3",
+  "size": 826259,
+  "subdir": "linux-64",
+  "timestamp": 1557772839357,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/bioconda/linux-64/bcftools-1.9-ha228f0b_4.tar.bz2",
+  "version": "1.9"
+}

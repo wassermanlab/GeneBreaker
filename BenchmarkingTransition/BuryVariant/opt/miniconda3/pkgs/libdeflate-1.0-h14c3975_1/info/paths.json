@@ -1,0 +1,17 @@
+{
+  "paths": [
+    {
+      "_path": "include/libdeflate.h",
+      "path_type": "hardlink",
+      "sha256": "3c3aa06bb0f5acb6f600edb915805dc76fd08b07e23b4752d3e9739ca516950f",
+      "size_in_bytes": 12339
+    },
+    {
+      "_path": "lib/libdeflate.so",
+      "path_type": "hardlink",
+      "sha256": "3e302a3e8fa10bae2e1b58a0e90067d1641714dd6c349008d66f02d03f543702",
+      "size_in_bytes": 64528
+    }
+  ],
+  "paths_version": 1
+}

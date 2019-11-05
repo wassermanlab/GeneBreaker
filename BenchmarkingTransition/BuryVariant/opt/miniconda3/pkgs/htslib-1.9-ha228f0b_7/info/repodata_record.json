@@ -1,0 +1,28 @@
+{
+  "arch": "x86_64",
+  "build": "ha228f0b_7",
+  "build_number": 7,
+  "channel": "https://conda.anaconda.org/bioconda/linux-64",
+  "constrains": [],
+  "depends": [
+    "bzip2 >=1.0.6,<2.0a0",
+    "curl >=7.64.0,<8.0a0",
+    "libdeflate >=1.0,<1.1.0a0",
+    "libgcc-ng >=7.3.0",
+    "xz >=5.2.4,<5.3.0a0",
+    "zlib >=1.2.11,<1.3.0a0"
+  ],
+  "features": "",
+  "fn": "htslib-1.9-ha228f0b_7.tar.bz2",
+  "license": "MIT",
+  "md5": "9a8e267aa4a8d0de90929e664e8470cd",
+  "name": "htslib",
+  "platform": "linux",
+  "sha256": "f235b40156ca5a084982413f65fd37a68ceb22a5bbfd3caae2538375edaaf862",
+  "size": 1538859,
+  "subdir": "linux-64",
+  "timestamp": 1553473567346,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/bioconda/linux-64/htslib-1.9-ha228f0b_7.tar.bz2",
+  "version": "1.9"
+}
