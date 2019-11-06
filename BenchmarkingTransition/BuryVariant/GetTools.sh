@@ -10,7 +10,6 @@ pushd ${OPT_DIR}
 
 PYTHON_DIR=${OPT_DIR}/miniconda3
 CONDA=Miniconda3-latest-Linux-x86_64.sh
-samtools_version="1.9"
 
 if [[ ! -d ${PYTHON_DIR} ]]; then
 wget -q https://repo.continuum.io/miniconda/${CONDA}\
