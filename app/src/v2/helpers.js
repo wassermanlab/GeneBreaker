@@ -161,6 +161,7 @@ export async function get_variants(props) {
   } else {
     json["VAR2"] = "None"
   }
+  console.log(JSON.stringify(json))
   const rawResponse = await fetch(host + 'design_variants', {
     method: 'POST',
     headers: {

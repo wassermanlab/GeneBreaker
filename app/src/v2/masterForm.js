@@ -1,18 +1,18 @@
 import React from 'react';
-// import { saveAs } from 'file-saver';
-// import { host } from '../host'
+import { saveAs } from 'file-saver';
+import { host } from '../host'
 import Nav from '../nav';
 import GeneralInfo from './generalInfo';
 import VariantInfo from './variantInfo';
 import FamilyInfo from './familyInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
+import './masterForm.css';
 import { check_errors, get_variants } from './helpers.js'
-// import get_variants from './helpers.js'
 import Progress from './progressComp';
 import SelectComp from './selectComp'
 
-class MasterForm2 extends React.Component {
+class MasterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,6 +64,7 @@ class MasterForm2 extends React.Component {
     this.next = this.next.bind(this)
     this.back = this.back.bind(this)
     this.goToFamily = this.goToFamily.bind(this)
+    this.downloadFile = this.downloadFile.bind(this)
   }
 
   // handles state change for family marker
@@ -111,6 +112,19 @@ class MasterForm2 extends React.Component {
     this.setState({ family: fam })
   }
 
+  async downloadFile(event) {
+    console.log(this.state.family)
+    const file_type = event.target.value;
+    const rawResponse = await fetch(host + 'get_file?filetype=' + file_type, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ var1: this.state.vars.var1, var2: this.state.vars.var2, family: this.state.family }),
+    });
+    const blob = await rawResponse.blob();
+    saveAs(blob, "test." + file_type)
+  }
   // sets page to page+1
   next() {
     const errors = check_errors(this.state)
@@ -121,20 +135,6 @@ class MasterForm2 extends React.Component {
     let currentPage = this.state.page;
     currentPage = currentPage + 1;
     this.setState({ page: currentPage, errors: [] }, () => { console.log(this.state); });
-    // if (currentPage === 3) {
-    //   get_variants(this.state).then(vars => {
-    //     if ("error" in vars) {
-    //       this.setState({ errors: [vars["error"]] })
-    //       return null;
-    //     } else {
-    //       const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0 : 1)
-    //       const fam = { proband: { sex: this.state.sex, var1: 1, var2: var2, affected: 1 } }
-    //       this.setState({ vars: vars, fam: fam,  page: currentPage+1, errors: [] }, () => { console.log(this.state); } );
-    //       return null;
-    //     }
-    //   }
-    //   )
-    // }
   }
   goToFamily() {
     let currentPage = this.state.page;
@@ -145,11 +145,10 @@ class MasterForm2 extends React.Component {
       } else {
         const var2 = ((vars.var2 === "" && vars.var1.proband === "0/1") ? 0 : 1)
         const fam = { proband: { sex: this.state.sex, var1: 1, var2: var2, affected: 1 } }
-        this.setState({ vars: vars, fam: fam, page: currentPage + 1, errors: [] }, () => { console.log(this.state); });
+        this.setState({ vars: vars, family: fam, page: currentPage + 1, errors: [] });
         return null;
       }
     })
-
   }
   // sets page to page-1
   back() {
@@ -303,7 +302,7 @@ class MasterForm2 extends React.Component {
                 chrom={this.state.chrom} gene_uid={this.state.gene_uid} sex={this.state.sex} onChange={this.handleInputChange} />
               {/* familyInfo */}
               <FamilyInfo vars={this.state.vars} page={this.state.page} family={this.state.family} addFamily={this.addFamily}
-                removeFamily={this.removeFamily} handleFamilyCheckChange={this.handleFamilyCheckChange} />
+                removeFamily={this.removeFamily} handleFamilyCheckChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}
@@ -316,4 +315,4 @@ class MasterForm2 extends React.Component {
   }
 }
 
-export default MasterForm2;
+export default MasterForm;

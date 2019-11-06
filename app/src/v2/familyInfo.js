@@ -98,7 +98,7 @@ function FamilyInfo(props) {
       </table>
       <div>
         <div className="dropdown">
-          <button className="btn btn-primary float-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button className="btn btn-primary float-left dropdown-toggle nav-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Family Member
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -106,6 +106,15 @@ function FamilyInfo(props) {
             <button className="dropdown-item" type="button" value={"f"} onClick={props.addFamily}>Father</button>
             <button className="dropdown-item" type="button" value={"s"} onClick={props.addFamily}>Sister</button>
             <button className="dropdown-item" type="button" value={"b"} onClick={props.addFamily}>Brother</button>
+          </div>
+        </div>
+        <div className="dropdown">
+          <button className="btn btn-primary float-left dropdown-toggle nav-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Download Outputs
+          </button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button className="dropdown-item" type="button" value={"vcf"} onClick={props.downloadFile}>VCF</button>
+            <button className="dropdown-item" type="button" value={"ped"} onClick={props.downloadFile}>PED</button>
           </div>
         </div>
       </div>
