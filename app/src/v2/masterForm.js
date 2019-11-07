@@ -8,9 +8,9 @@ import FamilyInfo from './familyInfo';
 import NavButtons from './navButtons';
 import Errors from './errors';
 import './masterForm.css';
-import { check_errors, get_variants } from './helpers.js'
+import { check_errors, get_variants } from './helpers.js';
 import Progress from './progressComp';
-import SelectComp from './selectComp'
+import SelectComp from './selectComp';
 
 class MasterForm extends React.Component {
   constructor(props) {
