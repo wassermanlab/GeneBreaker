@@ -3,7 +3,6 @@ import InputComp from './inputComp'
 import SelectComp from './selectComp'
 import SelectList from './selectListComp'
 import { host } from '../host'
-import IGV from "./igv";
 
 function GeneralInfo(props) {
   if (props.page !== 1) {
@@ -36,7 +35,7 @@ function GeneralInfo(props) {
       {/* transcript list */}
       <SelectList title={"Transcripts"} url={host + 'get_transcripts/' + props.genome + '/' + props.gene_name}
         name={"gene_uid"} value={props.gene_uid} type={"transcript"} onChange={props.onChange}/>
-      <IGV genome={props.genome}/>
+      
     </React.Fragment >
   )
 }

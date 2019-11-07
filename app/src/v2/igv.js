@@ -25,6 +25,14 @@ class IGV extends Component {
         this.state.browser.loadGenome({genome: this.props.genome});
       }
     }
+    if (this.props.start !== prevProps.start) {
+      console.log(this.props)
+      if (this.browser !== null){
+        const locus = "chr"+this.props.chrom + ":" + this.props.start + "-" + this.props.end;
+        console.log(locus);
+        this.state.browser.search(locus);
+      }
+    }
   }
 
   render() {

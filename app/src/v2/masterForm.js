@@ -11,6 +11,7 @@ import './masterForm.css';
 import { check_errors, get_variants } from './helpers.js';
 import Progress from './progressComp';
 import SelectComp from './selectComp';
+import IGV from "./igv";
 
 class MasterForm extends React.Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class MasterForm extends React.Component {
       gene_name: "",
       chrom: "",
       sex: "XX",
+      gene_start: null,
+      gene_end: null,
       // var 1 state
       type_1: "",
       region_1: "",
@@ -236,8 +239,12 @@ class MasterForm extends React.Component {
       const index = target.selectedIndex;
       const option = target.childNodes[index];
       const chrom = option.getAttribute('chrom');
+      const start = option.getAttribute('start');
+      const end = option.getAttribute('end');
       this.setState({
-        chrom: chrom
+        chrom: chrom,
+        gene_start: start,
+        gene_end: end
       });
     }
     else if (name === ("clingen_id_" + variant)) {
@@ -303,6 +310,9 @@ class MasterForm extends React.Component {
               {/* familyInfo */}
               <FamilyInfo vars={this.state.vars} page={this.state.page} family={this.state.family} addFamily={this.addFamily}
                 removeFamily={this.removeFamily} handleFamilyCheckChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
+              {/* IGV */}
+              {this.state.page !== 4 &&
+              <IGV genome={this.state.genome} start={this.state.gene_start} end={this.state.gene_end} chrom={this.state.chrom} />}
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}

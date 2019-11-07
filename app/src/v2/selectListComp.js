@@ -18,7 +18,7 @@ function SelectList(props) {
 
   function option(item, index) {
     if (props.type === "transcript") {
-      return <option key={index} value={item.qualifiers.uid} chrom={item.chrom}> {item.qualifiers.name} </option>
+      return <option key={index} value={item.qualifiers.uid} start={item.start + 1} end={item.end} chrom={item.chrom}> {item.qualifiers.name} </option>
     } else if (props.type === "clingen") {
       return (<option key={index} value={item.qualifiers.uid} start={item.start + 1} end={item.end} copy_change={item.qualifiers.copy_number_change}>
         Start: {item.start + 1} &emsp;&emsp; End: {item.end} &emsp;&emsp; Clinical assertion: {item.qualifiers.clinical_assertion} &emsp;&emsp; Copy change: {item.qualifiers.copy_number_change} </option>
