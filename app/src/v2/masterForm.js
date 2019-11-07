@@ -126,7 +126,7 @@ class MasterForm extends React.Component {
       body: JSON.stringify({ var1: this.state.vars.var1, var2: this.state.vars.var2, family: this.state.family }),
     });
     const blob = await rawResponse.blob();
-    saveAs(blob, "test." + file_type)
+    saveAs(blob, this.state.gene_name + "." + file_type)
   }
   // sets page to page+1
   next() {
