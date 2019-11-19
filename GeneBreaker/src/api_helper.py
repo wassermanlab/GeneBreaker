@@ -30,10 +30,6 @@ def get_all_results(request_url):
             return False
     return results
 
-def get_all_genenames(genome):
-    url = host + '/api/v1/' + genome + '/genes/symbols'
-    return get_all_results(url)
-
 def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
     return get_all_results(url)

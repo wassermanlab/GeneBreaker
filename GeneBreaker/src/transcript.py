@@ -9,7 +9,7 @@ class Transcript:
         try:
             transcript      = get_transcript(uid, genome)
             self.genome     = genome
-            self.name       = transcript["qualifiers"]["name2"]
+            self.name       = transcript["qualifiers"]["gene_symbol"]
             self.cdsStart   = int(transcript["qualifiers"]["cdsStart"])
             self.cdsEnd     = int(transcript["qualifiers"]["cdsEnd"])
             self.exonStarts = transcript["qualifiers"]["exonStarts"]
