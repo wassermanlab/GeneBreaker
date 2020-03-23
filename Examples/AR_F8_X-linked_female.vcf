@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##fileDate=20090805
+##source=variant_simulator
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	PROBAND
+chrX	154091466	10313	GTT	G	.	.	.	GT	0/1
+chrX	154090033	10098	C	T	.	.	.	GT	0/1

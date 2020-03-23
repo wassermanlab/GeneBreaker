@@ -1,0 +1,19 @@
+{
+    "GENE_NAME": "CFTR", 
+    "GENE_UID": 45616, 
+    "SEX": "XX-FEMALE", 
+    "VAR1": {
+        "IMPACT": 45616, 
+        "LOCATION": "NONE", 
+        "REGION": "CODING", 
+        "TYPE": "ClinVar", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }, 
+    "VAR2": {
+        "IMPACT": 2, 
+        "LOCATION": "ANY", 
+        "REGION": "CODING", 
+        "TYPE": "INDEL", 
+        "ZYGOSITY": "HETEROZYGOUS"
+    }
+}

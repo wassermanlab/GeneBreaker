@@ -6,4 +6,4 @@ cd varsim/
 sh build.sh
 
 # Test varsim install
-sh tests/quickstart-test/quickstart.sh
+sh varsim/tests/quickstart-test/quickstart.sh

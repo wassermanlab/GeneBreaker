@@ -1,7 +1,6 @@
 # Set up this header 
 
 WORKING_DIR=
-
 PYTHON=
 
 # Modify variant format to match DeepVariant
