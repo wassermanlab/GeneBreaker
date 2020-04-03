@@ -1,0 +1,10 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+name: openFlexTyper 
+channels:
+        - conda-forge 
+        - bioconda
+dependencies:
+        - htslib=1.10.2
+        - bcftools=1.10.2

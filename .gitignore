@@ -126,3 +126,6 @@ varsim_run
 simulator/tests/testing_data/*output.vcf*
 #*#
 *~
+
+# Opt
+opt/
