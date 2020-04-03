@@ -24,7 +24,7 @@ def GetArgs():
 	Help_detail = "Chr Removal, set this option if you want to remove the 'chr' from chromosome names"
 	parser.add_argument("-R", "--RemoveChr", help=Help_detail, action="store_true")
 
-	Help_detail = "Family Member, choose one of [PROBAND, MOTHER, FATHER]"
+	Help_detail = "Family Member, choose one of [proband, mother, father]"
 	parser.add_argument("-F", "--FamilyMember", help=Help_detail, type=str, required=True)
 	args = parser.parse_args()
 	return args
@@ -35,7 +35,7 @@ def GetArgs():
 ##fileDate=20090805
 ##source=variant_simulator
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	PROBAND
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	proband
 # chr2	47641508	snv_47641508_MISSENSE	A	C	.	.	.	GT	0/1 
 
 # Here We will read in the simulator VCF and output info on the varant(s)
@@ -122,7 +122,7 @@ def ReformatVCFs(simulated_variants,background_vcf, infilename, family_member, r
 	backgroundvcf = open(background_vcf,'r')
 	out_backgroundvcf_filename = "%s_Background_%s.vcf"%(background_vcf[:-4],family_member)
 	out_backgroundvcf = open(out_backgroundvcf_filename,'w')
-	outfilename = "%s_PathoVar_%s.vcf"%(infilename[:-4],family_member)
+	outfilename = "%s.vcf"%(infilename[:-4])
 	outfile = open(outfilename,'w')
 	print("Writing to these outfiles: ")
 	print(outfilename)
