@@ -1,4 +1,4 @@
 #family_id	sample_id	paternal_id	maternal_id	sex	phenotype
-Family_Trio_Denovo	FATHER	0	0	1	1
-Family_Trio_Denovo	MOTHER	0	0	2	1
-Family_Trio_Denovo	PROBAND	FATHER	MOTHER	1	2	
+Family_Trio_Denovo	father	0	0	1	1
+Family_Trio_Denovo	mother	0	0	2	1
+Family_Trio_Denovo	proband	father	mother	1	2	

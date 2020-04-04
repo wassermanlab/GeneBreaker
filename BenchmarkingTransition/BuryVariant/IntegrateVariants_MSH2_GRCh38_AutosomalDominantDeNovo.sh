@@ -9,7 +9,7 @@ REFORMAT_SCRIPT=$PWD/reformatSimToDeepVariant.py
 
 # Run Details
 GENE=MSH2
-GENOME=GRCh37
+GENOME=GRCh38
 INHERITANCE=AutosomalDominantDeNovo
 
 # Make a new working directory for this simulation

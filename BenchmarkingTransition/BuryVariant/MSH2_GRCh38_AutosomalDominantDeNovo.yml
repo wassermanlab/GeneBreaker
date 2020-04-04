@@ -4,10 +4,10 @@
 ---
 analysis:
     # hg19 or hg38 - ensure that the application has been configured to run the specified assembly otherwise it will halt.
-    genomeAssembly: hg19
-    vcf: /scratch/st-wasserww-1/GeneBreaker/BenchmarkingTransition/BuryVariant/Merged_GeneBreaker.vcf.gz 
-    ped: /scratch/st-wasserww-1/GeneBreaker/BenchmarkingTransition/BuryVariant/GeneBreakerTrio_DeNovo.ped
-    proband: PROBAND
+    genomeAssembly: hg38
+    vcf: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/BenchmarkingTransition/BuryVariant/MSH2_GRCh38_AutosomalDominantDeNovo/Merged_GeneBreaker.vcf.gz
+    ped: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/BenchmarkingTransition/BuryVariant/GeneBreakerTrio_DeNovo.ped
+    proband: proband
     hpoIds: ['HP:0200008', 'HP:0001250', 'HP:0001276', 'HP:0012378', 'HP:0002027', 'HP:0001276']
     # These are the default settings, with values representing the maximum minor allele frequency in percent (%) permitted for an
     # allele to be considered as a causative candidate under that mode of inheritance.
@@ -134,6 +134,6 @@ outputOptions:
     # according to the outputFormats option. If unspecified this will default to the following: 
     # {exomiserDir}/results/input-vcf-name-exomiser-results.html
     # alternatively, specify a fully qualifed path only. e.g. /users/jules/exomes/analysis    
-    outputPrefix: DeNovoExomiserAnalysis
+    outputPrefix: MSH2_GRCh38_AutosomalDominantDeNovo_Exomiser
     #out-format options: HTML, JSON, TSV_GENE, TSV_VARIANT, VCF (default: HTML)
     outputFormats: [HTML, JSON, TSV_GENE, TSV_VARIANT, VCF]
