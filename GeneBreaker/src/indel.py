@@ -16,6 +16,7 @@ class Indel(Variant):
             if self.indel_amount < 0:  # get deletion
                 var_dict = self.get_deletion()
             self.id = "_".join(["indel", str(self.pos), str(self.indel_amount)])
+            self.pos = var_dict["pos"]
             self.ref = str(var_dict["ref"])
             self.alt = str(var_dict["alt"])
         except Exception as e:

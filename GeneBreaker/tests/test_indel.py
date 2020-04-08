@@ -5,6 +5,7 @@ from GeneBreaker.src.indel import Indel
 from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
 
+
 class IndelCreationTests(unittest.TestCase):
     time.sleep(2)
     XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
@@ -12,6 +13,7 @@ class IndelCreationTests(unittest.TestCase):
     SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
     SOX18 = Transcript(SOX18_uid, "hg38")
     # test 1
+
     def test_wrong_keys(self):
         indel = {
             "TYPE": "INDEL",
@@ -21,6 +23,7 @@ class IndelCreationTests(unittest.TestCase):
         with self.assertRaises(KeyError):
             Indel(indel, self.transcript)
     # test 2
+
     def test_region_value(self):
         indel = {"TYPE": "INDEL",
                  "REGION": "TEST",
@@ -65,6 +68,7 @@ class IndelCreationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             Indel(indel, self.SOX18).get_vcf_row()
 
+
 class InsersionMethodTesting(unittest.TestCase):
     time.sleep(2)
     indel_any = {'TYPE': 'INDEL',
@@ -81,9 +85,9 @@ class InsersionMethodTesting(unittest.TestCase):
     negative_transcript = Transcript(TOR1A_uid, "hg38")
     indel_any = Indel(indel_any, positive_transcript)
     indel_spec = Indel(indel_spec, negative_transcript)
-    
 
     # test 7
+
     def test_check_insertion_generation(self):
         self.assertEqual(len(self.indel_any.get_insertion_str(50)), 50)
 
@@ -99,7 +103,7 @@ class InsersionMethodTesting(unittest.TestCase):
         self.assertEqual(len(insertion["alt"]), 9)
 
     # test 10
-    def test_get_insertion_row(self): 
+    def test_get_insertion_row(self):
         insertion = self.indel_spec.get_vcf_row()
         self.assertEqual(insertion['chrom'], "9")
         self.assertEqual(insertion['pos'], '129814200')
@@ -111,8 +115,9 @@ class DeletionMethodTestCase(unittest.TestCase):
     time.sleep(2)
     # positive_transcript = Transcript(64805)  # SOX9
     SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")  
+    positive_transcript = Transcript(SOX9_uid, "hg38")
     # test 11
+
     def test_basic_deletion(self):
         indel = {'TYPE': 'INDEL',
                  'REGION': 'CODING',
@@ -134,7 +139,7 @@ class DeletionMethodTestCase(unittest.TestCase):
         deletion = indel.get_deletion()
         self.assertEqual(len(deletion["ref"]), 6)
         self.assertEqual(len(deletion["alt"]), 1)
-    
+
     # test 13
     def test_raises_length_over_200(self):
         indel = {'TYPE': 'INDEL',
@@ -145,9 +150,10 @@ class DeletionMethodTestCase(unittest.TestCase):
             Indel(indel, self.positive_transcript).get_deletion()
 
     # test 14
-    def test_raises_length_greater_than_region(self): ##########################################
-        SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
-        SOX18 = Transcript(SOX18_uid, "hg38") 
+    def test_raises_length_greater_than_region(self):
+        SOX18_uid = get_all_transcripts("SOX18", "hg38")[
+                                        0]["qualifiers"]["uid"]
+        SOX18 = Transcript(SOX18_uid, "hg38")
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -199, "START": "ANY"},
@@ -157,7 +163,8 @@ class DeletionMethodTestCase(unittest.TestCase):
 
     # test 15
     def test_raises_length_greater_than_location(self):
-        SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
+        SOX18_uid = get_all_transcripts("SOX18", "hg38")[
+                                        0]["qualifiers"]["uid"]
         SOX18 = Transcript(SOX18_uid, "hg38")
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
@@ -165,7 +172,7 @@ class DeletionMethodTestCase(unittest.TestCase):
                  "ZYGOSITY": "HETEROZYGOUS"}
         with self.assertRaises(ValueError):
             indel = Indel(indel, SOX18)
-            
+
 
 
 if __name__ == '__main__':

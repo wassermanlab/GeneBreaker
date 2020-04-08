@@ -4,6 +4,7 @@ from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
 import time
 
+# python -m unittest GeneBreaker.tests.test_single_nucleotide_variant
 
 class SNVCreationTests(unittest.TestCase):
     time.sleep(1)

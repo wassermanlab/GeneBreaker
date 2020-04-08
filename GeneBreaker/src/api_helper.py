@@ -7,6 +7,7 @@ config.read('GeneBreaker/src/config.ini')
 host = config.get('DEFAULT', 'GUD_HOST')
 
 def get_all_results(request_url):
+    time.sleep(1)
     results = []
     next = True
     url = request_url
@@ -32,6 +33,7 @@ def get_all_results(request_url):
 
 def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
+    print(url)
     return get_all_results(url)
 
 def get_str(genome, uid):
@@ -69,7 +71,6 @@ def get_clinvars(start, end, chrom, genome, location):
 def get_cnvs(start, end, chrom, genome, location):
     #takes in 1 based
     url = host + '/api/v1/' + genome + '/copy_number_variants?start='+ str(start) + '&end='+ str(end) + '&chrom=' + chrom + '&location=' +location
-    print(url)
     res = get_all_results(url)
     if res != False: 
         return res
@@ -78,6 +79,7 @@ def get_cnvs(start, end, chrom, genome, location):
 def get_transcript(uid, genome):
     url = host + '/api/v1/' + genome + '/genes?uids='+ str(uid)
     res = get_all_results(url)
+    print (res)
     if res != False: 
         return res[0]
     return []

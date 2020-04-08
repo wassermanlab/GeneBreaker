@@ -10,10 +10,10 @@ class Transcript:
             transcript      = get_transcript(uid, genome)
             self.genome     = genome
             self.name       = transcript["qualifiers"]["gene_symbol"]
-            self.cdsStart   = int(transcript["qualifiers"]["cdsStart"])
-            self.cdsEnd     = int(transcript["qualifiers"]["cdsEnd"])
-            self.exonStarts = transcript["qualifiers"]["exonStarts"]
-            self.exonEnds   = transcript["qualifiers"]["exonEnds"]
+            self.cdsStart   = int(transcript["qualifiers"]["coding_start"])
+            self.cdsEnd     = int(transcript["qualifiers"]["coding_end"])
+            self.exonStarts = transcript["qualifiers"]["exon_starts"]
+            self.exonEnds   = transcript["qualifiers"]["exon_ends"]
             self.chrom      = transcript["chrom"]
             self.txStart    = int(transcript["start"])
             self.txEnd      = int(transcript["end"])
