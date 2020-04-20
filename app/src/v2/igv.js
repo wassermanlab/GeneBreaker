@@ -7,10 +7,20 @@ class IGV extends Component {
     this.state = {browser: null};
   }
 
+  getGenome(g){
+    if (g === "grch38"){
+      return "hg38";
+    }
+    else {
+      return "hg19";
+    }
+  }
+
   componentDidMount() {
     let currentComponent = this;
-    let igvOptions = {genome: this.props.genome};
-    // let igvOptions = { genome: 'hg19' };
+    const g = this.getGenome(this.props.genome);
+    console.log(g)
+    let igvOptions = {genome: g};
     let igvContainer = document.getElementById('igv-div');
     igv.createBrowser(igvContainer, igvOptions)
       .then(function (browser) {
@@ -20,14 +30,14 @@ class IGV extends Component {
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
+    const g = this.getGenome(this.props.genome)
     if (this.props.genome !== prevProps.genome) {
-      if (this.browser !== null){
-        this.state.browser.loadGenome({genome: this.props.genome});
+      if (this.state.browser !== null){
+        this.state.browser.loadGenome({genome: g});
       }
     }
     if (this.props.start !== prevProps.start) {
-      console.log(this.props)
-      if (this.browser !== null){
+      if (this.state.browser !== null){
         const locus = "chr"+this.props.chrom + ":" + this.props.start + "-" + this.props.end;
         console.log(locus);
         this.state.browser.search(locus);

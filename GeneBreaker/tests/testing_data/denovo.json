@@ -1,6 +1,6 @@
 {
     "GENE_UID": 69540,
-    "GENOME": "hg38",
+    "GENOME": "grch38",
     "SEX": "XX",
     "VAR1": {
         "TYPE": "SNV",

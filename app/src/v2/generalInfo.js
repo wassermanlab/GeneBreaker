@@ -18,7 +18,7 @@ function GeneralInfo(props) {
         name={"genome"}
         value={props.genome}
         onChange={props.onChange}
-        options={[{ value: "hg38", text: "hg38" }, { value: "hg19", text: "hg19" }]}/>
+        options={[{ value: "grch38", text: "GRCh38" }, { value: "grch37", text: "GRCh37" }]}/>
       {/* sex */}
       <SelectComp
         title={"Sex"}

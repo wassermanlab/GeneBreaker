@@ -11,8 +11,8 @@ class MEICreationTests(unittest.TestCase):
     # test 1
     def test_type_value_MEI(self):
         time.sleep(2)
-        XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-        transcript = Transcript(XKR8_uid, "hg38")
+        XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+        transcript = Transcript(XKR8_uid, "grch38")
         mei = {"TYPE": "SNV",
                  "REGION": "INTRONIC",
                  "IMPACT": {"ELEMENT": "ALU", "START": "ANY"},
@@ -22,8 +22,8 @@ class MEICreationTests(unittest.TestCase):
     # test 2
     def test_location_0(self):
         time.sleep(2)
-        SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
-        SOX18 = Transcript(SOX18_uid, "hg38")
+        SOX18_uid = get_all_transcripts("SOX18", "grch38")[0]["qualifiers"]["uid"]
+        SOX18 = Transcript(SOX18_uid, "grch38")
         mei = {"TYPE": "MEI",
                  "REGION": "INTRONIC",
                  "IMPACT": {"ELEMENT": "ALU", "START": 0},
@@ -41,10 +41,10 @@ class InsersionMethodTesting(unittest.TestCase):
                   'REGION': 'CODING',
                   'IMPACT': {"ELEMENT": "ALU", "START": 129814000},
                   "ZYGOSITY": "HETEROZYGOUS"}
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")
-    TOR1A_uid = get_all_transcripts("TOR1A", "hg38")[0]["qualifiers"]["uid"]
-    negative_transcript = Transcript(TOR1A_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "grch38")
+    TOR1A_uid = get_all_transcripts("TOR1A", "grch38")[0]["qualifiers"]["uid"]
+    negative_transcript = Transcript(TOR1A_uid, "grch38")
 
     # test 4
     def test_get_insertion_any(self):

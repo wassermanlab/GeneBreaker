@@ -21,7 +21,7 @@ class MasterForm extends React.Component {
       page: 1,
       // general state
       gene_uid: "",
-      genome: "hg38",
+      genome: "grch38",
       gene_name: "",
       chrom: "",
       sex: "XX",

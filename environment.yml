@@ -4,8 +4,6 @@ channels:
   - anaconda
   - defaults
 dependencies:
-  - mysqlclient
-  - mysql-connector-python 
   - biopython
   - numpy
   - pip
@@ -18,9 +16,6 @@ dependencies:
     - configparser
     - cython
     - datetime
-    - interval-binning
     - lxml
     - pylint
-    - sqlalchemy-utils
-    - SQLAlchemy-FullText-Search
 

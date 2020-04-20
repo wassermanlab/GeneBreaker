@@ -5,8 +5,8 @@ from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.api_helper import *
 
 class VariantCreationTests(unittest.TestCase):
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
 
     def test_bad_formatting(self):
         variant = {
@@ -56,8 +56,8 @@ class VariantCreationTests(unittest.TestCase):
 
 
 class VariantMethodTests(unittest.TestCase):
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
     
     good_var = {
         "TYPE": "INDEL",

@@ -5,8 +5,8 @@ from GeneBreaker.src.api_helper import *
 
 
 class clinvarTests(unittest.TestCase):
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(SOX9_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(SOX9_uid, "grch38")
 
     # test 1
     def test_clinvar(self):

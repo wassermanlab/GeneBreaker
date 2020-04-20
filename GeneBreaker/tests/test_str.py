@@ -6,9 +6,9 @@ from GeneBreaker.src.api_helper import *
 
 
 class STRBasicTests(unittest.TestCase):
-    WASH7P_uid = get_all_transcripts("WASH7P", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(WASH7P_uid, "hg38")
-    STR_uid = get_strs(16620, 16631, "1", "hg38", "exact")[0]["qualifiers"]["uid"]
+    WASH7P_uid = get_all_transcripts("WASH7P", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(WASH7P_uid, "grch38")
+    STR_uid = get_strs(16620, 16631, "1", "grch38", "exact")[0]["qualifiers"]["uid"]
     # test 1
 
     def test_correct_motif(self):

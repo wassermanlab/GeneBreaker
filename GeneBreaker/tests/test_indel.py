@@ -8,10 +8,10 @@ from GeneBreaker.src.api_helper import *
 
 class IndelCreationTests(unittest.TestCase):
     time.sleep(2)
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
-    SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
-    SOX18 = Transcript(SOX18_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
+    SOX18_uid = get_all_transcripts("SOX18", "grch38")[0]["qualifiers"]["uid"]
+    SOX18 = Transcript(SOX18_uid, "grch38")
     # test 1
 
     def test_wrong_keys(self):
@@ -79,10 +79,10 @@ class InsersionMethodTesting(unittest.TestCase):
                   'REGION': 'CODING',
                   'IMPACT': {"INDEL_AMOUNT": 8, "START": 129814200},
                   "ZYGOSITY": "HETEROZYGOUS"}
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")
-    TOR1A_uid = get_all_transcripts("TOR1A", "hg38")[0]["qualifiers"]["uid"]
-    negative_transcript = Transcript(TOR1A_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "grch38")
+    TOR1A_uid = get_all_transcripts("TOR1A", "grch38")[0]["qualifiers"]["uid"]
+    negative_transcript = Transcript(TOR1A_uid, "grch38")
     indel_any = Indel(indel_any, positive_transcript)
     indel_spec = Indel(indel_spec, negative_transcript)
 
@@ -114,8 +114,8 @@ class InsersionMethodTesting(unittest.TestCase):
 class DeletionMethodTestCase(unittest.TestCase):
     time.sleep(2)
     # positive_transcript = Transcript(64805)  # SOX9
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "grch38")
     # test 11
 
     def test_basic_deletion(self):
@@ -151,9 +151,9 @@ class DeletionMethodTestCase(unittest.TestCase):
 
     # test 14
     def test_raises_length_greater_than_region(self):
-        SOX18_uid = get_all_transcripts("SOX18", "hg38")[
+        SOX18_uid = get_all_transcripts("SOX18", "grch38")[
                                         0]["qualifiers"]["uid"]
-        SOX18 = Transcript(SOX18_uid, "hg38")
+        SOX18 = Transcript(SOX18_uid, "grch38")
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -199, "START": "ANY"},
@@ -163,9 +163,9 @@ class DeletionMethodTestCase(unittest.TestCase):
 
     # test 15
     def test_raises_length_greater_than_location(self):
-        SOX18_uid = get_all_transcripts("SOX18", "hg38")[
+        SOX18_uid = get_all_transcripts("SOX18", "grch38")[
                                         0]["qualifiers"]["uid"]
-        SOX18 = Transcript(SOX18_uid, "hg38")
+        SOX18 = Transcript(SOX18_uid, "grch38")
         indel = {'TYPE': 'INDEL',
                  'REGION': 'INTRONIC',
                  'IMPACT': {"INDEL_AMOUNT": -150, "START": 64049150},

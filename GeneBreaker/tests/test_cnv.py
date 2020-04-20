@@ -6,8 +6,8 @@ from GeneBreaker.src.api_helper import *
 
 
 class CNVCreationTests(unittest.TestCase):
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
 
     # test 1
     def test_copy_number_error(self):

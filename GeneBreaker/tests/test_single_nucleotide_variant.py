@@ -8,8 +8,8 @@ import time
 
 class SNVCreationTests(unittest.TestCase):
     time.sleep(1)
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
     # test 1
 
     def test_wrong_type(self):
@@ -34,8 +34,8 @@ class SNVCreationTests(unittest.TestCase):
 
 class MutationMethods(unittest.TestCase):
     time.sleep(1)
-    XKR8_uid = get_all_transcripts("XKR8", "hg38")[0]["qualifiers"]["uid"]
-    transcript = Transcript(XKR8_uid, "hg38")
+    XKR8_uid = get_all_transcripts("XKR8", "grch38")[0]["qualifiers"]["uid"]
+    transcript = Transcript(XKR8_uid, "grch38")
     snv = {
         "TYPE": "SNV",
         "REGION": "INTRONIC",
@@ -82,8 +82,8 @@ class MutationMethods(unittest.TestCase):
 
 class NonCodingSNV(unittest.TestCase):
     time.sleep(1)
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "grch38")
     
     # test 12
     def test_basic_non_coding(self):
@@ -121,8 +121,8 @@ class NonCodingSNV(unittest.TestCase):
 
 class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
     time.sleep(1)
-    SOX9_uid = get_all_transcripts("SOX9", "hg38")[0]["qualifiers"]["uid"]
-    positive_transcript = Transcript(SOX9_uid, "hg38")
+    SOX9_uid = get_all_transcripts("SOX9", "grch38")[0]["qualifiers"]["uid"]
+    positive_transcript = Transcript(SOX9_uid, "grch38")
     
     # test 15
     def test_directed_SNV_exists_single_replacement(self):
@@ -212,8 +212,8 @@ class DirectedSNVCodingRegionTestsPositive(unittest.TestCase):
 
 class DirectedSNVCodingRegionTestsNegative(unittest.TestCase):
     time.sleep(1)
-    SOX18_uid = get_all_transcripts("SOX18", "hg38")[0]["qualifiers"]["uid"]
-    negative_transcript = Transcript(SOX18_uid, "hg38")
+    SOX18_uid = get_all_transcripts("SOX18", "grch38")[0]["qualifiers"]["uid"]
+    negative_transcript = Transcript(SOX18_uid, "grch38")
     
     # test 23
     def test_directed_SNV_exists_single_replacement(self):
