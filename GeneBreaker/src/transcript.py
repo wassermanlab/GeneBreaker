@@ -26,8 +26,12 @@ class Transcript:
         Note: UCSC assumes 1 based indexing so we add a 0""" 
         # Initialize
         sequence = ""
+        if (self.genome == "grch38"):
+            g = "hg38"
+        elif (self.genome == "grch37"):
+            g = "hg19"
         url = "http://genome.ucsc.edu/cgi-bin/das/%s/dna?segment=%s:%s,%s" % (\
-            self.genome, self.chrom, self.txStart+1, self.txEnd)
+            g, self.chrom, self.txStart+1, self.txEnd)
 
         # Get XML
         xml = etree.parse(url, parser=etree.XMLParser())
