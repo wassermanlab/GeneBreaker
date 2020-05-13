@@ -56,7 +56,7 @@ class SingleNucleotideVariant(Variant):
             raise ValueError(
                 "TYPE must be missense, nonsense, synonymous or a base")
         if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "STOPLOSS"]:
-            raise ValueError("type impact not valid for non-coding region")
+            raise ValueError("missence, nonsense, synonymous, and stoploss types are not valid for non-coding region")
         if type(self.pos) == int:
             self.pos = self.pos - 1
             self.check_location(self.pos)
@@ -174,7 +174,7 @@ class SingleNucleotideVariant(Variant):
         else:
             alt = self.snv_type
         if alt == False:
-            return False
+            raise Exception("Specified " + self.snv_type + " mutation cannot be made in this position or if ANY was selected than at ANY position in this gene.")
         # strand is + or user specified mutation
         elif strand == 1:
             return {"pos": loc,

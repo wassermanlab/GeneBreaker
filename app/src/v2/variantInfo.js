@@ -57,7 +57,7 @@ function VariantInfo(props) {
         value={props.region}
         onChange={props.onChange}
         options={[{ value: "", text: "Select" }, { value: "CODING", text: "coding" }, { value: "GENIC", text: "genic" },
-        { value: "UTR", text: "Untranslate region" }, { value: "INTRONIC", text: "intronic" }, { value: "CUSTOM", text: "custom" }]} />
+        { value: "UTR", text: "untranslate region (UTR)" }, { value: "INTRONIC", text: "intronic" }, { value: "CUSTOM", text: "custom" }]} />
       {/* custom regions */}
       {props.region === "CUSTOM" &&
         <div className="form-group row">

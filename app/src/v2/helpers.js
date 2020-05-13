@@ -6,38 +6,38 @@ function check_var(type, region, zygosity, clinvar_id, start, end, length, eleme
   }
   // if region, type or zygosity === ""
   if (region === "" || type === "" || zygosity === "") {
-    errors.push("Insure all fields are filled.")
+    errors.push("Ensure all fields are filled.")
   }
   switch (type) {
     case "CLINVAR":
       if (clinvar_id === "") {
-        errors.push("Insure a clinvar variant is selected.")
+        errors.push("Ensure a clinvar variant is selected.")
       }
       break;
     case "CLINGEN":
     case "CNV":
       if (start === "" || end === "" || length === "") {
-        errors.push("Insure all fields for CNVs are filled out.")
+        errors.push("Ensure all fields for CNVs are filled out.")
       }
       break;
     case "INDEL":
       if (start === "" || length === "") {
-        errors.push("Insure all fields for Indels are filled out.")
+        errors.push("Ensure all fields for Indels are filled out.")
       }
       break;
     case "MEI":
       if (start === "" || element === "") {
-        errors.push("Insure all MEI fields are filled out.")
+        errors.push("Ensure all MEI fields are filled out.")
       }
       break;
     case "SNV":
       if (start === "" || snv_type === "") {
-        errors.push("Insure all fields for CNVs are filled out.")
+        errors.push("Ensure all fields for SNVs are filled out.")
       }
       break;
     case "STR":
       if (str_id === "" || length === "") {
-        errors.push("Insure all STR fields are filled out.")
+        errors.push("Ensure all STR fields are filled out.")
       }
       break;
     default:

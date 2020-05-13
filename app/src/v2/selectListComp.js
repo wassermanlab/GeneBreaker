@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 function SelectList(props) {
   const [list, setList] = useState([]);
-
+  const populating_text = {
+    'transcript': 'Populating, make sure to select genome assembly and fill in gene symbol.',
+    'clingen': 'Populating, make sure to select region.',
+    'str': 'Populating, make sure to select region.',
+    'clinvar': 'Populating, make sure to select region.',
+  }
   useEffect(() => {
     async function fetchUrl() {
       try {
@@ -32,8 +37,9 @@ function SelectList(props) {
       )
     }
   }
-
+  if (list.length > 0){
   return (
+    
     <React.Fragment>
       <div className="form-group row">
         <label className="col-sm-2 col-form-label" >{props.title}</label>
@@ -51,7 +57,21 @@ function SelectList(props) {
         </div>
       </div>
     </React.Fragment>
-  )
+  )}
+  else {
+    return(
+      <React.Fragment>
+        <div className="form-group row">
+        <label className="col-sm-2 col-form-label" >{props.title}</label>
+        <div className="col-sm-10">
+        <small class="form-text text-muted">
+          {populating_text[props.type]}
+        </small>
+        </div>
+      </div>
+      </React.Fragment>
+    )
+  }
 }
 
 export default SelectList;

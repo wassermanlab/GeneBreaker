@@ -22,27 +22,30 @@ function VariantInfo(props) {
           name={"length_" + props.var}
           value={props.length}
           onChange={props.onChange}
-          options={[{ value: "", text: "Select" }, { value: -1, text: "-1" }, { value: 1, text: "1" }]} />
+          options={[{ value: "", text: "Select" }, { value: -1, text: "deletion" }, { value: 1, text: "duplication" }]} />
       </React.Fragment>)
     case "MEI":
       return (<React.Fragment>
-        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} />
+        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} 
+        help={"Input the 1-based start position or 'ANY' to use a random position within the selected region."}/>
         <SelectComp
           title={"Element type"}
           name={"element_" + props.var}
           value={props.element}
           onChange={props.onChange}
           options={[{ value: "", text: "Select" }, { value: "ALU", text: "ALU" },
-          { value: "LINE", text: "LINE" }, { value: "SINE", text: "SINE" }]} />
+          { value: "LINE", text: "LINE" }, { value: "SVA", text: "SVA" }]} />
       </React.Fragment>)
     case "INDEL":
       return (<React.Fragment>
-        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} />
+        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} 
+        help={"Input the 1-based start position or 'ANY' to use a random position within the selected region."}/>
         <InputComp title={"Length"} name={"length_" + props.var} value={props.length} onChange={props.onChange} />
       </React.Fragment>)
     case "SNV":
       return (<React.Fragment>
-        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} />
+        <InputComp title={"Start position"} name={"start_" + props.var} value={props.start} onChange={props.onChange} 
+        help={"Input the 1-based start position or 'ANY' to use a random position within the selected region."}/>
         <SelectComp
           title={"SNV type"}
           name={"snv_type_" + props.var}
@@ -56,7 +59,8 @@ function VariantInfo(props) {
       return (<React.Fragment>
         <SelectList title={"Short tandem repeats"} url={props.url} name={"str_id_" + props.var}
           value={props.str_id} type={"str"} onChange={props.onChange} />
-        <InputComp title={"Repeat length"} name={"length_" + props.var} value={props.length} onChange={props.onChange} />
+        <InputComp title={"Repeat length"} name={"length_" + props.var} value={props.length} onChange={props.onChange} 
+        help={"Input an integer value of the number of repeats you want to add or remove, positive values are expantions and negative values are retractions. "}/>
       </React.Fragment>)
     default:
       return null;

@@ -14,14 +14,14 @@ function GeneralInfo(props) {
       <h1>General Info</h1>
       {/* genome */}
       <SelectComp
-        title={"Genome"}
+        title={"Genome Assembly"}
         name={"genome"}
         value={props.genome}
         onChange={props.onChange}
         options={[{ value: "grch38", text: "GRCh38" }, { value: "grch37", text: "GRCh37" }]}/>
       {/* sex */}
       <SelectComp
-        title={"Sex"}
+        title={"Proband Sex"}
         name={"sex"}
         value={props.sex}
         onChange={props.onChange}
