@@ -1,0 +1,109 @@
+13:47:48.787 [main] INFO org.monarchinitiative.exomiser.cli.Main - Locale set to en_GB
+
+ Welcome to:
+  _____ _            _____                     _
+ |_   _| |__   ___  | ____|_  _____  _ __ ___ (_)___  ___ _ __
+   | | | '_ \ / _ \ |  _| \ \/ / _ \| '_ ` _ \| / __|/ _ \ '__|
+   | | | | | |  __/ | |___ >  < (_) | | | | | | \__ \  __/ |
+   |_| |_| |_|\___| |_____/_/\_\___/|_| |_| |_|_|___/\___|_|
+
+ A Tool to Annotate and Prioritize Exome Variants     v12.1.0
+
+2020-05-05 13:47:49.222  INFO 18372 --- [           main] org.monarchinitiative.exomiser.cli.Main  : Starting Main on se216.ib.sockeye with PID 18372 (/scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/exomiser-cli-12.1.0.jar started by richmonp in /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/BenchmarkingTransition/BuryVariant/ExomiserTesting)
+2020-05-05 13:47:49.223  INFO 18372 --- [           main] org.monarchinitiative.exomiser.cli.Main  : No active profile set, falling back to default profiles: default
+2020-05-05 13:47:54.738  INFO 18372 --- [           main] o.m.exomiser.cli.config.MainConfig       : Exomiser home: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0
+2020-05-05 13:47:54.744  INFO 18372 --- [           main] o.m.exomiser.cli.config.MainConfig       : Exomiser data directory not defined in properties. Checking for default...
+2020-05-05 13:47:54.744  INFO 18372 --- [           main] o.m.exomiser.cli.config.MainConfig       : Found default data directory: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/data
+2020-05-05 13:47:54.980  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-genome-hg19-2003 - Starting...
+2020-05-05 13:47:55.932  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-genome-hg19-2003 - Start completed.
+2020-05-05 13:47:56.383  INFO 18372 --- [           main] o.m.e.c.g.j.JannovarDataProtoSerialiser  : Deserialising Jannovar data from /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/data/2003_hg19/2003_hg19_transcripts_ensembl.ser
+2020-05-05 13:48:13.732  INFO 18372 --- [           main] o.m.e.c.g.j.JannovarDataProtoSerialiser  : Deserialisation took 17.347 sec.
+2020-05-05 13:48:14.634  INFO 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Loading variant whitelist from: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/data/2003_hg19/2003_hg19_clinvar_whitelist.tsv.gz
+2020-05-05 13:48:14.788  INFO 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Loaded 74703 variants into whitelist
+2020-05-05 13:48:14.802  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for LOCAL is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:14.803  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for CADD snv is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:14.803  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for CADD InDel is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:14.803  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for REMM is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:14.803  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for TEST is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:15.804  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-genome-hg38-2003 - Starting...
+2020-05-05 13:48:15.840  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-genome-hg38-2003 - Start completed.
+2020-05-05 13:48:15.840  INFO 18372 --- [           main] o.m.e.c.g.j.JannovarDataProtoSerialiser  : Deserialising Jannovar data from /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/data/2003_hg38/2003_hg38_transcripts_ensembl.ser
+2020-05-05 13:48:25.665  INFO 18372 --- [           main] o.m.e.c.g.j.JannovarDataProtoSerialiser  : Deserialisation took 9.825 sec.
+2020-05-05 13:48:25.974  INFO 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Loading variant whitelist from: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/data/2003_hg38/2003_hg38_clinvar_whitelist.tsv.gz
+2020-05-05 13:48:26.079  INFO 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Loaded 75237 variants into whitelist
+2020-05-05 13:48:26.088  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for LOCAL is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:26.088  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for CADD snv is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:26.088  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for CADD InDel is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:26.088  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for REMM is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:26.088  WARN 18372 --- [           main] o.m.e.a.genome.GenomeDataSourceLoader    : Data for TEST is not configured. THIS WILL LEAD TO ERRORS IF REQUIRED DURING ANALYSIS. Check the application.properties is pointing to a valid file.
+2020-05-05 13:48:26.799  INFO 18372 --- [           main] g.GenomeAnalysisServiceAutoConfiguration : Configured hg19 genome analysis service
+2020-05-05 13:48:26.802  INFO 18372 --- [           main] g.GenomeAnalysisServiceAutoConfiguration : Configured hg38 genome analysis service
+2020-05-05 13:48:26.818  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-phenotype-2003 - Starting...
+2020-05-05 13:48:26.868  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-phenotype-2003 - Start completed.
+2020-05-05 13:48:29.481  INFO 18372 --- [           main] o.m.exomiser.cli.config.MainConfig       : Default results directory set to: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/Exomiser/exomiser-cli-12.1.0/results
+2020-05-05 13:48:29.748  INFO 18372 --- [           main] org.monarchinitiative.exomiser.cli.Main  : Started Main in 40.841 seconds (JVM running for 41.176)
+2020-05-05 13:48:29.750  INFO 18372 --- [           main] o.m.e.cli.ExomiserCommandLineRunner      : Exomiser running...
+2020-05-05 13:48:29.854 ERROR 18372 --- [           main] o.m.e.core.analysis.util.PedFiles        : Error reading PED file /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/Examples/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped
+
+java.nio.file.NoSuchFileException: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/Examples/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped
+	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:86)
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:102)
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:107)
+	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:214)
+	at java.nio.file.Files.newByteChannel(Files.java:361)
+	at java.nio.file.Files.newByteChannel(Files.java:407)
+	at java.nio.file.spi.FileSystemProvider.newInputStream(FileSystemProvider.java:384)
+	at java.nio.file.Files.newInputStream(Files.java:152)
+	at java.nio.file.Files.newBufferedReader(Files.java:2784)
+	at java.nio.file.Files.lines(Files.java:3744)
+	at java.nio.file.Files.lines(Files.java:3785)
+	at org.monarchinitiative.exomiser.core.analysis.util.PedFiles.readPedigree(PedFiles.java:51)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser$AnalysisConstructor.parsePed(AnalysisParser.java:274)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser$AnalysisConstructor.construct(AnalysisParser.java:232)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser.constructAnalysisFromMap(AnalysisParser.java:121)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser.parseAnalysis(AnalysisParser.java:85)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.runAnalysisFromScript(ExomiserCommandLineRunner.java:122)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.runAnalyses(ExomiserCommandLineRunner.java:83)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.run(ExomiserCommandLineRunner.java:74)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at org.monarchinitiative.exomiser.cli.Main.main(Main.java:44)
+
+2020-05-05 13:48:29.855 ERROR 18372 --- [           main] o.m.e.cli.ExomiserCommandLineRunner      : 
+
+org.monarchinitiative.exomiser.core.analysis.util.PedFiles$PedFilesException: Error reading PED file /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/Examples/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped
+	at org.monarchinitiative.exomiser.core.analysis.util.PedFiles.readPedigree(PedFiles.java:55)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser$AnalysisConstructor.parsePed(AnalysisParser.java:274)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser$AnalysisConstructor.construct(AnalysisParser.java:232)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser.constructAnalysisFromMap(AnalysisParser.java:121)
+	at org.monarchinitiative.exomiser.core.analysis.AnalysisParser.parseAnalysis(AnalysisParser.java:85)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.runAnalysisFromScript(ExomiserCommandLineRunner.java:122)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.runAnalyses(ExomiserCommandLineRunner.java:83)
+	at org.monarchinitiative.exomiser.cli.ExomiserCommandLineRunner.run(ExomiserCommandLineRunner.java:74)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at org.monarchinitiative.exomiser.cli.Main.main(Main.java:44)
+Caused by: java.nio.file.NoSuchFileException: /scratch/ex-ofornes-1/RICHMOND/GENEBREAKER/GeneBreaker/Examples/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped
+	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:86)
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:102)
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:107)
+	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:214)
+	at java.nio.file.Files.newByteChannel(Files.java:361)
+	at java.nio.file.Files.newByteChannel(Files.java:407)
+	at java.nio.file.spi.FileSystemProvider.newInputStream(FileSystemProvider.java:384)
+	at java.nio.file.Files.newInputStream(Files.java:152)
+	at java.nio.file.Files.newBufferedReader(Files.java:2784)
+	at java.nio.file.Files.lines(Files.java:3744)
+	at java.nio.file.Files.lines(Files.java:3785)
+	at org.monarchinitiative.exomiser.core.analysis.util.PedFiles.readPedigree(PedFiles.java:51)
+	... 13 common frames omitted
+
+2020-05-05 13:48:29.861  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-phenotype-2003 - Shutdown initiated...
+2020-05-05 13:48:29.865  INFO 18372 --- [           main] com.zaxxer.hikari.HikariDataSource       : exomiser-phenotype-2003 - Shutdown completed.
+2020-05-05 13:48:29.865  INFO 18372 --- [           main] org.monarchinitiative.exomiser.cli.Main  : Exomising finished - Bye!

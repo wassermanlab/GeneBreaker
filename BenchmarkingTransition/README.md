@@ -6,22 +6,8 @@
 
 > This approach is designed for testing interpretation of SNV/indels
 
-1. Get necessary tools for adding variant (VCFTools). 
-	
-	$ sh GetTools.sh
-
-2. Collect DeepVariant VCFs (need link for this, maybe host them on Zenodoo)
-
-	$ sh GetVariantVCFs.sh
-
-3. Use BuryVCF.sh
-
-	$ sh BuryVCF.sh
-
 ## Simulate Variant using VarSim
 
-> This approach is designed to facilitate the simulation of 
-
-
+> This approach is designed to facilitate the simulation of full synthetic WGS samples with variants incorporated into the sample
 
 
