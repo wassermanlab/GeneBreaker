@@ -64,7 +64,7 @@ function SelectList(props) {
         <div className="form-group row">
         <label className="col-sm-2 col-form-label" >{props.title}</label>
         <div className="col-sm-10">
-        <small class="form-text text-muted">
+        <small className="form-text text-muted">
           {populating_text[props.type]}
         </small>
         </div>

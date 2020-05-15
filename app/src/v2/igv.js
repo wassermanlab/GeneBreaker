@@ -56,7 +56,7 @@ class IGV extends Component {
     return (
       <div>
         <div id="igv-div"></div>
-          <small class="form-text text-muted">
+          <small className="form-text text-muted">
           <button onClick={this.reset} type="button" className="btn btn-light btn-sm" style={{marginRight: "10px"}}>
             Reset view on transcript</button>
             Click on the first track's settings cog to see the three frame translation track.

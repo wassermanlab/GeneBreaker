@@ -24,6 +24,11 @@
   background-color: #AA5E04;
   border-color: #AA5E04;
 }
+.show > .btn-primary:focus{
+  background-color: #AA5E04;
+  border-color: #AA5E04;
+  
+  }
 .progress-bar{
   background-color: #F7931E;
 }
@@ -31,6 +36,12 @@
   border-color: #F7931E;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(247, 147, 30, 0.6);
 
+}
+.alert-danger {
+  margin-top: 15px;
+  color: #AA5E04;
+  background-color: #fabe78;
+  border-color: #fabe78;
 }
 .table{
   table-layout:fixed;
