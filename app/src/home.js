@@ -6,7 +6,7 @@ import Nav from './nav';
 function Home(props) {
 
   return (
-    <div>
+    <React.Fragment>
       <Nav/>
       <div className="center" width="100%">
         <h1 className="header-title">GeneBreaker</h1>
@@ -21,7 +21,7 @@ function Home(props) {
         }}
          width="90%" alt="GeneBreaker" />
       </div>
-    </div>)
+      </React.Fragment>)
 }
 
 export default Home;
