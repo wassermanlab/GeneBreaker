@@ -5,7 +5,7 @@ function Nav(props) {
   return (<React.Fragment>
     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        GeneBreaker
+      <img src={'/genebreaker_logo_full.svg'} width="200"  alt="GeneBreaker" />
       </Link>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

@@ -1,3 +1,4 @@
 body{
-  background-color: #77A6F7;
+    background-image: url('/chromosomes.svg');
+    background-size: 100%;
 }
