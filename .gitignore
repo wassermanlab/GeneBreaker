@@ -115,7 +115,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# opt directory e.g. miniconda in there
+BenchmarkingTransition/BuryVariant/opt/
+
 # varsim specific
+*varsim*
 varsim_run/*
 varsim_run
 *.output
@@ -124,3 +128,6 @@ varsim_run
 simulator/tests/testing_data/*output.vcf*
 #*#
 *~
+
+# Opt
+opt/
