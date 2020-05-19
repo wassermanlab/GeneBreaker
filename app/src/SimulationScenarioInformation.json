@@ -1,0 +1,112 @@
+[
+  {
+    "patient": "Patient 1",
+    "inheritance": "autosomal dominant maternal",
+    "gene": "JAK1",
+    "hpo": ["HP:0000964", "HP:0001047", "HP:0001880", "HP:0001508", "HP:0032064"],
+    "sex": "Male",
+    "genome": "GRCh37",
+    "vcf": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male.ped"
+  },
+  {
+    "patient": "Patient 2",
+    "inheritance": "autosomal dominant de novo",
+    "gene": "MSH2",
+    "hpo": ["HP:0200008", "HP:0001250", "HP:0001276", "HP:0012378", "HP:0002027", "HP:0001276"],
+    "sex": "Male",
+    "genome": "GRCh37",
+    "vcf": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped"
+  },
+  {
+    "patient": "Patient 3",
+    "inheritance": "autosomal recessive homozygous",
+    "gene": "MALT1",
+    "hpo": ["HP:0000964", "HP:0001047", "HP:0001581", "HP:0004386", "HP:0002090", "HP:0002205"],
+    "sex": "Female",
+    "genome": "GRCh37",
+    "vcf": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female.ped"
+  },
+  {
+    "patient": "Patient 4",
+    "inheritance": "autosomal recessive compound heterozygous ",
+    "gene": "CFTR",
+    "hpo": ["HP:0002613", "HP:0002721", "HP:0002024", "HP:0002206", "HP:0002205", "HP:0001738"],
+    "sex": "Female",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female.ped"
+  },
+  {
+    "patient": "Patient 5",
+    "inheritance": "autosomal recessive compound heterozygous de novo ",
+    "gene": "INPP5E",
+    "hpo": ["HP:0001252", "HP:0001251", "HP:0001263", "HP:0002553", "HP:0001320", "HP:0002793"],
+    "sex": "Female",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female.ped"
+  },
+  {
+    "patient": "Patient 6",
+    "inheritance": "X-linked dominant de novo",
+    "gene": "MECP2",
+    "hpo": ["HP:0001250", "HP:0001257", "HP:0005484", "HP:0002187"],
+    "sex": "Female",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female.ped"
+  },
+  {
+    "patient": "Patient 7",
+    "inheritance": "X-linked recessive homozygous ",
+    "gene": "WAS",
+    "hpo": ["HP:0000964", "HP:0001047", "HP:0001880", "HP:0001508", "HP:0032064"],
+    "sex": "Male",
+    "genome": "GRCh37",
+    "vcf": "https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male_WholeGenome.vcf.gz.tbi",
+    "ped":"https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male.ped"
+  },
+  {
+    "patient": "Patient 8",
+    "inheritance": "X-linked recessive compound heterozygous de novo",
+    "gene": "SLC6A8",
+    "hpo": ["HP:0001290", "HP:0001270", "HP:0000252", "HP:0000718", "HP:0008583", "HP:0000540", "HP:0008583"],
+    "sex": "Female",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female.ped"
+  },
+  {
+    "patient": "Patient 9",
+    "inheritance": "X-linked recessive hemizygous de novo",
+    "gene": "ABCD1",
+    "hpo": ["HP:0001268", "HP:0001250", "HP:0000709", "HP:0008207", "HP:0002180", "HP:0002500"],
+    "sex": "Male",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male.ped"
+  },
+  {
+    "patient": "Patient 10",
+    "inheritance": "Y-linked de novo",
+    "gene": "SRY",
+    "hpo": ["HP:0012245", "HP:0011969", "HP:0000032", "HP:0000098"],
+    "sex": "Male",
+    "genome": "GRCh38",
+    "vcf": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male_WholeGenome.vcf.gz",
+    "vcfi": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male_WholeGenome.vcf.gz.tbi",
+    "ped": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male.ped"
+  }
+]

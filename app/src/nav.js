@@ -17,6 +17,11 @@ function Nav(props) {
               Variant Designer
             </Link>
           </li>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/premade_cases">
+              Premade Cases
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
