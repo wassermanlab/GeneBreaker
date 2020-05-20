@@ -9,9 +9,10 @@ function VariantInfo(props) {
       return null;
     case "CLINVAR":
       return (<SelectList title={"Clinvar variants"} url={props.url} name={"clinvar_id_" + props.var}
-        value={props.clinvar_id} type={"clinvar"} onChange={props.onChange} />)
+        value={props.clinvar_id} type={"clinvar"} onChange={props.onChange}
+        populatingText={`region '${props.region}'`} />)
     case "CLINGEN":
-      return (<SelectList title={"ClinGen variants"} url={props.url} name={"clingen_id_" + props.var}
+      return (<SelectList populatingText={`region '${props.region}'`} title={"ClinGen variants"} url={props.url} name={"clingen_id_" + props.var}
         value={props.clingen_id} type={"clingen"} onChange={props.onChange} />)
     case "CNV":
       return (<React.Fragment>
@@ -57,7 +58,7 @@ function VariantInfo(props) {
       </React.Fragment>)
     case "STR":
       return (<React.Fragment>
-        <SelectList title={"Short tandem repeats"} url={props.url} name={"str_id_" + props.var}
+        <SelectList populatingText={`region '${props.region}'`} title={"Short tandem repeats"} url={props.url} name={"str_id_" + props.var}
           value={props.str_id} type={"str"} onChange={props.onChange} />
         <InputComp title={"Repeat length"} name={"length_" + props.var} value={props.length} onChange={props.onChange} 
         help={"Input an integer value of the number of repeats you want to add or remove, positive values are expantions and negative values are retractions. "}/>

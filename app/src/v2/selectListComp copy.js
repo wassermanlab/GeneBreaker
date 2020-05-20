@@ -1,27 +1,25 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 
 function SelectList(props) {
-  const [populatingText, setPopulatingText] = useState('')
   const [list, setList] = useState([]);
-
-  async function populateBox() {
-    // set the text 
-    setPopulatingText('Populating with ' + props.populatingText)
-    try {
-      const response = await fetch(props.url)
-      const json = await response.json();
-      setList(json);
-      if (json.length > 0) {
-        setPopulatingText('FILLED')
-      }
-      else {
-        setPopulatingText('No results found with with ' + props.populatingText)
-      } 
-    } catch (error) {
-      console.error('Error:', error)
-      setPopulatingText('Error upon populating.')
-    }
+  const populating_text = {
+    'transcript': 'Populating, make sure to select genome assembly and fill in gene symbol.',
+    'clingen': 'Populating, make sure to select region.',
+    'str': 'Populating, make sure to select region.',
+    'clinvar': 'Populating, make sure to select region.',
   }
+  useEffect(() => {
+    async function fetchUrl() {
+      try {
+        const response = await fetch(props.url)
+        const json = await response.json();
+        setList(json);
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
+    fetchUrl();
+  }, [props.url]);
 
   function option(item, index) {
     if (props.type === "transcript") {
@@ -39,49 +37,41 @@ function SelectList(props) {
       )
     }
   }
-
+  if (list.length > 0){
   return (
+    
     <React.Fragment>
       <div className="form-group row">
         <label className="col-sm-2 col-form-label" >{props.title}</label>
         <div className="col-sm-10">
-
-          {/* populate button */}
-          <button onClick={populateBox} type="button"
-            className="btn btn-light btn-sm"
-            style={{marginBottom: "10px"}}>
-            Fetch {props.title}
-          </button>
-
-          <br />
-          
-          {/* populating message */}
-          {populatingText !== "FILLED" &&
-          <small className="form-text text-muted">
-          {populatingText}
-          </small> }
-          
-          {/* list */}
-
-          {populatingText === "FILLED" &&
           <select className="form-control"
             name={props.name}
             value={props.value}
             onChange={props.onChange}
             size="5">
             <option key="0" value=""></option>
-            {/* map of options*/}
             {list.map((item, index) => (
               option(item, index)
             ))}
           </select>
-          }
-
         </div>
       </div>
     </React.Fragment>
-  )
-
+  )}
+  else {
+    return(
+      <React.Fragment>
+        <div className="form-group row">
+        <label className="col-sm-2 col-form-label" >{props.title}</label>
+        <div className="col-sm-10">
+        <small className="form-text text-muted">
+          {populating_text[props.type]}
+        </small>
+        </div>
+      </div>
+      </React.Fragment>
+    )
+  }
 }
 
 export default SelectList;

@@ -116,7 +116,7 @@ class MasterForm extends React.Component {
   }
 
   async downloadFile(event) {
-    console.log(this.state.family)
+    // console.log(this.state.family)
     const file_type = event.target.value;
     const rawResponse = await fetch(host + 'get_file?filetype=' + file_type, {
       method: 'POST',
@@ -269,7 +269,9 @@ class MasterForm extends React.Component {
     this.customStateChange(target, name)
     this.setState({
       [name]: value
-    }, () => { console.log(this.state); });
+    }, () => { 
+      // console.log(this.state); 
+    });
   }
 
   render() {

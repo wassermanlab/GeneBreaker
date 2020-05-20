@@ -37,7 +37,7 @@ function PremadeCases(props) {
                       <td>{gene}</td>
                       <td>
                         {hpo.map((term, j) =>
-                          <a href={"https://hpo.jax.org/app/browse/term/" + term}>{term} &nbsp;</a>)}
+                          <div><a href={"https://hpo.jax.org/app/browse/term/" + term}>{term}</a> <br /></div>)}
                       </td>
                       <td>{genome}</td>
                       <td>

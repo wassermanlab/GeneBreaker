@@ -5,13 +5,17 @@ import { host } from '../host'
 
 function VariantInfo(props) {
   const [url, setUrl] = useState("");
+  const [region, setRegion] = useState("");
   useEffect(() => {
 
     function onRegionChange() {
       let region
       if (props.region === "CUSTOM") {
         region = (props.chrom + ":" + props.customStart + "-" + props.customEnd)
-      } else { region = props.region }
+      } else { 
+        region = props.region 
+      }
+      setRegion(props.region)
       switch (props.type) {
         case "CLINVAR":
           setUrl(host + 'get_clinvar/' + props.genome + '/' + props.gene_uid + '/' + region);
@@ -89,7 +93,7 @@ function VariantInfo(props) {
         options={zygosity_options} />
     {/* specif variant details */}
     <VariantDetails  
-     url={url} type={props.type} var={props.var}
+     url={url} region={region} type={props.type} var={props.var}
      clinvar_id={props.clinvar_id} start={props.start} end={props.end}
      clingen_id={props.clingen_id} length={props.length} element={props.element}
      snv_type={props.snv_type} str_id={props.str_id} onChange={props.onChange}

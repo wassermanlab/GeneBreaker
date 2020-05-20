@@ -34,6 +34,7 @@ function GeneralInfo(props) {
         onChange={props.onChange}/>
       {/* transcript list */}
       <SelectList title={"Transcripts"} url={host + 'get_transcripts/' + props.genome + '/' + props.gene_name}
+        populatingText={`genome assembly '${props.genome}' and gene symbol '${props.gene_name}'`}
         name={"gene_uid"} value={props.gene_uid} type={"transcript"} onChange={props.onChange}/>
       
     </React.Fragment >
