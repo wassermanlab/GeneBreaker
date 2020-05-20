@@ -14,6 +14,7 @@ function Home(props) {
         <Link to="/variants">
           <button type="button" className="btn btn-outline-dark">Start Designing</button>
         </Link>
+        <br />
         <img src='/genebreaker_infographic.png'
          style={{
           paddingTop: '30px',
