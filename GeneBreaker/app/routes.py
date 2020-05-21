@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template, url_for, redirect, send_fro
 from werkzeug.exceptions import HTTPException, NotFound, BadRequest
 from werkzeug.utils import secure_filename
 import json
-import sys, os
+import sys, os, time
 from GeneBreaker.src.transcript import Transcript
 from GeneBreaker.src.variants import Variants
 from GeneBreaker.src.api_helper import *
@@ -39,21 +39,27 @@ def get_clingen_clinvar_str_api(genome, transcript_uid, region=None):
     transcript = Transcript(transcript_uid, genome)
     res = []
     if region in ["UTR", "INTRONIC", "GENIC", "CODING"]:
-        region = transcript.get_requested_region(region)
+        region_tuple = transcript.get_requested_region("GENIC")
     else:
         start = int(region.split(":")[1].split("-")[0])-1
         end = int(region.split(":")[1].split("-")[1])
-        region = [(start, end)]
+        region_tuple = [(start, end)]
+    chrom = transcript.get_chr()
     location = "overlapping"
-    if region in ["UTR", "INTRONIC"]:
-        location = "within"
-    for r in region:
-        if request.path.startswith("/get_str"):
-            res = res + get_strs(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
-        elif request.path.startswith("/get_clinvar"):
-            res = res + get_clinvars(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
-        else:
-            res = res + get_cnvs(r[0]+1, r[1], transcript.get_chr(), genome, location) #add 1 to start to make 1 based for api call
+    
+    # get full genic or custom region
+    if request.path.startswith("/get_str"):
+        res = get_strs(region_tuple[0][0]+1, region_tuple[0][1], chrom, genome, location) #add 1 to start to make 1 based for api call
+    elif request.path.startswith("/get_clinvar"):
+        res = get_clinvars(region_tuple[0][0]+1, region_tuple[0][1], chrom, genome, location) #add 1 to start to make 1 based for api call
+    else:
+        res = get_cnvs(region_tuple[0][0]+1, region_tuple[0][1], chrom, genome, location) #add 1 to start to make 1 based for api call
+  
+    # cut if UTR, INTRONIC, or CODING 
+    if region in ["UTR", "INTRONIC", "CODING"]:
+        subregions = transcript.get_requested_region(region)
+        res = extract_subregions(res, subregions, region)
+    
     response = jsonify(res)
     return response
 

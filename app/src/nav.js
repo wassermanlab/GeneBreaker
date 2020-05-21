@@ -22,8 +22,17 @@ function Nav(props) {
               Premade Cases
             </Link>
           </li>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/more_info">
+              More Info
+            </Link>
+          </li>
         </ul>
       </div>
+    <span class="navbar-text mr-auto">
+      beta
+    </span>
+
     </nav>
 
 
