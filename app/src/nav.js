@@ -29,7 +29,7 @@ function Nav(props) {
           </li>
         </ul>
       </div>
-    <span class="navbar-text mr-auto">
+    <span className="navbar-text mr-auto">
       beta
     </span>
 
