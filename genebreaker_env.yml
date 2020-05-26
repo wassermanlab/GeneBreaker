@@ -1,4 +1,4 @@
-name: GeneBreaker2
+name: GeneBreaker
 channels:
   - anaconda
   - defaults
