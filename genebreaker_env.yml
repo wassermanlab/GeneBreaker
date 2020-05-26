@@ -1,0 +1,35 @@
+name: GeneBreaker2
+channels:
+  - anaconda
+  - defaults
+dependencies:
+  - biopython
+  - pip
+  - python=3.7
+  - readline
+  - setuptools
+  - pip:
+    - autopep8
+    - click
+    - configparser
+    - cython
+    - datetime==4.3
+    - flask
+    - flask-cors
+    - flask-limiter
+    - itsdangerous
+    - jinja2
+    - lazy-object-proxy
+    - limits
+    - lxml
+    - markupsafe
+    - pycodestyle
+    - pylint
+    - pytz
+    - requests
+    - typed-ast
+    - urllib3
+    - werkzeug
+    - wrapt
+    - zope-interface
+
