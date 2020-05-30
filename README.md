@@ -21,11 +21,11 @@ https://www.biorxiv.org/content/10.1101/2020.05.29.124495v1
 
 For issues with the website, downstream benchmarking, or comments on the manuscript and tool, please post issues on this github repository. 
 
-## Downstream Benchmarking
+## Downstream Benchmarking Transition
 
-Downstream Benchmarking can either include full simulation of the variant(s) with VarSim, or burying the variants (SNVs and indels only) within background trio genomes. 
+Downstream Benchmarking can either include full simulation of the variant(s) with VarSim, or burying the variants (SNVs and indels only) within background trio genomes. The Benchmarking transition, help facilitate taking your simulated variants from the GeneBreaker website, and generating more complete data. 
 
-For details on how to use the downstream benchmarking, please go to the DownstreamBenchmarking/ directory. 
+For details on how to use the downstream benchmarking, please go to the [BenchmarkingTransition/](./BenchmarkingTransition) directory. 
 
 
 
