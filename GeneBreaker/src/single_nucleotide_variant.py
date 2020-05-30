@@ -56,7 +56,7 @@ class SingleNucleotideVariant(Variant):
             raise ValueError(
                 "TYPE must be missense, nonsense, synonymous or a base")
         if self.region != "CODING" and self.snv_type in ["MISSENSE", "NONSENSE", "SYNONYMOUS", "STOPLOSS"]:
-            raise ValueError("missence, nonsense, synonymous, and stoploss types are not valid for non-coding region")
+            raise ValueError("missense, nonsense, synonymous, and stoploss types are not valid for non-coding region")
         if type(self.pos) == int:
             self.pos = self.pos - 1
             self.check_location(self.pos)

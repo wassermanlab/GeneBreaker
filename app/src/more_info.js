@@ -27,16 +27,18 @@ function MoreInfo(props) {
         <div className="row row-padding">
           <div className="col-sm">
             <h1>Manuscript</h1>
-            <p>The manuscript describing GeneBreaker can be found at
-              [INSERT BIORXIV LINK WHEN AVAILABLE]</p>
+            <p>The manuscript describing GeneBreaker can be found on 
+              <a href="https://www.biorxiv.org/content/10.1101/2020.05.29.124495v1"> bioRxiv.</a></p>
           </div>
         </div>
         <div className="row row-padding">
           <div className="col-sm">
             <h1>Code and Data</h1>
             <p>GeneBreaker is an open source project, and the code underlying
-            the tool can be found at [INSERT NEW GENEBREAKER GITHUB]
-            Background datasets are hosted by
+            the tool can be found on 
+            <a href="https://github.com/wassermanlab/GeneBreaker"> GitHub.</a> 
+             Please submit any code issues directly on our GitHub Repo. 
+             Background datasets are hosted by
               <a href="https://zenodo.org/record/3829960#.XsWb6S8ZNTY"> Zenodo.</a> </p>
           </div>
         </div>
