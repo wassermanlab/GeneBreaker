@@ -43,7 +43,15 @@ def get_all_results(request_url):
 
 def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
-    return get_all_results(url)
+    # &sources=ncbiRefSeqSelect
+    refSeqSelect = get_all_results(url + '&sources=ncbiRefSeqSelect')
+    refSeq = get_all_results(url + '&sources=ncbiRefSeq')
+    accession_nums = [r["qualifiers"]["accession_number"] for r in refSeqSelect]
+    for r in refSeq: 
+        print(r["qualifiers"]["accession_number"])
+        if r["qualifiers"]["accession_number"] not in accession_nums:
+            refSeqSelect.append(r)
+    return refSeqSelect
 
 def get_str(genome, uid):
     #takes in 1 based
