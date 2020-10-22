@@ -8,10 +8,10 @@ PYTHON=python
 REFORMAT_SCRIPT=$PWD/reformatSimToDeepVariant.py
 
 # Run Details
-GENE=MALT1
-GENOME=GRCh37
-INHERITANCE=AutosomalRecessiveHomozygous
-SEX=Female
+GENE=MSH2
+GENOME=GRCh38
+INHERITANCE=AutosomalDominantDeNovo
+SEX=Male
 
 # Make a new working directory for this simulation
 WORKING_DIR=$PWD/${GENE}_${GENOME}_${INHERITANCE}_${SEX}
@@ -22,12 +22,12 @@ mkdir -p $WORKING_DIR
 # If youre VCF is not named like this, make sure you change it to be.
 # E.g. ../../Examples/MSH2_GRCh37_AutosomalDominantDeNovo.vcf 
 MERGED_GB_VCF=$PWD/../../Examples/InheritanceTesting/${GENE}_${GENOME}_${INHERITANCE}_${SEX}.vcf
+ls $MERGED_GB_VCF
 
 if [ ! -f $MERGED_GB_VCF ];then
-        echo "Variant VCF Not found"
-        exit
+	echo "Variant VCF Not found"
+	exit
 fi
-
 
 
 # Male proband; Family GB58 (AFR;GWD)
@@ -129,7 +129,7 @@ tabix father_GeneBreaker.vcf.gz
 
 # Merge across all individuals
 bcftools merge -0 proband_GeneBreaker.vcf.gz mother_GeneBreaker.vcf.gz father_GeneBreaker.vcf.gz -o Merged_GeneBreaker.vcf
-bgzip Merged_GeneBreaker.vcf
+bgzip -f Merged_GeneBreaker.vcf
 tabix Merged_GeneBreaker.vcf.gz
 
 

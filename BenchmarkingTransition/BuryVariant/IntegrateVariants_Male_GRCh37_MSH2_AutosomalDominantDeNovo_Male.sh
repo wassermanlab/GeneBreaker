@@ -8,10 +8,10 @@ PYTHON=python
 REFORMAT_SCRIPT=$PWD/reformatSimToDeepVariant.py
 
 # Run Details
-GENE=MALT1
+GENE=MSH2
 GENOME=GRCh37
-INHERITANCE=AutosomalRecessiveHomozygous
-SEX=Female
+INHERITANCE=AutosomalDominantDeNovo
+SEX=Male
 
 # Make a new working directory for this simulation
 WORKING_DIR=$PWD/${GENE}_${GENOME}_${INHERITANCE}_${SEX}
@@ -22,12 +22,6 @@ mkdir -p $WORKING_DIR
 # If youre VCF is not named like this, make sure you change it to be.
 # E.g. ../../Examples/MSH2_GRCh37_AutosomalDominantDeNovo.vcf 
 MERGED_GB_VCF=$PWD/../../Examples/InheritanceTesting/${GENE}_${GENOME}_${INHERITANCE}_${SEX}.vcf
-
-if [ ! -f $MERGED_GB_VCF ];then
-        echo "Variant VCF Not found"
-        exit
-fi
-
 
 
 # Male proband; Family GB58 (AFR;GWD)

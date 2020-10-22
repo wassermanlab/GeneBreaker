@@ -1,17 +1,20 @@
 # Activate environment
-source ../../opt/miniconda3/etc/profile.d/conda.sh
-conda activate ../../opt/GeneBreakerEnvironment
+source ../opt/miniconda3/etc/profile.d/conda.sh
+conda activate ../opt/GeneBreakerEnvironment
+
+
+
 
 # Set up this header 
 # Software
 PYTHON=python
-REFORMAT_SCRIPT=$PWD/reformatSimToDeepVariant.py
+REFORMAT_SCRIPT=$PWD/../BenchmarkingTransition/BuryVariant/reformatSimToDeepVariant.py
 
 # Run Details
-GENE=MALT1
-GENOME=GRCh37
-INHERITANCE=AutosomalRecessiveHomozygous
-SEX=Female
+GENE=ABCD1
+GENOME=GRCh38
+INHERITANCE=XLinkedRecessiveHemizygousDeNovo
+SEX=Male
 
 # Make a new working directory for this simulation
 WORKING_DIR=$PWD/${GENE}_${GENOME}_${INHERITANCE}_${SEX}
@@ -21,32 +24,32 @@ mkdir -p $WORKING_DIR
 # Merged VCF file, here we pull from example directory
 # If youre VCF is not named like this, make sure you change it to be.
 # E.g. ../../Examples/MSH2_GRCh37_AutosomalDominantDeNovo.vcf 
-MERGED_GB_VCF=$PWD/../../Examples/InheritanceTesting/${GENE}_${GENOME}_${INHERITANCE}_${SEX}.vcf
+MERGED_GB_VCF=$PWD/Files/${GENE}_${GENOME}_${INHERITANCE}_${SEX}.vcf
+ls $MERGED_GB_VCF
 
 if [ ! -f $MERGED_GB_VCF ];then
-        echo "Variant VCF Not found"
-        exit
+	echo "Variant VCF Not found"
+	exit
 fi
-
 
 
 # Male proband; Family GB58 (AFR;GWD)
 # Proband
 IN_PROBAND_GB_VCF=${MERGED_GB_VCF::-4}.proband.vcf
-IN_PROBAND_BACKGROUND_VCFGZ=$PWD/Polaris_VCF/$GENOME/ERR2304556_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
-IN_PROBAND_BACKGROUND_VCF=$PWD/Polaris_VCF/$GENOME/ERR2304556_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
+IN_PROBAND_BACKGROUND_VCFGZ=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR2304556_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
+IN_PROBAND_BACKGROUND_VCF=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR2304556_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
 PROBAND_COVERAGE=45
 
 # Mother
 IN_MOTHER_GB_VCF=${MERGED_GB_VCF::-4}.mother.vcf
-IN_MOTHER_BACKGROUND_VCFGZ=$PWD/Polaris_VCF/$GENOME/ERR1955443_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
-IN_MOTHER_BACKGROUND_VCF=$PWD/Polaris_VCF/$GENOME/ERR1955443_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
+IN_MOTHER_BACKGROUND_VCFGZ=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR1955443_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
+IN_MOTHER_BACKGROUND_VCF=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR1955443_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
 MOTHER_COVERAGE=45
 
 # Father
 IN_FATHER_GB_VCF=${MERGED_GB_VCF::-4}.father.vcf
-IN_FATHER_BACKGROUND_VCFGZ=$PWD/Polaris_VCF/$GENOME/ERR1955420_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
-IN_FATHER_BACKGROUND_VCF=$PWD/Polaris_VCF/$GENOME/ERR1955420_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
+IN_FATHER_BACKGROUND_VCFGZ=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR1955420_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf.gz
+IN_FATHER_BACKGROUND_VCF=$PWD/../BenchmarkingTransition/BuryVariant/Polaris_VCF/$GENOME/ERR1955420_${GENOME}_DeepVariant_0.10.0_NoRefCalls.vcf
 FATHER_COVERAGE=45
 
 
@@ -129,7 +132,7 @@ tabix father_GeneBreaker.vcf.gz
 
 # Merge across all individuals
 bcftools merge -0 proband_GeneBreaker.vcf.gz mother_GeneBreaker.vcf.gz father_GeneBreaker.vcf.gz -o Merged_GeneBreaker.vcf
-bgzip Merged_GeneBreaker.vcf
+bgzip -f Merged_GeneBreaker.vcf
 tabix Merged_GeneBreaker.vcf.gz
 
 
