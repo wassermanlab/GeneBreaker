@@ -18,8 +18,18 @@ function Nav(props) {
             </Link>
           </li>
           <li className="nav-item active">
-            <Link className="nav-link" to="/premade_cases">
-              Premade Cases
+            <Link className="nav-link" to="/inheritance_testing_cases">
+              Inheritance Testing Cases
+            </Link>
+          </li>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/disease_scenarios">
+              Disease Scenarios
+            </Link>
+          </li>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/patient_scenarios">
+              Patient Scenarios
             </Link>
           </li>
           <li className="nav-item active">

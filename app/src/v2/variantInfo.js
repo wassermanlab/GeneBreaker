@@ -83,7 +83,7 @@ function VariantInfo(props) {
         onChange={props.onChange}
         options={[{ value: "", text: "Select" }, { value: "CLINVAR", text: "clinvar" }, { value: "CLINGEN", text: "clingen copy number variant" },
         { value: "CNV", text: "copy number variant" }, { value: "MEI", text: "mobile element insertion" }, { value: "INDEL", text: "indel" },
-        { value: "SNV", text: "single nucleotide variant" }, { value: "STR", text: "short tantem repeat" }]} />
+        { value: "SNV", text: "single nucleotide variant" }, { value: "STR", text: "short tandem repeat" }]} />
       {/* Zygosity */}
       <SelectComp
         title={"Zygosity"}

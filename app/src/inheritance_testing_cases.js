@@ -2,7 +2,7 @@ import React from 'react';
 import './home.css'
 import Nav from './nav';
 
-function PremadeCases(props) {
+function InheritanceTestingCases(props) {
   let data = require('./SimulationScenarioInformation.json');
 
   return (
@@ -11,7 +11,7 @@ function PremadeCases(props) {
       <div className="container navbar-fix">
         <div className="row">
           <div className="col-sm">
-            <h1>Premade Cases</h1>
+            <h1>Inheritance Testing Cases</h1>
             <p></p>
 
             <table className="table">
@@ -58,4 +58,4 @@ function PremadeCases(props) {
     </React.Fragment>)
 }
 
-export default PremadeCases;
+export default InheritanceTestingCases;

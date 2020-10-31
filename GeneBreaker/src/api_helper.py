@@ -46,6 +46,8 @@ def get_all_transcripts(gene_name, genome):
     # &sources=ncbiRefSeqSelect
     refSeqSelect = get_all_results(url + '&sources=ncbiRefSeqSelect')
     refSeq = get_all_results(url + '&sources=ncbiRefSeq')
+    if refSeqSelect is False:
+        refSeqSelect = []
     accession_nums = [r["qualifiers"]["accession_number"] for r in refSeqSelect]
     for r in refSeq: 
         print(r["qualifiers"]["accession_number"])
