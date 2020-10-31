@@ -10,9 +10,9 @@ limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["500 per day", "5 per second"]
 )
+
 cors = CORS(app, resources={r"/*": 
 {"origins": ["http://localhost:3000", "http://genebreaker.cmmt.ubc.ca"]}})
-
 
 import GeneBreaker.app.routes
 
