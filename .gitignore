@@ -117,6 +117,13 @@ venv.bak/
 
 # opt directory e.g. miniconda in there
 BenchmarkingTransition/BuryVariant/opt/
+BenchmarkingTransition/Polaris_VCF/
+# Clean up any simulations
+*Background.vcf.gz
+*Merged_GeneBreaker.vcf.gz
+
+# Benchmarking background variants
+BenchmarkingTransition/BuryVariant/Polaris_*
 
 # varsim specific
 *varsim*
@@ -131,3 +138,4 @@ simulator/tests/testing_data/*output.vcf*
 
 # Opt
 opt/
+
