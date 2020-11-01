@@ -3,7 +3,7 @@ import './home.css'
 import Nav from './nav';
 
 function InheritanceTestingCases(props) {
-  let data = require('./SimulationScenarioInformation.json');
+  let data = require('./inheritance_testing.json');
 
   return (
     <React.Fragment>
@@ -29,7 +29,7 @@ function InheritanceTestingCases(props) {
               <tbody>
                 {
 
-                  data.map(({ patient, inheritance, gene, hpo, sex, genome, vcf, vcfi, ped }, i) => (
+                  data.map(({ patient, inheritance, gene, hpo, sex, genome, vcf, vcfi, ped, phenopacket_json }, i) => (
                     <tr>
                       <td>{patient}</td>
                       <td>{sex}</td>
@@ -41,9 +41,10 @@ function InheritanceTestingCases(props) {
                       </td>
                       <td>{genome}</td>
                       <td>
-                        <a href={vcf}>VCF &nbsp;</a>
-                        <a href={vcfi}>VCFI &nbsp;</a>
-                        <a href={ped}>PED</a>
+                        <a href={vcf}>VCF</a><br/>
+                        <a href={vcfi}>VCFI </a><br/>
+                        <a href={ped}>PED </a><br/>
+                        <a href={phenopacket_json}>Phenopacket JSON</a>
                       </td>
                     </tr>
 

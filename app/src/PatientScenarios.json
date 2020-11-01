@@ -7,7 +7,10 @@
       {"term":"Thrombocytopenia","id":"HP:0001873"},
       {"term":"Otitis media","id":"HP:0000388"},
       {"term":"Hematemesis","id":"HP:0002248"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case1.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case1_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case1_WAS_GRCh38_XLinkedRecessiveHemizygous_Male_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 2",
@@ -18,7 +21,10 @@
       {"term":"Hypertonia","id":"HP:0001276"},
       {"term":"Fatigue","id":"HP:0012378"},
       {"term":"Abdominal pain","id":"HP:0002027"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case2.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case2_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case2_MSH2_GRCh38_AutosomalDominantDeNovo_Male_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 3",
@@ -30,7 +36,10 @@
       {"term":"Gastrointestinal inflammation","id":"HP:0004386"},
       {"term":"Pneumonia","id":"HP:0002090"},
       {"term":"Recurrent respiratory infections","id":"HP:0002205"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case3.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case3_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case3_MALT1_GRCh38_AutosomalRecessiveHomozygous_Female_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 4",
@@ -42,7 +51,10 @@
       {"term":"Pulmonary fibrosis","id":"HP:0002206"},
       {"term":"Recurrent respiratory infections","id":"HP:0002205"},
       {"term":"Exocrine pancreatic insufficiency","id":"HP:0001738"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case4.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case4_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case4_CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Male_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 5",
@@ -52,7 +64,10 @@
       {"term":"Spasticity","id":"HP:0001257"},
       {"term":"Postnatal microcephaly","id":"HP:0005484"},
       {"term":"Intellectual disability profound","id":"HP:0002187"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case5.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case5_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case5_MECP2_GRCh38_XLinkedDominantDeNovo_Female_MergedGeneBreaker.vcf.gz"
   },
   {
     "title": "Case 6",
@@ -64,7 +79,10 @@
       {"term":"Primary adrenal insufficiency","id":"HP:0008207"},
       {"term":"Neurodegeneration","id":"HP:0002180"},
       {"term":"Abnormality of the cerebral white matter","id":"HP:0002500"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case6.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case6_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case6_ABCD1_GRCh38_XLinkedRecessiveHemizygousDeNovo_Male_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 7",
@@ -76,7 +94,10 @@
       {"term":"prominent nose","id":"HP:0000448"},
       {"term":"micrognathia","id":"HP:0000347"},
       {"term":"broad thumbs","id":"HP:0011304"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case7.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case7_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case7_EP300_GRCh38_AutosomalDominantPaternal_Female_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 8",
@@ -88,7 +109,10 @@
       {"term":"low set posteriorly rotated ears","id":"HP:0000368"},
       {"term":"widely spaced eyes","id":"HP:0000316"},
       {"term":"short and broad nose","id":"HP:0003196"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case8.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case8_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case8_PTPN11_GRCh38_AutosomalDominantDeNovo_Male_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 9",
@@ -99,7 +123,10 @@
       {"term":"Severe sensorineural hearing impairment","id":"HP:0008625"}, 
       {"term":"High myopia","id":"HP:0011003"}, 
       {"term":"Cleft palate","id":"HP:0000175"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case9.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case9_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case9_COL2A1_GRCh38_AutosomalDominantPaternal_Female_Merged_GeneBreaker.vcf.gz"
   },
   {
     "title": "Case 10",
@@ -113,6 +140,9 @@
             {"term":"hypertelorism","id":"HP:0000316"},
             {"term":"long palpebral fissures","id":"HP:0000637"},
             {"term":"macrodontia","id":"HP:0001572"}
-    ]
+    ],
+    "ped": "https://zenodo.org/record/4171645/files/Case10.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/Case10_Phenopacket.json",
+    "vcf": "https://zenodo.org/record/4171645/files/Case10_ANKRD11_GRCh38_AutosomalDominantMaternal_Male_Merged_GeneBreaker.vcf.gz"
   }
 ]

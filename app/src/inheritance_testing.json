@@ -8,7 +8,8 @@
     "genome": "GRCh37",
     "vcf": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male.ped"
+    "ped": "https://zenodo.org/record/3829960/files/JAK1_GRCh37_AutosomalDominant_Male.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/JAK1_Phenopacket.json"
   },
   {
     "patient": "Patient 2",
@@ -19,7 +20,8 @@
     "genome": "GRCh37",
     "vcf": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped"
+    "ped": "https://zenodo.org/record/3829960/files/MSH2_GRCh37_AutosomalDominantDeNovo_Male.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/MSH2_Phenopacket.json"
   },
   {
     "patient": "Patient 3",
@@ -30,7 +32,8 @@
     "genome": "GRCh37",
     "vcf": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female.ped"
+    "ped": "https://zenodo.org/record/3829960/files/MALT1_GRCh37_AutosomalRecessiveHomozygous_Female.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/MALT1_Phenopacket.json"
   },
   {
     "patient": "Patient 4",
@@ -41,7 +44,8 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female.ped"
+    "ped": "https://zenodo.org/record/3829960/files/CFTR_GRCh38_AutosomalRecessiveCompoundHeterozygous_Female.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/CFTR_Phenopacket.json"
   },
   {
     "patient": "Patient 5",
@@ -52,7 +56,8 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female.ped"
+    "ped": "https://zenodo.org/record/3829960/files/INPP5E_GRCh38_AutosomalRecessiveCompoundHeterozygousDeNovo_Female.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/INPP5E_Phenopacket.json"
   },
   {
     "patient": "Patient 6",
@@ -63,7 +68,8 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female.ped"
+    "ped": "https://zenodo.org/record/3829960/files/MECP2_GRCh38_XLinkedDominantDeNovo_Female.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/MECP2_Phenopacket.json"
   },
   {
     "patient": "Patient 7",
@@ -74,7 +80,8 @@
     "genome": "GRCh37",
     "vcf": "https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male_WholeGenome.vcf.gz.tbi",
-    "ped":"https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male.ped"
+    "ped":"https://zenodo.org/record/3829960/files/WAS_GRCh37_XLinkedRecessiveHemizygous_Male.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/WAS_Phenopacket.json"
   },
   {
     "patient": "Patient 8",
@@ -85,7 +92,8 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female.ped"
+    "ped": "https://zenodo.org/record/3829960/files/SLC6A8_GRCh38_XLinkedRecessiveCompoundHeterozygousDeNovo_Female.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/SLC6A8_Phenopacket.json"
   },
   {
     "patient": "Patient 9",
@@ -96,7 +104,8 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male.ped"
+    "ped": "https://zenodo.org/record/3829960/files/ABCD1_GRCh38_XLinkedHemizygousRecessiveDeNovo_Male.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/ABCD1_Phenopacket.json"
   },
   {
     "patient": "Patient 10",
@@ -107,6 +116,7 @@
     "genome": "GRCh38",
     "vcf": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male_WholeGenome.vcf.gz",
     "vcfi": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male_WholeGenome.vcf.gz.tbi",
-    "ped": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male.ped"
+    "ped": "https://zenodo.org/record/3829960/files/SRY_GRCh38_YLinkedDominantDeNovo_Male.ped",
+    "phenopacket_json": "https://zenodo.org/record/4171645/files/SRY_Phenopacket.json"
   }
 ]

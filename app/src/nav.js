@@ -23,11 +23,6 @@ function Nav(props) {
             </Link>
           </li>
           <li className="nav-item active">
-            <Link className="nav-link" to="/disease_scenarios">
-              Disease Scenarios
-            </Link>
-          </li>
-          <li className="nav-item active">
             <Link className="nav-link" to="/patient_scenarios">
               Patient Scenarios
             </Link>
