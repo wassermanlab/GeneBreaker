@@ -11,5 +11,4 @@
 ##ALT=<ID=INS:ME:SVA,Description="Insertion of SVA element">
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	proband	mother	father
-12	112450354	40488	C	T	.	.	.	GT	1/1	0/0	0/0
-
+12	112450354	40488	C	A	.	.	.	GT	0/1	0/0	0/0

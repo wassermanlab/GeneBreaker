@@ -120,7 +120,9 @@ BenchmarkingTransition/BuryVariant/opt/
 BenchmarkingTransition/Polaris_VCF/
 # Clean up any simulations
 *Background.vcf.gz
-*Merged_GeneBreaker.vcf.gz
+*Merged_GeneBreaker.vcf.gz*
+*GeneBreaker.vcf.gz*
+*Background.vcf.gz.tbi*
 
 # Benchmarking background variants
 BenchmarkingTransition/BuryVariant/Polaris_*
@@ -138,4 +140,8 @@ simulator/tests/testing_data/*output.vcf*
 
 # Opt
 opt/
+
+# Ignore case files
+TrainingScenarios/CaseFiles/*
+TrainingScenarios/CaseFilesGeneBreaker.tar.gz
 

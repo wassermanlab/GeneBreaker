@@ -12,4 +12,3 @@
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype"
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	proband	mother	father
 X	48684399	424355	C	A	.	.	.	GT	1/1	0/1	0/0
-

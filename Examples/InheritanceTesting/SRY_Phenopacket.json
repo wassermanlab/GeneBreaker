@@ -1,0 +1,33 @@
+{
+  "id": "SRY",
+  "subject": {
+    "id": "SRY",
+    "sex": "MALE"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0012245",
+        "label": "Sex reversal"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011969",
+        "label": "Elevated circualting luteinizing hormone level"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000032",
+        "label": "Abnormality of male external genitalia"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000098",
+        "label": "Tall stature"
+      }
+    }
+  ]
+}

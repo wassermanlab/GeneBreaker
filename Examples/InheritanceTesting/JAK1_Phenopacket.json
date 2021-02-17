@@ -1,0 +1,39 @@
+{
+  "id": "JAK1",
+  "subject": {
+    "id": "JAK1",
+    "sex": "MALE"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000964",
+        "label": "Eczema"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001047",
+        "label": "Atopic dermatitis"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001880",
+        "label": "Eosinophilia"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001508",
+        "label": "Failure to thrive"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0032064",
+        "label": "Gastrointestinal eosinophilia"
+      }
+    }
+  ]
+}

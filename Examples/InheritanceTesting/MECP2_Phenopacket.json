@@ -1,0 +1,33 @@
+{
+  "id": "MECP2",
+  "subject": {
+    "id": "MECP2",
+    "sex": "FEMALE"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001250",
+        "label": "Seizure"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001257",
+        "label": "Spasticity"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0005484",
+        "label": "Postnatal microcephaly"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002187",
+        "label": "Intellectual disability profound"
+      }
+    }
+  ]
+}
