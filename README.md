@@ -27,5 +27,8 @@ Downstream Benchmarking can either include full simulation of the variant(s) wit
 
 For details on how to use the downstream benchmarking, please go to the [BenchmarkingTransition/](./BenchmarkingTransition) directory. 
 
+## dev notes
 
+
+`FLASK_APP=GeneBreaker.app python -m flask run`
 
