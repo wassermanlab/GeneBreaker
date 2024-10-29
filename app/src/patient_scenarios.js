@@ -1,6 +1,7 @@
 import React from 'react';
 import './home.css'
 import Nav from './nav';
+import Accordion from '@material-ui/core/Accordion';
 
 function PatientScenarios(props) {
   let data = require('./PatientScenarios.json');
@@ -15,7 +16,7 @@ function PatientScenarios(props) {
             {
               data.map(({ title, clinical_family_history, hpo, ped, phenopacket_json, vcf }, i) => (
 
-                <div className="accordion" id="accordionExample" key={i}>
+                <Accordion id="accordionExample" key={i}>
                   <div className="card">
                     <div className="card-header" id="headingOne">
                       <h2 className="mb-0">
@@ -41,7 +42,7 @@ function PatientScenarios(props) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Accordion>
               ))}
           </div>
         </div>

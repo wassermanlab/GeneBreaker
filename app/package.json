@@ -5,10 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/styles": "^4.11.5",
-    "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
     "file-saver": "^2.0.2",
-    "formik": "^1.5.8",
+    "formik": "^2.4.6",
     "igv": "^2.15.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
@@ -17,7 +17,10 @@
     "react-scripts": "^5.0.1",
     "typeface-roboto": "0.0.75",
     "wouter": "^3.0.0",
-    "yup": "^0.27.0"
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "scripts": {
     "start": "react-scripts start",
