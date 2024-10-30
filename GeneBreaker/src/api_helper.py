@@ -43,6 +43,7 @@ def get_all_results(request_url):
 
 def get_all_transcripts(gene_name, genome):
     url = host + '/api/v1/' + genome + '/genes?names='+gene_name
+    print("request to GUD",url) # TEMP dev aid
     # &sources=ncbiRefSeqSelect
     refSeqSelect = get_all_results(url + '&sources=ncbiRefSeqSelect')
     refSeq = get_all_results(url + '&sources=ncbiRefSeq')
