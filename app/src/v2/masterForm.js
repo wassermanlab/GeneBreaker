@@ -11,7 +11,7 @@ import './masterForm.css';
 import { check_errors, get_variants } from './helpers.js';
 import Progress from './progressComp';
 import SelectComp from './selectComp';
-import IGV from "./igv";
+import IGV2 from "./igv.js";
 
 class MasterForm extends React.Component {
   constructor(props) {
@@ -314,7 +314,7 @@ class MasterForm extends React.Component {
                 removeFamily={this.removeFamily} handleFamilyCheckChange={this.handleFamilyCheckChange} downloadFile={this.downloadFile} />
               {/* IGV */}
               {this.state.page !== 4 &&
-              <IGV genome={this.state.genome} start={this.state.gene_start} end={this.state.gene_end} chrom={this.state.chrom} />}
+              <IGV2 genome={this.state.genome} start={this.state.gene_start} end={this.state.gene_end} chrom={this.state.chrom} />}
               {/* errors */}
               <Errors errors={this.state.errors} />
               {/* buttons */}

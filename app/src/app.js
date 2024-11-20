@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {Router, Route } from "wouter";
 import MasterForm from "./v2/masterForm";
 import Home from "./home";
 import MoreInfo from "./more_info";

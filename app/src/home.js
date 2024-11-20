@@ -1,6 +1,6 @@
 import React from 'react';
 import './home.css'
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 import Nav from './nav';
 
 function Home(props) {

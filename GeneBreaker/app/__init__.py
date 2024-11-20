@@ -6,13 +6,13 @@ from flask_limiter.util import get_remote_address
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 limiter = Limiter(
-    app,
+    app=app,
     key_func=get_remote_address,
     default_limits=["500 per day", "5 per second"]
 )
 
 cors = CORS(app, resources={r"/*": 
-{"origins": ["http://localhost:3000", "http://genebreaker.cmmt.ubc.ca"]}})
+{"origins": ["http://localhost:3000", "http://genebreaker.test", "http://genebreaker.cmmt.ubc.ca", "https://genebreaker.test", "https://genebreaker.cmmt.ubc.ca"]}})
 
 import GeneBreaker.app.routes
 

@@ -27,5 +27,19 @@ Downstream Benchmarking can either include full simulation of the variant(s) wit
 
 For details on how to use the downstream benchmarking, please go to the [BenchmarkingTransition/](./BenchmarkingTransition) directory. 
 
+## dev notes
 
+### config files:
+- GeneBreaker/src/config.ini
+```
+[DEFAULT]
+GUD_HOST = http://gud.host
+```
+- GeneBreaker/app/config.py
+```
+SECRET_KEY='a-secret-key'
+GUD_HOST='http://gud.host'
+```
+
+`FLASK_APP=GeneBreaker.app python -m flask run`
 

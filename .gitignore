@@ -145,3 +145,4 @@ opt/
 TrainingScenarios/CaseFiles/*
 TrainingScenarios/CaseFilesGeneBreaker.tar.gz
 
+.DS_Store

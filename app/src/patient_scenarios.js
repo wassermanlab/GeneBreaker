@@ -1,6 +1,7 @@
 import React from 'react';
 import './home.css'
 import Nav from './nav';
+import Accordion from '@material-ui/core/Accordion';
 
 function PatientScenarios(props) {
   let data = require('./PatientScenarios.json');
@@ -15,24 +16,24 @@ function PatientScenarios(props) {
             {
               data.map(({ title, clinical_family_history, hpo, ped, phenopacket_json, vcf }, i) => (
 
-                <div class="accordion" id="accordionExample">
-                  <div class="card">
-                    <div class="card-header" id="headingOne">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={"#collapse" + i} aria-expanded="true" aria-controls={"#collapse" + i}>
+                <Accordion id="accordionExample" key={i}>
+                  <div className="card">
+                    <div className="card-header" id="headingOne">
+                      <h2 className="mb-0">
+                        <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={"#collapse" + i} aria-expanded="true" aria-controls={"#collapse" + i}>
                           {title}
                         </button>
                       </h2>
                     </div>
 
-                    <div id={"collapse" + i} class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                      <div class="card-body">
+                    <div id={"collapse" + i} className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                      <div className="card-body">
                         <h4>Clinical and Family History</h4>
                         <p>{clinical_family_history}</p>
                         <br></br>
                         <h4>HPO Terms</h4>
                         {hpo.map(({ term, id }, j) =>
-                          <div><a href={"https://hpo.jax.org/app/browse/term/" + id}>{term}</a> <br /></div>)}
+                          <div key={j}><a href={"https://hpo.jax.org/app/browse/term/" + id}>{term}</a> <br /></div>)}
                         <br></br>
                         <h4>Links</h4>
                         <div><a href={ped}>PED file</a> <br /></div>
@@ -41,7 +42,7 @@ function PatientScenarios(props) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Accordion>
               ))}
           </div>
         </div>

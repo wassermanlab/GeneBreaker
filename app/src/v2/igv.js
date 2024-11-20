@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import igv from 'igv';
+import igv from '../../node_modules/igv/dist/igv.esm.js';
 
-class IGV extends Component {
+class IGV2 extends Component {
   constructor(props) {
     super(props);
     this.state = { browser: null };
@@ -65,4 +65,4 @@ class IGV extends Component {
     );
   }
 }
-export default IGV;
+export default IGV2;
